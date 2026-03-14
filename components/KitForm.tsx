@@ -49,7 +49,7 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
           width: 100% !important;
           height: 100% !important;
           min-height: 48px !important;
-          border: 2px solid ${inputBorder} !important;
+          border: 2px solid #1A1A1A !important;
           border-radius: 0 !important;
           padding: 0.75rem 1rem !important;
           font-family: 'Lato', sans-serif !important;
@@ -57,6 +57,8 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
           background-color: ${inputBg} !important;
           color: ${inputColor} !important;
           box-shadow: none !important;
+          outline: 2px solid #1A1A1A !important;
+          outline-offset: -2px !important;
         }
 
         .formkit-form[data-uid="7770c7b826"] .formkit-input:focus {
