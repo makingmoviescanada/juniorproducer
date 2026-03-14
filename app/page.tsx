@@ -96,7 +96,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <ScrollReveal>
               <h2 className="font-display text-junior-white text-3xl md:text-4xl lg:text-5xl uppercase tracking-wider mb-6 text-balance">
-                Your second brain. Always on.
+                JUNIOR IS your second brain.
               </h2>
               <p className="text-junior-white/90 text-xl leading-relaxed font-sans mb-6">
                 Your dream 24/7 assistant from pre-development through distribution.
