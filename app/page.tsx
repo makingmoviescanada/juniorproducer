@@ -141,10 +141,18 @@ export default function Home() {
             </ScrollReveal>
             <ScrollReveal delay={150} className="order-2 space-y-6">
               <p className="text-junior-black/80 text-xl leading-relaxed font-sans">
-                Gavin Seal is a Writers Guild of Canada prize-winning writer and Chief Creative Officer at Intersectionnel Films. Junior started as our own in-house production tool — automatically crawling government websites for revised funding deadlines, keeping track of document versioning across users, and calculating tax credits. Now it's become so much more and I hope it helps you get some sleep, delegate to your team more efficiently, and spend more nights and weekends with friends and family.
+                Gavin Seal is a Writers Guild of Canada prize-winning writer and Chief Creative Officer at Intersectionnel Films. Junior started as our own in-house production tool — automatically crawling government websites for revised funding deadlines, keeping track of document versioning across users, and calculating tax credits. Now it's become so much more.
               </p>
             </ScrollReveal>
           </div>
+          <ScrollReveal delay={200}>
+            <blockquote className="border-t-2 border-junior-black pt-12 text-center max-w-3xl mx-auto">
+              <p className="font-display text-junior-black text-2xl md:text-3xl uppercase tracking-wider leading-tight text-balance">
+                &ldquo;I hope Junior helps you get some sleep, delegate to your team more efficiently, and spend more nights and weekends with friends and family.&rdquo;
+              </p>
+              <cite className="block mt-6 text-junior-black/50 font-sans text-sm not-italic uppercase tracking-widest">— Gavin Seal, Founder</cite>
+            </blockquote>
+          </ScrollReveal>
         </div>
       </section>
 
