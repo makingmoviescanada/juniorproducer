@@ -37,7 +37,7 @@ export default function Home() {
                 Focus on <span className="text-junior-red">making movies</span>.
               </p>
               <p className="text-junior-black/80 text-xl leading-relaxed font-sans max-w-2xl mb-8">
-                Junior handles the work that nobody wants to do so you can focus on what you came here to make.
+                Junior automates tedious recurring admin and operations tasks and streamlines versioning chaos.
               </p>
               <a
                 href="#cta"
