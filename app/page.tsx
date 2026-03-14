@@ -30,7 +30,7 @@ export default function Home() {
                 Automate the drudgery,<br />so you can focus on <span className="text-junior-red">making movies</span>.
               </p>
               <p className="text-junior-black/80 text-xl leading-relaxed font-sans max-w-2xl mb-8">
-                Junior automates tedious recurring admin and operations tasks and streamlines versioning chaos.
+                Junior automates tedious admin and operations tasks and streamlines version chaos.
               </p>
               <a
                 href="#cta"
