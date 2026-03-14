@@ -50,9 +50,7 @@ export function KitForm({ className = "" }: KitFormProps) {
               <span className="formkit-state-loading">Get Early Access</span>
             </button>
           </div>
-          <div data-element="guarantee" className="formkit-guarantee" data-show-arrow="true">
-            <p>We won't send you spam. Unsubscribe at any time.</p>
-          </div>
+
         </div>
       </form>
     </div>
