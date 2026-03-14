@@ -141,13 +141,10 @@ export default function Home() {
             </ScrollReveal>
             <ScrollReveal delay={150} className="order-2 space-y-6">
               <p className="text-junior-black/80 text-xl leading-relaxed font-sans">
-                I'm Gavin Seal, a Montréaler writing and producing a $3.5M feature with CMF funding. I'm a Writers Guild of Canada Prize winning screenwriter; Golden Sheaf Award-winning director; RIFFA Award-winning producer. Slaight New Venture Competition (NVC) award-winning entrepreneur. I know the chaos.
+                Gavin Seal is a Writers Guild of Canada prize-winning writer and Chief Creative Officer at Intersectionnel Films. Junior started as our own in-house production tool — automatically crawling government websites for revised funding deadlines, keeping track of budget versions, and calculating tax credits.
               </p>
               <p className="text-junior-black/80 text-xl leading-relaxed font-sans">
-                Junior started as my own production tool — automatically crawling government websites for revised funding deadlines, keeping track of budget versions, and calculating tax credits.
-              </p>
-              <p className="font-display text-junior-black uppercase tracking-wider text-xl mt-8 pt-6 border-t border-junior-black/20">
-                I built this because I needed it.
+                I built this because I needed it and I'm sharing it because our industry is dying and I believe producer-led innovation is the path to success because the government is too big, old, and rigid to change (as described in book, The Innovator's Dilemma).
               </p>
             </ScrollReveal>
           </div>
