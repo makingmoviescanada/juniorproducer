@@ -23,7 +23,7 @@ const tiers = [
     period: "/mo",
     description: "For producers juggling multiple active projects.",
     features: [
-      "Everything in Filmmaker, plus:",
+      "Everything in the Filmmaker tier, plus:",
       "Multi-project dashboard",
       "Document version control across projects",
       "Guild agreement reference (AQTIS, ACTRA, DGC, WGC)",
