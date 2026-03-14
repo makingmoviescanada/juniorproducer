@@ -31,7 +31,7 @@ export function KitForm({ className = "", position = 'cta' }: KitFormProps) {
     }, 500)
     
     return () => clearTimeout(timer)
-  }, [formId])
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <div className={`flex ${className}`}>
