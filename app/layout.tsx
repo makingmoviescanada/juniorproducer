@@ -47,7 +47,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${barlow.variable} ${lato.variable}`}>
-
+      <head>
+        <script async data-uid="7770c7b826" src="https://letsbuildanewcanadianfilmindustry.kit.com/7770c7b826/index.js"></script>
+      </head>
       <body className="font-sans antialiased">
         {children}
         <Analytics />
