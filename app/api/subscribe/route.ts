@@ -16,23 +16,37 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Server configuration error' }, { status: 500 })
     }
 
-    // ConvertKit v3 API - subscribe to form
-    const response = await fetch(`https://api.convertkit.com/v3/forms/${formId}/subscribe`, {
+    console.log('[v0] Subscribing email:', email)
+    console.log('[v0] Using form ID:', formId)
+
+    // ConvertKit v3 API - subscribe email to form
+    // Using the correct endpoint format from ConvertKit API docs
+    const url = `https://api.convertkit.com/v3/forms/${formId}/subscriptions`
+    
+    const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({ 
+        email_address: email,
         api_key: apiKey,
-        email: email,
       }),
     })
+
+    const responseText = await response.text()
+    console.log('[v0] Kit API status:', response.status)
+    console.log('[v0] Kit API response:', responseText)
 
     if (response.ok) {
       return NextResponse.json({ success: true })
     } else {
-      const data = await response.json()
-      console.error('[v0] Kit API error:', data)
+      try {
+        const data = JSON.parse(responseText)
+        console.error('[v0] Kit API error:', data)
+      } catch {
+        console.error('[v0] Kit API error (non-JSON):', responseText)
+      }
       return NextResponse.json({ error: 'Subscription failed' }, { status: 500 })
     }
   } catch (error) {
