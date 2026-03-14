@@ -54,7 +54,8 @@ export default function Home() {
             <h2 className="font-display text-junior-black text-2xl md:text-3xl lg:text-4xl uppercase tracking-wider mb-16 text-balance leading-tight">
               Check production health at a glance,<br />
               automate repetitive tasks,<br />
-              and leverage an AI assistant trained on the Canadian film industry.
+              and leverage an AI assistant trained on<br />
+              the Canadian film industry.
             </h2>
           </ScrollReveal>
             <ScrollReveal delay={150} direction="fade">
