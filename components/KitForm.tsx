@@ -49,7 +49,7 @@ export function KitForm({ className = "" }: KitFormProps) {
           value={email}
           onChange={e => setEmail(e.target.value)}
           placeholder="your@email.com"
-          className="flex-1 px-4 py-3 border-2 border-junior-black bg-transparent font-sans text-junior-black placeholder:text-junior-black/40 focus:outline-none focus:border-junior-red"
+          className="flex-1 px-4 py-3 border-2 border-junior-red bg-junior-red font-sans text-junior-white placeholder:text-gray-300 focus:outline-none focus:ring-2 focus:ring-junior-white/50"
         />
         <button
           type="submit"
