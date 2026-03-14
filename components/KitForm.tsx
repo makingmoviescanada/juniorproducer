@@ -1,14 +1,17 @@
 "use client"
 
-import { useEffect } from 'react'
+import { useEffect, useId } from 'react'
 
 interface KitFormProps {
   className?: string
 }
 
 export function KitForm({ className = "" }: KitFormProps) {
+  const formId = useId()
+  
   useEffect(() => {
-    // Trigger Kit script to render form if it hasn't already
+    // Kit script will look for elements with the data-kit-form attribute
+    // We'll trigger it to render when component mounts
     if (window.Kit) {
       window.Kit.show()
     }
@@ -16,8 +19,8 @@ export function KitForm({ className = "" }: KitFormProps) {
 
   return (
     <div className={`flex ${className}`}>
-      {/* Kit embed script in layout.tsx will inject the form here */}
-      <div id="kit-form" className="w-full" />
+      {/* Kit will inject form into this div via the data-kit-form attribute */}
+      <div data-kit-form="a6c4e0fc0e" className="w-full" />
     </div>
   )
 }
