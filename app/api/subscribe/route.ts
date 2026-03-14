@@ -8,23 +8,31 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 })
     }
 
-    // Kit public form submission endpoint using form-urlencoded format
-    const response = await fetch('https://app.kit.com/forms/a6c4e0fc0e/subscriptions', {
+    const apiKey = process.env.CONVERTKIT_API_KEY
+    const formId = process.env.CONVERTKIT_FORM_ID
+
+    if (!apiKey || !formId) {
+      console.error('[v0] Missing CONVERTKIT_API_KEY or CONVERTKIT_FORM_ID environment variables')
+      return NextResponse.json({ error: 'Server configuration error' }, { status: 500 })
+    }
+
+    // ConvertKit v3 API - subscribe to form
+    const response = await fetch(`https://api.convertkit.com/v3/forms/${formId}/subscribe`, {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
-      body: new URLSearchParams({ 
-        'email_address': email,
-        'fields[first_name]': ''
-      }).toString(),
+      body: JSON.stringify({ 
+        api_key: apiKey,
+        email: email,
+      }),
     })
 
-    if (response.ok || response.status === 302 || response.status === 200) {
+    if (response.ok) {
       return NextResponse.json({ success: true })
     } else {
-      const text = await response.text()
-      console.error('[v0] Kit API error:', text)
+      const data = await response.json()
+      console.error('[v0] Kit API error:', data)
       return NextResponse.json({ error: 'Subscription failed' }, { status: 500 })
     }
   } catch (error) {
