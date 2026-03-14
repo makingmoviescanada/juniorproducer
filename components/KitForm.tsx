@@ -14,10 +14,10 @@ export function KitForm({ className = "" }: KitFormProps) {
     e.preventDefault()
     setStatus('loading')
     try {
-      const res = await fetch('https://app.kit.com/forms/a6c4e0fc0e/subscriptions', {
+      const res = await fetch('/api/subscribe', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body: new URLSearchParams({ email_address: email }),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email }),
       })
       if (res.ok) {
         setStatus('success')
