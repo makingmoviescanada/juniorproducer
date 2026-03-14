@@ -182,14 +182,6 @@ export default function Home() {
               >
                 JUNIOR
               </p>
-              <nav className="space-x-6 block mb-4">
-                <a href="#about" className="text-junior-white/70 hover:text-junior-red transition-colors font-sans text-sm">
-                  About
-                </a>
-                <a href="#" className="text-junior-white/70 hover:text-junior-red transition-colors font-sans text-sm">
-                  Contact
-                </a>
-              </nav>
               <p className="text-junior-white/50 text-sm font-sans">
                 © Intersectional Films Inc.
               </p>
