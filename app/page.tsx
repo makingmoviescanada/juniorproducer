@@ -143,9 +143,6 @@ export default function Home() {
               <p className="text-junior-black/80 text-xl leading-relaxed font-sans">
                 Gavin Seal is a Writers Guild of Canada prize-winning writer and Chief Creative Officer at Intersectionnel Films. Junior started as our own in-house production tool — automatically crawling government websites for revised funding deadlines, keeping track of screenplay and budget versions, calculating tax credits, and more. Now it's so much more.
               </p>
-              <p className="text-junior-black/80 text-xl leading-relaxed font-sans">
-                I believe producer-led innovation is the path to success because the government is too big, old, and rigid to change (as described in book, The Innovator's Dilemma).
-              </p>
             </ScrollReveal>
           </div>
         </div>
