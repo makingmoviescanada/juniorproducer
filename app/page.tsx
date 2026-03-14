@@ -1,4 +1,3 @@
-// Junior Landing Page
 import { VideoPlaceholder } from "@/components/VideoPlaceholder"
 import { KitForm } from "@/components/KitForm"
 import { StickyHeader } from "@/components/StickyHeader"
