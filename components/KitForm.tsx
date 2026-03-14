@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 
 interface KitFormProps {
   className?: string
@@ -9,34 +9,31 @@ interface KitFormProps {
 
 declare global {
   interface Window {
-    Kit?: any
+    Kit?: {
+      show?: () => void
+      CreateForm?: (el: HTMLElement) => void
+    }
   }
 }
 
 export function KitForm({ className = "", position = 'cta' }: KitFormProps) {
-  const formId = position === 'cta' ? 'kit-form' : 'kit-form-footer'
+  const containerRef = useRef<HTMLDivElement>(null)
   
-  useEffect(() => {
-    // Delay to ensure Kit script has loaded completely
+  useEffect(function initKitForm() {
     const timer = setTimeout(() => {
-      if (window.Kit) {
-        // Trigger Kit to process forms
+      if (window.Kit?.show) {
         window.Kit.show()
-        // Also try to mount to the specific container
-        const container = document.getElementById(formId)
-        if (container && window.Kit && window.Kit.CreateForm) {
-          window.Kit.CreateForm(container)
-        }
       }
     }, 500)
     
     return () => clearTimeout(timer)
-  }, []) // eslint-disable-line react-hooks/exhaustive-deps
+  }, [])
+
+  const formId = position === 'cta' ? 'kit-form' : 'kit-form-footer'
 
   return (
     <div className={`flex ${className}`}>
-      {/* Kit script will inject form into this div */}
-      <div id={formId} className="w-full" />
+      <div ref={containerRef} id={formId} className="w-full" />
     </div>
   )
 }
