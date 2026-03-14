@@ -8,12 +8,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 })
     }
 
-    const response = await fetch('https://app.kit.com/forms/a6c4e0fc0e/subscriptions', {
+    // Kit (ConvertKit) public form subscription endpoint
+    const response = await fetch('https://api.convertkit.com/v3/forms/a6c4e0fc0e/subscribe', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/json',
       },
-      body: new URLSearchParams({ email_address: email }),
+      body: JSON.stringify({ 
+        email,
+        api_key: process.env.CONVERTKIT_API_KEY || ''
+      }),
     })
 
     if (response.ok) {
