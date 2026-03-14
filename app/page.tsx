@@ -30,11 +30,8 @@ export default function Home() {
               >
                 JUNIOR
               </h1>
-              <p className="font-display text-junior-black text-2xl md:text-3xl uppercase tracking-wider mb-2 leading-tight">
-                Automate the drudgery.
-              </p>
               <p className="font-display text-junior-black text-2xl md:text-3xl uppercase tracking-wider mb-8 leading-tight">
-                Focus on <span className="text-junior-red">making movies</span>.
+                Automate the drudgery,<br />so you can focus on <span className="text-junior-red">making movies</span>.
               </p>
               <p className="text-junior-black/80 text-xl leading-relaxed font-sans max-w-2xl mb-8">
                 Junior automates tedious recurring admin and operations tasks and streamlines versioning chaos.
