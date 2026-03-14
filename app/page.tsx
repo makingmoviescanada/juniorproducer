@@ -5,6 +5,7 @@ import { LogoCloud } from "@/components/LogoCloud"
 import { FeatureTiers } from "@/components/FeatureTiers"
 import { IntegrationHub } from "@/components/IntegrationHub"
 import { ScrollReveal } from "@/components/ScrollReveal"
+import { DashboardIllustration } from "@/components/DashboardIllustration"
 
 export default function Home() {
   return (
@@ -108,13 +109,7 @@ export default function Home() {
               </p>
             </ScrollReveal>
             <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
-              <div className="border-2 border-junior-white/30 shadow-hard-red-sm overflow-hidden">
-                <img 
-                  src="/images/dashboard-screenshot.jpg" 
-                  alt="Junior dashboard interface" 
-                  className="w-full h-auto"
-                />
-              </div>
+              <DashboardIllustration />
             </ScrollReveal>
           </div>
         </div>
