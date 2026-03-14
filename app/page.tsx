@@ -173,7 +173,7 @@ export default function Home() {
               <h3 className="font-display text-junior-white text-2xl uppercase tracking-wider mb-4">
                 Sign up to get early access.
               </h3>
-              <KitForm className="max-w-md" />
+              <KitForm className="max-w-md" variant="dark" />
             </div>
             <div className="lg:text-right">
               <p 
