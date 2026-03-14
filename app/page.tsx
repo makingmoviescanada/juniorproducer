@@ -102,7 +102,7 @@ export default function Home() {
                 Junior is your dream 24/7 assistant from pre-development through distribution.
               </p>
               <p className="text-junior-white/90 text-xl leading-relaxed font-sans mb-6">
-                Pull documents, check budgets, and track deadlines at 4AM on set — instead of navigating Google Drive from your phone or waiting for your accountant to wake up.
+                Pull documents, track deadlines, and check budgets at 4AM on set — instead of navigating Google Drive from your phone or waiting for your accountant to wake up.
               </p>
               <p className="text-junior-white/90 text-xl leading-relaxed font-sans">
                 Junior handles the nights, weekends, and everything in between.
