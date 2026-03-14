@@ -12,10 +12,6 @@ export default function Home() {
       <StickyHeader />
       {/* Section 1: Hero */}
       <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 flex items-center min-h-screen pt-32 relative overflow-hidden">
-        {/* Subtle background pattern */}
-        <div className="absolute inset-0 opacity-[0.03]" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%231A1A1A' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
         <div className="max-w-7xl mx-auto w-full relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <ScrollReveal>
@@ -39,7 +35,7 @@ export default function Home() {
                 Join the Waitlist
               </a>
             </ScrollReveal>
-            <ScrollReveal delay={200} className="w-full order-first lg:order-last">
+            <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
               <VideoPlaceholder 
                 aspectRatio="4:5" 
                 imageSrc="/images/hero-production.jpg"
@@ -59,7 +55,7 @@ export default function Home() {
               Junior's dashboard lets you check production health, automate tedious tasks, and leverage an AI assistant trained for the nuances of the Canadian film industry.
             </h2>
           </ScrollReveal>
-          <ScrollReveal delay={150}>
+            <ScrollReveal delay={150} direction="fade">
             <IntegrationHub landscape />
           </ScrollReveal>
         </div>
@@ -108,7 +104,7 @@ export default function Home() {
                 Junior handles the nights, weekends, and everything in between.
               </p>
             </ScrollReveal>
-            <ScrollReveal delay={200} className="w-full order-first lg:order-last">
+            <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
               <div className="border-2 border-junior-white/30 shadow-hard-red-sm overflow-hidden">
                 <img 
                   src="/images/dashboard-screenshot.jpg" 
@@ -131,7 +127,7 @@ export default function Home() {
           </ScrollReveal>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24">
-            <ScrollReveal className="w-full order-1 h-full">
+            <ScrollReveal direction="right" className="w-full order-1 h-full">
               <VideoPlaceholder 
                 aspectRatio="3:4" 
                 imageSrc="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/gavin_seal_frederic_bouchard-500-BhgdBTpwqTGwqAbuVdm8B6aqu2qgIS.jpg"
@@ -168,28 +164,20 @@ export default function Home() {
       {/* Section 7: Footer */}
       <footer className="bg-junior-black border-t-2 border-junior-black px-6 py-16 md:px-12 lg:px-24">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-end">
             <div>
-              <h3 className="font-display text-junior-white text-2xl uppercase tracking-wider mb-4">
+              <h3 className="font-display text-junior-white text-2xl uppercase tracking-wider mb-6">
                 Sign up to get early access.
               </h3>
-              <KitForm className="max-w-md" />
+              <KitForm className="max-w-md" variant="dark" />
             </div>
             <div className="lg:text-right">
               <p 
-                className="font-display text-junior-white uppercase mb-8 leading-none"
+                className="font-display text-junior-white uppercase mb-2 leading-none"
                 style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
               >
                 JUNIOR
               </p>
-              <nav className="space-x-6 block mb-8">
-                <a href="#about" className="text-junior-white/70 hover:text-junior-red transition-colors font-sans text-sm">
-                  About
-                </a>
-                <a href="#" className="text-junior-white/70 hover:text-junior-red transition-colors font-sans text-sm">
-                  Contact
-                </a>
-              </nav>
               <p className="text-junior-white/50 text-sm font-sans">
                 © Intersectional Films Inc.
               </p>
