@@ -25,7 +25,7 @@ export function StickyHeader() {
       <div className="max-w-7xl mx-auto px-6 py-4 md:px-12 lg:px-24 flex items-center justify-between">
         <a 
           href="#" 
-          className="font-display text-junior-black uppercase tracking-wider text-lg"
+          className="px-4 py-2 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-display text-lg"
         >
           Junior
         </a>
