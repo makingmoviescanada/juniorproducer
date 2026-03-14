@@ -16,7 +16,73 @@ export function KitForm({ className = "" }: KitFormProps) {
   }, [])
 
   return (
-    <div className={`flex ${className}`}>
+    <>
+      <style>{`
+        .formkit-form .formkit-input {
+          border: 2px solid #1A1A1A !important;
+          padding: 0.75rem 1rem !important;
+          font-family: 'Lato', sans-serif !important;
+          background-color: #FFFFFF !important;
+          color: #1A1A1A !important;
+        }
+
+        .formkit-form .formkit-input:focus {
+          border-color: #1A1A1A !important;
+          outline: none !important;
+          box-shadow: none !important;
+        }
+
+        .formkit-form .formkit-input::placeholder {
+          color: #999999 !important;
+        }
+
+        .formkit-form .formkit-submit {
+          background-color: #E8392A !important;
+          border: 2px solid #1A1A1A !important;
+          color: #FFFFFF !important;
+          padding: 0.75rem 1.5rem !important;
+          font-weight: 700 !important;
+          text-transform: uppercase !important;
+          letter-spacing: 0.04em !important;
+          font-family: 'Lato', sans-serif !important;
+          cursor: pointer !important;
+          font-size: 0.875rem !important;
+          transition: transform 0.15s ease, box-shadow 0.15s ease !important;
+          box-shadow: 5px 5px 0 #1A1A1A !important;
+        }
+
+        .formkit-form .formkit-submit:hover {
+          transform: translate(-2px, -2px) !important;
+          box-shadow: 7px 7px 0 #1A1A1A !important;
+        }
+
+        .formkit-form .formkit-submit:active {
+          transform: translate(4px, 4px) !important;
+          box-shadow: none !important;
+        }
+
+        .formkit-form .formkit-submit:focus-visible {
+          outline: 2px solid #1A1A1A !important;
+          outline-offset: 2px !important;
+        }
+
+        .formkit-form .formkit-fields {
+          gap: 0.75rem !important;
+          flex-wrap: wrap !important;
+        }
+
+        .formkit-form .formkit-field {
+          flex: 1 1 auto !important;
+          min-width: 200px !important;
+        }
+
+        .formkit-alert {
+          color: #E8392A !important;
+          font-size: 0.875rem !important;
+          margin-bottom: 0.5rem !important;
+        }
+      `}</style>
+      <div className={`flex ${className}`}>
       <form
         action="https://app.kit.com/forms/9206634/subscriptions"
         className="seva-form formkit-form"
@@ -53,6 +119,7 @@ export function KitForm({ className = "" }: KitFormProps) {
 
         </div>
       </form>
-    </div>
+      </div>
+    </>
   )
 }
