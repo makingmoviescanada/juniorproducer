@@ -20,8 +20,8 @@ export async function POST(request: Request) {
     console.log('[v0] Using form ID:', formId)
 
     // ConvertKit v3 API - subscribe email to form
-    // Using the correct endpoint format from ConvertKit API docs
-    const url = `https://api.convertkit.com/v3/forms/${formId}/subscriptions`
+    // Correct endpoint: /forms/{form_id}/subscribe
+    const url = `https://api.convertkit.com/v3/forms/${formId}/subscribe`
     
     const response = await fetch(url, {
       method: 'POST',
