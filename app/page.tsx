@@ -168,16 +168,16 @@ export default function Home() {
       {/* Section 7: Footer */}
       <footer className="bg-junior-black border-t-2 border-junior-black px-6 py-16 md:px-12 lg:px-24">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h3 className="font-display text-junior-white text-2xl uppercase tracking-wider mb-4">
+              <h3 className="font-display text-junior-white text-2xl uppercase tracking-wider mb-6">
                 Sign up to get early access.
               </h3>
               <KitForm className="max-w-md" variant="dark" />
             </div>
-            <div className="lg:text-right">
+            <div className="lg:text-right flex flex-col justify-center">
               <p 
-                className="font-display text-junior-white uppercase mb-2 leading-none"
+                className="font-display text-junior-white uppercase mb-3 leading-none"
                 style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
               >
                 JUNIOR
