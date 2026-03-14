@@ -5,6 +5,7 @@ import { LogoCloud } from "@/components/LogoCloud"
 import { FeatureTiers } from "@/components/FeatureTiers"
 import { IntegrationHub } from "@/components/IntegrationHub"
 import { ScrollReveal } from "@/components/ScrollReveal"
+import { DashboardIllustration } from "@/components/DashboardIllustration"
 
 export default function Home() {
   return (
@@ -52,7 +53,10 @@ export default function Home() {
         <div className="max-w-5xl mx-auto text-center">
           <ScrollReveal>
             <h2 className="font-display text-junior-black text-2xl md:text-3xl lg:text-4xl uppercase tracking-wider mb-16 text-balance leading-tight">
-              Junior's dashboard lets you check production health, automate tedious tasks, and leverage an AI assistant trained for the nuances of the Canadian film industry.
+              Optimize your film's supply chain,<br />
+              get reporting in seconds 24/7,<br />
+              leverage an AI assistant trained on<br />
+              the Canadian film industry.
             </h2>
           </ScrollReveal>
             <ScrollReveal delay={150} direction="fade">
@@ -105,13 +109,7 @@ export default function Home() {
               </p>
             </ScrollReveal>
             <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
-              <div className="border-2 border-junior-white/30 shadow-hard-red-sm overflow-hidden">
-                <img 
-                  src="/images/dashboard-screenshot.jpg" 
-                  alt="Junior dashboard interface" 
-                  className="w-full h-auto"
-                />
-              </div>
+              <DashboardIllustration />
             </ScrollReveal>
           </div>
         </div>
