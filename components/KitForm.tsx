@@ -38,7 +38,7 @@ export function KitForm({ className = "" }: KitFormProps) {
   }
 
   if (!mounted) {
-    return <div className={`flex ${className}`}></div>
+    return <div className={`flex ${className}`} />
   }
 
   if (status === 'success') {
