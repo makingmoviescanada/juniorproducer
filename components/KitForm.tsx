@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 interface KitFormProps {
   className?: string
@@ -9,6 +9,11 @@ interface KitFormProps {
 export function KitForm({ className = "" }: KitFormProps) {
   const [email, setEmail] = useState('')
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
@@ -22,12 +27,18 @@ export function KitForm({ className = "" }: KitFormProps) {
       if (res.ok) {
         setStatus('success')
         setEmail('')
+        setTimeout(() => setStatus('idle'), 3000)
       } else {
         setStatus('error')
       }
-    } catch {
+    } catch (error) {
+      console.error('[v0] Form submission error:', error)
       setStatus('error')
     }
+  }
+
+  if (!mounted) {
+    return <div className={`flex ${className}`}></div>
   }
 
   if (status === 'success') {
