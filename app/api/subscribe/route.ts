@@ -8,15 +8,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'Email is required' }, { status: 400 })
     }
 
-    // Kit public form submission endpoint (no API key required)
-    // Using the Kit landing page form submission format
-    const response = await fetch('https://letsbuildanewcanadianfilmindustry.kit.com/a6c4e0fc0e/subscribe', {
+    // Kit public form submission endpoint using form-urlencoded format
+    const response = await fetch('https://app.kit.com/forms/a6c4e0fc0e/subscriptions', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
+        'Content-Type': 'application/x-www-form-urlencoded',
       },
-      body: JSON.stringify({ email_address: email }),
+      body: new URLSearchParams({ 
+        'email_address': email,
+        'fields[first_name]': ''
+      }).toString(),
     })
 
     if (response.ok || response.status === 302 || response.status === 200) {
