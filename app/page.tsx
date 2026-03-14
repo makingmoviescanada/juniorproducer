@@ -90,7 +90,7 @@ export default function Home() {
             <h2 className="font-display text-junior-black text-2xl md:text-3xl uppercase tracking-wider mb-8 text-balance">
               Join the waitlist for early access.
             </h2>
-            <KitForm className="justify-center" />
+            <KitForm className="justify-center" position="cta" />
           </ScrollReveal>
         </div>
       </section>
@@ -175,7 +175,7 @@ export default function Home() {
               <h3 className="font-display text-junior-white text-2xl uppercase tracking-wider mb-4">
                 Sign up to get early access.
               </h3>
-              <KitForm className="max-w-md" />
+              <KitForm className="max-w-md" position="footer" />
             </div>
             <div className="lg:text-right">
               <p 

@@ -1,26 +1,36 @@
 "use client"
 
-import { useEffect, useId } from 'react'
+import { useEffect } from 'react'
 
 interface KitFormProps {
   className?: string
+  position?: 'cta' | 'footer'
 }
 
-export function KitForm({ className = "" }: KitFormProps) {
-  const formId = useId()
+declare global {
+  interface Window {
+    Kit?: any
+  }
+}
+
+export function KitForm({ className = "", position = 'cta' }: KitFormProps) {
+  const formId = position === 'cta' ? 'kit-form' : 'kit-form-footer'
   
   useEffect(() => {
-    // Kit script will look for elements with the data-kit-form attribute
-    // We'll trigger it to render when component mounts
-    if (window.Kit) {
-      window.Kit.show()
-    }
+    // Delay to ensure Kit script has loaded
+    const timer = setTimeout(() => {
+      if (window.Kit) {
+        window.Kit.show()
+      }
+    }, 100)
+    
+    return () => clearTimeout(timer)
   }, [])
 
   return (
     <div className={`flex ${className}`}>
-      {/* Kit will inject form into this div via the data-kit-form attribute */}
-      <div data-kit-form="a6c4e0fc0e" className="w-full" />
+      {/* Kit script will find and inject form into this div */}
+      <div id={formId} className="w-full" />
     </div>
   )
 }
