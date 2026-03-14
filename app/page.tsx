@@ -53,8 +53,8 @@ export default function Home() {
           <ScrollReveal>
             <h2 className="font-display text-junior-black text-2xl md:text-3xl lg:text-4xl uppercase tracking-wider mb-16 text-balance leading-tight">
               Optimize your film slate,<br />
-              get updates in seconds 24/7,<br />
-              and leverage an AI assistant trained on<br />
+              updates and reporting in seconds 24/7,<br />
+              leverage an AI assistant trained on<br />
               the Canadian film industry.
             </h2>
           </ScrollReveal>
