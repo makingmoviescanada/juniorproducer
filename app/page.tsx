@@ -56,7 +56,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto text-center">
           <ScrollReveal>
             <h2 className="font-display text-junior-black text-2xl md:text-3xl lg:text-4xl uppercase tracking-wider mb-16 text-balance leading-tight">
-              Junior organizes your production into a single at-a-glance dashboard, automates tedious tasks, and provides you with an AI assistant trained on the nuances of Canadian film industry.
+              Junior's dashboard lets you check production health, automate tedious tasks, and leverage an AI assistant trained for the nuances of the Canadian film industry.
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={150}>
@@ -141,7 +141,7 @@ export default function Home() {
             </ScrollReveal>
             <ScrollReveal delay={150} className="order-2 space-y-6">
               <p className="text-junior-black/80 text-xl leading-relaxed font-sans">
-                Gavin Seal is a Writers Guild of Canada prize-winning writer and Chief Creative Officer at Intersectionnel Films. Junior started as our own in-house production tool — automatically crawling government websites for revised funding deadlines, keeping track of document versioning across users, and calculating tax credits. Now it's become so much more.
+                Gavin Seal is a Writers Guild of Canada prize-winning writer and Chief Creative Officer at Intersectionnel Films. Junior started as our own in-house production tool — automatically crawling government websites for revised funding deadlines, keeping track of document versioning across collaborators, calculating tax credits, and other tedious drudgery.
               </p>
             </ScrollReveal>
           </div>
@@ -185,9 +185,6 @@ export default function Home() {
               <nav className="space-x-6 block mb-8">
                 <a href="#about" className="text-junior-white/70 hover:text-junior-red transition-colors font-sans text-sm">
                   About
-                </a>
-                <a href="#" className="text-junior-white/70 hover:text-junior-red transition-colors font-sans text-sm">
-                  Patreon
                 </a>
                 <a href="#" className="text-junior-white/70 hover:text-junior-red transition-colors font-sans text-sm">
                   Contact
