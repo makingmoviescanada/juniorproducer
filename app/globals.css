@@ -1,0 +1,169 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Junior Brand Colors */
+  --junior-red: #E8392A;
+  --junior-parchment: #F0EBE0;
+  --junior-black: #1A1A1A;
+  --junior-white: #FFFFFF;
+  
+  /* Semantic tokens */
+  --background: var(--junior-parchment);
+  --foreground: var(--junior-black);
+  --card: var(--junior-white);
+  --card-foreground: var(--junior-black);
+  --popover: var(--junior-white);
+  --popover-foreground: var(--junior-black);
+  --primary: var(--junior-red);
+  --primary-foreground: var(--junior-white);
+  --secondary: var(--junior-parchment);
+  --secondary-foreground: var(--junior-black);
+  --muted: var(--junior-parchment);
+  --muted-foreground: var(--junior-black);
+  --accent: var(--junior-red);
+  --accent-foreground: var(--junior-white);
+  --destructive: var(--junior-red);
+  --destructive-foreground: var(--junior-white);
+  --border: var(--junior-black);
+  --input: var(--junior-white);
+  --ring: var(--junior-red);
+  --radius: 0;
+}
+
+@theme inline {
+  --font-sans: 'Lato', sans-serif;
+  --font-display: 'Barlow', sans-serif;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  
+  /* Custom brand colors */
+  --color-junior-red: #E8392A;
+  --color-junior-parchment: #F0EBE0;
+  --color-junior-black: #1A1A1A;
+  --color-junior-white: #FFFFFF;
+  
+  /* Zero radius */
+  --radius-sm: 0;
+  --radius-md: 0;
+  --radius-lg: 0;
+  --radius-xl: 0;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+    border-radius: 0 !important;
+  }
+  
+  body {
+    @apply bg-junior-parchment text-junior-black;
+  }
+}
+
+@layer utilities {
+  /* Hard shadow utilities - context aware tone-on-tone */
+  .shadow-hard {
+    box-shadow: 8px 8px 0 #1A1A1A;
+  }
+  
+  .shadow-hard-sm {
+    box-shadow: 5px 5px 0 #1A1A1A;
+  }
+  
+  /* Tone-on-tone shadows */
+  .shadow-hard-parchment {
+    box-shadow: 8px 8px 0 #D4CBBF;
+  }
+  
+  .shadow-hard-parchment-sm {
+    box-shadow: 5px 5px 0 #D4CBBF;
+  }
+  
+  .shadow-hard-black {
+    box-shadow: 8px 8px 0 #0F0F0F;
+  }
+  
+  .shadow-hard-black-sm {
+    box-shadow: 5px 5px 0 #0F0F0F;
+  }
+  
+  .shadow-hard-red {
+    box-shadow: 8px 8px 0 #C62E1F;
+  }
+  
+  .shadow-hard-red-sm {
+    box-shadow: 5px 5px 0 #C62E1F;
+  }
+  
+  .shadow-hard-white {
+    box-shadow: 8px 8px 0 #FFFFFF;
+  }
+  
+  .shadow-hard-white-sm {
+    box-shadow: 5px 5px 0 #FFFFFF;
+  }
+  
+  /* Hover transitions */
+  .hover-lift {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .hover-lift:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 10px 10px 0 #1A1A1A;
+  }
+  
+  /* Button hover states */
+  .btn-hover {
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .btn-hover:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 #1A1A1A;
+  }
+  
+  .btn-hover:active {
+    transform: translate(4px, 4px);
+    box-shadow: none;
+  }
+  
+  .btn-hover:focus-visible {
+    outline: 2px solid var(--junior-black);
+    outline-offset: 2px;
+  }
+  
+  /* Display font class */
+  .font-display {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    letter-spacing: 0.04em;
+  }
+  
+  /* Text balance */
+  .text-balance {
+    text-wrap: balance;
+  }
+}
