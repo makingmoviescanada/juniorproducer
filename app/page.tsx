@@ -19,20 +19,18 @@ export default function Home() {
         <div className="max-w-7xl mx-auto w-full relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <ScrollReveal>
-              <h1 
-                className="font-display text-junior-black uppercase mb-8 text-balance leading-none"
-                style={{ fontSize: "clamp(3rem, 12vw, 5.5rem)" }}
-              >
-                JUNIOR
-              </h1>
-              <p className="font-display text-junior-black text-2xl md:text-3xl uppercase tracking-wider mb-2 leading-tight">
-                Automate the drudgery.
-              </p>
+              <div className="mb-8">
+                <button className="inline-block px-6 py-4 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm font-display"
+                  style={{ fontSize: "clamp(2.5rem, 10vw, 4.5rem)" }}
+                >
+                  Junior
+                </button>
+              </div>
               <p className="font-display text-junior-black text-2xl md:text-3xl uppercase tracking-wider mb-8 leading-tight">
-                Focus on <span className="text-junior-red">making movies</span>.
+                Automate the drudgery,<br />so you can focus on <span className="text-junior-red">making movies</span>.
               </p>
               <p className="text-junior-black/80 text-xl leading-relaxed font-sans max-w-2xl mb-8">
-                Junior handles the work that nobody wants to do so you can focus on what you came here to make.
+                Junior automates tedious admin and operations tasks and streamlines version chaos.
               </p>
               <a
                 href="#cta"
@@ -58,7 +56,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto text-center">
           <ScrollReveal>
             <h2 className="font-display text-junior-black text-2xl md:text-3xl lg:text-4xl uppercase tracking-wider mb-16 text-balance leading-tight">
-              Everything related to your productions,<br />accessible in a single dashboard,<br />with an assistant to find the latest versions.
+              Junior organizes your production into a single at-a-glance dashboard, automates tedious tasks, and provides you with an AI assistant trained on the nuances of Canadian film industry.
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={150}>
@@ -98,13 +96,13 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <ScrollReveal>
               <h2 className="font-display text-junior-white text-3xl md:text-4xl lg:text-5xl uppercase tracking-wider mb-6 text-balance">
-                Your second brain. Always on.
+                JUNIOR IS your second brain.
               </h2>
               <p className="text-junior-white/90 text-xl leading-relaxed font-sans mb-6">
-                Your dream 24/7 assistant from pre-development through distribution.
+                Junior is your dream 24/7 assistant from pre-development through distribution.
               </p>
               <p className="text-junior-white/90 text-xl leading-relaxed font-sans mb-6">
-                Pull documents, check budgets, and track deadlines at 4AM on set — instead of navigating Google Drive from your phone or waiting for your accountant to wake up.
+                Pull documents, track deadlines, and check budgets at 4AM on set — instead of navigating Google Drive from your phone or waiting for your accountant to wake up.
               </p>
               <p className="text-junior-white/90 text-xl leading-relaxed font-sans">
                 Junior handles the nights, weekends, and everything in between.
@@ -143,16 +141,18 @@ export default function Home() {
             </ScrollReveal>
             <ScrollReveal delay={150} className="order-2 space-y-6">
               <p className="text-junior-black/80 text-xl leading-relaxed font-sans">
-                I'm Gavin Seal, a Montréaler writing and producing a $3.5M feature with CMF funding. I'm a Writers Guild of Canada Prize winning screenwriter; Golden Sheaf Award-winning director; RIFFA Award-winning producer. Slaight New Venture Competition (NVC) award-winning entrepreneur. I know the chaos.
-              </p>
-              <p className="text-junior-black/80 text-xl leading-relaxed font-sans">
-                Junior started as my own production tool — automatically crawling government websites for revised funding deadlines, keeping track of budget versions, and calculating tax credits.
-              </p>
-              <p className="font-display text-junior-black uppercase tracking-wider text-xl mt-8 pt-6 border-t border-junior-black/20">
-                I built this because I needed it.
+                Gavin Seal is a Writers Guild of Canada prize-winning writer and Chief Creative Officer at Intersectionnel Films. Junior started as our own in-house production tool — automatically crawling government websites for revised funding deadlines, keeping track of document versioning across users, and calculating tax credits. Now it's become so much more.
               </p>
             </ScrollReveal>
           </div>
+          <ScrollReveal delay={200}>
+            <blockquote className="border-t-2 border-junior-black pt-12 text-center max-w-3xl mx-auto">
+              <p className="font-display text-junior-black text-2xl md:text-3xl uppercase tracking-wider leading-tight text-balance">
+                &ldquo;I hope Junior helps you get some sleep, delegate to your team more efficiently, and spend more nights and weekends with friends and family.&rdquo;
+              </p>
+              <cite className="block mt-6 text-junior-black/50 font-sans text-sm not-italic uppercase tracking-widest">— Gavin Seal, Founder</cite>
+            </blockquote>
+          </ScrollReveal>
         </div>
       </section>
 

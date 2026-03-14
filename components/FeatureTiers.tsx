@@ -16,7 +16,7 @@ export function FeatureTiers({ dark = false }: { dark?: boolean }) {
     {
       name: "For Producers\njuggling a slate",
       features: [
-        "Everything in Filmmaker +",
+        "Everything in the Filmmaker tier",
         "Multi-project dashboard",
         "Collaborator workspace",
         "Guild agreement templates",
