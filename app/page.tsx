@@ -187,9 +187,6 @@ export default function Home() {
                   About
                 </a>
                 <a href="#" className="text-junior-white/70 hover:text-junior-red transition-colors font-sans text-sm">
-                  Patreon
-                </a>
-                <a href="#" className="text-junior-white/70 hover:text-junior-red transition-colors font-sans text-sm">
                   Contact
                 </a>
               </nav>
