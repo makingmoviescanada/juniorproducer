@@ -35,7 +35,7 @@ export default function Home() {
                 Join the Waitlist
               </a>
             </ScrollReveal>
-            <ScrollReveal delay={200} className="w-full order-first lg:order-last">
+            <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
               <VideoPlaceholder 
                 aspectRatio="4:5" 
                 imageSrc="/images/hero-production.jpg"
@@ -55,7 +55,7 @@ export default function Home() {
               Junior's dashboard lets you check production health, automate tedious tasks, and leverage an AI assistant trained for the nuances of the Canadian film industry.
             </h2>
           </ScrollReveal>
-          <ScrollReveal delay={150}>
+            <ScrollReveal delay={150} direction="fade">
             <IntegrationHub landscape />
           </ScrollReveal>
         </div>
@@ -104,7 +104,7 @@ export default function Home() {
                 Junior handles the nights, weekends, and everything in between.
               </p>
             </ScrollReveal>
-            <ScrollReveal delay={200} className="w-full order-first lg:order-last">
+            <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
               <div className="border-2 border-junior-white/30 shadow-hard-red-sm overflow-hidden">
                 <img 
                   src="/images/dashboard-screenshot.jpg" 
@@ -127,7 +127,7 @@ export default function Home() {
           </ScrollReveal>
           
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24">
-            <ScrollReveal className="w-full order-1 h-full">
+            <ScrollReveal direction="right" className="w-full order-1 h-full">
               <VideoPlaceholder 
                 aspectRatio="3:4" 
                 imageSrc="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/gavin_seal_frederic_bouchard-500-BhgdBTpwqTGwqAbuVdm8B6aqu2qgIS.jpg"
