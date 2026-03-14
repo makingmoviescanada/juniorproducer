@@ -63,7 +63,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto text-center">
           <ScrollReveal>
             <h2 className="font-display text-junior-black text-2xl md:text-3xl lg:text-4xl uppercase tracking-wider mb-16 text-balance leading-tight">
-              Simplify all your production tools in a single dashboard,<br />with an AI assistant trained specifically on the nuance<br />of Canadian systems.
+              Junior organizes all your production needs in a single dashboard at a glance<br />with an AI assistant trained specifically on the nuance of Canadian film industry.
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={150}>
