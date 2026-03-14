@@ -52,7 +52,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto text-center">
           <ScrollReveal>
             <h2 className="font-display text-junior-black text-2xl md:text-3xl lg:text-4xl uppercase tracking-wider mb-16 text-balance leading-tight">
-              Optimize your film slate,<br />
+              Optimize your film's supply chain,<br />
               get reporting in seconds 24/7,<br />
               leverage an AI assistant trained on<br />
               the Canadian film industry.
