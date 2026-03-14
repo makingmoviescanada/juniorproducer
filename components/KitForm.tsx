@@ -139,7 +139,7 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
           <div data-style="clean">
             <ul className="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
             <div data-element="fields" data-stacked="false" className="seva-fields formkit-fields">
-              <div className="formkit-field">
+              <div className="formkit-field" suppressHydrationWarning>
                 <input
                   className="formkit-input"
                   name="email_address"
@@ -147,6 +147,7 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
                   placeholder="Email Address"
                   required
                   type="email"
+                  suppressHydrationWarning
                 />
               </div>
               <button data-element="submit" className="formkit-submit formkit-submit">
