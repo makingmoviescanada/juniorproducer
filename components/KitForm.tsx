@@ -1,5 +1,6 @@
 "use client"
 
+// Email signup form component - submits to /api/subscribe
 import { useState, useEffect } from 'react'
 
 interface KitFormProps {
