@@ -177,12 +177,12 @@ export default function Home() {
             </div>
             <div className="lg:text-right">
               <p 
-                className="font-display text-junior-white uppercase mb-8 leading-none"
+                className="font-display text-junior-white uppercase mb-2 leading-none"
                 style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
               >
                 JUNIOR
               </p>
-              <nav className="space-x-6 block mb-8">
+              <nav className="space-x-6 block mb-4">
                 <a href="#about" className="text-junior-white/70 hover:text-junior-red transition-colors font-sans text-sm">
                   About
                 </a>
