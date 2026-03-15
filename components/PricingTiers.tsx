@@ -8,9 +8,10 @@ interface TierProps {
   subheading: string
   body: string
   features: string[]
+  tierValue?: string
 }
 
-const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) => {
+const TierCard: React.FC<TierProps> = ({ label, subheading, body, features, tierValue = "unknown" }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
@@ -62,7 +63,7 @@ const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) =>
         </button>
       </div>
 
-      <button className="w-full px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm md:text-base">
+      <button className="w-full px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm md:text-base" data-tier={tierValue}>
         Join the Waitlist
       </button>
     </div>

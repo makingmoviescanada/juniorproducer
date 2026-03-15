@@ -47,6 +47,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${barlow.variable} ${lato.variable}`}>
+      <head>
+        <script defer data-domain="juniorproducer.vercel.app" src="https://plausible.io/js/script.js"></script>
+      </head>
       <body className="font-sans antialiased">
         {children}
         <Analytics />
