@@ -81,10 +81,10 @@ export default function Home() {
                 JUNIOR IS YOUR SECOND BRAIN.
               </h2>
               <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans mb-6">
-                The Canadian film industry runs on sweat equity that never recoups. We do it out of passion, but it doesn't pay the bills, and while we're working our day jobs, we miss deadlines, stay up late and burn out, so we don't drop a ball that no one else is there to catch.
+                Junior is the producer&apos;s brain that never sleeps. Every deadline tracked, every document versioned, every funding window watched — so you can focus on the only thing that matters: making the film.
               </p>
               <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans">
-                You focus on making the film. Junior makes sure nothing falls through the cracks.
+                Junior makes sure nothing falls through the cracks.
               </p>
             </ScrollReveal>
             <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
