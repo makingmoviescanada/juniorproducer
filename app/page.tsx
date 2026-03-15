@@ -122,22 +122,52 @@ export default function Home() {
           </ScrollReveal>
 
           {/* Two-column: bios on left, photos on right */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Mobile: each founder as photo + bio pair. Desktop: bios left, overlapping photos right */}
+          <div className="lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center">
 
-            {/* Left: founder bios */}
+            {/* Left: founder bios — always visible */}
             <ScrollReveal delay={150} className="flex flex-col gap-4 w-full min-w-0">
-              <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6">
-                Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
-              </p>
-              <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6">
-                Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+).
-              </p>
+              {/* Gavin */}
+              <div className="flex items-start gap-4">
+                <img
+                  src="/images/gavin-seal-headshot.jpg"
+                  alt="Gavin Seal, co-founder of Junior"
+                  className="lg:hidden border-2 border-junior-black flex-shrink-0"
+                  style={{
+                    width: "80px",
+                    height: "100px",
+                    objectFit: "cover",
+                    objectPosition: "top",
+                    filter: "grayscale(100%) contrast(1.1)"
+                  }}
+                />
+                <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6 flex-1">
+                  Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
+                </p>
+              </div>
+              {/* Lisa */}
+              <div className="flex items-start gap-4">
+                <img
+                  src="/images/lisa-purisima-headshot.jpg"
+                  alt="Lisa Purisima, co-founder of Junior"
+                  className="lg:hidden border-2 border-junior-black flex-shrink-0"
+                  style={{
+                    width: "80px",
+                    height: "100px",
+                    objectFit: "cover",
+                    objectPosition: "top",
+                    filter: "grayscale(100%) contrast(1.1)"
+                  }}
+                />
+                <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6 flex-1">
+                  Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+).
+                </p>
+              </div>
             </ScrollReveal>
 
-            {/* Right: overlapping photos */}
-            <ScrollReveal delay={200} direction="left" className="w-full flex justify-center">
+            {/* Right: overlapping photos — desktop only */}
+            <ScrollReveal delay={200} direction="left" className="hidden lg:flex w-full justify-center">
               <div className="relative" style={{ width: "320px", height: "360px" }}>
-                {/* Gavin — top-left, behind */}
                 <img
                   src="/images/gavin-seal-headshot.jpg"
                   alt="Gavin Seal, co-founder of Junior"
@@ -152,7 +182,6 @@ export default function Home() {
                     filter: "grayscale(100%) contrast(1.1)"
                   }}
                 />
-                {/* Lisa — bottom-right, in front */}
                 <img
                   src="/images/lisa-purisima-headshot.jpg"
                   alt="Lisa Purisima, co-founder of Junior"
