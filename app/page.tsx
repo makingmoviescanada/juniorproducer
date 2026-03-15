@@ -41,12 +41,14 @@ export default function Home() {
               </a>
             </ScrollReveal>
             <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
-              <VideoPlaceholder 
-                aspectRatio="4:5" 
-                imageSrc="/images/hero-production.jpg"
-                imageAlt="Film production scene"
-                showPlayButton={false}
-              />
+              <div style={{ filter: "grayscale(100%) contrast(1.1)" }}>
+                <VideoPlaceholder 
+                  aspectRatio="4:5" 
+                  imageSrc="/images/hero-production.jpg"
+                  imageAlt="Film production scene"
+                  showPlayButton={false}
+                />
+              </div>
             </ScrollReveal>
           </div>
         </div>
