@@ -36,7 +36,7 @@ export function FeatureTiers({ dark = false }: { dark?: boolean }) {
       {features.map((feature, index) => (
         <div key={index} className="space-y-6">
           <div className="border-b-2 border-junior-red pb-4">
-            <h3 className="font-display text-junior-black text-lg md:text-xl font-black uppercase tracking-wider">
+            <h3 className="font-barlow-black text-junior-black text-sm md:text-base font-black uppercase" style={{ letterSpacing: "2px" }}>
               {feature.category}
             </h3>
           </div>
@@ -45,7 +45,7 @@ export function FeatureTiers({ dark = false }: { dark?: boolean }) {
             {feature.items.map((item, itemIndex) => (
               <li key={itemIndex} className="flex items-start gap-4">
                 <span className="text-junior-red mt-1 flex-shrink-0 font-bold text-lg">✓</span>
-                <span className="font-sans text-base md:text-lg leading-relaxed md:leading-loose text-junior-black">
+                <span className="font-sans text-base md:text-lg text-junior-black" style={{ lineHeight: "1.6" }}>
                   {item}
                 </span>
               </li>

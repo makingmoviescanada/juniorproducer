@@ -1,11 +1,9 @@
 import type { Metadata } from 'next'
 import { Barlow, Lato } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
-import './globals.css'
 
 const barlow = Barlow({ 
   subsets: ["latin"],
-  weight: ["900"],
+  weight: ["400", "500", "600", "900"],
   variable: "--font-barlow",
   display: "swap",
 })

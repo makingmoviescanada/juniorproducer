@@ -31,40 +31,38 @@ export function ThreeCardSection() {
     <section className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
-          <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider mb-16 text-center text-balance leading-tight">
+          <h2 className="font-display text-junior-black text-3xl md:text-4xl lg:text-5xl font-black tracking-wider mb-16 text-center text-balance leading-tight" style={{ textTransform: "none", letterSpacing: "0.02em", lineHeight: "1.2" }}>
             You&apos;re doing the work of an entire production office. Junior has your back.
           </h2>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8" style={{ alignItems: "stretch" }}>
           {cards.map((card, index) => (
             <ScrollReveal key={index} delay={index * 100}>
               <div 
                 className="p-8 md:p-10 bg-junior-parchment border-2 border-junior-black shadow-hard-parchment-sm h-full flex flex-col"
                 style={{ borderRadius: "86px" }}
               >
-                <h3 className="font-display text-junior-black text-lg md:text-xl font-black uppercase tracking-wider mb-4">
+                <h3 className="font-barlow-black text-junior-black text-base md:text-lg font-black uppercase tracking-wider mb-4" style={{ letterSpacing: "1px" }}>
                   {card.title}
                 </h3>
-                <p className="font-sans text-junior-black/70 italic text-sm md:text-base mb-4 font-medium">
+                <p className="font-barlow-medium text-junior-black/70 italic text-sm md:text-base mb-4" style={{ lineHeight: "1.5" }}>
                   {card.subtitle}
                 </p>
-                <p className="font-sans text-junior-black/80 text-base md:text-lg leading-relaxed md:leading-loose flex-grow">
+                <p className="font-sans text-junior-black/80 text-base md:text-lg flex-grow" style={{ lineHeight: "1.6" }}>
                   {card.body}
                 </p>
+                <a
+                  href="#cta"
+                  className="inline-block mt-auto px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-black uppercase tracking-wider shadow-hard-red-sm btn-hover font-barlow-black text-sm"
+                  style={{ marginTop: "auto", letterSpacing: "2px" }}
+                >
+                  Get Early Access
+                </a>
               </div>
             </ScrollReveal>
           ))}
         </div>
-
-        <ScrollReveal delay={300} className="mt-12 text-center">
-          <a
-            href="#cta"
-            className="inline-block px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm"
-          >
-            Get Early Access
-          </a>
-        </ScrollReveal>
       </div>
     </section>
   )

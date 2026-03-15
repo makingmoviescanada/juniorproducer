@@ -31,15 +31,15 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
     return (
       <div className={`w-full ${className}`}>
         <div className="flex flex-wrap gap-3 items-stretch">
-          <div className="flex-1 min-w-[220px]">
+          <div className="flex-1 min-w-[320px]">
             <div 
-              className="h-12 border-2 border-junior-black bg-white"
-              style={{ minHeight: '48px' }}
+              className="border-2 border-junior-black bg-white"
+              style={{ minHeight: '52px' }}
             />
           </div>
           <div 
-            className="h-12 px-6 bg-junior-red border-2 border-junior-black flex items-center justify-center"
-            style={{ minHeight: '48px', boxShadow: '5px 5px 0 #1A1A1A' }}
+            className="px-6 bg-junior-red border-2 border-junior-black flex items-center justify-center"
+            style={{ minHeight: '52px', boxShadow: '5px 5px 0 #1A1A1A' }}
           >
             <span className="text-junior-white font-bold text-xs uppercase tracking-wider">Get Early Access</span>
           </div>
@@ -66,18 +66,18 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
         }
 
         .formkit-form[data-uid="7770c7b826"] .formkit-field {
-          flex: 1 1 220px !important;
+          flex: 1 1 320px !important;
           min-width: 0 !important;
         }
 
         .formkit-form[data-uid="7770c7b826"] .formkit-input {
           width: 100% !important;
           height: 100% !important;
-          min-height: 48px !important;
+          min-height: 52px !important;
           border: 2px solid #1A1A1A !important;
           border-radius: 0 !important;
           padding: 0.75rem 1rem !important;
-          font-family: 'Lato', sans-serif !important;
+          font-family: 'Barlow', sans-serif !important;
           font-size: 0.9375rem !important;
           background-color: ${inputBg} !important;
           color: ${inputColor} !important;
@@ -98,18 +98,18 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
         }
 
         .formkit-form[data-uid="7770c7b826"] .formkit-submit {
-          height: 48px !important;
-          min-height: 48px !important;
+          height: 52px !important;
+          min-height: 52px !important;
           background-color: #E8392A !important;
           border: 2px solid #1A1A1A !important;
           border-radius: 0 !important;
           color: #FFFFFF !important;
           padding: 0 1.5rem !important;
-          font-weight: 700 !important;
+          font-weight: 900 !important;
           text-transform: uppercase !important;
-          letter-spacing: 0.06em !important;
-          font-family: 'Lato', sans-serif !important;
-          font-size: 0.8125rem !important;
+          letter-spacing: 0.12em !important;
+          font-family: 'Barlow', sans-serif !important;
+          font-size: 0.875rem !important;
           cursor: pointer !important;
           transition: transform 0.15s ease, box-shadow 0.15s ease !important;
           box-shadow: 5px 5px 0 ${btnShadow} !important;

@@ -155,15 +155,114 @@
     outline-offset: 2px;
   }
   
-  /* Display font class */
+  /* Display font class - Barlow Black for display */
   .font-display {
     font-family: 'Barlow', sans-serif;
     font-weight: 900;
     letter-spacing: 0.04em;
   }
+
+  /* Barlow weights and styles */
+  .font-barlow-black {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+  }
+
+  .font-barlow-semibold {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+  }
+
+  .font-barlow-medium {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 500;
+  }
+
+  .font-barlow-regular {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+  }
   
   /* Text balance */
   .text-balance {
     text-wrap: balance;
+  }
+
+  /* Typography utilities */
+  .text-hero-h1 {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    @apply text-4xl md:text-5xl lg:text-6xl leading-tight;
+    line-height: 1.1;
+  }
+
+  .text-hero-h2 {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    @apply text-lg md:text-xl lg:text-2xl;
+    line-height: 1.4;
+  }
+
+  .text-section-headline {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    @apply text-3xl md:text-4xl lg:text-5xl;
+    line-height: 1.2;
+  }
+
+  .text-card-title {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    @apply text-base md:text-lg;
+  }
+
+  .text-card-subtitle {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    @apply text-sm md:text-base;
+    line-height: 1.5;
+  }
+
+  .text-body {
+    font-family: 'Lato', sans-serif;
+    font-weight: 400;
+    @apply text-base md:text-lg;
+    line-height: 1.7;
+  }
+
+  .text-feature-label {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    @apply text-xs md:text-sm;
+    border-bottom: 2px solid #E8392A;
+  }
+
+  .text-nav-link {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    @apply text-sm;
+  }
+
+  .text-cta-button {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    @apply text-sm;
+  }
+
+  .text-caption {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    @apply text-xs;
   }
 }

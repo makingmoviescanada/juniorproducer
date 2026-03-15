@@ -26,10 +26,10 @@ export default function Home() {
                   <span className="font-display text-junior-black font-bold uppercase tracking-wider">Junior</span>
                 </div>
               </div>
-              <h1 className="font-display text-junior-black text-5xl md:text-6xl lg:text-7xl font-black tracking-wider mb-6 leading-tight text-pretty">
+              <h1 className="font-display text-junior-black text-5xl md:text-6xl lg:text-7xl font-black tracking-wider leading-tight text-pretty" style={{ lineHeight: "1.1", marginBottom: "24px" }}>
                 The late nights and weekends aren&apos;t a badge of honour — you need help.
               </h1>
-              <h2 className="font-display text-junior-black text-xl md:text-2xl font-semibold tracking-wide mb-8 leading-relaxed text-pretty">
+              <h2 className="font-barlow-semibold text-junior-black text-lg md:text-xl lg:text-2xl tracking-wide leading-relaxed text-pretty mb-8" style={{ lineHeight: "1.4" }}>
                 Junior is the producer&apos;s assistant you could never afford to hire — handling the funding, the admin, and the chaos so you can focus on making films.
               </h2>
               <a
@@ -65,10 +65,10 @@ export default function Home() {
               <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-8 text-balance leading-tight">
                 JUNIOR IS YOUR SECOND BRAIN.
               </h2>
-              <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans mb-6">
+              <p className="font-sans text-junior-white/90 text-base md:text-lg leading-relaxed font-sans mb-6" style={{ lineHeight: "1.7" }}>
                 The Canadian film industry runs on sweat equity that never recoups. We do it out of passion, but it doesn't pay the bills, and while we're working our day jobs, we miss deadlines, stay up late and burn out, so we don't drop a ball that no one else is there to catch.
               </p>
-              <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans">
+              <p className="font-sans text-junior-white/90 text-base md:text-lg leading-relaxed font-sans" style={{ lineHeight: "1.7" }}>
                 You focus on making the film. Junior makes sure nothing falls through the cracks.
               </p>
             </ScrollReveal>
@@ -87,7 +87,7 @@ export default function Home() {
               No budget, no team, no problem.
             </h2>
             <div className="max-w-2xl mx-auto">
-              <p className="text-junior-black/80 text-lg md:text-xl leading-relaxed font-sans text-left mb-16">
+              <p className="text-junior-black/80 text-base md:text-lg leading-relaxed font-sans text-left mb-16" style={{ lineHeight: "1.7" }}>
                 Junior holds everything you can&apos;t afford to forget — funding windows, delivery dates, document versions, budget checkpoints — and surfaces what you need, when you need it.
               </p>
             </div>
@@ -122,52 +122,46 @@ export default function Home() {
           </ScrollReveal>
           
           <ScrollReveal delay={100}>
-            <p className="text-junior-black/80 text-lg leading-relaxed font-sans mb-16 text-center max-w-3xl mx-auto">
+            <p className="text-junior-black/80 text-base md:text-lg leading-relaxed font-sans mb-16 text-center max-w-3xl mx-auto" style={{ lineHeight: "1.7" }}>
               Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
             </p>
           </ScrollReveal>
 
           {/* Two-column: bios on left, photos on right */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16">
 
-            {/* Left: founder bios */}
+            {/* Left: founder bios (60% on desktop) */}
             <ScrollReveal delay={150} className="flex flex-col gap-4">
-              <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6">
+              <p className="text-junior-black/80 text-base md:text-lg leading-relaxed font-sans border-2 border-junior-black p-6" style={{ lineHeight: "1.6" }}>
                 Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
               </p>
-              <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6">
+              <p className="text-junior-black/80 text-base md:text-lg leading-relaxed font-sans border-2 border-junior-black p-6" style={{ lineHeight: "1.6" }}>
                 Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+). Junior is built on this intersectional experience of art and technology.
               </p>
             </ScrollReveal>
 
-            {/* Right: overlapping photos */}
-            <ScrollReveal delay={200} direction="left" className="w-full flex justify-center">
-              <div className="relative" style={{ width: "320px", height: "360px", overflow: "hidden" }}>
-                {/* Gavin — top-left, behind */}
+            {/* Right: stacked photos (40% on desktop) */}
+            <ScrollReveal delay={200} direction="left" className="w-full">
+              <div className="flex flex-col gap-2">
+                {/* Gavin's photo */}
                 <img
                   src="/images/gavin-seal-headshot.jpg"
                   alt="Gavin Seal, co-founder of Junior"
-                  className="absolute z-0"
+                  className="w-full h-auto"
                   style={{
-                    width: "180px",
-                    height: "220px",
-                    top: 0,
-                    left: 0,
+                    aspectRatio: "1",
                     objectFit: "cover",
                     objectPosition: "top",
                     filter: "grayscale(100%) contrast(1.1)"
                   }}
                 />
-                {/* Lisa — bottom-right, in front */}
+                {/* Lisa's photo */}
                 <img
                   src="/images/lisa-purisima-headshot.jpg"
                   alt="Lisa Purisima, co-founder of Junior"
-                  className="absolute z-10"
+                  className="w-full h-auto"
                   style={{
-                    width: "180px",
-                    height: "220px",
-                    bottom: 0,
-                    right: 0,
+                    aspectRatio: "1",
                     objectFit: "cover",
                     objectPosition: "top",
                     filter: "grayscale(100%) contrast(1.1)"
@@ -187,7 +181,7 @@ export default function Home() {
             <h2 className="font-display text-junior-white text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-wider mb-4 text-balance leading-tight">
               THE CAVALRY'S NOT COMING. BUT JUNIOR IS.
             </h2>
-            <p className="font-sans text-junior-white text-base md:text-lg font-semibold mb-12">
+            <p className="font-barlow-semibold text-junior-white text-base md:text-lg mb-12" style={{ letterSpacing: "0.05em" }}>
               Early access. Limited spots.
             </p>
             <KitForm className="justify-center" />
@@ -201,13 +195,13 @@ export default function Home() {
           <div className="flex flex-col lg:flex-row justify-between items-start gap-12">
             <div />
             <div className="lg:text-right">
-              <p 
-                className="font-display text-junior-white uppercase mb-2 leading-none"
-                style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
+              <div 
+                className="font-display text-junior-black uppercase mb-2 leading-none inline-block px-3 py-2 bg-junior-parchment border-2 border-junior-parchment"
+                style={{ fontSize: "clamp(1.5rem, 4vw, 2rem)", borderRadius: "6px" }}
               >
                 JUNIOR
-              </p>
-              <p className="text-junior-white/50 text-sm font-sans">
+              </div>
+              <p className="text-junior-white/50 text-sm font-sans mt-3">
                 © Intersectional Films Inc.
               </p>
             </div>
