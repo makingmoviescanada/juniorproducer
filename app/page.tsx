@@ -30,7 +30,7 @@ export default function Home() {
                 </span>
               </div>
               <ScrollReveal>
-                <h1 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider leading-snug text-pretty">
+                <h1 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider leading-snug text-pretty uppercase">
                   Burnout isn&apos;t a badge of honour —
                 </h1>
               </ScrollReveal>
