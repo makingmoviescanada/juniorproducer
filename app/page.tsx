@@ -80,11 +80,8 @@ export default function Home() {
               <h2 className="font-display text-junior-white text-3xl md:text-4xl font-black uppercase tracking-wider mb-8 text-balance leading-tight">
                 Junior is a second brain for producers
               </h2>
-              <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans mb-6">
-                Every deadline tracked, every document versioned, every funding window watched — so you can focus on making the film.
-              </p>
               <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans">
-                Junior makes sure nothing falls through the cracks.
+                Junior makes sure nothing falls through the cracks. Every deadline tracked, every document versioned, every funding window watched — so you can focus on making the film.
               </p>
             </ScrollReveal>
             <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
