@@ -2,6 +2,7 @@ import { VideoPlaceholder } from "@/components/VideoPlaceholder"
 import { KitForm } from "@/components/KitForm"
 import { StickyHeader } from "@/components/StickyHeader"
 import { LogoCloud } from "@/components/LogoCloud"
+import { FunderLogos } from "@/components/FunderLogos"
 import { FeatureTiers } from "@/components/FeatureTiers"
 import { ScrollReveal } from "@/components/ScrollReveal"
 import { DashboardIllustration } from "@/components/DashboardIllustration"
@@ -98,7 +99,7 @@ export default function Home() {
       <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
-            <LogoCloud title="Junior understands these funders — because we've worked with them" />
+            <FunderLogos />
           </ScrollReveal>
         </div>
       </section>
