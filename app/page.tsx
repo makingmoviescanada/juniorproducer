@@ -15,7 +15,7 @@ export default function Home() {
     <main>
       <StickyHeader />
       {/* Section 1: Hero */}
-      <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-b-2 border-junior-black">
+      <section className="bg-junior-parchment px-6 pt-32 pb-24 md:px-12 lg:px-24 border-b-2 border-junior-black">
         <div className="max-w-7xl mx-auto w-full">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-stretch">
 
