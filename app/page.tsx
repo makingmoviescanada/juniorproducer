@@ -128,7 +128,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
             {/* Left: founder bios */}
-            <ScrollReveal delay={150} className="flex flex-col gap-4">
+            <ScrollReveal delay={150} className="flex flex-col gap-4 w-full min-w-0">
               <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6">
                 Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
               </p>
@@ -139,7 +139,7 @@ export default function Home() {
 
             {/* Right: overlapping photos */}
             <ScrollReveal delay={200} direction="left" className="w-full flex justify-center">
-              <div className="relative" style={{ width: "320px", height: "360px", overflow: "hidden" }}>
+              <div className="relative" style={{ width: "320px", height: "360px" }}>
                 {/* Gavin — top-left, behind */}
                 <img
                   src="/images/gavin-seal-headshot.jpg"
