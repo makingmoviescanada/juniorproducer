@@ -31,7 +31,7 @@ export default function Home() {
               </div>
               <ScrollReveal>
                 <h1 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider leading-tight text-pretty">
-                  Say goodbye to working nights and weekends.
+                  Burnout shouldn&apos;t be a badge of honour — you need help.
                 </h1>
               </ScrollReveal>
               <ScrollReveal delay={100}>
