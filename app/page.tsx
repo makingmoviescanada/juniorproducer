@@ -15,12 +15,12 @@ export default function Home() {
     <main>
       <StickyHeader />
       {/* Section 1: Hero */}
-      <section className="bg-junior-parchment px-6 pt-36 pb-24 md:px-12 lg:px-24 border-b-2 border-junior-black">
+      <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-b-2 border-junior-black">
         <div className="max-w-7xl mx-auto w-full">
-          <div className="flex flex-col lg:flex-row gap-8 md:gap-12 lg:gap-16 items-stretch">
-            
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-stretch">
+
             {/* Left column — all copy stacked */}
-            <div className="flex-1 flex flex-col justify-center gap-6 min-w-0">
+            <div className="flex-1 flex flex-col justify-center gap-6">
               <div 
                 className="inline-flex items-center border-2 border-junior-black px-4 py-2 self-start"
                 style={{ borderRadius: "6px" }}
@@ -31,12 +31,12 @@ export default function Home() {
               </div>
               <ScrollReveal>
                 <h1 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider leading-tight text-pretty">
-                  The late nights and weekends aren&apos;t a badge of honour — you need help.
+                  Say goodbye to working nights and weekends.
                 </h1>
               </ScrollReveal>
               <ScrollReveal delay={100}>
-                <h2 className="font-display text-junior-black text-lg md:text-xl font-semibold tracking-wide leading-relaxed text-pretty">
-                  Junior is the producer&apos;s assistant you could never afford to hire — handling the funding, the admin, and the chaos so you can focus on making films.
+                <h2 className="font-sans text-junior-black text-lg md:text-xl font-semibold tracking-wide leading-relaxed text-pretty">
+                  Junior is the producer&apos;s assistant you could never afford to hire — handling funding deadlines and admin chaos, 24/7.
                 </h2>
               </ScrollReveal>
               <ScrollReveal delay={200}>
@@ -51,10 +51,10 @@ export default function Home() {
             </div>
 
             {/* Right column — image fills full height */}
-            <ScrollReveal delay={200} direction="left" className="w-full lg:w-1/2 lg:flex-shrink-0">
+            <ScrollReveal delay={200} direction="left" className="w-full lg:w-2/5 lg:flex-shrink-0">
               <div
                 className="border-2 border-junior-black overflow-hidden w-full h-full"
-                style={{ minHeight: "clamp(280px, 60vw, 420px)", filter: "grayscale(100%) contrast(1.1)" }}
+                style={{ minHeight: "480px", filter: "grayscale(100%) contrast(1.1)" }}
               >
                 <VideoPlaceholder
                   aspectRatio="4:5"
