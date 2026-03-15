@@ -54,7 +54,7 @@ export default function Home() {
             <ScrollReveal delay={200} direction="left" className="w-full lg:w-2/5 lg:flex-shrink-0">
               <div
                 className="border-2 border-junior-black overflow-hidden w-full h-full"
-                style={{ minHeight: "560px", filter: "grayscale(100%) contrast(1.1)" }}
+                style={{ minHeight: "420px", filter: "grayscale(100%) contrast(1.1)" }}
               >
                 <VideoPlaceholder
                   aspectRatio="4:5"
