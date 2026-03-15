@@ -125,13 +125,13 @@ export default function Home() {
 
             {/* Left: founder bios — always visible */}
             <ScrollReveal delay={150} className="flex flex-col gap-4 w-full min-w-0">
-              {/* Gavin */}
+              {/* Gavin - mobile: photo + bio row, desktop: bio only */}
               <div className="flex items-stretch gap-4">
-                <div className="flex-shrink-0 w-24 bg-white border-2 border-junior-black flex items-center justify-center overflow-hidden">
+                <div className="flex-shrink-0 w-24 bg-white border-2 border-junior-black flex items-center justify-center overflow-hidden lg:hidden">
                   <img
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gavin%20Seal-TjCCS86akGnbzTQV2doqCGSQEKZ5mw.png"
                     alt="Gavin Seal, co-founder of Junior"
-                    className="lg:hidden h-auto object-cover object-top w-full"
+                    className="h-auto object-cover object-top w-full"
                     style={{ filter: "grayscale(100%) contrast(1.1)" }}
                   />
                 </div>
@@ -139,13 +139,13 @@ export default function Home() {
                   Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
                 </p>
               </div>
-              {/* Lisa */}
+              {/* Lisa - mobile: photo + bio row, desktop: bio only */}
               <div className="flex items-stretch gap-4">
-                <div className="flex-shrink-0 w-24 bg-white border-2 border-junior-black flex items-center justify-center overflow-hidden">
+                <div className="flex-shrink-0 w-24 bg-white border-2 border-junior-black flex items-center justify-center overflow-hidden lg:hidden">
                   <img
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Lisa%20Purisima.png-v4teXA1AnJj88z17rw1oFlIL5DgiFR.jpeg"
                     alt="Lisa Purisima, co-founder of Junior"
-                    className="lg:hidden h-auto object-cover object-top w-full"
+                    className="h-auto object-cover object-top w-full"
                     style={{ filter: "grayscale(100%) contrast(1.1)" }}
                   />
                 </div>
@@ -186,6 +186,7 @@ export default function Home() {
                 </div>
               </div>
             </ScrollReveal>
+
           </div>
 
           <ScrollReveal delay={250}>
