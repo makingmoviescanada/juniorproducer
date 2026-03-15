@@ -1,55 +1,29 @@
 "use client"
 
-import Image from "next/image"
-
 const tools = [
-  { 
-    name: "Asana", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/asana-logo-1200x1200-pgYthsShqkAmkihxGrKqVY7lVYYs5L.png" 
-  },
-  { 
-    name: "Make", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Design-sans-titre-10-1-6tWGE2DUZXRDAoaM3HXv2Ql0LRcdxm.png" 
-  },
-  { 
-    name: "Airtable", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/airtable-logo-1-8aSO73LWqGqhyJa8nVJKCDYQR5nLvJ.png" 
-  },
-  { 
-    name: "Google Drive", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Google_drive_logo-kAfMUfwHBAOwRCHqIu0MZzAf9fGrua.png" 
-  },
-  { 
-    name: "Google Calendar", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/google-calendar-1024x1024-8IjZvI1J6Q2xPqL0VnKqL2Fq3M8yxJ.png" 
-  },
+  { name: "Google Calendar", logo: "https://www.gstatic.com/images/branding/product/1x/calendar_48dp.png" },
+  { name: "Claude", logo: "https://claude.ai/images/claude_app_icon.svg" },
+  { name: "Asana", logo: "https://luna.assets.asana.biz/assets/img/social/default.png" },
+  { name: "Make", logo: "https://www.make.com/en/press-kit/images/make-logo-default.svg" },
+  { name: "Google Sheets", logo: "https://www.gstatic.com/images/branding/product/1x/sheets_48dp.png" },
+  { name: "Google Drive", logo: "https://www.gstatic.com/images/branding/product/1x/drive_48dp.png" },
 ]
-
-// Add Airtable and Google Calendar to the visible tools
-const visibleTools = tools
 
 export function ToolStrip() {
   return (
     <div className="flex flex-col items-center gap-8">
-      <div className="flex flex-wrap justify-center items-center gap-6 md:gap-8">
+      <div className="flex flex-wrap justify-center items-center gap-3">
         {tools.map((tool, index) => (
-          <div key={index} className="flex items-center">
-            <div className="relative w-12 h-12">
-              <Image
-                src={tool.logo}
-                alt={tool.name}
-                width={48}
-                height={48}
-                className="w-12 h-12 object-contain"
-                onError={(e) => {
-                  // Fallback if image fails to load
-                  e.currentTarget.style.display = 'none'
-                }}
-              />
-            </div>
-            {index < tools.length - 1 && (
-              <span className="ml-6 text-junior-white/40 text-2xl">·</span>
-            )}
+          <div
+            key={index}
+            className="flex items-center justify-center bg-white border-2 border-junior-black"
+            style={{ width: "80px", height: "80px", padding: "12px" }}
+          >
+            <img
+              src={tool.logo}
+              alt={tool.name}
+              style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain" }}
+            />
           </div>
         ))}
       </div>

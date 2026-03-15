@@ -1,5 +1,6 @@
 "use client"
 
+import { useState } from "react"
 import { ScrollReveal } from "@/components/ScrollReveal"
 
 interface TierProps {
@@ -9,37 +10,64 @@ interface TierProps {
   features: string[]
 }
 
-const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) => (
-  <div className="bg-junior-white border-2 border-junior-black p-8 flex flex-col h-full shadow-hard-parchment-sm">
-    <div className="mb-6">
-      <h3 className="font-display text-junior-black text-lg uppercase tracking-wider font-bold mb-3">
-        {label}
-      </h3>
-      <p className="font-sans text-junior-black/70 italic text-sm">
-        {subheading}
+const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) => {
+  const [isExpanded, setIsExpanded] = useState(false)
+
+  return (
+    <div className="bg-junior-white border-2 border-junior-black p-8 flex flex-col h-full shadow-hard-parchment-sm">
+      <div className="mb-6">
+        <h3 className="font-display text-junior-black text-lg md:text-xl font-black uppercase tracking-wider font-bold mb-3">
+          {label}
+        </h3>
+        <p className="font-sans text-junior-black/70 italic text-sm md:text-base">
+          {subheading}
+        </p>
+      </div>
+
+      <p className="font-sans text-junior-black text-base md:text-lg leading-relaxed mb-8">
+        {body}
       </p>
+
+      {/* Desktop - always show features */}
+      <ul className="space-y-3 mb-8 flex-grow hidden md:block">
+        {features.map((feature, idx) => (
+          <li key={idx} className="flex items-start gap-3">
+            <span className="text-junior-red font-bold text-lg flex-shrink-0 mt-0.5">✓</span>
+            <span className="font-sans text-junior-black text-sm md:text-base leading-relaxed">
+              {feature}
+            </span>
+          </li>
+        ))}
+      </ul>
+
+      {/* Mobile - expandable features */}
+      <div className="md:hidden flex-grow mb-8">
+        {isExpanded && (
+          <ul className="space-y-3 mb-4">
+            {features.map((feature, idx) => (
+              <li key={idx} className="flex items-start gap-3">
+                <span className="text-junior-red font-bold text-lg flex-shrink-0 mt-0.5">✓</span>
+                <span className="font-sans text-junior-black text-sm leading-relaxed">
+                  {feature}
+                </span>
+              </li>
+            ))}
+          </ul>
+        )}
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className="text-junior-red font-sans text-sm font-bold uppercase tracking-wide hover:text-junior-black transition-colors"
+        >
+          {isExpanded ? "Hide" : "See what's included"} ↓
+        </button>
+      </div>
+
+      <button className="w-full px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm md:text-base">
+        Join the Waitlist
+      </button>
     </div>
-
-    <p className="font-sans text-junior-black text-base leading-relaxed mb-8">
-      {body}
-    </p>
-
-    <ul className="space-y-3 mb-8 flex-grow">
-      {features.map((feature, idx) => (
-        <li key={idx} className="flex items-start gap-3">
-          <span className="text-junior-red font-bold text-lg flex-shrink-0 mt-0.5">✓</span>
-          <span className="font-sans text-junior-black text-sm leading-relaxed">
-            {feature}
-          </span>
-        </li>
-      ))}
-    </ul>
-
-    <button className="w-full px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-xs">
-      Join the Waitlist
-    </button>
-  </div>
-)
+  )
+}
 
 export function PricingTiers() {
   const tiers: TierProps[] = [
@@ -81,10 +109,10 @@ export function PricingTiers() {
   ]
 
   return (
-    <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
+    <section className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
       <div className="max-w-7xl mx-auto">
         <ScrollReveal>
-          <h2 className="font-display text-junior-black text-3xl md:text-4xl lg:text-5xl uppercase tracking-wider mb-16 text-center text-balance">
+          <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-center text-balance">
             Start where you are. Grow as you go.
           </h2>
         </ScrollReveal>
