@@ -12,7 +12,7 @@ const cards: Card[] = [
   {
     title: "for canadian producers",
     subtitle: "",
-    body: "Junior crawls so you can run — it knows every Canadian deadline, eligibility requirement, and funding window.",
+    body: "Junior crawls so you can run — it knows every window, eligibility requirement, and deadline.",
   },
   {
     title: "Ready When You Are",
