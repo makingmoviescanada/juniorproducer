@@ -118,7 +118,7 @@ export default function Home() {
             {/* Left: all copy */}
             <ScrollReveal>
               <h2 className="font-display text-junior-black text-4xl md:text-5xl font-black uppercase tracking-wider mb-8 leading-tight">
-                BUILT BY CANADIAN FILMMAKERS, FOR CANADIAN FILMMAKERS.
+                BUILT BY CANADIAN FILMMAKERS,<br />FOR CANADIAN FILMMAKERS.
               </h2>
               <p className="text-junior-black/80 text-lg leading-relaxed font-sans mb-6">
                 Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
