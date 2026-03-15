@@ -11,7 +11,7 @@ interface Card {
 const cards: Card[] = [
   {
     title: "Built for Canadian Producers",
-    subtitle: "Stop crawling the same pages over and over again.",
+    subtitle: "",
     body: "Junior knows every Canadian deadline, eligibility requirement, and funding window.",
   },
   {
