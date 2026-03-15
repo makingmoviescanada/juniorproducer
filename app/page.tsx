@@ -113,11 +113,11 @@ export default function Home() {
       {/* Section: Founders/About */}
       <section id="why-we-built-it" className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
 
             {/* Left: all copy */}
             <ScrollReveal>
-              <h2 className="font-display text-junior-black text-4xl md:text-5xl font-black uppercase tracking-wider mb-10 text-balance leading-tight">
+              <h2 className="font-display text-junior-black text-4xl md:text-5xl font-black uppercase tracking-wider mb-8 leading-tight">
                 BUILT BY CANADIAN FILMMAKERS, FOR CANADIAN FILMMAKERS.
               </h2>
               <p className="text-junior-black/80 text-lg leading-relaxed font-sans mb-6">
@@ -131,27 +131,39 @@ export default function Home() {
               </p>
             </ScrollReveal>
 
-            {/* Right: overlapping photos sized to match copy height */}
-            <ScrollReveal delay={200} direction="left">
-              <div className="relative mx-auto" style={{ width: "360px", height: "400px" }}>
+            {/* Right: overlapping photos */}
+            <ScrollReveal delay={200} direction="left" className="w-full flex justify-center lg:justify-start">
+              <div className="relative" style={{ width: "320px", height: "360px", overflow: "hidden" }}>
                 {/* Gavin — top-left, behind */}
-                <div className="absolute z-0" style={{ width: "220px", height: "260px", top: 0, left: 0 }}>
-                  <img
-                    src="/images/gavin-seal-headshot.jpg"
-                    alt="Gavin Seal, co-founder of Junior"
-                    className="w-full h-full object-cover object-top"
-                    style={{ filter: "grayscale(100%) contrast(1.1)" }}
-                  />
-                </div>
+                <img
+                  src="/images/gavin-seal-headshot.jpg"
+                  alt="Gavin Seal, co-founder of Junior"
+                  className="absolute z-0"
+                  style={{
+                    width: "180px",
+                    height: "220px",
+                    top: 0,
+                    left: 0,
+                    objectFit: "cover",
+                    objectPosition: "top",
+                    filter: "grayscale(100%) contrast(1.1)"
+                  }}
+                />
                 {/* Lisa — bottom-right, in front */}
-                <div className="absolute z-10" style={{ width: "220px", height: "260px", bottom: 0, right: 0 }}>
-                  <img
-                    src="/images/lisa-purisima-headshot.jpg"
-                    alt="Lisa Purisima, co-founder of Junior"
-                    className="w-full h-full object-cover object-top"
-                    style={{ filter: "grayscale(100%) contrast(1.1)" }}
-                  />
-                </div>
+                <img
+                  src="/images/lisa-purisima-headshot.jpg"
+                  alt="Lisa Purisima, co-founder of Junior"
+                  className="absolute z-10"
+                  style={{
+                    width: "180px",
+                    height: "220px",
+                    bottom: 0,
+                    right: 0,
+                    objectFit: "cover",
+                    objectPosition: "top",
+                    filter: "grayscale(100%) contrast(1.1)"
+                  }}
+                />
               </div>
             </ScrollReveal>
 
