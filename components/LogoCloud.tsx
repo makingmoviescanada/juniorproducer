@@ -5,27 +5,27 @@ import Image from "next/image"
 const partners = [
   { 
     name: "Google Calendar", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/01%20png-transparent-google-calendar-google-s-logo-icon-Rfdb9E2o6MakrwKsuFcBs21ON5zY2m.png"
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/01%20png-transparent-google-calendar-google-s-logo-icon-qOFvwRXXC02B9PW6Nvw0gMXhUFUcgf.png"
   },
   { 
     name: "Asana", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/02%20png-transparent-asana-logo-thumbnail-tech-companies-jhuzoEbTd8bWMX66UBIzWTGAcbHwl4.png"
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/02%20png-transparent-asana-logo-thumbnail-tech-companies-lADYAWw6OQuVDDLoSyXJhRDukcVbC7.png"
   },
   { 
     name: "Claude", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/03%20claude-color-P5KUzJBemcHUOm3GhAFpBMxDwBxtOb.png"
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/03%20claude-color-mGJ0rqUWQLcD2kzV9hIXIjOWxqTfS7.png"
   },
   { 
     name: "Make", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/04%20658d1160346d50ccbcb96f4d_Make-Logo-N5Y07ZfVsM0pe6nhVcMe1yHbNA4R6p.png"
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/04%20658d1160346d50ccbcb96f4d_Make-Logo-n21h25Phd1Qa1BZZ2VkxKsUnxBKX6i.png"
   },
   { 
     name: "Google Sheets", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/05%20png-clipart-google-sheets-logo-63rhzejfmxrKAnZv7OoIx4dwblo44W.png"
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/05%20png-clipart-google-sheets-logo-Jx8wlWnGLd621KRJRTeHvOHkmhXwv7.png"
   },
   { 
     name: "Google Drive", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/06%20Google-drive-logo-on-transparent-background-PNG-Oyh13MWuGVRtR8Cb72BhXRnBoedX16.avif"
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/06%20Google-drive-logo-on-transparent-background-PNG-MjfFS7VARJaATNnyupODQsrxHer7BA.avif"
   },
 ]
 
