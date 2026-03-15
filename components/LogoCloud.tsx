@@ -4,24 +4,28 @@ import Image from "next/image"
 
 const partners = [
   { 
-    name: "Telefilm Canada", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/VISUALS-BANNERS-WEBSITE-1920x1080-1-KGWjEel5TPTPl5cTvPZbCzz0IVCi4s.png"
+    name: "Google Calendar", 
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/01%20png-transparent-google-calendar-google-s-logo-icon-Rfdb9E2o6MakrwKsuFcBs21ON5zY2m.png"
   },
   { 
-    name: "SODEC", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/logosodec22cl.jpg-vyoqgNHdBSFJtepROtTBVOAa8mWlZD.webp"
+    name: "Asana", 
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/02%20png-transparent-asana-logo-thumbnail-tech-companies-jhuzoEbTd8bWMX66UBIzWTGAcbHwl4.png"
   },
   { 
-    name: "CMF", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/CMF-Logo-BIL-1C-Horiz-Black-POS-RGB-IlsAoGNX5acFPynO4qOuk2XxOrlY4e.png"
+    name: "Claude", 
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/03%20claude-color-P5KUzJBemcHUOm3GhAFpBMxDwBxtOb.png"
   },
   { 
-    name: "Canada Council for the Arts", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Council-FaceBook-aCWo4ZTman0n3ZnH7ROl0Ub9IKwemR.png"
+    name: "Make", 
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/04%20658d1160346d50ccbcb96f4d_Make-Logo-N5Y07ZfVsM0pe6nhVcMe1yHbNA4R6p.png"
   },
   { 
-    name: "CALQ", 
-    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Logo_CALQ_noir_725x300-G1tn4sj6vMy6fyVJZcEezpwRFh7lYG.png"
+    name: "Google Sheets", 
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/05%20png-clipart-google-sheets-logo-63rhzejfmxrKAnZv7OoIx4dwblo44W.png"
+  },
+  { 
+    name: "Google Drive", 
+    logo: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/06%20Google-drive-logo-on-transparent-background-PNG-Oyh13MWuGVRtR8Cb72BhXRnBoedX16.avif"
   },
 ]
 
