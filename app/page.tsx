@@ -128,7 +128,7 @@ export default function Home() {
               {/* Gavin */}
               <div className="flex items-stretch gap-4">
                 <img
-                  src="/images/gavin-seal-headshot.jpg"
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gavin%20Seal-TjCCS86akGnbzTQV2doqCGSQEKZ5mw.png"
                   alt="Gavin Seal, co-founder of Junior"
                   className="lg:hidden border-2 border-junior-black flex-shrink-0 w-24 h-auto object-cover object-top"
                   style={{ filter: "grayscale(100%) contrast(1.1)" }}
@@ -140,7 +140,7 @@ export default function Home() {
               {/* Lisa */}
               <div className="flex items-stretch gap-4">
                 <img
-                  src="/images/lisa-purisima-headshot.jpg"
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Lisa%20Purisima.png-v4teXA1AnJj88z17rw1oFlIL5DgiFR.jpeg"
                   alt="Lisa Purisima, co-founder of Junior"
                   className="lg:hidden border-2 border-junior-black flex-shrink-0 w-24 h-auto object-cover object-top"
                   style={{ filter: "grayscale(100%) contrast(1.1)" }}
@@ -155,7 +155,7 @@ export default function Home() {
             <ScrollReveal delay={200} direction="left" className="hidden lg:flex w-full justify-center">
               <div className="relative" style={{ width: "320px", height: "360px" }}>
                 <img
-                  src="/images/gavin-seal-headshot.jpg"
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gavin%20Seal-TjCCS86akGnbzTQV2doqCGSQEKZ5mw.png"
                   alt="Gavin Seal, co-founder of Junior"
                   className="absolute z-0 border-2 border-junior-black"
                   style={{
@@ -169,7 +169,7 @@ export default function Home() {
                   }}
                 />
                 <img
-                  src="/images/lisa-purisima-headshot.jpg"
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Lisa%20Purisima.png-v4teXA1AnJj88z17rw1oFlIL5DgiFR.jpeg"
                   alt="Lisa Purisima, co-founder of Junior"
                   className="absolute z-10 border-2 border-junior-black"
                   style={{
