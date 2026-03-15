@@ -67,9 +67,6 @@ export default function Home() {
               <p className="text-junior-white/90 text-xl leading-relaxed font-sans mb-6">
                 The Canadian film industry runs on sweat equity that never recoups. We do it out of passion, but it doesn't pay the bills, and while we're working our day jobs, we miss deadlines, stay up late and burn out, so we don't drop a ball that no one else is there to catch.
               </p>
-              <p className="text-junior-white/90 text-xl leading-relaxed font-sans mb-6">
-                Junior holds everything you can't afford to forget — funding windows, delivery dates, document versions, budget checkpoints — and surfaces what you need, when you need it.
-              </p>
               <p className="text-junior-white/90 text-xl leading-relaxed font-sans">
                 You focus on making the film. Junior makes sure nothing falls through the cracks.
               </p>
