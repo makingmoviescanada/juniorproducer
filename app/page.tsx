@@ -30,7 +30,7 @@ export default function Home() {
                 The late nights and weekends aren&apos;t a badge of honour — you need help.
               </h1>
               <h2 className="font-display text-junior-black text-lg md:text-2xl font-semibold tracking-wide mb-8 leading-relaxed text-pretty">
-                Junior is the producer&apos;s assistant you could never afford to hire — handling the funding, the admin, and the chaos so you can get back to making films.
+                Junior is the producer&apos;s assistant you could never afford to hire — handling the funding, the admin, and the chaos so you can focus on making films.
               </h2>
               <a
                 href="#cta"
