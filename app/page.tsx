@@ -175,16 +175,15 @@ export default function Home() {
                   <img
                     src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Lisa%20Purisima.png-v4teXA1AnJj88z17rw1oFlIL5DgiFR.jpeg"
                     alt="Lisa Purisima, co-founder of Junior"
-                  style={{
-                    width: "180px",
-                    height: "220px",
-                    bottom: 0,
-                    right: 0,
-                    objectFit: "cover",
-                    objectPosition: "top",
-                    filter: "grayscale(100%) contrast(1.1)"
-                  }}
-                />
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: "top",
+                      filter: "grayscale(100%) contrast(1.1)"
+                    }}
+                  />
+                </div>
               </div>
             </ScrollReveal>
 
