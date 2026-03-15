@@ -3,6 +3,12 @@
 import { useState } from "react"
 import { ScrollReveal } from "@/components/ScrollReveal"
 
+function handleTierClick(tier: string) {
+  const url = new URL(window.location.href)
+  url.searchParams.set('tier', tier)
+  window.history.replaceState({}, '', url)
+}
+
 interface TierProps {
   label: string
   subheading: string
@@ -62,7 +68,11 @@ const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) =>
         </button>
       </div>
 
-      <button className="w-full px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm md:text-base">
+      <button
+        data-tier={label.toLowerCase()}
+        onClick={() => handleTierClick(label.toLowerCase())}
+        className="w-full px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm md:text-base"
+      >
         Join the Waitlist
       </button>
     </div>

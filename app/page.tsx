@@ -15,20 +15,17 @@ export default function Home() {
     <main>
       <StickyHeader />
       {/* Section 1: Hero */}
-      <section className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 flex items-center min-h-screen pt-32 relative overflow-hidden">
+      <section className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 min-h-screen pt-32 relative overflow-hidden">
         <div className="max-w-7xl mx-auto w-full relative">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            <ScrollReveal>
-              <div className="mb-8">
-                <div className="inline-block px-3 py-2 bg-junior-parchment border-2 border-junior-black"
-                  style={{ borderRadius: "4px", fontSize: "0.875rem" }}
-                >
-                  <span className="font-display text-junior-black font-bold uppercase tracking-wider">Junior</span>
-                </div>
-              </div>
-              <h1 className="font-display text-junior-black text-5xl md:text-6xl lg:text-7xl font-black tracking-wider mb-6 leading-tight text-pretty">
-                The late nights and weekends aren&apos;t a badge of honour — you need help.
-              </h1>
+          {/* H1 spans full width */}
+          <ScrollReveal>
+            <h1 className="font-display text-junior-black text-5xl md:text-6xl lg:text-7xl font-black tracking-wider mb-12 leading-tight text-pretty">
+              The late nights and weekends aren&apos;t a badge of honour — you need help.
+            </h1>
+          </ScrollReveal>
+          {/* Lower row: H2 + CTA left, small image right — image sized to relate to H2 */}
+          <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
+            <ScrollReveal className="flex-1">
               <h2 className="font-display text-junior-black text-xl md:text-2xl font-semibold tracking-wide mb-8 leading-relaxed text-pretty">
                 Junior is the producer&apos;s assistant you could never afford to hire — handling the funding, the admin, and the chaos so you can focus on making films.
               </h2>
@@ -40,10 +37,13 @@ export default function Home() {
                 Get Early Access
               </a>
             </ScrollReveal>
-            <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
-              <div style={{ filter: "grayscale(100%) contrast(1.1)" }}>
-                <VideoPlaceholder 
-                  aspectRatio="4:5" 
+            <ScrollReveal delay={200} direction="left" className="w-full lg:w-auto lg:flex-shrink-0">
+              <div
+                className="border-2 border-junior-black overflow-hidden"
+                style={{ width: "clamp(240px, 30vw, 380px)", filter: "grayscale(100%) contrast(1.1)" }}
+              >
+                <VideoPlaceholder
+                  aspectRatio="4:5"
                   imageSrc="/images/hero-production.jpg"
                   imageAlt="Film production scene"
                   showPlayButton={false}
