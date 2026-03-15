@@ -11,8 +11,8 @@ interface Card {
 const cards: Card[] = [
   {
     title: "Built for Canadian Film",
-    subtitle: "The funding intelligence no American platform will ever build.",
-    body: "Junior knows Telefilm, CMF, CAVCO, and every provincial deadline and eligibility requirement — because we've worked with them. Stop crawling the same pages over and over again.",
+    subtitle: "Junior knows every Canadian deadline, eligibility requirement, and funding window.",
+    body: "Stop crawling the same pages over and over again.",
   },
   {
     title: "Always On",
@@ -22,7 +22,7 @@ const cards: Card[] = [
   {
     title: "No Staff Required",
     subtitle: "The assistant you could never afford to hire. Until now.",
-    body: "Junior handles the admin, the version chaos, and the production overhead — for less than a single coordinator's day rate.",
+    body: "Junior handles the admin, the version chaos, and the production overhead — for less than one billable hour.",
   },
 ]
 
