@@ -25,6 +25,9 @@ const tools = [
   },
 ]
 
+// Add Airtable and Google Calendar to the visible tools
+const visibleTools = tools
+
 export function ToolStrip() {
   return (
     <div className="flex flex-col items-center gap-8">

@@ -11,18 +11,18 @@ interface Card {
 const cards: Card[] = [
   {
     title: "Built for Canadian Film",
-    subtitle: "The funding intelligence no American platform will ever build.",
-    body: "Junior knows Telefilm, CMF, CAVCO, and every provincial deadline and eligibility requirement — because we've worked with them. Stop crawling the same pages over and over again.",
+    subtitle: "Junior knows every Canadian deadline, eligibility requirement, and funding window.",
+    body: "Stop crawling the same pages over and over again.",
   },
   {
     title: "Always On",
     subtitle: "When things go wrong, you'll never have to figure it out on your own again.",
-    body: "Your 11:59PM deadline partner pulls documents, reviews budgets at 4AM from set, and tracks deadlines as soon as they're released — without waiting for office hours.",
+    body: "Junior is available whenever you need it — no office hours, no waiting, no callbacks.",
   },
   {
     title: "No Staff Required",
     subtitle: "The assistant you could never afford to hire. Until now.",
-    body: "Junior handles the admin, the version chaos, and the production overhead — for less than a single coordinator's day rate.",
+    body: "Junior handles the admin, the version chaos, and the production overhead — for less than one billable hour.",
   },
 ]
 
@@ -31,8 +31,8 @@ export function ThreeCardSection() {
     <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
-          <h2 className="font-display text-junior-black text-2xl md:text-3xl lg:text-4xl uppercase tracking-wider mb-16 text-center text-balance leading-tight">
-            You're doing the work of an entire production office. Junior has your back.
+          <h2 className="font-display text-junior-black text-2xl md:text-3xl lg:text-4xl tracking-wider mb-16 text-center text-balance leading-tight">
+            You&apos;re doing the work of an entire production office. Junior has your back.
           </h2>
         </ScrollReveal>
 
