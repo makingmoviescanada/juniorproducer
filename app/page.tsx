@@ -18,10 +18,10 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <ScrollReveal>
               <div className="mb-8">
-                <div className="inline-block px-6 py-4 bg-junior-parchment border-2 border-junior-black"
-                  style={{ borderRadius: "6px" }}
+                <div className="inline-block px-4 py-3 bg-junior-parchment border-2 border-junior-black"
+                  style={{ borderRadius: "6px", fontSize: "clamp(1.25rem, 4vw, 1.75rem)" }}
                 >
-                  <span className="font-display text-junior-black font-bold uppercase tracking-wider" style={{ fontSize: "clamp(2.5rem, 10vw, 4.5rem)" }}>Junior</span>
+                  <span className="font-display text-junior-black font-bold uppercase tracking-wider">Junior</span>
                 </div>
               </div>
               <h1 className="font-display text-junior-black text-2xl md:text-3xl tracking-wider mb-8 leading-tight text-pretty">
@@ -85,7 +85,7 @@ export default function Home() {
             <h2 className="font-display text-junior-black text-3xl md:text-4xl lg:text-5xl uppercase tracking-wider mb-4 text-center text-balance">
               No budget, no team, no problem.
             </h2>
-            <p className="text-junior-black/80 text-xl leading-relaxed font-sans text-center max-w-3xl mx-auto mb-16">
+            <p className="text-junior-black/80 text-xl leading-relaxed font-sans max-w-3xl mb-16">
               Junior holds everything you can&apos;t afford to forget — funding windows, delivery dates, document versions, budget checkpoints — and surfaces what you need, when you need it.
             </p>
           </ScrollReveal>
@@ -107,23 +107,32 @@ export default function Home() {
       {/* Section: Founders/About */}
       <section id="why-we-built-it" className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
-          <ScrollReveal>
-            <h2 className="font-display text-junior-black text-3xl md:text-4xl lg:text-5xl uppercase tracking-wider mb-12 text-balance">
-              BUILT BY CANADIAN FILMMAKERS, FOR CANADIAN FILMMAKERS.
-            </h2>
-          </ScrollReveal>
-          
-          <ScrollReveal delay={150} className="mb-12">
-            <p className="text-junior-black/80 text-xl leading-relaxed font-sans max-w-3xl">
-              Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
-            </p>
-          </ScrollReveal>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+            <ScrollReveal>
+              <h2 className="font-display text-junior-black text-3xl md:text-4xl lg:text-5xl uppercase tracking-wider mb-12 text-balance">
+                BUILT BY CANADIAN FILMMAKERS, FOR CANADIAN FILMMAKERS.
+              </h2>
+              
+              <div className="mb-8">
+                <p className="text-junior-black/80 text-xl leading-relaxed font-sans mb-6">
+                  Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
+                </p>
 
-          <ScrollReveal delay={200}>
-            <p className="text-junior-black/80 text-xl leading-relaxed font-sans max-w-3xl">
-              Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify. Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+). Junior is built on this intersectional experience of art and technology.
-            </p>
-          </ScrollReveal>
+                <p className="text-junior-black/80 text-xl leading-relaxed font-sans">
+                  Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify. Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+). Junior is built on this intersectional experience of art and technology.
+                </p>
+              </div>
+            </ScrollReveal>
+
+            <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
+              <VideoPlaceholder 
+                aspectRatio="3:4" 
+                imageSrc="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/gavin_seal_frederic_bouchard-500-BhgdBTpwqTGwqAbuVdm8B6aqu2qgIS.jpg"
+                imageAlt="Gavin Seal, founder of Junior"
+                showPlayButton={false}
+              />
+            </ScrollReveal>
+          </div>
         </div>
       </section>
 
@@ -145,13 +154,8 @@ export default function Home() {
       {/* Section 7: Footer */}
       <footer className="bg-junior-black border-t-2 border-junior-black px-6 py-16 md:px-12 lg:px-24">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-end">
-            <div>
-              <h3 className="font-display text-junior-white text-2xl uppercase tracking-wider mb-6">
-                Sign up to get early access.
-              </h3>
-              <KitForm className="max-w-md" variant="dark" />
-            </div>
+          <div className="flex flex-col lg:flex-row justify-between items-start gap-12">
+            <div />
             <div className="lg:text-right">
               <p 
                 className="font-display text-junior-white uppercase mb-2 leading-none"

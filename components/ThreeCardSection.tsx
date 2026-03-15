@@ -31,8 +31,8 @@ export function ThreeCardSection() {
     <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
-          <h2 className="font-display text-junior-black text-2xl md:text-3xl lg:text-4xl uppercase tracking-wider mb-16 text-center text-balance leading-tight">
-            You're doing the work of an entire production office. Junior has your back.
+          <h2 className="font-display text-junior-black text-2xl md:text-3xl lg:text-4xl tracking-wider mb-16 text-center text-balance leading-tight">
+            You&apos;re doing the work of an entire production office. Junior has your back.
           </h2>
         </ScrollReveal>
 
