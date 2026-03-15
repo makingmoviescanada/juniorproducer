@@ -17,10 +17,10 @@ export default function Home() {
       {/* Section 1: Hero */}
       <section className="bg-junior-parchment px-6 pt-36 pb-24 md:px-12 lg:px-24 border-b-2 border-junior-black">
         <div className="max-w-7xl mx-auto w-full">
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-stretch">
+          <div className="flex flex-col lg:flex-row gap-8 md:gap-12 lg:gap-16 items-stretch">
             
             {/* Left column — all copy stacked */}
-            <div className="flex-1 flex flex-col justify-center gap-6">
+            <div className="flex-1 flex flex-col justify-center gap-6 min-w-0">
               <div 
                 className="inline-flex items-center border-2 border-junior-black px-4 py-2 self-start"
                 style={{ borderRadius: "6px" }}
@@ -51,10 +51,10 @@ export default function Home() {
             </div>
 
             {/* Right column — image fills full height */}
-            <ScrollReveal delay={200} direction="left" className="w-full lg:w-2/5 lg:flex-shrink-0">
+            <ScrollReveal delay={200} direction="left" className="w-full lg:w-1/2 lg:flex-shrink-0">
               <div
                 className="border-2 border-junior-black overflow-hidden w-full h-full"
-                style={{ minHeight: "420px", filter: "grayscale(100%) contrast(1.1)" }}
+                style={{ minHeight: "clamp(280px, 60vw, 420px)", filter: "grayscale(100%) contrast(1.1)" }}
               >
                 <VideoPlaceholder
                   aspectRatio="4:5"
