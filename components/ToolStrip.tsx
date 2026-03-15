@@ -12,17 +12,17 @@ const tools = [
 export function ToolStrip() {
   return (
     <div className="flex flex-col items-center gap-8">
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+      <div className="flex flex-wrap justify-center gap-4">
         {tools.map((tool, index) => (
           <div
             key={index}
-            className="flex items-center justify-center bg-white border-2 border-junior-black"
-            style={{ width: "100px", height: "100px", padding: "12px", backgroundColor: "#ffffff" }}
+            className="flex items-center justify-center border-2 border-junior-black w-20 h-20 md:w-24 md:h-24 p-3"
+            style={{ backgroundColor: "#ffffff" }}
           >
             <img
               src={tool.logo}
               alt={tool.name}
-              style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", backgroundColor: "#ffffff" }}
+              className="max-w-full max-h-full object-contain"
             />
           </div>
         ))}
