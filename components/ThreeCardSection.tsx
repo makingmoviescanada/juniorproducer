@@ -31,7 +31,7 @@ export function ThreeCardSection() {
     <section className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
-          <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider mb-16 text-center text-balance leading-tight">
+          <h2 className="font-display text-junior-black text-2xl md:text-3xl lg:text-3xl font-black tracking-wider mb-16 text-center text-balance leading-tight">
             You&apos;re doing the work of an entire production office. Junior has your back.
           </h2>
         </ScrollReveal>
@@ -39,7 +39,7 @@ export function ThreeCardSection() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {cards.map((card, index) => (
             <ScrollReveal key={index} delay={index * 100}>
-              <div 
+              <div
                 className="p-8 md:p-10 bg-junior-parchment border-2 border-junior-black shadow-hard-parchment-sm h-full flex flex-col"
                 style={{ borderRadius: "86px" }}
               >
