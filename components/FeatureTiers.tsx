@@ -10,14 +10,9 @@ export function FeatureTiers({ dark = false }: { dark?: boolean }) {
       ],
     },
     {
-      category: "Budget & Tracking",
+      category: "Budgets & Documents",
       items: [
         "Get a budget estimate straight from your screenplay",
-      ],
-    },
-    {
-      category: "Documents & Agreements",
-      items: [
         "Never lose track of who has the latest version",
       ],
     },
