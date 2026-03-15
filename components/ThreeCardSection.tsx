@@ -10,7 +10,7 @@ interface Card {
 
 const cards: Card[] = [
   {
-    title: "for canadian producers",
+    title: "for canadians",
     subtitle: "",
     body: "Junior crawls so you can run — it knows every window, eligibility requirement, and deadline.",
   },
