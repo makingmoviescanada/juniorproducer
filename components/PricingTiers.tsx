@@ -123,7 +123,7 @@ export function PricingTiers() {
       <div className="max-w-7xl mx-auto">
         <ScrollReveal>
           <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-center text-balance leading-snug">
-            Start where you are. Grow as you go.
+            start where you are.<br />grow as you go.
           </h2>
         </ScrollReveal>
 
