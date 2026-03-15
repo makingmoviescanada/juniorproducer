@@ -12,7 +12,7 @@ const tools = [
 export function ToolStrip() {
   return (
     <div className="flex flex-col items-center gap-8">
-      <div className="flex flex-wrap justify-center gap-4">
+      <div className="flex flex-wrap justify-center gap-6">
         {tools.map((tool, index) => (
           <div
             key={index}
