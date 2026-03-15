@@ -53,10 +53,7 @@ export default function Home() {
 
             {/* Right column — image fills full height */}
             <ScrollReveal delay={200} direction="left" className="w-full lg:w-2/5 lg:flex-shrink-0">
-              <div
-                className="border-2 border-junior-black overflow-hidden w-full h-full"
-                style={{ minHeight: "480px", filter: "grayscale(100%) contrast(1.1)" }}
-              >
+              <div style={{ filter: "grayscale(100%) contrast(1.1)" }}>
                 <VideoPlaceholder
                   aspectRatio="4:5"
                   imageSrc="/images/hero-production.jpg"
