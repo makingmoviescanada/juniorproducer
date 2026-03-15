@@ -73,16 +73,16 @@ export default function Home() {
       {/* Section: Second Brain & Integrations */}
       <section className="bg-junior-red px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          <div className="flex flex-col gap-12">
             <ScrollReveal>
-              <h2 className="font-display text-junior-white text-3xl md:text-4xl font-black uppercase tracking-wider mb-8 text-balance leading-tight">
+              <h2 className="font-display text-junior-white text-3xl md:text-4xl font-black uppercase tracking-wider mb-8 text-balance leading-snug">
                 Junior is a second brain for producers
               </h2>
-              <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans">
+              <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans max-w-2xl">
                 Junior makes sure nothing falls through the cracks. Every deadline tracked, every document versioned, every funding window watched — so you can focus on making the film.
               </p>
             </ScrollReveal>
-            <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
+            <ScrollReveal delay={200}>
               <ToolStrip />
             </ScrollReveal>
           </div>
