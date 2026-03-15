@@ -57,7 +57,7 @@ export default function Home() {
               <div style={{ filter: "grayscale(100%) contrast(1.1)" }}>
                 <VideoPlaceholder
                   aspectRatio="4:5"
-                  imageSrc="/images/hero-production.jpg"
+                  imageSrc="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3.png-fOWDTRFXpS9Vgq7Tbfnozxll69KREp.jpeg"
                   imageAlt="Film production scene"
                   showPlayButton={false}
                 />
