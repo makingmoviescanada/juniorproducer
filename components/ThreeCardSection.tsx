@@ -28,7 +28,7 @@ const cards: Card[] = [
 
 export function ThreeCardSection() {
   return (
-    <section className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
+    <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
           <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider mb-16 text-center text-balance leading-tight">
