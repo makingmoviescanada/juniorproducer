@@ -140,7 +140,7 @@ export default function Home() {
                 <img
                   src="/images/gavin-seal-headshot.jpg"
                   alt="Gavin Seal, co-founder of Junior"
-                  className="absolute z-0"
+                  className="absolute z-0 border-2 border-junior-black"
                   style={{
                     width: "180px",
                     height: "220px",
@@ -155,7 +155,7 @@ export default function Home() {
                 <img
                   src="/images/lisa-purisima-headshot.jpg"
                   alt="Lisa Purisima, co-founder of Junior"
-                  className="absolute z-10"
+                  className="absolute z-10 border-2 border-junior-black"
                   style={{
                     width: "180px",
                     height: "220px",

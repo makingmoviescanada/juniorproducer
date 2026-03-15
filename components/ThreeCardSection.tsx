@@ -40,8 +40,7 @@ export function ThreeCardSection() {
           {cards.map((card, index) => (
             <ScrollReveal key={index} delay={index * 100}>
               <div 
-                className="p-8 md:p-10 bg-junior-parchment border-2 border-junior-black shadow-hard-parchment-sm h-full flex flex-col"
-                style={{ borderRadius: "86px" }}
+                className="p-8 md:p-10 bg-junior-white border-2 border-junior-black shadow-hard-parchment-sm h-full flex flex-col"
               >
                 <h3 className="font-display text-junior-black text-lg md:text-xl font-black uppercase tracking-wider mb-4">
                   {card.title}
