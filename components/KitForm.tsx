@@ -30,11 +30,19 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
   if (!isMounted) {
     return (
       <div className={`w-full ${className}`}>
-        <div className="seva-fields formkit-fields flex flex-wrap gap-3 items-stretch">
-          <div className="formkit-field flex-1 min-w-[220px]">
-            <div className="h-12 border-2 border-primary bg-white" />
+        <div className="flex flex-wrap gap-3 items-stretch">
+          <div className="flex-1 min-w-[220px]">
+            <div 
+              className="h-12 border-2 border-junior-black bg-white"
+              style={{ minHeight: '48px' }}
+            />
           </div>
-          <div className="h-12 px-6 bg-junior-red border-2 border-primary" />
+          <div 
+            className="h-12 px-6 bg-junior-red border-2 border-junior-black flex items-center justify-center"
+            style={{ minHeight: '48px', boxShadow: '5px 5px 0 #1A1A1A' }}
+          >
+            <span className="text-junior-white font-bold text-xs uppercase tracking-wider">Get Early Access</span>
+          </div>
         </div>
       </div>
     )
