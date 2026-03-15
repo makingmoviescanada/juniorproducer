@@ -17,19 +17,16 @@ export default function Home() {
         <div className="max-w-7xl mx-auto w-full relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <ScrollReveal>
-              <div className="mb-8">
-                <div className="inline-block px-6 py-4 bg-junior-parchment border-2 border-junior-black"
-                  style={{ fontSize: "clamp(2.5rem, 10vw, 4.5rem)" }}
-                >
-                  <span className="font-display text-junior-black font-bold uppercase tracking-wider">Junior</span>
-                </div>
-              </div>
-              <p className="font-display text-junior-black text-2xl md:text-3xl uppercase tracking-wider mb-8 leading-tight text-balance">
-                The late nights and weekends aren't a badge of honour — you need help. Junior is the producer's assistant you could never afford to hire — handling the funding, the admin, and the chaos so you can get back to making films.
-              </p>
-              <p className="text-junior-black/80 text-xl leading-relaxed font-sans max-w-2xl mb-8">
-                Canadian funding deadlines. Document version control. Production support. Available 24/7.
-              </p>
+              <h1 className="font-display text-junior-black text-2xl md:text-3xl tracking-wider mb-8 leading-tight text-pretty">
+                The late nights and weekends aren&apos;t a badge of honour — you need help. Junior is the producer&apos;s assistant you could never afford to hire — handling the funding, the admin, and the chaos so you can get back to making films.
+              </h1>
+              <ul className="mb-8 space-y-2 border-l-2 border-junior-black pl-6">
+                {["Canadian funding deadlines.", "Document version control.", "Production support.", "Available 24/7."].map((point) => (
+                  <li key={point} className="text-junior-black/80 text-lg font-sans font-medium tracking-wide">
+                    {point}
+                  </li>
+                ))}
+              </ul>
               <a
                 href="#cta"
                 className="inline-block px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm"
