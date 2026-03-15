@@ -15,7 +15,7 @@ export default function Home() {
     <main>
       <StickyHeader />
       {/* Section 1: Hero */}
-      <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-b-2 border-junior-black">
+      <section className="bg-junior-parchment px-6 pt-36 pb-24 md:px-12 lg:px-24 border-b-2 border-junior-black">
         <div className="max-w-7xl mx-auto w-full">
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-stretch">
             
@@ -54,7 +54,7 @@ export default function Home() {
             <ScrollReveal delay={200} direction="left" className="w-full lg:w-2/5 lg:flex-shrink-0">
               <div
                 className="border-2 border-junior-black overflow-hidden w-full h-full"
-                style={{ minHeight: "480px", filter: "grayscale(100%) contrast(1.1)" }}
+                style={{ minHeight: "560px", filter: "grayscale(100%) contrast(1.1)" }}
               >
                 <VideoPlaceholder
                   aspectRatio="4:5"
