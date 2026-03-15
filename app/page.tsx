@@ -48,9 +48,15 @@ export default function Home() {
                 >
                   Get Early Access
                 </a>
-              </ScrollReveal>
-            </div>
+            </ScrollReveal>
 
+          </div>
+
+          <ScrollReveal delay={250}>
+            <p className="text-junior-black/80 text-lg leading-relaxed font-sans text-center max-w-3xl mx-auto font-semibold mt-12">
+              Junior is built on this intersectional experience of art and technology.
+            </p>
+          </ScrollReveal>
             {/* Right column — image fills full height */}
             <ScrollReveal delay={200} direction="left" className="w-full lg:w-2/5 lg:flex-shrink-0">
               <div style={{ filter: "grayscale(100%) contrast(1.1)" }}>
@@ -115,9 +121,6 @@ export default function Home() {
           <ScrollReveal delay={100}>
             <p className="text-junior-black/80 text-lg leading-relaxed font-sans mb-8 text-center max-w-3xl mx-auto">
               Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
-            </p>
-            <p className="text-junior-black/80 text-lg leading-relaxed font-sans mb-16 text-center max-w-3xl mx-auto font-semibold">
-              Junior is built on this intersectional experience of art and technology.
             </p>
           </ScrollReveal>
 
