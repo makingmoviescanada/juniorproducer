@@ -23,6 +23,7 @@ export function ToolStrip() {
               src={tool.logo}
               alt={tool.name}
               className="max-w-full max-h-full object-contain"
+              style={{ backgroundColor: "#ffffff" }}
             />
           </div>
         ))}
