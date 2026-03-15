@@ -114,16 +114,18 @@ export default function Home() {
       <section id="why-we-built-it" className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
-            <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-balance">
+            <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-center text-balance">
               BUILT BY CANADIAN FILMMAKERS, FOR CANADIAN FILMMAKERS.
             </h2>
           </ScrollReveal>
 
           {/* Intro paragraph */}
           <ScrollReveal delay={100}>
-            <p className="text-junior-black/80 text-lg md:text-xl leading-relaxed font-sans max-w-3xl mb-16">
-              Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
-            </p>
+            <div className="max-w-3xl mx-auto">
+              <p className="text-junior-black/80 text-lg md:text-xl leading-relaxed font-sans text-center mb-16">
+                Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
+              </p>
+            </div>
           </ScrollReveal>
 
           {/* Gavin — text only, no photo */}
