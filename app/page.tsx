@@ -126,24 +126,12 @@ export default function Home() {
             </p>
           </ScrollReveal>
 
-          {/* Gavin — text left, photo right */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center mb-16">
-            <ScrollReveal>
-              <p className="text-junior-black/80 text-lg md:text-xl leading-relaxed font-sans">
-                Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
-              </p>
-            </ScrollReveal>
-            <ScrollReveal delay={150} direction="left">
-              <div className="relative" style={{ width: "280px", height: "320px" }}>
-                <img
-                  src="/images/gavin-seal-headshot.jpg"
-                  alt="Gavin Seal, co-founder of Junior"
-                  className="w-full h-full object-cover object-top"
-                  style={{ filter: "grayscale(100%) contrast(1.1)" }}
-                />
-              </div>
-            </ScrollReveal>
-          </div>
+          {/* Gavin — text only, no photo */}
+          <ScrollReveal delay={100} className="mb-16">
+            <p className="text-junior-black/80 text-lg md:text-xl leading-relaxed font-sans max-w-2xl">
+              Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
+            </p>
+          </ScrollReveal>
 
           {/* Lisa — photo left (behind), text right */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
