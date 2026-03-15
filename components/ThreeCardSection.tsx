@@ -21,7 +21,7 @@ const cards: Card[] = [
   },
   {
     title: "No Staff, No Problem",
-    subtitle: "The assistant you could never afford to hire. Until now.",
+    subtitle: "",
     body: "Junior handles the admin, the version chaos, and the production overhead — for less than one billable hour.",
   },
 ]
