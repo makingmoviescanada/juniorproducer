@@ -17,6 +17,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto w-full relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <ScrollReveal>
+              <div className="mb-8">
+                <div className="inline-block px-6 py-4 bg-junior-parchment border-2 border-junior-black"
+                  style={{ borderRadius: "6px" }}
+                >
+                  <span className="font-display text-junior-black font-bold uppercase tracking-wider" style={{ fontSize: "clamp(2.5rem, 10vw, 4.5rem)" }}>Junior</span>
+                </div>
+              </div>
               <h1 className="font-display text-junior-black text-2xl md:text-3xl tracking-wider mb-8 leading-tight text-pretty">
                 The late nights and weekends aren&apos;t a badge of honour — you need help. Junior is the producer&apos;s assistant you could never afford to hire — handling the funding, the admin, and the chaos so you can get back to making films.
               </h1>
