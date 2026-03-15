@@ -192,9 +192,8 @@ export default function Home() {
       {/* Section 7: Footer */}
       <footer className="bg-junior-black border-t-2 border-junior-black px-6 py-16 md:px-12 lg:px-24">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row justify-between items-start gap-12">
-            <div />
-            <div className="lg:text-right">
+          <div className="flex flex-col lg:flex-row justify-end items-end gap-12">
+            <div className="text-right">
               <p 
                 className="font-display text-junior-white uppercase mb-2 leading-none"
                 style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
