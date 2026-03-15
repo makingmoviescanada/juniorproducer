@@ -113,16 +113,25 @@ export default function Home() {
       {/* Section: Founders/About */}
       <section id="why-we-built-it" className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
+          
+          {/* Centered headline and intro - full width above the grid */}
+          <ScrollReveal>
+            <h2 className="font-display text-junior-black text-4xl md:text-5xl font-black uppercase tracking-wider mb-8 leading-tight text-center">
+              BUILT BY CANADIAN FILMMAKERS,<br />FOR CANADIAN FILMMAKERS.
+            </h2>
+          </ScrollReveal>
+          
+          <ScrollReveal delay={100}>
+            <p className="text-junior-black/80 text-lg leading-relaxed font-sans mb-16 text-center max-w-3xl mx-auto">
+              Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
+            </p>
+          </ScrollReveal>
 
-            {/* Left: all copy */}
-            <ScrollReveal>
-              <h2 className="font-display text-junior-black text-4xl md:text-5xl font-black uppercase tracking-wider mb-8 leading-tight">
-                BUILT BY CANADIAN FILMMAKERS,<br />FOR CANADIAN FILMMAKERS.
-              </h2>
-              <p className="text-junior-black/80 text-lg leading-relaxed font-sans mb-6">
-                Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
-              </p>
+          {/* Two-column: bios on left, photos on right */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+
+            {/* Left: founder bios */}
+            <ScrollReveal delay={150}>
               <p className="text-junior-black/80 text-lg leading-relaxed font-sans mb-6">
                 Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
               </p>
@@ -132,7 +141,7 @@ export default function Home() {
             </ScrollReveal>
 
             {/* Right: overlapping photos */}
-            <ScrollReveal delay={200} direction="left" className="w-full flex justify-center lg:justify-start">
+            <ScrollReveal delay={200} direction="left" className="w-full flex justify-center">
               <div className="relative" style={{ width: "320px", height: "360px", overflow: "hidden" }}>
                 {/* Gavin — top-left, behind */}
                 <img
