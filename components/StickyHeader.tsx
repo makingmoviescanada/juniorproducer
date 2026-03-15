@@ -25,23 +25,24 @@ export function StickyHeader() {
       <div className="max-w-7xl mx-auto px-6 py-4 md:px-12 lg:px-24 flex items-center justify-between">
         <a 
           href="#" 
-          className="font-display text-junior-black uppercase tracking-wider text-lg"
+          className="px-4 py-3 bg-junior-parchment border-2 border-junior-black font-display text-junior-black uppercase tracking-wider text-lg font-bold"
+          style={{ borderRadius: "6px" }}
         >
           Junior
         </a>
 
         <nav className="hidden md:flex items-center gap-8">
           <a 
-            href="#tools" 
+            href="#features" 
             className="font-sans text-sm text-junior-black/70 hover:text-junior-black transition-colors"
           >
-            Features
+            What Junior Does
           </a>
           <a 
-            href="#about" 
+            href="#why-we-built-it" 
             className="font-sans text-sm text-junior-black/70 hover:text-junior-black transition-colors"
           >
-            About
+            Why We Built It
           </a>
         </nav>
 
