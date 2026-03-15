@@ -112,25 +112,52 @@ export default function Home() {
       {/* Section: Founders/About */}
       <section id="why-we-built-it" className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-            <ScrollReveal>
-              <h2 className="font-display text-junior-black text-3xl md:text-4xl lg:text-5xl uppercase tracking-wider mb-12 text-balance">
-                BUILT BY CANADIAN FILMMAKERS, FOR CANADIAN FILMMAKERS.
-              </h2>
-              
-              <div className="mb-8">
-                <p className="text-junior-black/80 text-xl leading-relaxed font-sans mb-6">
-                  Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
-                </p>
+          <ScrollReveal>
+            <h2 className="font-display text-junior-black text-3xl md:text-4xl lg:text-5xl uppercase tracking-wider mb-16 text-balance">
+              BUILT BY CANADIAN FILMMAKERS, FOR CANADIAN FILMMAKERS.
+            </h2>
+          </ScrollReveal>
 
-                <p className="text-junior-black/80 text-xl leading-relaxed font-sans">
-                  Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify. Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+). Junior is built on this intersectional experience of art and technology.
-                </p>
+          {/* Intro paragraph */}
+          <ScrollReveal delay={100}>
+            <p className="text-junior-black/80 text-xl leading-relaxed font-sans max-w-3xl mb-16">
+              Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
+            </p>
+          </ScrollReveal>
+
+          {/* Gavin — text left, photo right */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center mb-16">
+            <ScrollReveal>
+              <p className="text-junior-black/80 text-xl leading-relaxed font-sans">
+                Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
+              </p>
+            </ScrollReveal>
+            <ScrollReveal delay={150} direction="left">
+              <div className="relative w-full aspect-square border-4 border-junior-black overflow-hidden">
+                <img
+                  src="/images/gavin-seal-headshot.jpg"
+                  alt="Gavin Seal, co-founder of Junior"
+                  className="w-full h-full object-cover object-top"
+                />
               </div>
             </ScrollReveal>
+          </div>
 
-            <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
-              <FoundersPortraits />
+          {/* Lisa — photo left, text right */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
+            <ScrollReveal direction="right" className="order-last lg:order-first">
+              <div className="relative w-full aspect-square border-4 border-junior-black overflow-hidden">
+                <img
+                  src="/images/lisa-purisima-headshot.jpg"
+                  alt="Lisa Purisima, co-founder of Junior"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+            </ScrollReveal>
+            <ScrollReveal delay={150}>
+              <p className="text-junior-black/80 text-xl leading-relaxed font-sans">
+                Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+). Junior is built on this intersectional experience of art and technology.
+              </p>
             </ScrollReveal>
           </div>
         </div>
