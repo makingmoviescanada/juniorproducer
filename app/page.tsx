@@ -91,25 +91,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section: Feature Grid */}
-      <section id="features" className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
-        <div className="max-w-7xl mx-auto">
-          <ScrollReveal>
-            <h2 className="font-display text-junior-black text-3xl md:text-4xl font-black uppercase tracking-wider mb-4 text-center text-balance">
-              No budget, no team, no problem.
-            </h2>
-            <div className="max-w-2xl mx-auto">
-              <p className="text-junior-black/80 text-lg md:text-xl leading-relaxed font-sans text-left mb-16">
-                Junior holds everything you can&apos;t afford to forget — funding windows, delivery dates, document versions, budget checkpoints — and surfaces what you need, when you need it.
-              </p>
-            </div>
-          </ScrollReveal>
-          <ScrollReveal delay={150}>
-            <FeatureTiers />
-          </ScrollReveal>
-        </div>
-      </section>
-
       {/* Section: Pricing Tiers */}
       <PricingTiers />
 
