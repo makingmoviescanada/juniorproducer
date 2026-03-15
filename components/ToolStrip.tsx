@@ -17,7 +17,7 @@ export function ToolStrip() {
           <div
             key={index}
             className="flex items-center justify-center bg-white border-2 border-junior-black"
-            style={{ width: "120px", height: "120px", padding: "16px", backgroundColor: "#ffffff" }}
+            style={{ width: "100px", height: "100px", padding: "12px", backgroundColor: "#ffffff" }}
           >
             <img
               src={tool.logo}
