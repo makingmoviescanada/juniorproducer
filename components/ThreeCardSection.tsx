@@ -17,7 +17,7 @@ const cards: Card[] = [
   {
     title: "Ready When You Are",
     subtitle: "",
-    body: "Junior is available when you need it — no office hours, no waiting, no callbacks.",
+    body: "Junior helps put out fires 24/7 — no office hours, no callbacks, no waiting.",
   },
   {
     title: "No Staff, No Problem",
