@@ -186,7 +186,6 @@ export default function Home() {
                 </div>
               </div>
             </ScrollReveal>
-
           </div>
 
           <ScrollReveal delay={250}>
