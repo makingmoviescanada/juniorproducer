@@ -15,7 +15,7 @@ const cards: Card[] = [
     body: "Junior crawls so you can run — it knows every window, eligibility requirement, and deadline.",
   },
   {
-    title: "Ready When You Are",
+    title: "24/7 Support",
     subtitle: "",
     body: "Junior helps put out fires 24/7 — no office hours, no callbacks, no waiting.",
   },
