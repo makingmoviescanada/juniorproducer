@@ -10,17 +10,17 @@ interface Card {
 
 const cards: Card[] = [
   {
-    title: "Built for Canadian Film",
+    title: "Built for Canadian Producers",
     subtitle: "Junior knows every Canadian deadline, eligibility requirement, and funding window.",
     body: "Stop crawling the same pages over and over again.",
   },
   {
-    title: "Always On",
+    title: "Ready When You Are",
     subtitle: "When things go wrong, you'll never have to figure it out on your own again.",
     body: "Junior is available whenever you need it — no office hours, no waiting, no callbacks.",
   },
   {
-    title: "No Staff Required",
+    title: "No Staff, No Problem",
     subtitle: "The assistant you could never afford to hire. Until now.",
     body: "Junior handles the admin, the version chaos, and the production overhead — for less than one billable hour.",
   },
