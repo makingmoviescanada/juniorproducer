@@ -30,7 +30,7 @@ export default function Home() {
                 </span>
               </div>
               <ScrollReveal>
-                <h1 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider leading-tight text-pretty">
+                <h1 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider leading-snug text-pretty">
                   Burnout isn&apos;t a badge of honour —
                 </h1>
               </ScrollReveal>
@@ -109,7 +109,7 @@ export default function Home() {
           
           {/* Centered headline and intro - full width above the grid */}
           <ScrollReveal>
-            <h2 className="font-display text-junior-black text-3xl md:text-4xl font-black uppercase tracking-wider mb-8 leading-tight text-center">
+            <h2 className="font-display text-junior-black text-3xl md:text-4xl font-black uppercase tracking-wider mb-8 leading-snug text-center">
               BUILT BY CANADIAN FILMMAKERS,<br />FOR CANADIAN FILMMAKERS.
             </h2>
           </ScrollReveal>
