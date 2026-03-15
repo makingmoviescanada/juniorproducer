@@ -19,20 +19,20 @@ export default function Home() {
         <div className="max-w-7xl mx-auto w-full relative">
           {/* H1 spans full width */}
           <ScrollReveal>
-            <h1 className="font-display text-junior-black text-5xl md:text-6xl lg:text-7xl font-black tracking-wider mb-12 leading-tight text-pretty">
+            <h1 className="hero-h1 font-display text-junior-black text-pretty">
               The late nights and weekends aren&apos;t a badge of honour — you need help.
             </h1>
           </ScrollReveal>
           {/* Lower row: H2 + CTA left, small image right — image sized to relate to H2 */}
           <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
             <ScrollReveal className="flex-1">
-              <h2 className="font-display text-junior-black text-xl md:text-2xl font-semibold tracking-wide mb-8 leading-relaxed text-pretty">
+              <h2 className="hero-h2 font-display text-junior-black mb-8 text-pretty">
                 Junior is the producer&apos;s assistant you could never afford to hire — handling the funding, the admin, and the chaos so you can focus on making films.
               </h2>
               <a
                 href="#cta"
-                className="inline-block px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm"
-                style={{ letterSpacing: "0.05em", fontSize: "0.875rem" }}
+                className="btn-cta inline-block px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white shadow-hard-red-sm btn-hover"
+                style={{ letterSpacing: "0.05em" }}
               >
                 Get Early Access
               </a>
@@ -62,13 +62,13 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <ScrollReveal>
-              <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-8 text-balance leading-tight">
+              <h2 className="section-headline text-junior-white mb-8 text-balance">
                 JUNIOR IS YOUR SECOND BRAIN.
               </h2>
-              <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans mb-6">
+              <p className="body-copy text-junior-white/90 mb-6">
                 The Canadian film industry runs on sweat equity that never recoups. We do it out of passion, but it doesn't pay the bills, and while we're working our day jobs, we miss deadlines, stay up late and burn out, so we don't drop a ball that no one else is there to catch.
               </p>
-              <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans">
+              <p className="body-copy text-junior-white/90">
                 You focus on making the film. Junior makes sure nothing falls through the cracks.
               </p>
             </ScrollReveal>
@@ -83,11 +83,11 @@ export default function Home() {
       <section id="features" className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
-            <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-4 text-center text-balance">
+            <h2 className="section-headline text-junior-black text-center text-balance">
               No budget, no team, no problem.
             </h2>
             <div className="max-w-2xl mx-auto">
-              <p className="text-junior-black/80 text-lg md:text-xl leading-relaxed font-sans text-left mb-16">
+              <p className="body-copy text-junior-black/80 text-left mb-16">
                 Junior holds everything you can&apos;t afford to forget — funding windows, delivery dates, document versions, budget checkpoints — and surfaces what you need, when you need it.
               </p>
             </div>
@@ -116,13 +116,13 @@ export default function Home() {
           
           {/* Centered headline and intro - full width above the grid */}
           <ScrollReveal>
-            <h2 className="font-display text-junior-black text-4xl md:text-5xl font-black uppercase tracking-wider mb-8 leading-tight text-center">
+            <h2 className="section-headline text-junior-black text-center leading-tight">
               BUILT BY CANADIAN FILMMAKERS,<br />FOR CANADIAN FILMMAKERS.
             </h2>
           </ScrollReveal>
           
           <ScrollReveal delay={100}>
-            <p className="text-junior-black/80 text-lg leading-relaxed font-sans mb-16 text-center max-w-3xl mx-auto">
+            <p className="body-copy text-junior-black/80 mb-16 text-center max-w-3xl mx-auto">
               Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
             </p>
           </ScrollReveal>
@@ -132,10 +132,10 @@ export default function Home() {
 
             {/* Left: founder bios */}
             <ScrollReveal delay={150} className="flex flex-col gap-4">
-              <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6">
+              <p className="body-copy text-junior-black/80 border-2 border-junior-black p-6">
                 Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
               </p>
-              <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6">
+              <p className="body-copy text-junior-black/80 border-2 border-junior-black p-6">
                 Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+). Junior is built on this intersectional experience of art and technology.
               </p>
             </ScrollReveal>
@@ -184,10 +184,10 @@ export default function Home() {
       <section id="cta" className="bg-junior-red px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black md:py-32">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal>
-            <h2 className="font-display text-junior-white text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-wider mb-4 text-balance leading-tight">
+            <h2 className="section-headline text-junior-white text-balance leading-tight">
               THE CAVALRY'S NOT COMING. BUT JUNIOR IS.
             </h2>
-            <p className="font-sans text-junior-white text-base md:text-lg font-semibold mb-12">
+            <p className="btn-cta text-junior-white mb-12">
               Early access. Limited spots.
             </p>
             <KitForm className="justify-center" />
