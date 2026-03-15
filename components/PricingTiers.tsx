@@ -22,15 +22,15 @@ const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) =>
   return (
     <div className="bg-junior-white border-2 border-junior-black p-8 flex flex-col h-full shadow-hard-parchment-sm">
       <div className="mb-6">
-        <h3 className="font-display text-junior-black text-lg md:text-xl font-black uppercase tracking-wider font-bold mb-3">
+        <h3 className="card-title font-display text-junior-black mb-3">
           {label}
         </h3>
-        <p className="font-sans text-junior-black/70 italic text-sm md:text-base">
+        <p className="card-subheading text-junior-black/70">
           {subheading}
         </p>
       </div>
 
-      <p className="font-sans text-junior-black text-base md:text-lg leading-relaxed mb-8">
+      <p className="body-copy text-junior-black mb-8">
         {body}
       </p>
 
@@ -39,7 +39,7 @@ const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) =>
         {features.map((feature, idx) => (
           <li key={idx} className="flex items-start gap-3">
             <span className="text-junior-red font-bold text-lg flex-shrink-0 mt-0.5">✓</span>
-            <span className="font-sans text-junior-black text-sm md:text-base leading-relaxed">
+            <span className="feature-item text-junior-black">
               {feature}
             </span>
           </li>
@@ -53,7 +53,7 @@ const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) =>
             {features.map((feature, idx) => (
               <li key={idx} className="flex items-start gap-3">
                 <span className="text-junior-red font-bold text-lg flex-shrink-0 mt-0.5">✓</span>
-                <span className="font-sans text-junior-black text-sm leading-relaxed">
+                <span className="feature-item text-junior-black">
                   {feature}
                 </span>
               </li>
@@ -62,7 +62,7 @@ const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) =>
         )}
         <button
           onClick={() => setIsExpanded(!isExpanded)}
-          className="text-junior-red font-sans text-sm font-bold uppercase tracking-wide hover:text-junior-black transition-colors"
+          className="caption text-junior-red hover:text-junior-black transition-colors"
         >
           {isExpanded ? "Hide" : "See what's included"} ↓
         </button>
@@ -71,7 +71,7 @@ const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) =>
       <button
         data-tier={label.toLowerCase()}
         onClick={() => handleTierClick(label.toLowerCase())}
-        className="w-full px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm md:text-base"
+        className="btn-cta w-full px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white shadow-hard-red-sm btn-hover"
       >
         Join the Waitlist
       </button>
@@ -122,7 +122,7 @@ export function PricingTiers() {
     <section className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
       <div className="max-w-7xl mx-auto">
         <ScrollReveal>
-          <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-center text-balance">
+          <h2 className="section-headline font-display text-junior-black mb-16 text-center text-balance">
             Start where you are. Grow as you go.
           </h2>
         </ScrollReveal>

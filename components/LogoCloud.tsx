@@ -34,7 +34,7 @@ export function LogoCloud({
 }) {
   return (
     <div className={`${className}`}>
-      <p className="text-center text-junior-black/60 font-sans text-sm uppercase tracking-wide mb-12">
+      <p className="caption text-junior-black/60 text-center mb-12">
         {title}
       </p>
       <div className="flex flex-wrap justify-center items-center gap-3">

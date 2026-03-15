@@ -166,4 +166,154 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  /* Typography System - Barlow Font */
+  
+  /* Hero H1: 900 weight, 48px desktop / 36px mobile, line-height 1.1, sentence case */
+  .hero-h1 {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 36px;
+    line-height: 1.1;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .hero-h1 {
+      font-size: 48px;
+    }
+  }
+
+  /* Hero H2: 600 weight, 24px desktop / 20px mobile, line-height 1.4, sentence case */
+  .hero-h2 {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 1.4;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .hero-h2 {
+      font-size: 24px;
+    }
+  }
+
+  /* Section headlines: 900 weight, 36px desktop / 28px mobile, ALL-CAPS, letter-spacing 2px */
+  .section-headline {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 28px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+  @media (min-width: 768px) {
+    .section-headline {
+      font-size: 36px;
+    }
+  }
+
+  /* Three-card section headline: 900 weight, 32px desktop / 26px mobile, sentence case, line-height 1.2 */
+  .three-card-headline {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 26px;
+    line-height: 1.2;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .three-card-headline {
+      font-size: 32px;
+    }
+  }
+
+  /* Card titles: 900 weight, 18px desktop / 16px mobile, ALL-CAPS, letter-spacing 1px */
+  .card-title {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+  @media (min-width: 768px) {
+    .card-title {
+      font-size: 18px;
+    }
+  }
+
+  /* Card italic subheadings: 500 weight, italic, 15px desktop / 14px mobile, sentence case, line-height 1.5 */
+  .card-subheading {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 14px;
+    line-height: 1.5;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .card-subheading {
+      font-size: 15px;
+    }
+  }
+
+  /* Body copy: 400 weight, 16px desktop / 15px mobile, sentence case, line-height 1.7 */
+  .body-copy {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.7;
+    text-transform: none;
+  }
+  @media (min-width: 768px) {
+    .body-copy {
+      font-size: 16px;
+    }
+  }
+
+  /* Feature list items: 400 weight, 15px desktop / 14px mobile, line-height 1.6 */
+  .feature-item {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  @media (min-width: 768px) {
+    .feature-item {
+      font-size: 15px;
+    }
+  }
+
+  /* Feature category labels: 900 weight, 13px, ALL-CAPS, letter-spacing 2px */
+  .feature-category {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* Nav links: 600 weight, 14px */
+  .nav-link {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  /* CTA buttons: 900 weight, 14px, ALL-CAPS, letter-spacing 2px */
+  .btn-cta {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* Small captions and labels: 400 weight, 12px, ALL-CAPS, letter-spacing 1px */
+  .caption {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
 }

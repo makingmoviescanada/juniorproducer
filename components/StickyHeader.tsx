@@ -34,13 +34,13 @@ export function StickyHeader() {
         <nav className="hidden md:flex items-center gap-8">
           <a 
             href="#features" 
-            className="font-sans text-sm text-junior-black/70 hover:text-junior-black transition-colors"
+            className="nav-link text-junior-black/70 hover:text-junior-black transition-colors"
           >
             What Junior Does
           </a>
           <a 
             href="#why-we-built-it" 
-            className="font-sans text-sm text-junior-black/70 hover:text-junior-black transition-colors"
+            className="nav-link text-junior-black/70 hover:text-junior-black transition-colors"
           >
             Why We Built It
           </a>
@@ -48,7 +48,7 @@ export function StickyHeader() {
 
         <a
           href="#cta"
-          className="px-4 py-2 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-xs"
+          className="btn-cta px-4 py-2 bg-junior-red border-2 border-junior-black text-junior-white shadow-hard-red-sm btn-hover"
         >
           Get Early Access
         </a>
