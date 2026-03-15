@@ -127,24 +127,28 @@ export default function Home() {
             <ScrollReveal delay={150} className="flex flex-col gap-4 w-full min-w-0">
               {/* Gavin */}
               <div className="flex items-stretch gap-4">
-                <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gavin%20Seal-TjCCS86akGnbzTQV2doqCGSQEKZ5mw.png"
-                  alt="Gavin Seal, co-founder of Junior"
-                  className="lg:hidden border-2 border-junior-black flex-shrink-0 w-24 h-auto object-cover object-top"
-                  style={{ filter: "grayscale(100%) contrast(1.1)" }}
-                />
+                <div className="flex-shrink-0 w-24 bg-white border-2 border-junior-black flex items-center justify-center overflow-hidden">
+                  <img
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gavin%20Seal-TjCCS86akGnbzTQV2doqCGSQEKZ5mw.png"
+                    alt="Gavin Seal, co-founder of Junior"
+                    className="lg:hidden h-auto object-cover object-top w-full"
+                    style={{ filter: "grayscale(100%) contrast(1.1)" }}
+                  />
+                </div>
                 <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6 flex-1">
                   Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
                 </p>
               </div>
               {/* Lisa */}
               <div className="flex items-stretch gap-4">
-                <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Lisa%20Purisima.png-v4teXA1AnJj88z17rw1oFlIL5DgiFR.jpeg"
-                  alt="Lisa Purisima, co-founder of Junior"
-                  className="lg:hidden border-2 border-junior-black flex-shrink-0 w-24 h-auto object-cover object-top"
-                  style={{ filter: "grayscale(100%) contrast(1.1)" }}
-                />
+                <div className="flex-shrink-0 w-24 bg-white border-2 border-junior-black flex items-center justify-center overflow-hidden">
+                  <img
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Lisa%20Purisima.png-v4teXA1AnJj88z17rw1oFlIL5DgiFR.jpeg"
+                    alt="Lisa Purisima, co-founder of Junior"
+                    className="lg:hidden h-auto object-cover object-top w-full"
+                    style={{ filter: "grayscale(100%) contrast(1.1)" }}
+                  />
+                </div>
                 <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6 flex-1">
                   Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+).
                 </p>
@@ -154,24 +158,23 @@ export default function Home() {
             {/* Right: overlapping photos — desktop only */}
             <ScrollReveal delay={200} direction="left" className="hidden lg:flex w-full justify-center">
               <div className="relative" style={{ width: "320px", height: "360px" }}>
-                <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gavin%20Seal-TjCCS86akGnbzTQV2doqCGSQEKZ5mw.png"
-                  alt="Gavin Seal, co-founder of Junior"
-                  className="absolute z-0 border-2 border-junior-black"
-                  style={{
-                    width: "180px",
-                    height: "220px",
-                    top: 0,
-                    left: 0,
-                    objectFit: "cover",
-                    objectPosition: "top",
-                    filter: "grayscale(100%) contrast(1.1)"
-                  }}
-                />
-                <img
-                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Lisa%20Purisima.png-v4teXA1AnJj88z17rw1oFlIL5DgiFR.jpeg"
-                  alt="Lisa Purisima, co-founder of Junior"
-                  className="absolute z-10 border-2 border-junior-black"
+                <div className="absolute z-0" style={{ width: "180px", height: "220px", top: 0, left: 0, backgroundColor: "white", border: "2px solid black", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+                  <img
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gavin%20Seal-TjCCS86akGnbzTQV2doqCGSQEKZ5mw.png"
+                    alt="Gavin Seal, co-founder of Junior"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                      objectPosition: "top",
+                      filter: "grayscale(100%) contrast(1.1)"
+                    }}
+                  />
+                </div>
+                <div className="absolute z-10" style={{ width: "180px", height: "220px", bottom: 0, right: 0, backgroundColor: "white", border: "2px solid black", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
+                  <img
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Lisa%20Purisima.png-v4teXA1AnJj88z17rw1oFlIL5DgiFR.jpeg"
+                    alt="Lisa Purisima, co-founder of Junior"
                   style={{
                     width: "180px",
                     height: "220px",
