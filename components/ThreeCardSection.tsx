@@ -12,12 +12,12 @@ const cards: Card[] = [
   {
     title: "for canadian producers",
     subtitle: "",
-    body: "Junior knows every Canadian deadline, eligibility requirement, and funding window.",
+    body: "Junior crawls so you can run — it knows every Canadian deadline, eligibility requirement, and funding window.",
   },
   {
     title: "Ready When You Are",
     subtitle: "",
-    body: "Junior is available whenever you need it — no office hours, no waiting, no callbacks.",
+    body: "Junior is available when you need it — no office hours, no waiting, no callbacks.",
   },
   {
     title: "No Staff, No Problem",
