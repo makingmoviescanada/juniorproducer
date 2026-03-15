@@ -8,6 +8,7 @@ import { DashboardIllustration } from "@/components/DashboardIllustration"
 import { ThreeCardSection } from "@/components/ThreeCardSection"
 import { ToolStrip } from "@/components/ToolStrip"
 import { FoundersPortraits } from "@/components/FoundersPortraits"
+import { PricingTiers } from "@/components/PricingTiers"
 
 export default function Home() {
   return (
@@ -95,6 +96,9 @@ export default function Home() {
           </ScrollReveal>
         </div>
       </section>
+
+      {/* Section: Pricing Tiers */}
+      <PricingTiers />
 
       {/* Section: Logo Cloud */}
       <section className="bg-junior-white px-6 py-16 md:px-12 lg:px-24 border-t-2 border-junior-black">

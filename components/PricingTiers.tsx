@@ -1,103 +1,103 @@
 "use client"
 
-const tiers = [
-  {
-    name: "Filmmaker",
-    price: "$29",
-    period: "/mo",
-    description: "For indie filmmakers doing it all alone.",
-    features: [
-      "Canadian funding intelligence (CMF, Telefilm, SODEC, provincial)",
-      "Tax credit calculations and stacking strategies",
-      "Budget estimation from screenplay",
-      "Deadline tracking across funders",
-      "Distribution strategy builder",
-      "24/7 availability — there at 4AM",
-    ],
-    cta: "Join Waitlist",
-    highlight: false,
-  },
-  {
-    name: "Producer",
-    price: "$69",
-    period: "/mo",
-    description: "For producers juggling multiple active projects.",
-    features: [
-      "Everything in the Filmmaker tier, plus:",
-      "Multi-project dashboard",
-      "Document version control across projects",
-      "Guild agreement reference (AQTIS, ACTRA, DGC, WGC)",
-      "Cross-project budget tracking",
-      "Priority support",
-    ],
-    cta: "Join Waitlist",
-    highlight: true,
-  },
-]
+import { ScrollReveal } from "@/components/ScrollReveal"
 
-export function PricingTiers({ className = "" }: { className?: string }) {
-  return (
-    <div className={`${className}`}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-        {tiers.map((tier, index) => (
-          <div
-            key={index}
-            className={`p-8 border-2 border-junior-black ${
-              tier.highlight 
-                ? "bg-junior-black text-junior-white shadow-hard-parchment" 
-                : "bg-junior-white text-junior-black shadow-hard-parchment-sm"
-            }`}
-          >
-            <div className="mb-6">
-              <p className={`font-display text-sm uppercase tracking-wider mb-2 ${
-                tier.highlight ? "text-junior-red" : "text-junior-red"
-              }`}>
-                {tier.name}
-              </p>
-              <div className="flex items-baseline gap-1">
-                <span className="font-display text-4xl">{tier.price}</span>
-                <span className={`text-sm ${tier.highlight ? "text-junior-white/60" : "text-junior-black/60"}`}>
-                  {tier.period}
-                </span>
-              </div>
-              <p className={`mt-3 text-sm font-sans ${
-                tier.highlight ? "text-junior-white/70" : "text-junior-black/70"
-              }`}>
-                {tier.description}
-              </p>
-            </div>
+interface TierProps {
+  label: string
+  subheading: string
+  body: string
+  features: string[]
+}
 
-            <ul className="space-y-3 mb-8">
-              {tier.features.map((feature, featureIndex) => (
-                <li 
-                  key={featureIndex} 
-                  className={`text-sm font-sans flex items-start gap-3 ${
-                    tier.highlight ? "text-junior-white/90" : "text-junior-black/80"
-                  }`}
-                >
-                  <span className={`mt-0.5 ${tier.highlight ? "text-junior-red" : "text-junior-red"}`}>+</span>
-                  <span>{feature}</span>
-                </li>
-              ))}
-            </ul>
-
-            <a
-              href="#waitlist"
-              className={`block w-full py-3 text-center font-bold uppercase tracking-wider text-sm border-2 transition-all ${
-                tier.highlight
-                  ? "bg-junior-red border-junior-red text-junior-white hover:bg-junior-white hover:text-junior-red"
-                  : "bg-junior-black border-junior-black text-junior-white hover:bg-junior-red hover:border-junior-red"
-              }`}
-            >
-              {tier.cta}
-            </a>
-          </div>
-        ))}
-      </div>
-
-      <p className="text-center mt-8 text-junior-black/50 text-sm font-sans">
-        Free tools available now — no signup required.
+const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) => (
+  <div className="bg-junior-white border-2 border-junior-black p-8 flex flex-col h-full shadow-hard-parchment-sm">
+    <div className="mb-6">
+      <h3 className="font-display text-junior-black text-lg uppercase tracking-wider font-bold mb-3">
+        {label}
+      </h3>
+      <p className="font-sans text-junior-black/70 italic text-sm">
+        {subheading}
       </p>
     </div>
+
+    <p className="font-sans text-junior-black text-base leading-relaxed mb-8">
+      {body}
+    </p>
+
+    <ul className="space-y-3 mb-8 flex-grow">
+      {features.map((feature, idx) => (
+        <li key={idx} className="flex items-start gap-3">
+          <span className="text-junior-red font-bold text-lg flex-shrink-0 mt-0.5">✓</span>
+          <span className="font-sans text-junior-black text-sm leading-relaxed">
+            {feature}
+          </span>
+        </li>
+      ))}
+    </ul>
+
+    <button className="w-full px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-xs">
+      Join the Waitlist
+    </button>
+  </div>
+)
+
+export function PricingTiers() {
+  const tiers: TierProps[] = [
+    {
+      label: "FILMMAKER",
+      subheading: "For the solo filmmaker doing it all alone.",
+      body: "Your 24/7 Canadian film funding assistant. Ask anything — deadlines, eligibility, funding windows — and never miss an opportunity again.",
+      features: [
+        "Chat with a Canadian film industry-trained AI",
+        "Every funding deadline, automatically tracked",
+        "Syncs to your Google Calendar with prep reminders",
+        "Notifications ahead of key dates",
+      ],
+    },
+    {
+      label: "PRODUCER",
+      subheading: "For the producer juggling a slate.",
+      body: "Everything in Filmmaker, plus Junior connects to your project management workflow — so your funding intelligence lives inside your productions.",
+      features: [
+        "Everything in Filmmaker",
+        "Connects to Asana and your existing tools",
+        "Junior reads and updates your active projects",
+        "Budget estimation from screenplay",
+        "Never lose track of who has the latest version",
+      ],
+    },
+    {
+      label: "STUDIO",
+      subheading: "For the filmmaker who wants Junior fully integrated into their world.",
+      body: "Junior becomes your true second brain — operating inside your own Claude environment, learning your projects, and surfacing what you need before you know you need it.",
+      features: [
+        "Everything in Producer",
+        "Powered by your own Claude account",
+        "Full document and project memory",
+        "Adapts to your specific productions and use cases",
+        "White-glove onboarding included",
+      ],
+    },
+  ]
+
+  return (
+    <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
+      <div className="max-w-7xl mx-auto">
+        <ScrollReveal>
+          <h2 className="font-display text-junior-black text-3xl md:text-4xl lg:text-5xl uppercase tracking-wider mb-16 text-center text-balance">
+            Start where you are. Grow as you go.
+          </h2>
+        </ScrollReveal>
+
+        <ScrollReveal delay={150}>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {tiers.map((tier, idx) => (
+              <TierCard key={idx} {...tier} />
+            ))}
+          </div>
+        </ScrollReveal>
+      </div>
+    </section>
   )
 }
+
