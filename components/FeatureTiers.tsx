@@ -32,22 +32,20 @@ export function FeatureTiers({ dark = false }: { dark?: boolean }) {
   ]
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
       {features.map((feature, index) => (
-        <div
-          key={index}
-          className={`p-8 border-2 ${dark ? "border-junior-white bg-junior-black/50 shadow-hard-red-sm" : "border-junior-black bg-junior-white shadow-hard-parchment-sm"}`}
-        >
-          <div className="mb-8">
-            <h3 className={`font-display ${dark ? "text-junior-white" : "text-junior-black"} text-xl uppercase tracking-wider leading-tight`}>
+        <div key={index} className="space-y-6">
+          <div className="border-b-2 border-junior-red pb-4">
+            <h3 className="font-display text-junior-black text-lg uppercase tracking-wider font-bold">
               {feature.category}
             </h3>
           </div>
 
           <ul className="space-y-4">
             {feature.items.map((item, itemIndex) => (
-              <li key={itemIndex} className="flex items-start gap-3">
-                <span className={`font-sans text-base leading-relaxed ${dark ? "text-junior-white/80" : "text-junior-black/80"}`}>
+              <li key={itemIndex} className="flex items-start gap-4">
+                <span className="text-junior-red mt-1 flex-shrink-0 font-bold text-lg">✓</span>
+                <span className="font-sans text-base leading-relaxed text-junior-black">
                   {item}
                 </span>
               </li>
