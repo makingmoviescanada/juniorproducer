@@ -22,7 +22,7 @@ const cards: Card[] = [
   {
     title: "No Staff, No Problem",
     subtitle: "",
-    body: "Junior handles the admin, the version chaos, and the production overhead — for less than one billable hour.",
+    body: "Junior automates the admin and version chaos — for less than one billable hour per month.",
   },
 ]
 
