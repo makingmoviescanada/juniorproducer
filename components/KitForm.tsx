@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
 interface KitFormProps {
   className?: string
@@ -8,7 +8,10 @@ interface KitFormProps {
 }
 
 export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
+  const [isMounted, setIsMounted] = useState(false)
+
   useEffect(() => {
+    setIsMounted(true)
     if (!document.querySelector('script[src="https://f.convertkit.com/ckjs/ck.5.js"]')) {
       const script = document.createElement('script')
       script.src = 'https://f.convertkit.com/ckjs/ck.5.js'
@@ -22,6 +25,20 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
   const inputColor = '#1A1A1A'
   const btnShadow = variant === 'dark' ? '#1A1A1A' : '#1A1A1A'
   const alertColor = variant === 'dark' ? '#FFFFFF' : '#E8392A'
+
+  // Prevent hydration mismatch from browser extensions (e.g., LastPass) injecting elements
+  if (!isMounted) {
+    return (
+      <div className={`w-full ${className}`}>
+        <div className="seva-fields formkit-fields flex flex-wrap gap-3 items-stretch">
+          <div className="formkit-field flex-1 min-w-[220px]">
+            <div className="h-12 border-2 border-primary bg-white" />
+          </div>
+          <div className="h-12 px-6 bg-junior-red border-2 border-primary" />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <>
@@ -139,7 +156,7 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
           <div data-style="clean">
             <ul className="formkit-alert formkit-alert-error" data-element="errors" data-group="alert"></ul>
             <div data-element="fields" data-stacked="false" className="seva-fields formkit-fields">
-              <div className="formkit-field" suppressHydrationWarning>
+              <div className="formkit-field">
                 <input
                   className="formkit-input"
                   name="email_address"
@@ -147,7 +164,6 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
                   placeholder="Email Address"
                   required
                   type="email"
-                  suppressHydrationWarning
                 />
               </div>
               <button data-element="submit" className="formkit-submit formkit-submit">
