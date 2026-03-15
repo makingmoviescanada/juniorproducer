@@ -178,8 +178,9 @@ export default function Home() {
                     style={{
                       width: "100%",
                       height: "100%",
-                      objectFit: "cover",
-                      objectPosition: "top",
+                      objectFit: "contain",
+                      objectPosition: "center",
+                      backgroundColor: "white",
                       filter: "grayscale(100%) contrast(1.1)"
                     }}
                   />
