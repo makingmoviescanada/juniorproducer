@@ -78,10 +78,10 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <ScrollReveal>
               <h2 className="font-display text-junior-white text-3xl md:text-4xl font-black uppercase tracking-wider mb-8 text-balance leading-tight">
-                JUNIOR IS YOUR SECOND BRAIN.
+                THE CANADIAN FILM INDUSTRY RUNS ON SWEAT EQUITY AND TIME DEBT THAT NEVER RECOUPS. JUNIOR CHANGES THAT.
               </h2>
               <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans mb-6">
-                Junior is the producer&apos;s brain that never sleeps. Every deadline tracked, every document versioned, every funding window watched — so you can focus on the only thing that matters: making the film.
+                Every deadline tracked, every document versioned, every funding window watched — so you can focus on making the film.
               </p>
               <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans">
                 Junior makes sure nothing falls through the cracks.
