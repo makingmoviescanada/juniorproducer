@@ -81,6 +81,120 @@
 }
 
 @layer utilities {
+  /* Hero */
+  .hero-h1 {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 48px;
+    line-height: 1.1;
+  }
+
+  .hero-h2 {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.4;
+  }
+
+  /* Section headlines */
+  .section-headline {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 36px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* Three-card section headline */
+  .section-headline-sentence {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 32px;
+    line-height: 1.2;
+  }
+
+  /* Card titles */
+  .card-title {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Card italic subheadings */
+  .card-subheading {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 500;
+    font-style: italic;
+    font-size: 15px;
+    line-height: 1.5;
+  }
+
+  /* Body copy */
+  .body-copy {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* Feature list items */
+  .feature-item {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* Feature category labels */
+  .feature-category {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    border-bottom: 2px solid #E8392A;
+    padding-bottom: 4px;
+  }
+
+  /* Nav links */
+  .nav-link {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+  }
+
+  /* CTA buttons */
+  .btn-cta {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 14px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+  }
+
+  /* Captions */
+  .caption {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* Mobile overrides */
+  @media (max-width: 768px) {
+    .hero-h1 { font-size: 36px; }
+    .hero-h2 { font-size: 20px; }
+    .section-headline { font-size: 28px; }
+    .section-headline-sentence { font-size: 26px; }
+    .card-title { font-size: 16px; }
+    .card-subheading { font-size: 14px; }
+    .body-copy { font-size: 15px; }
+    .feature-item { font-size: 14px; }
+  }
+
   /* Hard shadow utilities - context aware tone-on-tone */
   .shadow-hard {
     box-shadow: 8px 8px 0 #1A1A1A;

@@ -31,7 +31,7 @@ export function ThreeCardSection() {
     <section className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
-          <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider mb-16 text-center text-balance leading-tight">
+          <h2 className="section-headline-sentence font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider mb-16 text-center text-balance leading-tight">
             You&apos;re doing the work of an entire production office. Junior has your back.
           </h2>
         </ScrollReveal>
@@ -43,13 +43,13 @@ export function ThreeCardSection() {
                 className="p-8 md:p-10 bg-junior-parchment border-2 border-junior-black shadow-hard-parchment-sm h-full flex flex-col"
                 style={{ borderRadius: "86px" }}
               >
-                <h3 className="font-display text-junior-black text-lg md:text-xl font-black uppercase tracking-wider mb-4">
+                <h3 className="card-title font-display text-junior-black text-lg md:text-xl font-black uppercase tracking-wider mb-4">
                   {card.title}
                 </h3>
-                <p className="font-sans text-junior-black/70 italic text-sm md:text-base mb-4 font-medium">
+                <p className="card-subheading font-sans text-junior-black/70 italic text-sm md:text-base mb-4 font-medium">
                   {card.subtitle}
                 </p>
-                <p className="font-sans text-junior-black/80 text-base md:text-lg leading-relaxed md:leading-loose flex-grow">
+                <p className="body-copy font-sans text-junior-black/80 text-base md:text-lg leading-relaxed md:leading-loose flex-grow">
                   {card.body}
                 </p>
               </div>
