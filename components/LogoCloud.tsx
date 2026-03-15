@@ -42,13 +42,13 @@ export function LogoCloud({
           <div
             key={index}
             className="border-2 border-junior-black bg-white flex items-center justify-center flex-shrink-0"
-            style={{ width: "120px", height: "60px", padding: "12px" }}
+            style={{ width: "160px", height: "80px", padding: "12px" }}
           >
             <Image
               src={partner.logo}
               alt={partner.name}
-              width={96}
-              height={48}
+              width={136}
+              height={64}
               className="max-w-full max-h-full object-contain"
             />
           </div>
