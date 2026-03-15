@@ -37,11 +37,11 @@ export function FunderLogos({
       <p className="text-center text-junior-black font-display text-lg md:text-xl font-black uppercase tracking-wider">
         {title}
       </p>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="flex flex-wrap justify-center gap-4">
         {funders.map((funder, index) => (
           <div
             key={index}
-            className="border-2 border-junior-black flex items-center justify-center"
+            className="border-2 border-junior-black flex items-center justify-center w-full sm:w-[calc(50%-8px)] md:w-[calc(33.333%-11px)] lg:w-[calc(20%-13px)]"
             style={{ height: "120px", padding: "16px", backgroundColor: "#ffffff" }}
           >
             <Image
