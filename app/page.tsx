@@ -62,7 +62,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
             <ScrollReveal>
-              <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-8 text-balance leading-tight">
+              <h2 className="font-display text-junior-white text-3xl md:text-4xl font-black uppercase tracking-wider mb-8 text-balance leading-tight">
                 JUNIOR IS YOUR SECOND BRAIN.
               </h2>
               <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans mb-6">
@@ -83,7 +83,7 @@ export default function Home() {
       <section id="features" className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
-            <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-4 text-center text-balance">
+            <h2 className="font-display text-junior-black text-3xl md:text-4xl font-black uppercase tracking-wider mb-4 text-center text-balance">
               No budget, no team, no problem.
             </h2>
             <div className="max-w-2xl mx-auto">
@@ -116,7 +116,7 @@ export default function Home() {
           
           {/* Centered headline and intro - full width above the grid */}
           <ScrollReveal>
-            <h2 className="font-display text-junior-black text-4xl md:text-5xl font-black uppercase tracking-wider mb-8 leading-tight text-center">
+            <h2 className="font-display text-junior-black text-3xl md:text-4xl font-black uppercase tracking-wider mb-8 leading-tight text-center">
               BUILT BY CANADIAN FILMMAKERS,<br />FOR CANADIAN FILMMAKERS.
             </h2>
           </ScrollReveal>
@@ -184,7 +184,7 @@ export default function Home() {
       <section id="cta" className="bg-junior-red px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black md:py-32">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal>
-            <h2 className="font-display text-junior-white text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-wider mb-4 text-balance leading-tight">
+            <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-4 text-balance leading-tight">
               THE CAVALRY'S NOT COMING. BUT JUNIOR IS.
             </h2>
             <p className="font-sans text-junior-white text-base md:text-lg font-semibold mb-12">
