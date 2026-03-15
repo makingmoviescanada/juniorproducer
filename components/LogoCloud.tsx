@@ -41,12 +41,12 @@ export function LogoCloud({
       <p className="text-center text-junior-black font-display text-lg md:text-xl font-black uppercase tracking-wider">
         {title}
       </p>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {partners.map((partner, index) => (
           <div
             key={index}
-            className="border-2 border-junior-black bg-white flex items-center justify-center"
-            style={{ height: "120px", padding: "12px" }}
+            className="border-2 border-junior-black flex items-center justify-center"
+            style={{ height: "120px", padding: "16px", backgroundColor: "#ffffff" }}
           >
             <Image
               src={partner.logo}
@@ -54,6 +54,7 @@ export function LogoCloud({
               width={160}
               height={80}
               className="max-w-full max-h-full object-contain"
+              style={{ backgroundColor: "#ffffff" }}
             />
           </div>
         ))}
