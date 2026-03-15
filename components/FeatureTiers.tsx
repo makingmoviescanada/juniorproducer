@@ -36,7 +36,7 @@ export function FeatureTiers({ dark = false }: { dark?: boolean }) {
       {features.map((feature, index) => (
         <div key={index} className="space-y-6">
           <div className="border-b-2 border-junior-red pb-4">
-            <h3 className="font-barlow-black text-junior-black text-sm md:text-base font-black uppercase" style={{ letterSpacing: "2px" }}>
+            <h3 className="text-junior-black text-sm md:text-base font-black uppercase" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 900, letterSpacing: "2px" }}>
               {feature.category}
             </h3>
           </div>

@@ -43,10 +43,10 @@ export function ThreeCardSection() {
                 className="p-8 md:p-10 bg-junior-parchment border-2 border-junior-black shadow-hard-parchment-sm h-full flex flex-col"
                 style={{ borderRadius: "86px" }}
               >
-                <h3 className="font-barlow-black text-junior-black text-base md:text-lg font-black uppercase tracking-wider mb-4" style={{ letterSpacing: "1px" }}>
+                <h3 className="text-junior-black text-base md:text-lg font-black uppercase tracking-wider mb-4" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 900, letterSpacing: "1px" }}>
                   {card.title}
                 </h3>
-                <p className="font-barlow-medium text-junior-black/70 italic text-sm md:text-base mb-4" style={{ lineHeight: "1.5" }}>
+                <p className="text-junior-black/70 italic text-sm md:text-base mb-4" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 500, lineHeight: "1.5" }}>
                   {card.subtitle}
                 </p>
                 <p className="font-sans text-junior-black/80 text-base md:text-lg flex-grow" style={{ lineHeight: "1.6" }}>
@@ -54,8 +54,8 @@ export function ThreeCardSection() {
                 </p>
                 <a
                   href="#cta"
-                  className="inline-block mt-auto px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-black uppercase tracking-wider shadow-hard-red-sm btn-hover font-barlow-black text-sm"
-                  style={{ marginTop: "auto", letterSpacing: "2px" }}
+                  className="inline-block mt-auto px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-black uppercase tracking-wider shadow-hard-red-sm btn-hover text-sm"
+                  style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 900, marginTop: "auto", letterSpacing: "2px" }}
                 >
                   Get Early Access
                 </a>

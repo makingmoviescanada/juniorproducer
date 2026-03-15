@@ -34,15 +34,15 @@ export function StickyHeader() {
         <nav className="hidden md:flex items-center gap-8">
           <a 
             href="#features" 
-            className="font-barlow-semibold text-sm text-junior-black/70 hover:text-junior-black transition-colors"
-            style={{ letterSpacing: "0.02em" }}
+            className="text-sm text-junior-black/70 hover:text-junior-black transition-colors"
+            style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 600, letterSpacing: "0.02em" }}
           >
             What Junior Does
           </a>
           <a 
             href="#why-we-built-it" 
-            className="font-barlow-semibold text-sm text-junior-black/70 hover:text-junior-black transition-colors"
-            style={{ letterSpacing: "0.02em" }}
+            className="text-sm text-junior-black/70 hover:text-junior-black transition-colors"
+            style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 600, letterSpacing: "0.02em" }}
           >
             Why We Built It
           </a>

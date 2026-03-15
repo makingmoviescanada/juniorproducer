@@ -29,7 +29,7 @@ export default function Home() {
               <h1 className="font-display text-junior-black text-5xl md:text-6xl lg:text-7xl font-black tracking-wider leading-tight text-pretty" style={{ lineHeight: "1.1", marginBottom: "24px" }}>
                 The late nights and weekends aren&apos;t a badge of honour — you need help.
               </h1>
-              <h2 className="font-barlow-semibold text-junior-black text-lg md:text-xl lg:text-2xl tracking-wide leading-relaxed text-pretty mb-8" style={{ lineHeight: "1.4" }}>
+              <h2 className="text-junior-black text-lg md:text-xl lg:text-2xl tracking-wide leading-relaxed text-pretty mb-8" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 600, lineHeight: "1.4" }}>
                 Junior is the producer&apos;s assistant you could never afford to hire — handling the funding, the admin, and the chaos so you can focus on making films.
               </h2>
               <a
@@ -181,7 +181,7 @@ export default function Home() {
             <h2 className="font-display text-junior-white text-5xl md:text-6xl lg:text-7xl font-black uppercase tracking-wider mb-4 text-balance leading-tight">
               THE CAVALRY'S NOT COMING. BUT JUNIOR IS.
             </h2>
-            <p className="font-barlow-semibold text-junior-white text-base md:text-lg mb-12" style={{ letterSpacing: "0.05em" }}>
+            <p className="text-junior-white text-base md:text-lg mb-12" style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 600, letterSpacing: "0.05em" }}>
               Early access. Limited spots.
             </p>
             <KitForm className="justify-center" />

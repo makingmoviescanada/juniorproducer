@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Barlow, Lato } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/react'
+import './globals.css'
 
 const barlow = Barlow({ 
   subsets: ["latin"],
