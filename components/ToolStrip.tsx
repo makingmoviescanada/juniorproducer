@@ -16,7 +16,7 @@ export function ToolStrip() {
         {tools.map((tool, index) => (
           <div
             key={index}
-            className="flex items-center justify-center bg-white border border-gray-200 rounded"
+            className="flex items-center justify-center bg-white border-2 border-junior-black"
             style={{ width: "80px", height: "80px", padding: "12px" }}
           >
             <img

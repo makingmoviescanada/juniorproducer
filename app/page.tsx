@@ -131,11 +131,11 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
             {/* Left: founder bios */}
-            <ScrollReveal delay={150}>
-              <p className="text-junior-black/80 text-lg leading-relaxed font-sans mb-6">
+            <ScrollReveal delay={150} className="flex flex-col gap-4">
+              <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6">
                 Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
               </p>
-              <p className="text-junior-black/80 text-lg leading-relaxed font-sans">
+              <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6">
                 Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+). Junior is built on this intersectional experience of art and technology.
               </p>
             </ScrollReveal>

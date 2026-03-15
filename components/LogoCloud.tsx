@@ -41,7 +41,7 @@ export function LogoCloud({
         {partners.map((partner, index) => (
           <div
             key={index}
-            className="border border-gray-200 bg-white rounded flex items-center justify-center flex-shrink-0"
+            className="border-2 border-junior-black bg-white flex items-center justify-center flex-shrink-0"
             style={{ width: "120px", height: "60px", padding: "12px" }}
           >
             <Image
