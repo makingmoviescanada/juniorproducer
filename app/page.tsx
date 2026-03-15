@@ -85,6 +85,9 @@ export default function Home() {
             <h2 className="font-display text-junior-white text-3xl md:text-4xl lg:text-5xl uppercase tracking-wider mb-16 text-center text-balance">
               No budget, no team, no problem.
             </h2>
+            <p className="text-junior-white/80 text-xl leading-relaxed font-sans text-center max-w-3xl mx-auto mb-16">
+              Junior holds everything you can&apos;t afford to forget — funding windows, delivery dates, document versions, budget checkpoints — and surfaces what you need, when you need it.
+            </p>
           </ScrollReveal>
           <ScrollReveal delay={150}>
             <FeatureTiers dark />
