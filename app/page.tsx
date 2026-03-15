@@ -137,7 +137,7 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <ScrollReveal direction="right" className="order-last lg:order-first">
               <div className="relative" style={{ width: "520px", height: "520px", margin: "0 auto lg:mx-0" }}>
-                {/* Lisa - behind, top-left */}
+                {/* Gavin - behind, top-left */}
                 <div
                   className="absolute z-0"
                   style={{
@@ -148,13 +148,13 @@ export default function Home() {
                   }}
                 >
                   <img
-                    src="/images/lisa-purisima-headshot.jpg"
-                    alt="Lisa Purisima, co-founder of Junior"
+                    src="/images/gavin-seal-headshot.jpg"
+                    alt="Gavin Seal, co-founder of Junior"
                     className="w-full h-full object-cover object-top"
                     style={{ filter: "grayscale(100%) contrast(1.1)" }}
                   />
                 </div>
-                {/* Gavin - in front, bottom-right with 40px overlap */}
+                {/* Lisa - in front, bottom-right with 40px overlap */}
                 <div
                   className="absolute z-10"
                   style={{
@@ -165,8 +165,8 @@ export default function Home() {
                   }}
                 >
                   <img
-                    src="/images/gavin-seal-headshot.jpg"
-                    alt="Gavin Seal, co-founder of Junior"
+                    src="/images/lisa-purisima-headshot.jpg"
+                    alt="Lisa Purisima, co-founder of Junior"
                     className="w-full h-full object-cover object-top"
                     style={{ filter: "grayscale(100%) contrast(1.1)" }}
                   />
