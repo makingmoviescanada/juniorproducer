@@ -7,6 +7,7 @@ import { ScrollReveal } from "@/components/ScrollReveal"
 import { DashboardIllustration } from "@/components/DashboardIllustration"
 import { ThreeCardSection } from "@/components/ThreeCardSection"
 import { ToolStrip } from "@/components/ToolStrip"
+import { FoundersPortraits } from "@/components/FoundersPortraits"
 
 export default function Home() {
   return (
@@ -125,12 +126,7 @@ export default function Home() {
             </ScrollReveal>
 
             <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
-              <VideoPlaceholder 
-                aspectRatio="3:4" 
-                imageSrc="/images/gavin-seal-headshot.jpg"
-                imageAlt="Gavin Seal, founder of Junior"
-                showPlayButton={false}
-              />
+              <FoundersPortraits />
             </ScrollReveal>
           </div>
         </div>
