@@ -127,7 +127,7 @@ export default function Home() {
             <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
               <VideoPlaceholder 
                 aspectRatio="3:4" 
-                imageSrc="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/gavin_seal_frederic_bouchard-500-BhgdBTpwqTGwqAbuVdm8B6aqu2qgIS.jpg"
+                imageSrc="/images/gavin-seal-headshot.jpg"
                 imageAlt="Gavin Seal, founder of Junior"
                 showPlayButton={false}
               />
