@@ -46,7 +46,7 @@ export function ThreeCardSection() {
                 <h3 className="font-display text-junior-black text-lg md:text-xl font-black uppercase tracking-wider mb-4">
                   {card.title}
                 </h3>
-                <p className="font-sans text-junior-black/70 italic text-sm md:text-base mb-4 font-medium">
+                <p className="font-sans text-junior-black/80 text-base md:text-lg leading-relaxed md:leading-loose flex-grow">
                   {card.subtitle}
                 </p>
                 <p className="font-sans text-junior-black/80 text-base md:text-lg leading-relaxed md:leading-loose flex-grow">
