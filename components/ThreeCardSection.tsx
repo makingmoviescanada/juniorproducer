@@ -17,7 +17,7 @@ const cards: Card[] = [
   {
     title: "Always On",
     subtitle: "When things go wrong, you'll never have to figure it out on your own again.",
-    body: "Your 11:59PM deadline partner pulls documents, reviews budgets at 4AM from set, and tracks deadlines as soon as they're released — without waiting for office hours.",
+    body: "Junior is available every hour you're working — which is all of them.",
   },
   {
     title: "No Staff Required",
