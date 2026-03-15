@@ -106,7 +106,7 @@ export function PricingTiers() {
     },
     {
       label: "STUDIO",
-      subheading: "For producers ready to integrate automations.",
+      subheading: "For producers ready to scale.",
       body: "Junior becomes your true second brain — operating inside your own Claude environment, learning your projects, and surfacing what you need before you know you need it.",
       features: [
         "Everything in Producer",
