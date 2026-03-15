@@ -2,6 +2,7 @@ import { VideoPlaceholder } from "@/components/VideoPlaceholder"
 import { KitForm } from "@/components/KitForm"
 import { StickyHeader } from "@/components/StickyHeader"
 import { LogoCloud } from "@/components/LogoCloud"
+import { FunderLogos } from "@/components/FunderLogos"
 import { FeatureTiers } from "@/components/FeatureTiers"
 import { ScrollReveal } from "@/components/ScrollReveal"
 import { DashboardIllustration } from "@/components/DashboardIllustration"
@@ -15,33 +16,45 @@ export default function Home() {
     <main>
       <StickyHeader />
       {/* Section 1: Hero */}
-      <section className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 min-h-screen pt-32 relative overflow-hidden">
-        <div className="max-w-7xl mx-auto w-full relative">
-          {/* H1 spans full width */}
-          <ScrollReveal>
-            <h1 className="font-display text-junior-black text-5xl md:text-6xl lg:text-7xl font-black tracking-wider mb-12 leading-tight text-pretty">
-              The late nights and weekends aren&apos;t a badge of honour — you need help.
-            </h1>
-          </ScrollReveal>
-          {/* Lower row: H2 + CTA left, small image right — image sized to relate to H2 */}
-          <div className="flex flex-col lg:flex-row gap-10 lg:gap-16 items-start">
-            <ScrollReveal className="flex-1">
-              <h2 className="font-display text-junior-black text-xl md:text-2xl font-semibold tracking-wide mb-8 leading-relaxed text-pretty">
-                Junior is the producer&apos;s assistant you could never afford to hire — handling the funding, the admin, and the chaos so you can focus on making films.
-              </h2>
-              <a
-                href="#cta"
-                className="inline-block px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm"
-                style={{ letterSpacing: "0.05em", fontSize: "0.875rem" }}
+      <section className="bg-junior-parchment px-6 pt-32 pb-24 md:px-12 lg:px-24 border-b-2 border-junior-black">
+        <div className="max-w-7xl mx-auto w-full">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-stretch">
+
+            {/* Left column — all copy stacked */}
+            <div className="flex-1 flex flex-col justify-center gap-6">
+              <div 
+                className="inline-flex items-center border-2 border-junior-black px-4 py-2 self-start"
+                style={{ borderRadius: "6px" }}
               >
-                Get Early Access
-              </a>
+                <span className="font-display text-junior-black text-sm uppercase tracking-wider font-black">
+                  JUNIOR
+                </span>
+              </div>
+              <ScrollReveal>
+                <h1 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider leading-snug text-pretty uppercase">
+                  Say goodbye to burnout, say hello to Junior.
+                </h1>
+              </ScrollReveal>
+              <ScrollReveal delay={100}>
+                <h2 className="font-sans text-junior-black text-lg md:text-xl font-semibold tracking-wide leading-relaxed text-pretty">
+                  Junior is the 24/7 producer&apos;s assistant you could never afford to hire.
+                </h2>
+              </ScrollReveal>
+              <ScrollReveal delay={200}>
+                <a
+                  href="#cta"
+                  className="inline-block px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm self-start"
+                  style={{ letterSpacing: "0.05em", fontSize: "0.875rem" }}
+                >
+                  Get Early Access
+                </a>
             </ScrollReveal>
-            <ScrollReveal delay={200} direction="left" className="w-full lg:w-auto lg:flex-shrink-0">
-              <div
-                className="border-2 border-junior-black overflow-hidden"
-                style={{ width: "clamp(240px, 30vw, 380px)", filter: "grayscale(100%) contrast(1.1)" }}
-              >
+
+          </div>
+
+            {/* Right column — image fills full height */}
+            <ScrollReveal delay={200} direction="left" className="w-full lg:w-2/5 lg:flex-shrink-0">
+              <div style={{ filter: "grayscale(100%) contrast(1.1)" }}>
                 <VideoPlaceholder
                   aspectRatio="4:5"
                   imageSrc="/images/hero-production.jpg"
@@ -50,6 +63,7 @@ export default function Home() {
                 />
               </div>
             </ScrollReveal>
+
           </div>
         </div>
       </section>
@@ -58,43 +72,21 @@ export default function Home() {
       <ThreeCardSection />
 
       {/* Section: Second Brain & Integrations */}
-      <section className="bg-junior-red px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
+      <section className="bg-junior-red px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          <div className="flex flex-col gap-12">
             <ScrollReveal>
-              <h2 className="font-display text-junior-white text-3xl md:text-4xl font-black uppercase tracking-wider mb-8 text-balance leading-tight">
-                JUNIOR IS YOUR SECOND BRAIN.
+              <h2 className="font-display text-junior-white text-3xl md:text-4xl font-black uppercase tracking-wider mb-8 text-balance leading-snug">
+                Junior is a second brain for producers
               </h2>
-              <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans mb-6">
-                The Canadian film industry runs on sweat equity that never recoups. We do it out of passion, but it doesn't pay the bills, and while we're working our day jobs, we miss deadlines, stay up late and burn out, so we don't drop a ball that no one else is there to catch.
-              </p>
-              <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans">
-                You focus on making the film. Junior makes sure nothing falls through the cracks.
+              <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans max-w-2xl">
+                Junior makes sure nothing falls through the cracks. Every deadline tracked, every document versioned, every funding window watched — so you can focus on making the film.
               </p>
             </ScrollReveal>
-            <ScrollReveal delay={200} direction="left" className="w-full order-first lg:order-last">
+            <ScrollReveal delay={200}>
               <ToolStrip />
             </ScrollReveal>
           </div>
-        </div>
-      </section>
-
-      {/* Section: Feature Grid */}
-      <section id="features" className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
-        <div className="max-w-7xl mx-auto">
-          <ScrollReveal>
-            <h2 className="font-display text-junior-black text-3xl md:text-4xl font-black uppercase tracking-wider mb-4 text-center text-balance">
-              No budget, no team, no problem.
-            </h2>
-            <div className="max-w-2xl mx-auto">
-              <p className="text-junior-black/80 text-lg md:text-xl leading-relaxed font-sans text-left mb-16">
-                Junior holds everything you can&apos;t afford to forget — funding windows, delivery dates, document versions, budget checkpoints — and surfaces what you need, when you need it.
-              </p>
-            </div>
-          </ScrollReveal>
-          <ScrollReveal delay={150}>
-            <FeatureTiers />
-          </ScrollReveal>
         </div>
       </section>
 
@@ -102,52 +94,70 @@ export default function Home() {
       <PricingTiers />
 
       {/* Section: Logo Cloud */}
-      <section className="bg-junior-white px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
+      <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
-            <LogoCloud title="Junior understands these funders — because we've worked with them" />
+            <FunderLogos />
           </ScrollReveal>
         </div>
       </section>
 
       {/* Section: Founders/About */}
-      <section id="why-we-built-it" className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
+      <section id="why-we-built-it" className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
           
           {/* Centered headline and intro - full width above the grid */}
           <ScrollReveal>
-            <h2 className="font-display text-junior-black text-3xl md:text-4xl font-black uppercase tracking-wider mb-8 leading-tight text-center">
+            <h2 className="font-display text-junior-black text-3xl md:text-4xl font-black uppercase tracking-wider mb-8 leading-snug text-center">
               BUILT BY CANADIAN FILMMAKERS,<br />FOR CANADIAN FILMMAKERS.
             </h2>
           </ScrollReveal>
           
           <ScrollReveal delay={100}>
-            <p className="text-junior-black/80 text-lg leading-relaxed font-sans mb-16 text-center max-w-3xl mx-auto">
+            <p className="text-junior-black/80 text-lg leading-relaxed font-sans mb-8 text-center max-w-3xl mx-auto">
               Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
             </p>
           </ScrollReveal>
 
           {/* Two-column: bios on left, photos on right */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
+          {/* Mobile: each founder as photo + bio pair. Desktop: bios left, overlapping photos right */}
+          <div className="lg:grid lg:grid-cols-2 lg:gap-16 lg:items-center">
 
-            {/* Left: founder bios */}
-            <ScrollReveal delay={150} className="flex flex-col gap-4">
-              <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6">
-                Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
-              </p>
-              <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6">
-                Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+). Junior is built on this intersectional experience of art and technology.
-              </p>
-            </ScrollReveal>
-
-            {/* Right: overlapping photos */}
-            <ScrollReveal delay={200} direction="left" className="w-full flex justify-center">
-              <div className="relative" style={{ width: "320px", height: "360px", overflow: "hidden" }}>
-                {/* Gavin — top-left, behind */}
+            {/* Left: founder bios — always visible */}
+            <ScrollReveal delay={150} className="flex flex-col gap-4 w-full min-w-0">
+              {/* Gavin */}
+              <div className="flex items-stretch gap-4">
                 <img
                   src="/images/gavin-seal-headshot.jpg"
                   alt="Gavin Seal, co-founder of Junior"
-                  className="absolute z-0"
+                  className="lg:hidden border-2 border-junior-black flex-shrink-0 w-24 h-auto object-cover object-top"
+                  style={{ filter: "grayscale(100%) contrast(1.1)" }}
+                />
+                <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6 flex-1">
+                  Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
+                </p>
+              </div>
+              {/* Lisa */}
+              <div className="flex items-stretch gap-4">
+                <img
+                  src="/images/lisa-purisima-headshot.jpg"
+                  alt="Lisa Purisima, co-founder of Junior"
+                  className="lg:hidden border-2 border-junior-black flex-shrink-0 w-24 h-auto object-cover object-top"
+                  style={{ filter: "grayscale(100%) contrast(1.1)" }}
+                />
+                <p className="text-junior-black/80 text-lg leading-relaxed font-sans border-2 border-junior-black p-6 flex-1">
+                  Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+).
+                </p>
+              </div>
+            </ScrollReveal>
+
+            {/* Right: overlapping photos — desktop only */}
+            <ScrollReveal delay={200} direction="left" className="hidden lg:flex w-full justify-center">
+              <div className="relative" style={{ width: "320px", height: "360px" }}>
+                <img
+                  src="/images/gavin-seal-headshot.jpg"
+                  alt="Gavin Seal, co-founder of Junior"
+                  className="absolute z-0 border-2 border-junior-black"
                   style={{
                     width: "180px",
                     height: "220px",
@@ -158,11 +168,10 @@ export default function Home() {
                     filter: "grayscale(100%) contrast(1.1)"
                   }}
                 />
-                {/* Lisa — bottom-right, in front */}
                 <img
                   src="/images/lisa-purisima-headshot.jpg"
                   alt="Lisa Purisima, co-founder of Junior"
-                  className="absolute z-10"
+                  className="absolute z-10 border-2 border-junior-black"
                   style={{
                     width: "180px",
                     height: "220px",
@@ -177,11 +186,17 @@ export default function Home() {
             </ScrollReveal>
 
           </div>
+
+          <ScrollReveal delay={250}>
+            <p className="text-junior-black/80 text-lg leading-relaxed font-sans text-center max-w-3xl mx-auto font-semibold mt-12">
+              Junior is built on this intersectional experience of art and technology.
+            </p>
+          </ScrollReveal>
         </div>
       </section>
 
       {/* CTA Section */}
-      <section id="cta" className="bg-junior-red px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black md:py-32">
+      <section id="cta" className="bg-junior-red px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal>
             <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-4 text-balance leading-tight">
@@ -198,9 +213,8 @@ export default function Home() {
       {/* Section 7: Footer */}
       <footer className="bg-junior-black border-t-2 border-junior-black px-6 py-16 md:px-12 lg:px-24">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col lg:flex-row justify-between items-start gap-12">
-            <div />
-            <div className="lg:text-right">
+          <div className="flex flex-col lg:flex-row justify-end items-end gap-12">
+            <div className="text-right">
               <p 
                 className="font-display text-junior-white uppercase mb-2 leading-none"
                 style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}

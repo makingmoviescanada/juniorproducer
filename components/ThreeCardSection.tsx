@@ -10,28 +10,28 @@ interface Card {
 
 const cards: Card[] = [
   {
-    title: "Built for Canadian Film",
-    subtitle: "Junior knows every Canadian deadline, eligibility requirement, and funding window.",
-    body: "Stop crawling the same pages over and over again.",
+    title: "for canadians",
+    subtitle: "",
+    body: "Junior crawls so you can run — every window, eligibility requirement, and deadline.",
   },
   {
-    title: "Always On",
-    subtitle: "When things go wrong, you'll never have to figure it out on your own again.",
-    body: "Junior is available whenever you need it — no office hours, no waiting, no callbacks.",
+    title: "24/7 Support",
+    subtitle: "",
+    body: "Junior is always standing by — no office hours, no callbacks, no waiting.",
   },
   {
-    title: "No Staff Required",
-    subtitle: "The assistant you could never afford to hire. Until now.",
-    body: "Junior handles the admin, the version chaos, and the production overhead — for less than one billable hour.",
+    title: "No Staff, No Problem",
+    subtitle: "",
+    body: "Junior automates admin and version chaos — for less than one billable hour per month.",
   },
 ]
 
 export function ThreeCardSection() {
   return (
-    <section className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
+    <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
-          <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider mb-16 text-center text-balance leading-tight">
+          <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider mb-16 text-center text-balance leading-snug uppercase">
             You&apos;re doing the work of an entire production office. Junior has your back.
           </h2>
         </ScrollReveal>
@@ -40,13 +40,12 @@ export function ThreeCardSection() {
           {cards.map((card, index) => (
             <ScrollReveal key={index} delay={index * 100}>
               <div 
-                className="p-8 md:p-10 bg-junior-parchment border-2 border-junior-black shadow-hard-parchment-sm h-full flex flex-col"
-                style={{ borderRadius: "86px" }}
+                className="p-8 md:p-10 bg-junior-white border-2 border-junior-black shadow-hard-parchment-sm h-full flex flex-col"
               >
                 <h3 className="font-display text-junior-black text-lg md:text-xl font-black uppercase tracking-wider mb-4">
                   {card.title}
                 </h3>
-                <p className="font-sans text-junior-black/70 italic text-sm md:text-base mb-4 font-medium">
+                <p className="font-sans text-junior-black/80 text-base md:text-lg leading-relaxed md:leading-loose flex-grow">
                   {card.subtitle}
                 </p>
                 <p className="font-sans text-junior-black/80 text-base md:text-lg leading-relaxed md:leading-loose flex-grow">

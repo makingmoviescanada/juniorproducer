@@ -10,14 +10,9 @@ export function FeatureTiers({ dark = false }: { dark?: boolean }) {
       ],
     },
     {
-      category: "Budget & Tracking",
+      category: "Budgets & Documents",
       items: [
         "Get a budget estimate straight from your screenplay",
-      ],
-    },
-    {
-      category: "Documents & Agreements",
-      items: [
         "Never lose track of who has the latest version",
       ],
     },
@@ -32,20 +27,20 @@ export function FeatureTiers({ dark = false }: { dark?: boolean }) {
   ]
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20">
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
       {features.map((feature, index) => (
-        <div key={index} className="space-y-6">
-          <div className="border-b-2 border-junior-red pb-4">
-            <h3 className="font-display text-junior-black text-lg md:text-xl font-black uppercase tracking-wider">
+        <div key={index} className="border-2 border-junior-black flex flex-col">
+          <div className="border-b-2 border-junior-black px-6 py-4">
+            <h3 className="font-display text-junior-black text-base md:text-lg font-black uppercase tracking-wider">
               {feature.category}
             </h3>
           </div>
 
-          <ul className="space-y-4">
+          <ul className="space-y-4 px-6 py-6 flex-grow">
             {feature.items.map((item, itemIndex) => (
-              <li key={itemIndex} className="flex items-start gap-4">
-                <span className="text-junior-red mt-1 flex-shrink-0 font-bold text-lg">✓</span>
-                <span className="font-sans text-base md:text-lg leading-relaxed md:leading-loose text-junior-black">
+              <li key={itemIndex} className="flex items-start gap-3">
+                <span className="text-junior-red mt-1 flex-shrink-0 font-bold">✓</span>
+                <span className="font-sans text-base leading-relaxed text-junior-black">
                   {item}
                 </span>
               </li>

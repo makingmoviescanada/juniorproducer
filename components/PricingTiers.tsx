@@ -83,7 +83,7 @@ export function PricingTiers() {
   const tiers: TierProps[] = [
     {
       label: "FILMMAKER",
-      subheading: "For the solo filmmaker doing it all alone.",
+      subheading: "For the filmmaker self-producing.",
       body: "Your 24/7 Canadian film funding assistant. Ask anything — deadlines, eligibility, funding windows — and never miss an opportunity again.",
       features: [
         "Chat with a Canadian film industry-trained AI",
@@ -106,7 +106,7 @@ export function PricingTiers() {
     },
     {
       label: "STUDIO",
-      subheading: "For the filmmaker who wants Junior fully integrated into their world.",
+      subheading: "For producers ready to scale.",
       body: "Junior becomes your true second brain — operating inside your own Claude environment, learning your projects, and surfacing what you need before you know you need it.",
       features: [
         "Everything in Producer",
@@ -119,11 +119,11 @@ export function PricingTiers() {
   ]
 
   return (
-    <section className="bg-junior-parchment px-6 py-32 md:px-12 lg:px-24 border-t-2 border-junior-black">
+    <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
       <div className="max-w-7xl mx-auto">
         <ScrollReveal>
-          <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-center text-balance">
-            Start where you are. Grow as you go.
+          <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-center text-balance leading-snug">
+            start where you are.<br />grow as you go.
           </h2>
         </ScrollReveal>
 
