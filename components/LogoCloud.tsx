@@ -33,16 +33,16 @@ export function LogoCloud({
   className?: string 
 }) {
   return (
-    <div className={`${className}`}>
-      <p className="text-center text-junior-black/60 font-sans text-sm uppercase tracking-wide mb-12">
+    <div className={`${className} flex flex-col gap-12`}>
+      <p className="text-center text-junior-black font-display text-lg md:text-xl font-black uppercase tracking-wider">
         {title}
       </p>
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
         {partners.map((partner, index) => (
           <div
             key={index}
-            className="border-2 border-junior-black bg-white flex items-center justify-center flex-shrink-0"
-            style={{ height: "100px", padding: "12px" }}
+            className="border-2 border-junior-black bg-white flex items-center justify-center"
+            style={{ height: "120px", padding: "12px" }}
           >
             <Image
               src={partner.logo}
