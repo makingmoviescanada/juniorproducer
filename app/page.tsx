@@ -133,12 +133,14 @@ export default function Home() {
               </p>
             </ScrollReveal>
             <ScrollReveal delay={150} direction="left">
-              <div className="relative w-full aspect-square border-4 border-junior-black overflow-hidden">
-                <img
-                  src="/images/gavin-seal-headshot.jpg"
-                  alt="Gavin Seal, co-founder of Junior"
-                  className="w-full h-full object-cover object-top"
-                />
+              <div className="max-w-sm mx-auto lg:mx-0">
+                <div className="relative w-full aspect-square border-4 border-junior-black overflow-hidden">
+                  <img
+                    src="/images/gavin-seal-headshot.jpg"
+                    alt="Gavin Seal, co-founder of Junior"
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
               </div>
             </ScrollReveal>
           </div>
@@ -146,12 +148,14 @@ export default function Home() {
           {/* Lisa — photo left, text right */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-24 items-center">
             <ScrollReveal direction="right" className="order-last lg:order-first">
-              <div className="relative w-full aspect-square border-4 border-junior-black overflow-hidden">
-                <img
-                  src="/images/lisa-purisima-headshot.jpg"
-                  alt="Lisa Purisima, co-founder of Junior"
-                  className="w-full h-full object-cover object-top"
-                />
+              <div className="max-w-sm mx-auto lg:mx-0">
+                <div className="relative w-full aspect-square border-4 border-junior-black overflow-hidden">
+                  <img
+                    src="/images/lisa-purisima-headshot.jpg"
+                    alt="Lisa Purisima, co-founder of Junior"
+                    className="w-full h-full object-cover object-top"
+                  />
+                </div>
               </div>
             </ScrollReveal>
             <ScrollReveal delay={150}>
