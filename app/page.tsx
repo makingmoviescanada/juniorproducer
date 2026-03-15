@@ -26,9 +26,12 @@ export default function Home() {
                   <span className="font-display text-junior-black font-bold uppercase tracking-wider">Junior</span>
                 </div>
               </div>
-              <h1 className="font-display text-junior-black text-2xl md:text-3xl tracking-wider mb-8 leading-tight text-pretty">
-                The late nights and weekends aren&apos;t a badge of honour — you need help. Junior is the producer&apos;s assistant you could never afford to hire — handling the funding, the admin, and the chaos so you can get back to making films.
+              <h1 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider mb-6 leading-tight text-pretty">
+                The late nights and weekends aren&apos;t a badge of honour — you need help.
               </h1>
+              <h2 className="font-display text-junior-black text-lg md:text-2xl font-semibold tracking-wide mb-8 leading-relaxed text-pretty">
+                Junior is the producer&apos;s assistant you could never afford to hire — handling the funding, the admin, and the chaos so you can get back to making films.
+              </h2>
               <a
                 href="#cta"
                 className="inline-block px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm"
