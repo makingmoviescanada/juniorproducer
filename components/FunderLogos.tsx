@@ -33,10 +33,10 @@ export function FunderLogos({
   className?: string 
 }) {
   return (
-    <div className={`${className} flex flex-col gap-12`}>
-      <p className="text-center text-junior-black font-display text-lg md:text-xl font-black uppercase tracking-wider">
+    <div className={`${className} flex flex-col`}>
+      <h2 className="text-center text-junior-white font-display text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 leading-snug text-balance">
         {title}
-      </p>
+      </h2>
       <div className="flex flex-wrap justify-center gap-4">
         {funders.map((funder, index) => (
           <div
