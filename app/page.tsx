@@ -129,7 +129,7 @@ export default function Home() {
               <div className="flex items-stretch gap-4">
                 <div className="flex-shrink-0 w-24 bg-white border-2 border-junior-black flex items-center justify-center overflow-hidden lg:hidden">
                   <img
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gavin%20Seal-TjCCS86akGnbzTQV2doqCGSQEKZ5mw.png"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/2-gcA2FsTP2af7VF1EjAowBgm97wok9P.png"
                     alt="Gavin Seal, co-founder of Junior"
                     className="h-auto object-cover object-top w-full"
                     style={{ filter: "grayscale(100%) contrast(1.1)" }}
@@ -160,7 +160,7 @@ export default function Home() {
               <div className="relative" style={{ width: "320px", height: "360px" }}>
                 <div className="absolute z-0" style={{ width: "180px", height: "220px", top: 0, left: 0, backgroundColor: "white", border: "2px solid black", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
                   <img
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Gavin%20Seal-TjCCS86akGnbzTQV2doqCGSQEKZ5mw.png"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/2-gcA2FsTP2af7VF1EjAowBgm97wok9P.png"
                     alt="Gavin Seal, co-founder of Junior"
                     style={{
                       width: "100%",
