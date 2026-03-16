@@ -94,7 +94,7 @@ export default function Home() {
       <PricingTiers />
 
       {/* Section: Logo Cloud */}
-      <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
+      <section className="bg-junior-black px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
             <FunderLogos />
@@ -189,11 +189,7 @@ export default function Home() {
 
           </div>
 
-          <ScrollReveal delay={250}>
-            <p className="text-junior-black/80 text-lg leading-relaxed font-sans text-center max-w-3xl mx-auto font-semibold mt-12">
-              Junior is built on this intersectional experience of art and technology.
-            </p>
-          </ScrollReveal>
+
         </div>
       </section>
 

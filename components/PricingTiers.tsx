@@ -7,6 +7,12 @@ function handleTierClick(tier: string) {
   const url = new URL(window.location.href)
   url.searchParams.set('tier', tier)
   window.history.replaceState({}, '', url)
+  
+  // Scroll to the CTA section with the waitlist form
+  const ctaSection = document.getElementById('cta')
+  if (ctaSection) {
+    ctaSection.scrollIntoView({ behavior: 'smooth' })
+  }
 }
 
 interface TierProps {
