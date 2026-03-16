@@ -143,7 +143,7 @@ export default function Home() {
               <div className="flex items-stretch gap-4">
                 <div className="flex-shrink-0 w-24 bg-white border-2 border-junior-black flex items-center justify-center overflow-hidden lg:hidden">
                   <img
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/4-Dq3Fcg6Gkd4rirNXRY2dDlAt5zwWVP.png"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Lisa%20Purisima-qUBLzUadSzr2Y7cedlcDtMBSgOjM1r.png"
                     alt="Lisa Purisima, co-founder of Junior"
                     className="h-auto object-cover object-top w-full"
                     style={{ filter: "grayscale(100%) contrast(1.1)" }}
@@ -173,7 +173,7 @@ export default function Home() {
                 </div>
                 <div className="absolute z-10" style={{ width: "180px", height: "220px", bottom: 0, right: 0, backgroundColor: "white", border: "2px solid black", display: "flex", alignItems: "center", justifyContent: "center", overflow: "hidden" }}>
                   <img
-                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/4-Dq3Fcg6Gkd4rirNXRY2dDlAt5zwWVP.png"
+                    src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Lisa%20Purisima-qUBLzUadSzr2Y7cedlcDtMBSgOjM1r.png"
                     alt="Lisa Purisima, co-founder of Junior"
                     style={{
                       width: "100%",
