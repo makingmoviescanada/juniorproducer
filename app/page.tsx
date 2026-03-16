@@ -32,7 +32,7 @@ export default function Home() {
               </div>
               <ScrollReveal>
                 <h1 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider leading-snug text-pretty uppercase">
-                  Let's be honest - you need help.
+                  Let's be honest,<br /> you need help.
                 </h1>
               </ScrollReveal>
               <ScrollReveal delay={100}>
