@@ -74,19 +74,19 @@ export default function Home() {
       {/* Section: Second Brain & Integrations */}
       <section className="bg-junior-red px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col gap-12">
-            <ScrollReveal>
-              <h2 className="font-display text-junior-white text-3xl md:text-4xl font-black uppercase tracking-wider mb-8 text-balance leading-snug">
-                Junior is a second brain for producers
-              </h2>
-              <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans max-w-2xl">
-                Junior makes sure nothing falls through the cracks. Every deadline tracked, every document versioned, every funding window watched — so you can focus on making the film.
-              </p>
-            </ScrollReveal>
-            <ScrollReveal delay={200}>
-              <ToolStrip />
-            </ScrollReveal>
-          </div>
+          <ScrollReveal>
+            <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-balance leading-snug">
+              Junior is a second brain for producers
+            </h2>
+          </ScrollReveal>
+          <ScrollReveal delay={100}>
+            <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans max-w-2xl mb-16">
+              Junior makes sure nothing falls through the cracks. Every deadline tracked, every document versioned, every funding window watched — so you can focus on making the film.
+            </p>
+          </ScrollReveal>
+          <ScrollReveal delay={200}>
+            <ToolStrip />
+          </ScrollReveal>
         </div>
       </section>
 
@@ -108,13 +108,13 @@ export default function Home() {
           
           {/* Centered headline and intro - full width above the grid */}
           <ScrollReveal>
-            <h2 className="font-display text-junior-black text-3xl md:text-4xl font-black uppercase tracking-wider mb-8 leading-snug text-center">
+            <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 leading-snug text-center text-balance">
               BUILT BY CANADIAN FILMMAKERS,<br />FOR CANADIAN FILMMAKERS.
             </h2>
           </ScrollReveal>
           
           <ScrollReveal delay={100}>
-            <p className="text-junior-black/80 text-lg leading-relaxed font-sans mb-8 text-center max-w-3xl mx-auto">
+            <p className="text-junior-black/80 text-lg md:text-xl leading-relaxed font-sans mb-16 text-center max-w-3xl mx-auto">
               Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
             </p>
           </ScrollReveal>
@@ -197,10 +197,10 @@ export default function Home() {
       <section id="cta" className="bg-junior-red px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal>
-            <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-4 text-balance leading-tight">
+            <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-6 text-balance leading-snug">
               THE CAVALRY'S NOT COMING. BUT JUNIOR IS.
             </h2>
-            <p className="font-sans text-junior-white text-base md:text-lg font-semibold mb-12">
+            <p className="font-sans text-junior-white text-lg md:text-xl font-semibold mb-16">
               Early access. Limited spots.
             </p>
             <KitForm className="justify-center" />

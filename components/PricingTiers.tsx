@@ -28,7 +28,7 @@ const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) =>
   return (
     <div className="bg-junior-white border-2 border-junior-black p-8 flex flex-col h-full shadow-hard-parchment-sm">
       <div className="mb-6">
-        <h3 className="font-display text-junior-black text-lg md:text-xl font-black uppercase tracking-wider font-bold mb-3">
+        <h3 className="font-display text-junior-black text-lg md:text-xl font-black uppercase tracking-wider mb-3">
           {label}
         </h3>
         <p className="font-sans text-junior-black/70 italic text-sm md:text-base">
@@ -129,7 +129,7 @@ export function PricingTiers() {
       <div className="max-w-7xl mx-auto">
         <ScrollReveal>
           <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-center text-balance leading-snug">
-            start where you are.<br />grow as you go.
+            START WHERE YOU ARE.<br />GROW AS YOU GO.
           </h2>
         </ScrollReveal>
 

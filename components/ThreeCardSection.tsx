@@ -31,7 +31,7 @@ export function ThreeCardSection() {
     <section className="bg-junior-black px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
-          <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black tracking-wider mb-16 text-center text-balance leading-snug uppercase">
+          <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-center text-balance leading-snug">
             You&apos;re doing the work of an entire production office. Junior has your back.
           </h2>
         </ScrollReveal>
