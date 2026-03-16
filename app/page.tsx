@@ -94,7 +94,7 @@ export default function Home() {
       <PricingTiers />
 
       {/* Section: Logo Cloud */}
-      <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
+      <section className="bg-junior-black px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
             <FunderLogos />

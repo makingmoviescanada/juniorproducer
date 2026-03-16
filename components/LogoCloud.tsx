@@ -38,14 +38,14 @@ export function LogoCloud({
 }) {
   return (
     <div className={`${className} flex flex-col gap-12`}>
-      <p className="text-center text-junior-black font-display text-lg md:text-xl font-black uppercase tracking-wider">
+      <p className="text-center text-junior-white font-display text-lg md:text-xl font-black uppercase tracking-wider">
         {title}
       </p>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
         {partners.map((partner, index) => (
           <div
             key={index}
-            className="border-2 border-junior-black flex items-center justify-center"
+            className="border-2 border-junior-white flex items-center justify-center"
             style={{ height: "120px", padding: "16px", backgroundColor: "#ffffff" }}
           >
             <Image
