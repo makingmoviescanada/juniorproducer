@@ -37,7 +37,7 @@ export default function Home() {
               </ScrollReveal>
               <ScrollReveal delay={100}>
                 <h2 className="font-sans text-junior-black text-lg md:text-xl font-semibold tracking-wide leading-relaxed text-pretty">
-                  Junior is the 24/7 producer&apos;s assistant you&apos;ve always dream of having by your side on those late nights and weekends.
+                  Junior is the 24/7 producing assistant you&apos;ve always dreamed of having by your side on those late nights and weekends.
                 </h2>
               </ScrollReveal>
               <ScrollReveal delay={200}>
