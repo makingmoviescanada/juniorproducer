@@ -189,11 +189,7 @@ export default function Home() {
 
           </div>
 
-          <ScrollReveal delay={250}>
-            <p className="text-junior-black/80 text-lg leading-relaxed font-sans text-center max-w-3xl mx-auto font-semibold mt-12">
-              Junior is built on this intersectional experience of art and technology.
-            </p>
-          </ScrollReveal>
+
         </div>
       </section>
 
