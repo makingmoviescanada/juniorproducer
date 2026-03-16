@@ -32,12 +32,12 @@ export default function Home() {
               </div>
               <ScrollReveal>
                 <h1 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider leading-snug text-pretty uppercase">
-                  Say goodbye to burnout, say hello to Junior.
+                  Let's be honest,<br /> you need help.
                 </h1>
               </ScrollReveal>
               <ScrollReveal delay={100}>
                 <h2 className="font-sans text-junior-black text-lg md:text-xl font-semibold tracking-wide leading-relaxed text-pretty">
-                  Junior is the 24/7 producer&apos;s assistant you could never afford to hire.
+                  Junior is the 24/7 producer&apos;s assistant you&apos;ve always dream of having by your side on those late nights and weekends.
                 </h2>
               </ScrollReveal>
               <ScrollReveal delay={200}>
