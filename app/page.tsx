@@ -72,11 +72,8 @@ export default function Home() {
               <ScrollReveal delay={200}>
                 <a
                   href="#cta"
-                  className="inline-block px-6 py-3 text-junior-white font-bold uppercase tracking-wider font-sans text-sm self-start btn-primary"
-                  style={{
-                    letterSpacing: "0.05em",
-                    fontSize: "0.875rem",
-                  }}
+                  className="btn-primary"
+                  style={{ backgroundColor: '#E8392A', color: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', border: '2px solid #1A1A1A', borderRadius: '4px', boxShadow: '4px 4px 0px #1A1A1A', padding: '0.75rem 1.5rem', display: 'inline-block', cursor: 'pointer' }}
                 >
                   Get Early Access
                 </a>
