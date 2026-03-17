@@ -38,7 +38,7 @@ export function ToolStrip() {
           </div>
         ))}
       </div>
-      <p className="text-junior-black text-center font-sans text-sm" style={{ color: '#1A1A1A' }}>
+      <p className="text-junior-black text-center font-sans text-lg md:text-xl" style={{ color: '#1A1A1A' }}>
         Junior connects to the tools you already use.
       </p>
     </div>
