@@ -146,7 +146,7 @@ export function PricingTiers() {
     {
       label: "PRODUCER",
       subheading: "For the producer juggling a slate.",
-      body: "Everything in Filmmaker, plus Junior connects to your project management workflow — so your funding intelligence lives inside your productions.",
+      body: "Connects to your project management workflow — so your funding intelligence lives inside your productions.",
       features: [
         "Everything in Filmmaker",
         "Connects to Asana and your existing tools",
