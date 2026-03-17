@@ -3,13 +3,10 @@
 @tailwind utilities;
 
 :root {
-  /* Junior Brand Colors */
   --junior-red: 0 84% 54%;
   --junior-parchment: 40 33% 91%;
   --junior-black: 0 0% 10%;
   --junior-white: 0 0% 100%;
-  
-  /* Semantic tokens */
   --background: 40 33% 91%;
   --foreground: 0 0% 10%;
   --card: 0 0% 100%;
@@ -58,64 +55,48 @@
   * {
     @apply border-border;
   }
-  
   body {
     @apply bg-background text-foreground font-sans;
   }
 }
 
 @layer utilities {
-  /* Hard shadow utilities */
   .shadow-hard {
     box-shadow: 8px 8px 0 hsl(0 0% 10%);
   }
-  
   .shadow-hard-sm {
     box-shadow: 5px 5px 0 hsl(0 0% 10%);
   }
-  
-  /* Tone-on-tone shadows */
   .shadow-hard-parchment {
     box-shadow: 8px 8px 0 hsl(40 20% 75%);
   }
-  
   .shadow-hard-parchment-sm {
     box-shadow: 5px 5px 0 hsl(40 20% 75%);
   }
-  
   .shadow-hard-black {
     box-shadow: 8px 8px 0 hsl(0 0% 6%);
   }
-  
   .shadow-hard-black-sm {
     box-shadow: 5px 5px 0 hsl(0 0% 6%);
   }
-  
   .shadow-hard-red {
     box-shadow: 8px 8px 0 hsl(4 75% 45%);
   }
-  
   .shadow-hard-red-sm {
     box-shadow: 5px 5px 0 hsl(4 75% 45%);
   }
-  
   .shadow-hard-white {
     box-shadow: 8px 8px 0 hsl(0 0% 100%);
   }
-  
   .shadow-hard-white-sm {
     box-shadow: 5px 5px 0 hsl(0 0% 100%);
   }
-
   .shadow-card-hard {
     box-shadow: 4px 4px 0px #1A1A1A;
   }
-
-  /* Paper grain texture overlay */
   .grain-overlay {
     position: relative;
   }
-
   .grain-overlay::after {
     content: "";
     position: absolute;
@@ -127,83 +108,63 @@
     background-size: 200px 200px;
     mix-blend-mode: multiply;
   }
-  
-  /* Hover transitions */
   .hover-lift {
     @apply transition-all duration-200;
   }
-  
   .hover-lift:hover {
     transform: translate(-2px, -2px);
     box-shadow: 10px 10px 0 hsl(0 0% 10%);
   }
-  
-  /* Button hover states */
   .btn-hover {
     @apply transition-all duration-150 relative overflow-hidden;
   }
-  
   .btn-hover:hover {
     transform: translateY(-2px);
     box-shadow: 4px 4px 0 hsl(0 0% 10%);
   }
-  
   .btn-hover:active {
     transform: translateY(0);
     box-shadow: none;
   }
-  
   .btn-hover:focus-visible {
     outline: 2px solid hsl(0 0% 10%);
     outline-offset: 2px;
   }
-  
-  /* Display font class - ensures weight 900 explicitly */
   .font-display {
     font-family: var(--font-barlow);
     font-weight: 900;
     letter-spacing: 0.04em;
   }
-
-  /* Button hover states - specific by color */
   .btn-red {
     transition: all 150ms ease;
   }
-
   .btn-red:hover {
     background-color: #C9301F;
     box-shadow: 4px 4px 0px #1A1A1A;
     transform: translateY(-2px);
   }
-
   .btn-red:active {
     transform: translateY(0);
   }
-
   .btn-black {
     transition: all 150ms ease;
   }
-
   .btn-black:hover {
     background-color: #333333;
     box-shadow: 4px 4px 0px #FFFFFF;
     transform: translateY(-2px);
   }
-
   .btn-black:active {
     transform: translateY(0);
   }
-
   .btn-white {
     transition: all 150ms ease;
   }
-
   .btn-white:hover {
     background-color: #F0EBE0;
     box-shadow: 4px 4px 0px #1A1A1A;
     transform: translateY(-2px);
   }
-
   .btn-white:active {
     transform: translateY(0);
   }
