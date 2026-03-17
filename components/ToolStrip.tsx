@@ -12,17 +12,28 @@ const tools = [
 export function ToolStrip() {
   return (
     <div className="flex flex-col items-center gap-8">
-      <div className="flex flex-wrap justify-center gap-6">
+      <div className="flex flex-wrap justify-center gap-8">
         {tools.map((tool, index) => (
           <div
             key={index}
-            className="flex items-center justify-center"
+            className="flex items-center justify-center transition-all duration-200 hover:scale-110"
           >
             <img
               src={tool.logo}
               alt={tool.name}
-              className="max-w-full max-h-full object-contain"
-              style={{ width: '80px', height: '80px' }}
+              className="max-w-full object-contain"
+              style={{
+                height: '40px',
+                width: 'auto',
+                mixBlendMode: 'multiply',
+                filter: 'grayscale(100%)',
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.filter = 'grayscale(0%)'
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.filter = 'grayscale(100%)'
+              }}
             />
           </div>
         ))}
