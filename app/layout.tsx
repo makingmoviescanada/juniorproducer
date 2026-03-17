@@ -1,21 +1,8 @@
 import type { Metadata } from 'next'
-import { Barlow, Lato } from 'next/font/google'
+import { GeistSans } from 'geist/font/sans'
+import { GeistMono } from 'geist/font/mono'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
-
-const barlow = Barlow({ 
-  subsets: ["latin"],
-  weight: ["900"],
-  variable: "--font-barlow",
-  display: "swap",
-})
-
-const lato = Lato({ 
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-lato",
-  display: "swap",
-})
 
 export const metadata: Metadata = {
   title: 'Junior | The Producer\'s Assistant',
@@ -46,7 +33,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${barlow.variable} ${lato.variable}`}>
+    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body className="font-sans antialiased">
         {children}
         <Analytics />
