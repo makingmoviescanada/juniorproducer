@@ -20,6 +20,18 @@ const TIER_DIFFERENTIATORS: Record<string, string> = {
   STUDIO: "For production companies with a full slate",
 }
 
+const TIER_BUTTON_TEXT: Record<string, string> = {
+  ARTIST: "JOIN AS ARTIST",
+  PRODUCER: "JOIN AS PRODUCER",
+  STUDIO: "JOIN AS STUDIO",
+}
+
+const TIER_PRICE_ANCHORS: Record<string, string> = {
+  ARTIST: "Less than a script coverage note.",
+  PRODUCER: "Less than half a coordinator's day rate.",
+  STUDIO: "One day rate. One month of Junior.",
+}
+
 interface TierProps {
   label: string
   features: string[]
@@ -146,8 +158,23 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
             el.style.boxShadow = 'none'
           }}
         >
-          Join the Waitlist
+          {TIER_BUTTON_TEXT[label]}
         </button>
+        <p
+          style={{
+            fontFamily: 'var(--font-barlow)',
+            fontWeight: 400,
+            fontSize: '13px',
+            color: '#1A1A1A',
+            opacity: 0.6,
+            textAlign: 'center',
+            marginTop: '8px',
+            margin: '0',
+            paddingTop: '8px',
+          }}
+        >
+          {TIER_PRICE_ANCHORS[label]}
+        </p>
       </div>
       </div>
     </div>
