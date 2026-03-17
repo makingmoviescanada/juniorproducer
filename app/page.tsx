@@ -68,20 +68,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section: Industry Stat */}
-      <section className="bg-junior-white px-6 py-16 md:px-12 lg:px-24 border-t-2 border-junior-black">
-        <div className="max-w-7xl mx-auto">
-          <ScrollReveal>
-            <p className="font-sans text-junior-black text-lg md:text-xl leading-relaxed text-pretty">
-              The average film producer earns $19.70/hour in Quebec, and 50% have no full time employees.
-            </p>
-            <p className="font-sans text-junior-black/50 text-sm mt-4">
-              <a href="https://www.uppcq.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-junior-black">Source: UPPCQ, 2024</a>
-            </p>
-          </ScrollReveal>
-        </div>
-      </section>
-
       {/* Section: Three Card Section */}
       <ThreeCardSection />
 
