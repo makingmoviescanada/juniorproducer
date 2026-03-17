@@ -248,7 +248,7 @@ export default function Home() {
       </section>
 
       {/* Section 7: Footer */}
-      <footer className="bg-junior-black border-t-2 border-junior-black px-6 py-16 md:px-12 lg:px-24">
+      <footer className="bg-[#1A1A1A] text-white border-t-2 border-junior-black px-6 py-16 md:px-12 lg:px-24">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row justify-end items-end gap-12">
             <div className="text-right">
