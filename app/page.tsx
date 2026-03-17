@@ -233,7 +233,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section id="cta" className="px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
+      <section id="cta" className="bg-[#E8392A] px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal>
             <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-6 text-balance leading-snug" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
