@@ -49,8 +49,8 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
           <li key={idx} className="flex items-start gap-3">
             <span className="font-bold text-lg flex-shrink-0 mt-0.5" style={{ color: '#E8392A' }}>✓</span>
             <span
-              className="text-base md:text-lg leading-relaxed"
-              style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A' }}
+              className="leading-relaxed"
+              style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem' }}
             >
               {feature}
             </span>
@@ -66,8 +66,8 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
               <li key={idx} className="flex items-start gap-3">
                 <span className="font-bold text-lg flex-shrink-0 mt-0.5" style={{ color: '#E8392A' }}>✓</span>
                 <span
-                  className="text-base leading-relaxed"
-                  style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A' }}
+                  className="leading-relaxed"
+                  style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem' }}
                 >
                   {feature}
                 </span>
