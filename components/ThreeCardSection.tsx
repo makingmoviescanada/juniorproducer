@@ -85,6 +85,7 @@ export function ThreeCardSection() {
             style={{
               backgroundColor: '#1A1A1A',
               color: '#FFFFFF',
+              borderRadius: '6px',
             }}
           >
             Get Early Access
