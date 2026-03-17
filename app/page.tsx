@@ -236,8 +236,8 @@ export default function Home() {
       <section id="cta" className="bg-[#E8392A] px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal>
-            <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-6 text-balance leading-snug" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
-              THE CAVALRY'S NOT COMING. BUT JUNIOR IS.
+            <h2 className="font-display text-white text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-6 text-balance leading-snug" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
+              <span className="whitespace-nowrap">THE CAVALRY'S NOT COMING.</span><br />BUT JUNIOR IS.
             </h2>
             <p className="font-sans text-junior-white text-lg md:text-xl font-semibold mb-16">
               Early access. Limited spots.
