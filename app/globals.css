@@ -164,4 +164,46 @@
     font-weight: 900;
     letter-spacing: 0.04em;
   }
-}
+
+  /* Button hover states - specific by color */
+  .btn-red {
+    transition: all 150ms ease;
+  }
+
+  .btn-red:hover {
+    background-color: #C9301F;
+    box-shadow: 4px 4px 0px #1A1A1A;
+    transform: translateY(-2px);
+  }
+
+  .btn-red:active {
+    transform: translateY(0);
+  }
+
+  .btn-black {
+    transition: all 150ms ease;
+  }
+
+  .btn-black:hover {
+    background-color: #333333;
+    box-shadow: 4px 4px 0px #FFFFFF;
+    transform: translateY(-2px);
+  }
+
+  .btn-black:active {
+    transform: translateY(0);
+  }
+
+  .btn-white {
+    transition: all 150ms ease;
+  }
+
+  .btn-white:hover {
+    background-color: #F0EBE0;
+    box-shadow: 4px 4px 0px #1A1A1A;
+    transform: translateY(-2px);
+  }
+
+  .btn-white:active {
+    transform: translateY(0);
+  }

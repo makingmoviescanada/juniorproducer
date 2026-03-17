@@ -81,7 +81,7 @@ export function ThreeCardSection() {
         <ScrollReveal delay={300} className="mt-12 text-center">
           <a
             href="#cta"
-            className="inline-block px-6 py-3 uppercase tracking-wider font-sans text-sm font-bold btn-hover"
+            className="inline-block px-6 py-3 uppercase tracking-wider font-sans text-sm font-bold btn-black"
             style={{
               backgroundColor: '#1A1A1A',
               color: '#FFFFFF',
