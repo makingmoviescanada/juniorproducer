@@ -70,7 +70,7 @@ export default function Home() {
               <ScrollReveal delay={200}>
                 <a
                   href="#cta"
-                  className="inline-block px-6 py-3 text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm self-start border-2 border-junior-black"
+                  className="inline-block px-6 py-3 text-junior-white font-bold uppercase tracking-wider btn-hover font-sans text-sm self-start border-2 border-junior-black"
                   style={{
                     backgroundColor: "#E8392A",
                     borderRadius: "5px",

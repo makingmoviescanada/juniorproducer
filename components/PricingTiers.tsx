@@ -77,7 +77,7 @@ const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) =>
       <button
         data-tier={label.toLowerCase()}
         onClick={() => handleTierClick(label.toLowerCase())}
-        className="w-full px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm md:text-base"
+        className="w-full px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider btn-hover font-sans text-sm md:text-base"
       >
         Join the Waitlist
       </button>

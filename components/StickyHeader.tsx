@@ -48,7 +48,7 @@ export function StickyHeader() {
 
         <a
           href="#cta"
-          className="px-4 py-2 text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-xs border-2 border-junior-black"
+          className="px-4 py-2 text-junior-white font-bold uppercase tracking-wider btn-hover font-sans text-xs border-2 border-junior-black"
           style={{
             backgroundColor: "#E8392A",
             borderRadius: "5px",

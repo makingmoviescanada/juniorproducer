@@ -54,7 +54,7 @@ export function EmailForm({ className = "", variant = "light" }: EmailFormProps)
         type="submit"
         disabled={status === "loading"}
         suppressHydrationWarning
-        className={`px-5 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm whitespace-nowrap transition-all ${
+        className={`px-5 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider btn-hover font-sans text-sm whitespace-nowrap transition-all ${
           status === "loading" ? "opacity-80" : ""
         }`}
       >
