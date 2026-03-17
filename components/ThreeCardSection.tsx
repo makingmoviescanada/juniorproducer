@@ -55,6 +55,7 @@ export function ThreeCardSection() {
                   backgroundColor: '#F0EBE0',
                   border: '1px solid #1A1A1A',
                   borderRadius: '8px',
+                  boxShadow: '4px 4px 0px #1A1A1A',
                 }}
               >
                 <h3
@@ -85,6 +86,7 @@ export function ThreeCardSection() {
             style={{
               backgroundColor: '#1A1A1A',
               color: '#FFFFFF',
+              borderRadius: '6px',
             }}
           >
             Get Early Access
@@ -96,7 +98,7 @@ export function ThreeCardSection() {
             className="font-sans text-lg md:text-xl leading-relaxed"
             style={{ color: '#FFFFFF' }}
           >
-            The average film producer earns $19.70/hour in Quebec and 50% have no full-time employees.
+            The average film producer earns $19.70/hour and 50% have no full-time employees. (Quebec)
           </p>
           <p
             className="font-sans text-sm mt-4"
