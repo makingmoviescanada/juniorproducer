@@ -135,7 +135,7 @@ export function PricingTiers() {
     {
       label: "ARTIST",
       subheading: "For the independent artist.",
-      body: "Your 24/7 Canadian film funding assistant. Ask anything — deadlines, eligibility, funding windows — and never miss an opportunity again.",
+      body: "Ask anything — deadlines, eligibility, funding windows — and never miss an opportunity again.",
       features: [
         "Chat with a Canadian film industry-trained AI",
         "Every funding deadline, automatically tracked",
