@@ -1,3 +1,5 @@
+import Image from "next/image";
+
 export default function FoundersSection() {
   return (
     <section style={{ backgroundColor: "#1A1A1A", paddingTop: "100px", paddingBottom: "100px" }}>
@@ -28,32 +30,19 @@ export default function FoundersSection() {
           >
             Junior started as our own in-house tool — built out of frustration with broken government portals and the sheer volume of admin that falls on producers with no staff and no budgets to keep the lights on between productions.
           </p>
-
         </div>
 
         {/* Founder Cards */}
         <div className="flex justify-center mx-auto" style={{ maxWidth: "800px", gap: "32px" }}>
           {/* Card 1 — Gavin */}
           <div className="flex-1 flex flex-col">
-            <div
-              style={{
-                width: "100%",
-                aspectRatio: "3/4",
-                backgroundColor: "#2A2A2A",
-                border: "1px solid #333",
-                borderRadius: "6px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                filter: "grayscale(100%)",
-              }}
-            >
-              <p
-                className="text-center text-junior-white"
-                style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, fontSize: "12px" }}
-              >
-                Founder photo — desaturated
-              </p>
+            <div style={{ position: "relative", width: "100%", aspectRatio: "3/4", borderRadius: "6px", overflow: "hidden" }}>
+              <Image
+                src="/images/gavin-seal.jpg"
+                alt="Gavin Seal"
+                fill
+                style={{ objectFit: "cover", filter: "grayscale(100%)" }}
+              />
             </div>
             <p
               className="text-junior-white"
@@ -71,25 +60,13 @@ export default function FoundersSection() {
 
           {/* Card 2 — Lisa */}
           <div className="flex-1 flex flex-col">
-            <div
-              style={{
-                width: "100%",
-                aspectRatio: "3/4",
-                backgroundColor: "#2A2A2A",
-                border: "1px solid #333",
-                borderRadius: "6px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                filter: "grayscale(100%)",
-              }}
-            >
-              <p
-                className="text-center text-junior-white"
-                style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, fontSize: "12px" }}
-              >
-                Founder photo — desaturated
-              </p>
+            <div style={{ position: "relative", width: "100%", aspectRatio: "3/4", borderRadius: "6px", overflow: "hidden" }}>
+              <Image
+                src="/images/lisa-purisima-headshot.jpg"
+                alt="Lisa Purisima"
+                fill
+                style={{ objectFit: "cover", filter: "grayscale(100%)" }}
+              />
             </div>
             <p
               className="text-junior-white"
