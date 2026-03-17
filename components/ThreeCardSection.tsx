@@ -54,7 +54,6 @@ export function ThreeCardSection() {
                 style={{
                   backgroundColor: '#F0EBE0',
                   border: '1px solid #1A1A1A',
-                  boxShadow: '4px 4px 0px #1A1A1A',
                   borderRadius: '8px',
                 }}
               >
@@ -84,10 +83,8 @@ export function ThreeCardSection() {
             href="#cta"
             className="inline-block px-6 py-3 uppercase tracking-wider font-sans text-sm font-bold btn-hover"
             style={{
-              backgroundColor: '#FFFFFF',
-              color: '#1A1A1A',
-              border: '1px solid #1A1A1A',
-              boxShadow: 'none',
+              backgroundColor: '#1A1A1A',
+              color: '#FFFFFF',
             }}
           >
             Get Early Access
