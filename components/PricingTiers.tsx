@@ -16,13 +16,11 @@ function handleTierClick(tier: string) {
 
 interface TierProps {
   label: string
-  subheading: string
-  body: string
   features: string[]
   featured?: boolean
 }
 
-const TierCard: React.FC<TierProps> = ({ label, subheading, body, features, featured }) => {
+const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
@@ -43,20 +41,7 @@ const TierCard: React.FC<TierProps> = ({ label, subheading, body, features, feat
         >
           {label}
         </h3>
-        <p
-          className="italic text-sm md:text-base"
-          style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', opacity: 0.7 }}
-        >
-          {subheading}
-        </p>
       </div>
-
-      <p
-        className="text-base md:text-lg leading-relaxed mb-8"
-        style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A' }}
-      >
-        {body}
-      </p>
 
       {/* Desktop — always show features */}
       <ul className="space-y-3 mb-8 flex-grow hidden md:block">
@@ -134,8 +119,6 @@ export function PricingTiers() {
   const tiers: TierProps[] = [
     {
       label: "ARTIST",
-      subheading: "For the independent artist.",
-      body: "Get the help you need, when you need it — deadlines, eligibility requirements, funding windows, all synced to your calendar — and never miss an opportunity again.",
       features: [
         "Chat with a Canadian film industry-trained AI",
         "Every funding deadline, automatically tracked",
@@ -145,8 +128,6 @@ export function PricingTiers() {
     },
     {
       label: "PRODUCER",
-      subheading: "For the producer juggling a slate.",
-      body: "Connects to your project management workflow — so your funding intelligence lives inside your productions.",
       features: [
         "Everything in Filmmaker",
         "Connects to Asana and your existing tools",
@@ -158,8 +139,6 @@ export function PricingTiers() {
     },
     {
       label: "STUDIO",
-      subheading: "For producers ready to scale.",
-      body: "Junior becomes your true second brain — surfacing what you need before you need it for all your projects.",
       features: [
         "Everything in Producer",
         "Powered by your own Claude account",
