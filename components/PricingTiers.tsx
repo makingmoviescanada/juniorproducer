@@ -14,6 +14,18 @@ function handleTierClick(tier: string) {
   }
 }
 
+const TIER_DIFFERENTIATORS: Record<string, string> = {
+  ARTIST: "For independent filmmakers",
+  PRODUCER: "For producers with a slate",
+  STUDIO: "For production companies with a full slate",
+}
+
+const TIER_BUTTON_TEXT: Record<string, string> = {
+  ARTIST: "SIGNUP FOR ARTIST",
+  PRODUCER: "SIGNUP FOR PRODUCER",
+  STUDIO: "SIGNUP FOR STUDIO",
+}
+
 interface TierProps {
   label: string
   features: string[]
@@ -24,23 +36,53 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
-    <div
-      className="flex flex-col h-full p-8"
-      style={{
-        background: '#F0EBE0',
-        border: '1px solid #1A1A1A',
-        borderRadius: '8px',
-        boxShadow: '4px 4px 0px #1A1A1A',
-        borderTop: featured ? '4px solid #E8392A' : '1px solid #1A1A1A',
-      }}
-    >
+    <div className="flex flex-col" style={{ position: 'relative', paddingTop: featured ? '20px' : '0' }}>
+      {featured && (
+        <div className="flex justify-center" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10 }}>
+          <span
+            style={{
+              fontFamily: 'var(--font-barlow)',
+              fontWeight: 900,
+              fontSize: '11px',
+              letterSpacing: '0.08em',
+              color: '#FFFFFF',
+              background: '#E8392A',
+              borderRadius: '4px',
+              padding: '4px 10px',
+              textTransform: 'uppercase',
+            }}
+          >
+            MOST POPULAR
+          </span>
+        </div>
+      )}
+      <div
+        className="flex flex-col flex-1 p-8"
+        style={{
+          background: '#F0EBE0',
+          border: featured ? '2px solid #E8392A' : '1px solid #1A1A1A',
+          borderRadius: '8px',
+          boxShadow: '4px 4px 0px #1A1A1A',
+        }}
+      >
       <div className="mb-6">
         <h3
-          className="text-lg md:text-xl uppercase tracking-wider mb-3"
-          style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)', color: '#1A1A1A' }}
+          className="text-lg md:text-xl uppercase tracking-wider"
+          style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)', color: '#1A1A1A', marginBottom: '8px' }}
         >
           {label}
         </h3>
+        <p
+          style={{
+            fontFamily: 'var(--font-barlow)',
+            fontWeight: 400,
+            fontSize: '14px',
+            color: '#1A1A1A',
+            margin: 0,
+          }}
+        >
+          {TIER_DIFFERENTIATORS[label]}
+        </p>
       </div>
 
       {/* Desktop — always show features */}
@@ -84,33 +126,36 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
         </button>
       </div>
 
-      <button
-        data-tier={label.toLowerCase()}
-        onClick={() => handleTierClick(label.toLowerCase())}
-        className="w-full px-6 py-3 font-bold uppercase tracking-wider text-sm md:text-base transition-all duration-150 ease-in-out"
-        style={{
-          background: '#E8392A',
-          color: '#FFFFFF',
-          borderRadius: '6px',
-          border: 'none',
-          fontFamily: 'var(--font-barlow)',
-          fontWeight: 700,
-        }}
-        onMouseEnter={e => {
-          const el = e.currentTarget
-          el.style.background = '#C9301F'
-          el.style.transform = 'translateY(-2px)'
-          el.style.boxShadow = '4px 4px 0px #1A1A1A'
-        }}
-        onMouseLeave={e => {
-          const el = e.currentTarget
-          el.style.background = '#E8392A'
-          el.style.transform = 'translateY(0)'
-          el.style.boxShadow = 'none'
-        }}
-      >
-        Join the Waitlist
-      </button>
+      <div style={{ marginTop: 'auto' }}>
+        <button
+          data-tier={label.toLowerCase()}
+          onClick={() => handleTierClick(label.toLowerCase())}
+          className="w-full px-6 py-3 font-bold uppercase tracking-wider text-sm md:text-base transition-all duration-150 ease-in-out"
+          style={{
+            background: '#E8392A',
+            color: '#FFFFFF',
+            borderRadius: '6px',
+            border: 'none',
+            fontFamily: 'var(--font-barlow)',
+            fontWeight: 700,
+          }}
+          onMouseEnter={e => {
+            const el = e.currentTarget
+            el.style.background = '#C9301F'
+            el.style.transform = 'translateY(-2px)'
+            el.style.boxShadow = '4px 4px 0px #1A1A1A'
+          }}
+          onMouseLeave={e => {
+            const el = e.currentTarget
+            el.style.background = '#E8392A'
+            el.style.transform = 'translateY(0)'
+            el.style.boxShadow = 'none'
+          }}
+        >
+          {TIER_BUTTON_TEXT[label]}
+        </button>
+      </div>
+      </div>
     </div>
   )
 }
@@ -121,7 +166,6 @@ export function PricingTiers() {
       label: "ARTIST",
       features: [
         "Your guide through the funding maze — chat with a Canadian arts funding intelligence agent anytime",
-        "Eligibility criteria checked against your projects",
         "Every arts council deadline and funding window tracked automatically — synced to your Google Calendar so you never miss an opportunity",
       ],
     },
@@ -137,6 +181,7 @@ export function PricingTiers() {
     {
       label: "STUDIO",
       features: [
+        "Everything in producer",
         "Your whole team gets access to Canadian film funding intelligence",
         "Full project and document memory across your entire slate",
       ],
@@ -156,7 +201,7 @@ export function PricingTiers() {
         </ScrollReveal>
 
         <ScrollReveal delay={150}>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
             {tiers.map((tier, idx) => (
               <TierCard key={idx} {...tier} />
             ))}
