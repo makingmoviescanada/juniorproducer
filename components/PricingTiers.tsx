@@ -137,11 +137,8 @@ export function PricingTiers() {
     {
       label: "STUDIO",
       features: [
-        "Everything in Producer",
-        "Powered by your own Claude account",
-        "Full document and project memory",
-        "Adapts to your specific productions and use cases",
-        "White-glove onboarding included",
+        "Your whole team gets access to Canadian film funding intelligence",
+        "Full project and document memory across your entire slate",
       ],
     },
   ]
