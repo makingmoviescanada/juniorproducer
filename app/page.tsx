@@ -37,7 +37,7 @@ export default function Home() {
               </ScrollReveal>
               <ScrollReveal delay={100}>
                 <h2 className="font-sans text-junior-black text-lg md:text-xl font-semibold tracking-wide leading-relaxed text-pretty">
-                  Junior is built for the realities of the Canadian film industry — every funding deadline, every grant form, every government portal, even when the official links are out of date or down for maintenance.
+                  Junior is the intelligent assistant you've always dreamed of - built for the realities of the Canadian film industry.
                 </h2>
               </ScrollReveal>
               <ScrollReveal delay={200}>
