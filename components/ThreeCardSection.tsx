@@ -55,6 +55,7 @@ export function ThreeCardSection() {
                   backgroundColor: '#F0EBE0',
                   border: '1px solid #1A1A1A',
                   borderRadius: '8px',
+                  boxShadow: '4px 4px 0px #1A1A1A',
                 }}
               >
                 <h3
