@@ -15,7 +15,7 @@ function handleTierClick(tier: string) {
 }
 
 const TIER_DIFFERENTIATORS: Record<string, string> = {
-  ARTIST: "For independent filmmakers and solo creators",
+  ARTIST: "For independent filmmakers",
   PRODUCER: "For working producers managing multiple projects",
   STUDIO: "For production companies with a full slate",
 }
