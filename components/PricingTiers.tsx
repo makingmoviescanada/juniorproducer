@@ -129,11 +129,9 @@ export function PricingTiers() {
     {
       label: "PRODUCER",
       features: [
-        "Everything in Filmmaker",
-        "Connects to Asana and your existing tools",
-        "Junior reads and updates your active projects",
-        "Budget estimation from screenplay",
-        "Never lose track of who has the latest version",
+        "Your own Canadian film funding intelligence agent — trained on all major Canadian funding bodies",
+        "Connect your project management tools to automate the admin drudgery",
+        "Always working off the latest version — no more version chaos",
       ],
       featured: true,
     },
