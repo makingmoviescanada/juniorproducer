@@ -8,6 +8,9 @@ const barlow = Barlow({
   weight: ['400', '500', '600', '900'],
   variable: '--font-barlow',
   display: 'swap',
+  fallback: ['system-ui', 'arial'],
+  preload: true,
+  adjustFontFallback: true,
 })
 
 export const metadata: Metadata = {
