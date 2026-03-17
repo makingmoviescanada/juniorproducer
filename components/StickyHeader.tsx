@@ -48,7 +48,12 @@ export function StickyHeader() {
 
         <a
           href="#cta"
-          className="px-4 py-2 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-xs"
+          className="px-4 py-2 text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-xs border-2 border-junior-black"
+          style={{
+            backgroundColor: "#E8392A",
+            borderRadius: "5px",
+            letterSpacing: "0.05em",
+          }}
         >
           Get Early Access
         </a>

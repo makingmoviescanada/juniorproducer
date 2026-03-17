@@ -45,39 +45,11 @@ export default function Home() {
           <rect width="100%" height="100%" filter="url(#hero-grain)" />
         </svg>
 
-        {/* Floating clapperboard collage element */}
-        <div
-          aria-hidden="true"
-          style={{
-            position: "absolute",
-            top: "6%",
-            right: "5%",
-            zIndex: 1,
-            transform: "rotate(5deg)",
-            fontSize: "clamp(80px, 10vw, 140px)",
-            lineHeight: 1,
-            userSelect: "none",
-            opacity: 0.18,
-            filter: "grayscale(1) contrast(1.2)",
-            fontFamily: "serif",
-          }}
-        >
-          🎬
-        </div>
-
         <div className="max-w-7xl mx-auto w-full" style={{ position: "relative", zIndex: 2 }}>
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-stretch">
 
             {/* Left column — all copy stacked */}
-            <div className="flex-1 flex flex-col justify-center gap-6">
-              <div
-                className="inline-flex items-center border-2 border-junior-black px-4 py-2 self-start"
-                style={{ borderRadius: "86px" }}
-              >
-                <span className="font-display text-junior-black text-sm uppercase tracking-wider font-black">
-                  JUNIOR
-                </span>
-              </div>
+            <div className="flex-1 flex flex-col justify-center gap-4">
               <ScrollReveal>
                 <h1
                   className="font-display text-junior-black font-black uppercase text-pretty"
@@ -91,7 +63,7 @@ export default function Home() {
                 </h1>
               </ScrollReveal>
               <ScrollReveal delay={100}>
-                <h2 className="font-sans text-junior-black text-lg md:text-xl font-semibold tracking-wide leading-relaxed text-pretty">
+                <h2 className="font-sans text-junior-black text-xl md:text-2xl font-semibold tracking-wide leading-relaxed text-pretty">
                   Junior is the producing assistant you've always dreamed of — built for the realities of the Canadian film industry.
                 </h2>
               </ScrollReveal>
@@ -114,7 +86,10 @@ export default function Home() {
 
             {/* Right column — image fills full height */}
             <ScrollReveal delay={200} direction="left" className="w-full lg:w-2/5 lg:flex-shrink-0">
-              <div style={{ filter: "grayscale(100%) contrast(1.1)" }}>
+              <div style={{ 
+                filter: "grayscale(100%) contrast(1.1)",
+                boxShadow: "6px 6px 0px #1A1A1A"
+              }}>
                 <VideoPlaceholder
                   aspectRatio="4:5"
                   imageSrc="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3.png-fOWDTRFXpS9Vgq7Tbfnozxll69KREp.jpeg"
