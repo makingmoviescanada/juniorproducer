@@ -16,47 +16,83 @@ export default function Home() {
     <main>
       <StickyHeader />
       {/* Section 1: Hero */}
-      <section className="bg-junior-parchment px-6 pt-32 pb-24 md:px-12 lg:px-24 border-b-2 border-junior-black">
-        <div className="max-w-7xl mx-auto w-full">
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-stretch">
+      <section
+        className="bg-junior-parchment px-6 pt-32 pb-24 md:px-12 lg:px-24 border-b-2 border-junior-black"
+        style={{ position: "relative", overflow: "hidden" }}
+      >
+        {/* Paper grain texture overlay */}
+        <svg
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            pointerEvents: "none",
+            opacity: 0.05,
+            zIndex: 0,
+          }}
+        >
+          <filter id="hero-grain">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.75"
+              numOctaves="4"
+              stitchTiles="stitch"
+            />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#hero-grain)" />
+        </svg>
 
-            {/* Left column — all copy stacked */}
-            <div className="flex-1 flex flex-col justify-center gap-6">
-              <div 
-                className="inline-flex items-center border-2 border-junior-black px-4 py-2 self-start"
-                style={{ borderRadius: "6px" }}
-              >
-                <span className="font-display text-junior-black text-sm uppercase tracking-wider font-black">
-                  JUNIOR
-                </span>
-              </div>
+        <div className="max-w-7xl mx-auto w-full" style={{ position: "relative", zIndex: 2 }}>
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 lg:items-center">
+
+            {/* Left column — all copy stacked, centered vertically against right column on desktop */}
+            <div className="flex-1 flex flex-col gap-4">
               <ScrollReveal>
-                <h1 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider leading-snug text-pretty uppercase">
+                <h1
+                  className="font-display text-junior-black font-black uppercase text-pretty"
+                  style={{
+                    fontSize: "clamp(2.75rem, 7vw, 6.5rem)",
+                    letterSpacing: "0.058em",
+                    lineHeight: 1.14,
+                  }}
+                >
                   Your producing partner.<br />Available 24/7.
                 </h1>
               </ScrollReveal>
               <ScrollReveal delay={100}>
-                <h2 className="font-sans text-junior-black text-lg md:text-xl font-semibold tracking-wide leading-relaxed text-pretty">
+                <h2 className="font-sans text-junior-black text-xl md:text-2xl font-semibold tracking-wide leading-relaxed text-pretty">
                   Junior is the producing assistant you've always dreamed of — built for the realities of the Canadian film industry.
                 </h2>
               </ScrollReveal>
               <ScrollReveal delay={200}>
                 <a
                   href="#cta"
-                  className="inline-block px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm self-start"
-                  style={{ letterSpacing: "0.05em", fontSize: "0.875rem" }}
+                  className="inline-block px-6 py-3 text-junior-white font-bold uppercase tracking-wider btn-hover font-sans text-sm self-start border-2 border-junior-black"
+                  style={{
+                    backgroundColor: "#E8392A",
+                    borderRadius: "5px",
+                    letterSpacing: "0.05em",
+                    fontSize: "0.875rem",
+                    color: "#FFFFFF",
+                  }}
                 >
                   Get Early Access
                 </a>
-            </ScrollReveal>
+              </ScrollReveal>
 
-          </div>
+            </div>
 
-            {/* Right column — image fills full height */}
-            <ScrollReveal delay={200} direction="left" className="w-full lg:w-2/5 lg:flex-shrink-0">
-              <div style={{ filter: "grayscale(100%) contrast(1.1)" }}>
+            {/* Right column — responsive photo sizing */}
+            <ScrollReveal delay={200} direction="left" className="w-full md:w-2/5 lg:w-[45%] flex-shrink-0">
+              <div style={{ 
+                filter: "grayscale(100%) contrast(1.1)",
+                boxShadow: "8px 8px 0px #1A1A1A"
+              }}>
                 <VideoPlaceholder
-                  aspectRatio="4:5"
+                  aspectRatio="3:4"
                   imageSrc="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3.png-fOWDTRFXpS9Vgq7Tbfnozxll69KREp.jpeg"
                   imageAlt="Film production scene"
                   showPlayButton={false}

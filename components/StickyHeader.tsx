@@ -16,11 +16,11 @@ export function StickyHeader() {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
-        isScrolled 
-          ? "bg-junior-white border-b-2 border-junior-black shadow-hard-parchment-sm" 
-          : "bg-transparent"
-      }`}
+      className="fixed top-0 left-0 right-0 z-50"
+      style={{
+        backgroundColor: "#FFFFFF",
+        borderBottom: "1px solid #1A1A1A",
+      }}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 md:px-12 lg:px-24 flex items-center justify-between">
         <a 
@@ -42,13 +42,19 @@ export function StickyHeader() {
             href="#why-we-built-it" 
             className="font-sans text-sm text-junior-black/70 hover:text-junior-black transition-colors"
           >
-            Why We Built It
+            Why We Built This
           </a>
         </nav>
 
         <a
           href="#cta"
-          className="px-4 py-2 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-xs"
+          className="px-4 py-2 text-junior-white font-bold uppercase tracking-wider btn-hover font-sans text-xs border-2 border-junior-black"
+          style={{
+            backgroundColor: "#E8392A",
+            borderRadius: "5px",
+            letterSpacing: "0.05em",
+            color: "#FFFFFF",
+          }}
         >
           Get Early Access
         </a>

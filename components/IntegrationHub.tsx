@@ -52,7 +52,7 @@ export function IntegrationHub({ className = "", landscape = false }: { classNam
 
         {/* Center hub - Junior */}
         <div 
-          className="absolute bg-junior-red border-2 border-junior-black flex items-center justify-center z-20 shadow-hard-red-sm"
+          className="absolute bg-junior-red border-2 border-junior-black flex items-center justify-center z-20"
           style={{ 
             width: "80px", 
             height: "80px", 

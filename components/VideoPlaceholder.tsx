@@ -3,7 +3,7 @@
 import Image from "next/image"
 
 interface VideoPlaceholderProps {
-  aspectRatio?: "4:5" | "16:9"
+  aspectRatio?: "4:5" | "3:4" | "16:9"
   className?: string
   imageSrc?: string
   imageAlt?: string
@@ -17,7 +17,7 @@ export function VideoPlaceholder({
   imageAlt = "Video thumbnail",
   showPlayButton = true
 }: VideoPlaceholderProps) {
-  const paddingBottom = aspectRatio === "4:5" ? "125%" : "56.25%"
+  const paddingBottom = aspectRatio === "4:5" ? "125%" : aspectRatio === "3:4" ? "133.33%" : "56.25%"
   
   return (
     <div 
