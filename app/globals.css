@@ -1,149 +1,133 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,400;0,500;0,600;0,900;1,500&display=swap');
-@import 'tailwindcss';
-@import 'tw-animate-css';
 
-@custom-variant dark (&:is(.dark *));
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
   /* Junior Brand Colors */
-  --junior-red: #E8392A;
-  --junior-parchment: #F0EBE0;
-  --junior-black: #1A1A1A;
-  --junior-white: #FFFFFF;
+  --junior-red: 0 84% 54%;
+  --junior-parchment: 40 33% 91%;
+  --junior-black: 0 0% 10%;
+  --junior-white: 0 0% 100%;
   
   /* Semantic tokens */
-  --background: var(--junior-parchment);
-  --foreground: var(--junior-black);
-  --card: var(--junior-white);
-  --card-foreground: var(--junior-black);
-  --popover: var(--junior-white);
-  --popover-foreground: var(--junior-black);
-  --primary: var(--junior-red);
-  --primary-foreground: var(--junior-white);
-  --secondary: var(--junior-parchment);
-  --secondary-foreground: var(--junior-black);
-  --muted: var(--junior-parchment);
-  --muted-foreground: var(--junior-black);
-  --accent: var(--junior-red);
-  --accent-foreground: var(--junior-white);
-  --destructive: var(--junior-red);
-  --destructive-foreground: var(--junior-white);
-  --border: var(--junior-black);
-  --input: var(--junior-white);
-  --ring: var(--junior-red);
-  --radius: 0;
+  --background: 40 33% 91%;
+  --foreground: 0 0% 10%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 0 0% 10%;
+  --primary: 4 79% 54%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 40 33% 91%;
+  --secondary-foreground: 0 0% 10%;
+  --muted: 40 33% 91%;
+  --muted-foreground: 0 0% 45%;
+  --accent: 4 79% 54%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 4 79% 54%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 10%;
+  --input: 0 0% 100%;
+  --ring: 4 79% 54%;
+  --radius: 0rem;
 }
 
-@theme inline {
-  --font-sans: 'Barlow', sans-serif;
-  --font-display: 'Barlow', sans-serif;
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  
-  /* Custom brand colors */
-  --color-junior-red: #E8392A;
-  --color-junior-parchment: #F0EBE0;
-  --color-junior-black: #1A1A1A;
-  --color-junior-white: #FFFFFF;
-  
-  /* Zero radius */
-  --radius-sm: 0;
-  --radius-md: 0;
-  --radius-lg: 0;
-  --radius-xl: 0;
+.dark {
+  --background: 0 0% 10%;
+  --foreground: 0 0% 100%;
+  --card: 0 0% 15%;
+  --card-foreground: 0 0% 100%;
+  --popover: 0 0% 15%;
+  --popover-foreground: 0 0% 100%;
+  --primary: 4 79% 54%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 0 0% 20%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 0 0% 20%;
+  --muted-foreground: 0 0% 65%;
+  --accent: 4 79% 54%;
+  --accent-foreground: 0 0% 100%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 30%;
+  --input: 0 0% 20%;
+  --ring: 4 79% 54%;
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
-    border-radius: 0 !important;
+    @apply border-border;
   }
   
   body {
-    @apply bg-junior-parchment text-junior-black;
+    @apply bg-background text-foreground;
+    font-family: 'Barlow', sans-serif;
   }
 }
 
 @layer utilities {
-  /* Hard shadow utilities - context aware tone-on-tone */
+  /* Hard shadow utilities */
   .shadow-hard {
-    box-shadow: 8px 8px 0 #1A1A1A;
+    box-shadow: 8px 8px 0 hsl(0 0% 10%);
   }
   
   .shadow-hard-sm {
-    box-shadow: 5px 5px 0 #1A1A1A;
+    box-shadow: 5px 5px 0 hsl(0 0% 10%);
   }
   
   /* Tone-on-tone shadows */
   .shadow-hard-parchment {
-    box-shadow: 8px 8px 0 #D4CBBF;
+    box-shadow: 8px 8px 0 hsl(40 20% 75%);
   }
   
   .shadow-hard-parchment-sm {
-    box-shadow: 5px 5px 0 #D4CBBF;
+    box-shadow: 5px 5px 0 hsl(40 20% 75%);
   }
   
   .shadow-hard-black {
-    box-shadow: 8px 8px 0 #0F0F0F;
+    box-shadow: 8px 8px 0 hsl(0 0% 6%);
   }
   
   .shadow-hard-black-sm {
-    box-shadow: 5px 5px 0 #0F0F0F;
+    box-shadow: 5px 5px 0 hsl(0 0% 6%);
   }
   
   .shadow-hard-red {
-    box-shadow: 8px 8px 0 #C62E1F;
+    box-shadow: 8px 8px 0 hsl(4 75% 45%);
   }
   
   .shadow-hard-red-sm {
-    box-shadow: 5px 5px 0 #C62E1F;
+    box-shadow: 5px 5px 0 hsl(4 75% 45%);
   }
   
   .shadow-hard-white {
-    box-shadow: 8px 8px 0 #FFFFFF;
+    box-shadow: 8px 8px 0 hsl(0 0% 100%);
   }
   
   .shadow-hard-white-sm {
-    box-shadow: 5px 5px 0 #FFFFFF;
+    box-shadow: 5px 5px 0 hsl(0 0% 100%);
   }
   
   /* Hover transitions */
   .hover-lift {
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    @apply transition-all duration-200;
   }
   
   .hover-lift:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 10px 10px 0 #1A1A1A;
+    box-shadow: 10px 10px 0 hsl(0 0% 10%);
   }
   
   /* Button hover states */
   .btn-hover {
-    transition: transform 0.15s ease, box-shadow 0.15s ease, background-color 0.15s ease;
-    position: relative;
-    overflow: hidden;
+    @apply transition-all duration-150 relative overflow-hidden;
   }
   
   .btn-hover:hover {
     transform: translate(-2px, -2px);
-    box-shadow: 7px 7px 0 #1A1A1A;
+    box-shadow: 7px 7px 0 hsl(0 0% 10%);
   }
   
   .btn-hover:active {
@@ -152,7 +136,7 @@
   }
   
   .btn-hover:focus-visible {
-    outline: 2px solid var(--junior-black);
+    outline: 2px solid hsl(0 0% 10%);
     outline-offset: 2px;
   }
   
@@ -161,10 +145,5 @@
     font-family: 'Barlow', sans-serif;
     font-weight: 900;
     letter-spacing: 0.04em;
-  }
-  
-  /* Text balance */
-  .text-balance {
-    text-wrap: balance;
   }
 }
