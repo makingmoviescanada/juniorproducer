@@ -28,11 +28,21 @@ const cards: Card[] = [
 
 export function ThreeCardSection() {
   return (
-    <section className="grain-overlay bg-[#E8392A] px-6 py-24 md:px-12 lg:px-24">
+    <section
+      className="grain-overlay px-6 py-24 md:px-12 lg:px-24"
+      style={{ backgroundColor: '#E8392A' }}
+    >
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
-          <h2 className="font-display text-white text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-16 text-center text-balance leading-snug" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
-            You&apos;re doing the work of an entire production office - Junior is here to help.
+          <h2
+            className="text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-16 text-center text-balance leading-snug"
+            style={{
+              color: '#FFFFFF',
+              fontWeight: 900,
+              fontFamily: 'var(--font-barlow)',
+            }}
+          >
+            You&apos;re doing the work of an entire production office — Junior is here to help.
           </h2>
         </ScrollReveal>
 
@@ -40,12 +50,28 @@ export function ThreeCardSection() {
           {cards.map((card, index) => (
             <ScrollReveal key={index} delay={index * 100} className="h-full">
               <div
-                className="p-6 bg-junior-parchment border border-[#1A1A1A] rounded-[8px] shadow-card-hard h-full flex flex-col"
+                className="p-6 h-full flex flex-col"
+                style={{
+                  backgroundColor: '#F0EBE0',
+                  border: '1px solid #1A1A1A',
+                  boxShadow: '4px 4px 0px #1A1A1A',
+                  borderRadius: '8px',
+                }}
               >
-                <h3 className="font-display text-[#1A1A1A] text-base md:text-lg uppercase tracking-wider mb-3" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
+                <h3
+                  className="text-base md:text-lg uppercase tracking-wider mb-3"
+                  style={{
+                    color: '#1A1A1A',
+                    fontWeight: 900,
+                    fontFamily: 'var(--font-barlow)',
+                  }}
+                >
                   {card.title}
                 </h3>
-                <p className="font-sans text-junior-black/80 text-sm md:text-base leading-relaxed flex-grow">
+                <p
+                  className="text-sm md:text-base leading-relaxed flex-grow font-sans"
+                  style={{ color: '#1A1A1A' }}
+                >
                   {card.body}
                 </p>
               </div>
@@ -56,18 +82,38 @@ export function ThreeCardSection() {
         <ScrollReveal delay={300} className="mt-12 text-center">
           <a
             href="#cta"
-            className="inline-block px-6 py-3 bg-junior-white border-2 border-[#1A1A1A] text-[#1A1A1A] font-bold uppercase tracking-wider btn-hover font-sans text-sm"
+            className="inline-block px-6 py-3 uppercase tracking-wider font-sans text-sm font-bold btn-hover"
+            style={{
+              backgroundColor: '#FFFFFF',
+              color: '#1A1A1A',
+              border: '1px solid #1A1A1A',
+              boxShadow: 'none',
+            }}
           >
             Get Early Access
           </a>
         </ScrollReveal>
 
         <ScrollReveal delay={400} className="mt-12 text-center">
-          <p className="font-sans text-white text-lg md:text-xl leading-relaxed">
+          <p
+            className="font-sans text-lg md:text-xl leading-relaxed"
+            style={{ color: '#FFFFFF' }}
+          >
             The average film producer earns $19.70/hour in Quebec and 50% have no full-time employees.
           </p>
-          <p className="font-sans text-white text-sm mt-4">
-            <a href="https://uppcq.com/wp-content/uploads/2024/11/Study-on-the-socio-economic-conditions-of-quebec-film-producers.pdf" target="_blank" rel="noopener noreferrer" className="underline hover:text-white transition-colors">Source: UPPCQ, 2024</a>
+          <p
+            className="font-sans text-sm mt-4"
+            style={{ color: '#FFFFFF' }}
+          >
+            <a
+              href="https://uppcq.com/wp-content/uploads/2024/11/Study-on-the-socio-economic-conditions-of-quebec-film-producers.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+              style={{ color: '#FFFFFF' }}
+            >
+              Source: UPPCQ, 2024
+            </a>
           </p>
         </ScrollReveal>
       </div>
