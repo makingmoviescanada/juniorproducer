@@ -22,7 +22,7 @@ const cards: Card[] = [
   {
     title: "no budget, no problem",
     subtitle: "",
-    body: "Junior automates admin and version chaos — so you can focus on what matters.",
+    body: "Junior automates admin and version chaos — so you can focus on tasks that move the needle.",
   },
 ]
 
