@@ -46,10 +46,10 @@ export default function Home() {
         </svg>
 
         <div className="max-w-7xl mx-auto w-full" style={{ position: "relative", zIndex: 2 }}>
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 lg:items-center">
 
             {/* Left column — all copy stacked, centered vertically against right column on desktop */}
-            <div className="flex-1 flex flex-col justify-center gap-4">
+            <div className="flex-1 flex flex-col gap-4">
               <ScrollReveal>
                 <h1
                   className="font-display text-junior-black font-black uppercase text-pretty"
@@ -89,10 +89,10 @@ export default function Home() {
             <ScrollReveal delay={200} direction="left" className="w-full md:w-2/5 lg:w-[45%] flex-shrink-0">
               <div style={{ 
                 filter: "grayscale(100%) contrast(1.1)",
-                boxShadow: "6px 6px 0px #1A1A1A"
+                boxShadow: "8px 8px 0px #1A1A1A"
               }}>
                 <VideoPlaceholder
-                  aspectRatio="4:5"
+                  aspectRatio="3:4"
                   imageSrc="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/3.png-fOWDTRFXpS9Vgq7Tbfnozxll69KREp.jpeg"
                   imageAlt="Film production scene"
                   showPlayButton={false}
