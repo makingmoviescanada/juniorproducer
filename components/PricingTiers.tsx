@@ -187,7 +187,6 @@ export function PricingTiers() {
       label: "ARTIST",
       features: [
         "Your guide through the funding maze — chat with a Canadian arts funding intelligence agent anytime",
-        "Eligibility criteria checked against your projects",
         "Every arts council deadline and funding window tracked automatically — synced to your Google Calendar so you never miss an opportunity",
       ],
     },
