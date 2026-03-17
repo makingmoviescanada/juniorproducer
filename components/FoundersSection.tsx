@@ -26,7 +26,7 @@ export default function FoundersSection() {
               lineHeight: "1.6",
             }}
           >
-            Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
+            Junior started as our own in-house tool — built out of frustration with broken government portals and the sheer volume of admin that falls on producers with no staff and no budgets to keep the lights on between productions.
           </p>
           <p
             className="text-center text-junior-white"
