@@ -51,7 +51,8 @@ export default function ClosingCTA() {
             style={{
               backgroundColor: '#FFFFFF',
               border: '2px solid #1A1A1A',
-              borderRadius: '4px',
+              borderRight: 'none',
+              borderRadius: '4px 0 0 4px',
               padding: '14px 20px',
               fontFamily: 'var(--font-barlow)',
               fontWeight: 400,
@@ -66,7 +67,7 @@ export default function ClosingCTA() {
             style={{
               backgroundColor: '#1A1A1A',
               border: '2px solid #1A1A1A',
-              borderRadius: '4px',
+              borderRadius: '0 4px 4px 0',
               padding: '14px 24px',
               color: '#FFFFFF',
               fontFamily: 'var(--font-barlow)',
@@ -74,7 +75,15 @@ export default function ClosingCTA() {
               fontSize: '16px',
               textTransform: 'uppercase',
               cursor: 'pointer',
-              marginLeft: '0',
+              transition: 'background-color 150ms ease, border-color 150ms ease',
+            }}
+            onMouseEnter={e => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#E8392A';
+              (e.currentTarget as HTMLButtonElement).style.borderColor = '#E8392A';
+            }}
+            onMouseLeave={e => {
+              (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#1A1A1A';
+              (e.currentTarget as HTMLButtonElement).style.borderColor = '#1A1A1A';
             }}
           >
             Get Early Access
