@@ -32,12 +32,12 @@ export default function Home() {
               </div>
               <ScrollReveal>
                 <h1 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider leading-snug text-pretty uppercase">
-                  Let's be honest,<br /> you need help.
+                  Your producing partner. Available 24/7.
                 </h1>
               </ScrollReveal>
               <ScrollReveal delay={100}>
                 <h2 className="font-sans text-junior-black text-lg md:text-xl font-semibold tracking-wide leading-relaxed text-pretty">
-                  Junior is the 24/7 producing assistant you&apos;ve always dreamed of having by your side on those late nights and weekends.
+                  Junior is built for the Canadian film industry — every funding deadline, every grant form, every government portal that picks the worst possible moment to go offline.
                 </h2>
               </ScrollReveal>
               <ScrollReveal delay={200}>
@@ -65,6 +65,20 @@ export default function Home() {
             </ScrollReveal>
 
           </div>
+        </div>
+      </section>
+
+      {/* Section: Industry Stat */}
+      <section className="bg-junior-white px-6 py-16 md:px-12 lg:px-24 border-t-2 border-junior-black">
+        <div className="max-w-7xl mx-auto">
+          <ScrollReveal>
+            <p className="font-sans text-junior-black text-lg md:text-xl leading-relaxed text-pretty">
+              The average Quebec film producer earns $19.70/hour when you account for nights and weekends. 50% have no full time employees.
+            </p>
+            <p className="font-sans text-junior-black/50 text-sm mt-4">
+              Source: UPPCQ, 2024
+            </p>
+          </ScrollReveal>
         </div>
       </section>
 
