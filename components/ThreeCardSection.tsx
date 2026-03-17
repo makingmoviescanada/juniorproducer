@@ -67,7 +67,7 @@ export function ThreeCardSection() {
 
         <ScrollReveal delay={400} className="mt-12 text-center">
           <p className="font-sans text-junior-white text-lg md:text-xl leading-relaxed">
-            The average film producer earns $19.70/hour in Quebec, and 50% have no full time employees.
+            The average film producer earns $19.70/hour in Quebec and 50% have no full-time employees.
           </p>
           <p className="font-sans text-junior-white/50 text-sm mt-4">
             <a href="https://www.uppcq.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-junior-white">Source: UPPCQ, 2024</a>
