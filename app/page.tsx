@@ -72,14 +72,8 @@ export default function Home() {
               <ScrollReveal delay={200}>
                 <a
                   href="#cta"
-                  className="inline-block px-6 py-3 text-junior-white font-bold uppercase tracking-wider btn-hover font-sans text-sm self-start border-2 border-junior-black transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[4px_4px_0px_#1A1A1A] hover:bg-[#C9301E]"
-                  style={{
-                    backgroundColor: "#E8392A",
-                    borderRadius: "5px",
-                    letterSpacing: "0.05em",
-                    fontSize: "0.875rem",
-                    color: "#FFFFFF",
-                  }}
+                  className="btn-primary"
+                  style={{ backgroundColor: '#E8392A', color: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', border: '2px solid #1A1A1A', borderRadius: '4px', boxShadow: '4px 4px 0px #1A1A1A', padding: '0.75rem 1.5rem', display: 'inline-block', cursor: 'pointer' }}
                 >
                   Get Early Access
                 </a>
