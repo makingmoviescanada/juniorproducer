@@ -1,8 +1,14 @@
 import type { Metadata } from 'next'
-import { GeistSans } from 'geist/font/sans'
-import { GeistMono } from 'geist/font/mono'
+import { Barlow } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
+
+const barlow = Barlow({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '900'],
+  variable: '--font-barlow',
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: 'Junior | The Producer\'s Assistant',
@@ -33,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
+    <html lang="en" className={`${barlow.variable}`}>
       <body className="font-sans antialiased">
         {children}
         <Analytics />
