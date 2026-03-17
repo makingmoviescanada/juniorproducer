@@ -32,7 +32,7 @@ export function ThreeCardSection() {
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
           <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-center text-balance leading-snug">
-            You&apos;re doing the work of an entire production office. Junior has your back.
+            You&apos;re doing the work of an entire production office - Junior is here to help.
           </h2>
         </ScrollReveal>
 
@@ -63,6 +63,15 @@ export function ThreeCardSection() {
           >
             Get Early Access
           </a>
+        </ScrollReveal>
+
+        <ScrollReveal delay={400} className="mt-12 text-center">
+          <p className="font-sans text-junior-white text-lg md:text-xl leading-relaxed">
+            The average film producer earns $19.70/hour in Quebec, and 50% have no full time employees.
+          </p>
+          <p className="font-sans text-junior-white/50 text-sm mt-4">
+            <a href="https://www.uppcq.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-junior-white">Source: UPPCQ, 2024</a>
+          </p>
         </ScrollReveal>
       </div>
     </section>
