@@ -42,7 +42,7 @@ export function StickyHeader() {
             href="#why-we-built-it" 
             className="font-sans text-sm text-junior-black/70 hover:text-junior-black transition-colors"
           >
-            Why We Built It
+            Why We Built This
           </a>
         </nav>
 
