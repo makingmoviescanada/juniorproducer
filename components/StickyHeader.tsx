@@ -16,11 +16,11 @@ export function StickyHeader() {
 
   return (
     <header 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
-        isScrolled 
-          ? "bg-junior-white border-b-2 border-junior-black shadow-hard-parchment-sm" 
-          : "bg-transparent"
-      }`}
+      className="fixed top-0 left-0 right-0 z-50"
+      style={{
+        backgroundColor: "#FFFFFF",
+        borderBottom: "1px solid #1A1A1A",
+      }}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 md:px-12 lg:px-24 flex items-center justify-between">
         <a 
