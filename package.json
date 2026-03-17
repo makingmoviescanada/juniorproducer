@@ -4,9 +4,9 @@
   "private": true,
   "packageManager": "pnpm@9.15.1",
   "scripts": {
-    "dev": "npx next dev",
-    "build": "npx next build",
-    "start": "npx next start",
+    "dev": "next dev --webpack",
+    "build": "next build",
+    "start": "next start",
     "lint": "eslint ."
   },
   "dependencies": {
