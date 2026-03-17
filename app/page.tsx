@@ -119,7 +119,7 @@ export default function Home() {
           </ScrollReveal>
           <ScrollReveal delay={100}>
             <p className="text-junior-black text-lg md:text-xl leading-relaxed font-sans max-w-2xl mb-16 text-center mx-auto">
-              Junior makes sure nothing falls through the cracks. Every deadline tracked, every document versioned,<br />every funding window watched — so you can focus on making the film.
+              Junior makes sure nothing falls through the cracks. Every deadline tracked, every document versioned, every funding window watched —<br />so you can focus on making the film.
             </p>
           </ScrollReveal>
           <ScrollReveal delay={200}>
