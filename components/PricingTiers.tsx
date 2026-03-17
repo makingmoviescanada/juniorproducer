@@ -88,7 +88,7 @@ const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) =>
 export function PricingTiers() {
   const tiers: TierProps[] = [
     {
-      label: "FILMMAKER",
+      label: "PRODUCER",
       subheading: "For the filmmaker self-producing.",
       body: "Your 24/7 Canadian film funding assistant. Ask anything — deadlines, eligibility, funding windows — and never miss an opportunity again.",
       features: [
@@ -99,7 +99,7 @@ export function PricingTiers() {
       ],
     },
     {
-      label: "PRODUCER",
+      label: "PRODUCTION COMPANY",
       subheading: "For the producer juggling a slate.",
       body: "Everything in Filmmaker, plus Junior connects to your project management workflow — so your funding intelligence lives inside your productions.",
       features: [
