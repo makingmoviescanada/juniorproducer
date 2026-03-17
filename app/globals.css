@@ -60,8 +60,7 @@
   }
   
   body {
-    @apply bg-background text-foreground;
-    font-family: 'Barlow', sans-serif;
+    @apply bg-background text-foreground font-sans;
   }
 }
 
@@ -159,9 +158,9 @@
     outline-offset: 2px;
   }
   
-  /* Display font class */
+  /* Display font class - ensures weight 900 explicitly */
   .font-display {
-    font-family: 'Barlow', sans-serif;
+    font-family: var(--font-barlow);
     font-weight: 900;
     letter-spacing: 0.04em;
   }

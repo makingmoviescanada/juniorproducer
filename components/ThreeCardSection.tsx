@@ -31,7 +31,7 @@ export function ThreeCardSection() {
     <section className="grain-overlay bg-[#E8392A] px-6 py-24 md:px-12 lg:px-24">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
-          <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-center text-balance leading-snug">
+          <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-16 text-center text-balance leading-snug" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
             You&apos;re doing the work of an entire production office - Junior is here to help.
           </h2>
         </ScrollReveal>
@@ -42,7 +42,7 @@ export function ThreeCardSection() {
               <div
                 className="p-6 bg-junior-parchment border border-[#1A1A1A] rounded-[8px] shadow-card-hard h-full flex flex-col"
               >
-                <h3 className="font-display text-junior-black text-base md:text-lg font-black uppercase tracking-wider mb-3">
+                <h3 className="font-display text-junior-black text-base md:text-lg uppercase tracking-wider mb-3" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
                   {card.title}
                 </h3>
                 <p className="font-sans text-junior-black/80 text-sm md:text-base leading-relaxed flex-grow">
