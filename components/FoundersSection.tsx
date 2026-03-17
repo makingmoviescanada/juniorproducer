@@ -28,26 +28,16 @@ export default function FoundersSection() {
           >
             Junior started as our own in-house tool — built out of frustration with broken government portals and the sheer volume of admin that falls on producers with no staff and no budgets to keep the lights on between productions.
           </p>
-          <p
-            className="text-center text-junior-white"
-            style={{
-              fontFamily: 'var(--font-barlow)',
-              fontWeight: 400,
-              fontSize: "1rem",
-              lineHeight: "1.6",
-            }}
-          >
-            Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify. Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+). Junior is built on this intersectional experience of art and technology.
-          </p>
+
         </div>
 
-        {/* Founder Photo Placeholders */}
-        <div className="flex justify-center gap-6 mx-auto" style={{ maxWidth: "600px" }}>
-          {[1, 2].map((index) => (
+        {/* Founder Cards */}
+        <div className="flex justify-center mx-auto" style={{ maxWidth: "800px", gap: "32px" }}>
+          {/* Card 1 — Gavin */}
+          <div className="flex-1 flex flex-col">
             <div
-              key={index}
-              className="flex-1"
               style={{
+                width: "100%",
                 aspectRatio: "3/4",
                 backgroundColor: "#2A2A2A",
                 border: "1px solid #333",
@@ -55,20 +45,65 @@ export default function FoundersSection() {
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
+                filter: "grayscale(100%)",
               }}
             >
               <p
                 className="text-center text-junior-white"
-                style={{
-                  fontFamily: 'var(--font-barlow)',
-                  fontWeight: 400,
-                  fontSize: "12px",
-                }}
+                style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, fontSize: "12px" }}
               >
                 Founder photo — desaturated
               </p>
             </div>
-          ))}
+            <p
+              className="text-junior-white"
+              style={{
+                fontFamily: 'var(--font-barlow)',
+                fontWeight: 400,
+                fontSize: "14px",
+                lineHeight: "1.6",
+                marginTop: "16px",
+              }}
+            >
+              Gavin Seal is a Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director who has led in-house creative teams at Mattel and Shopify.
+            </p>
+          </div>
+
+          {/* Card 2 — Lisa */}
+          <div className="flex-1 flex flex-col">
+            <div
+              style={{
+                width: "100%",
+                aspectRatio: "3/4",
+                backgroundColor: "#2A2A2A",
+                border: "1px solid #333",
+                borderRadius: "6px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                filter: "grayscale(100%)",
+              }}
+            >
+              <p
+                className="text-center text-junior-white"
+                style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, fontSize: "12px" }}
+              >
+                Founder photo — desaturated
+              </p>
+            </div>
+            <p
+              className="text-junior-white"
+              style={{
+                fontFamily: 'var(--font-barlow)',
+                fontWeight: 400,
+                fontSize: "14px",
+                lineHeight: "1.6",
+                marginTop: "16px",
+              }}
+            >
+              Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+).
+            </p>
+          </div>
         </div>
       </div>
     </section>
