@@ -36,19 +36,16 @@ export function ThreeCardSection() {
           </h2>
         </ScrollReveal>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 md:items-stretch">
           {cards.map((card, index) => (
-            <ScrollReveal key={index} delay={index * 100}>
-              <div 
-                className="p-8 md:p-10 bg-junior-white border-2 border-junior-black shadow-hard-parchment-sm h-full flex flex-col"
+            <ScrollReveal key={index} delay={index * 100} className="h-full">
+              <div
+                className="p-6 bg-junior-white border border-[#1A1A1A] rounded-[8px] shadow-card-hard h-full flex flex-col"
               >
-                <h3 className="font-display text-junior-black text-lg md:text-xl font-black uppercase tracking-wider mb-4">
+                <h3 className="font-display text-junior-black text-base md:text-lg font-black uppercase tracking-wider mb-3">
                   {card.title}
                 </h3>
-                <p className="font-sans text-junior-black/80 text-base md:text-lg leading-relaxed md:leading-loose flex-grow">
-                  {card.subtitle}
-                </p>
-                <p className="font-sans text-junior-black/80 text-base md:text-lg leading-relaxed md:leading-loose flex-grow">
+                <p className="font-sans text-junior-black/80 text-sm md:text-base leading-relaxed flex-grow">
                   {card.body}
                 </p>
               </div>

@@ -109,6 +109,10 @@
   .shadow-hard-white-sm {
     box-shadow: 5px 5px 0 hsl(0 0% 100%);
   }
+
+  .shadow-card-hard {
+    box-shadow: 4px 4px 0px #1A1A1A;
+  }
   
   /* Hover transitions */
   .hover-lift {
