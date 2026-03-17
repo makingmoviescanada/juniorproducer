@@ -135,7 +135,7 @@ export function PricingTiers() {
     {
       label: "ARTIST",
       subheading: "For the independent artist.",
-      body: "Ask anything — deadlines, eligibility, funding windows — and never miss an opportunity again.",
+      body: "Get the help you need, when you need it — deadlines, eligibility requirements, funding windows, all synced to your calendar — and never miss an opportunity again.",
       features: [
         "Chat with a Canadian film industry-trained AI",
         "Every funding deadline, automatically tracked",
@@ -159,7 +159,7 @@ export function PricingTiers() {
     {
       label: "STUDIO",
       subheading: "For producers ready to scale.",
-      body: "Junior becomes your true second brain — operating inside your own Claude environment, learning your projects, and surfacing what you need before you know you need it.",
+      body: "Junior becomes your true second brain — surfacing what you need before you need it for all your projects.",
       features: [
         "Everything in Producer",
         "Powered by your own Claude account",
