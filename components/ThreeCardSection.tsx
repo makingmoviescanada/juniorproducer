@@ -28,7 +28,7 @@ const cards: Card[] = [
 
 export function ThreeCardSection() {
   return (
-    <section className="bg-junior-black px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
+    <section className="grain-overlay bg-[#E8392A] px-6 py-24 md:px-12 lg:px-24">
       <div className="max-w-6xl mx-auto">
         <ScrollReveal>
           <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-center text-balance leading-snug">
@@ -40,7 +40,7 @@ export function ThreeCardSection() {
           {cards.map((card, index) => (
             <ScrollReveal key={index} delay={index * 100} className="h-full">
               <div
-                className="p-6 bg-junior-white border border-[#1A1A1A] rounded-[8px] shadow-card-hard h-full flex flex-col"
+                className="p-6 bg-junior-parchment border border-[#1A1A1A] rounded-[8px] shadow-card-hard h-full flex flex-col"
               >
                 <h3 className="font-display text-junior-black text-base md:text-lg font-black uppercase tracking-wider mb-3">
                   {card.title}
@@ -56,7 +56,7 @@ export function ThreeCardSection() {
         <ScrollReveal delay={300} className="mt-12 text-center">
           <a
             href="#cta"
-            className="inline-block px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider btn-hover font-sans text-sm"
+            className="inline-block px-6 py-3 bg-junior-white border-2 border-[#1A1A1A] text-[#1A1A1A] font-bold uppercase tracking-wider btn-hover font-sans text-sm"
           >
             Get Early Access
           </a>
@@ -66,8 +66,8 @@ export function ThreeCardSection() {
           <p className="font-sans text-junior-white text-lg md:text-xl leading-relaxed">
             The average film producer earns $19.70/hour in Quebec and 50% have no full-time employees.
           </p>
-          <p className="font-sans text-junior-white/50 text-sm mt-4">
-            <a href="https://www.uppcq.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-junior-white">Source: UPPCQ, 2024</a>
+          <p className="font-sans text-junior-white/70 text-sm mt-4">
+            <a href="https://uppcq.com/wp-content/uploads/2024/11/Study-on-the-socio-economic-conditions-of-quebec-film-producers.pdf" target="_blank" rel="noopener noreferrer" className="underline hover:text-junior-white transition-colors">Source: UPPCQ, 2024</a>
           </p>
         </ScrollReveal>
       </div>
