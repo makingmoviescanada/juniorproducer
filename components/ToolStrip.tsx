@@ -12,33 +12,35 @@ const tools = [
 export function ToolStrip() {
   return (
     <div className="flex flex-col items-center gap-8">
-      <div className="flex flex-wrap justify-center gap-8">
+      <div className="flex flex-wrap justify-center gap-6">
         {tools.map((tool, index) => (
           <div
             key={index}
-            className="flex items-center justify-center transition-all duration-200 hover:scale-110"
+            style={{
+              background: '#FFFFFF',
+              border: '1px solid #1A1A1A',
+              borderRadius: '8px',
+              width: '64px',
+              height: '64px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
           >
             <img
               src={tool.logo}
               alt={tool.name}
-              className="max-w-full object-contain"
               style={{
+                width: '40px',
                 height: '40px',
-                width: 'auto',
-                mixBlendMode: 'multiply',
+                objectFit: 'contain',
                 filter: 'grayscale(100%)',
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.filter = 'grayscale(0%)'
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.filter = 'grayscale(100%)'
               }}
             />
           </div>
         ))}
       </div>
-      <p className="text-junior-black text-center font-sans text-lg md:text-xl" style={{ color: '#1A1A1A' }}>
+      <p className="text-center font-sans text-lg md:text-xl" style={{ color: '#1A1A1A' }}>
         Junior connects to the tools you already use.
       </p>
     </div>

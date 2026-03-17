@@ -94,7 +94,6 @@
   .shadow-card-hard {
     box-shadow: 4px 4px 0px #1A1A1A;
   }
-
   .grain-overlay {
     position: relative;
   }
@@ -109,7 +108,6 @@
     background-size: 200px 200px;
     mix-blend-mode: multiply;
   }
-
   .hover-lift {
     @apply transition-all duration-200;
   }
@@ -117,7 +115,6 @@
     transform: translate(-2px, -2px);
     box-shadow: 10px 10px 0 hsl(0 0% 10%);
   }
-
   .btn-hover {
     @apply transition-all duration-150 relative overflow-hidden;
   }
@@ -133,13 +130,11 @@
     outline: 2px solid hsl(0 0% 10%);
     outline-offset: 2px;
   }
-
   .font-display {
     font-family: var(--font-barlow);
     font-weight: 900;
     letter-spacing: 0.04em;
   }
-
   .btn-red {
     transition: all 150ms ease;
   }
@@ -151,7 +146,6 @@
   .btn-red:active {
     transform: translateY(0);
   }
-
   .btn-black {
     transition: all 150ms ease;
   }
@@ -163,7 +157,6 @@
   .btn-black:active {
     transform: translateY(0);
   }
-
   .btn-white {
     transition: all 150ms ease;
   }
