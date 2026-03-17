@@ -1,20 +1,13 @@
 import type { Metadata } from 'next'
-import { Barlow, Lato } from 'next/font/google'
+import { Barlow } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
 import './globals.css'
 
-const barlow = Barlow({ 
-  subsets: ["latin"],
-  weight: ["900"],
-  variable: "--font-barlow",
-  display: "swap",
-})
-
-const lato = Lato({ 
-  subsets: ["latin"],
-  weight: ["400", "700"],
-  variable: "--font-lato",
-  display: "swap",
+const barlow = Barlow({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '900'],
+  variable: '--font-barlow',
+  display: 'swap',
 })
 
 export const metadata: Metadata = {
@@ -46,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className={`${barlow.variable} ${lato.variable}`}>
+    <html lang="en" className={`${barlow.variable}`}>
       <body className="font-sans antialiased">
         {children}
         <Analytics />

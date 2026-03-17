@@ -52,11 +52,13 @@ export default function Home() {
             <div className="flex-1 flex flex-col gap-4">
               <ScrollReveal>
                 <h1
-                  className="font-display text-junior-black font-black uppercase text-pretty"
+                  className="font-display text-junior-black uppercase text-pretty"
                   style={{
                     fontSize: "clamp(2.75rem, 7vw, 6.5rem)",
                     letterSpacing: "0.058em",
                     lineHeight: 1.14,
+                    fontWeight: 900,
+                    fontFamily: 'var(--font-barlow)',
                   }}
                 >
                   Your producing partner.<br />Available 24/7.
@@ -111,7 +113,7 @@ export default function Home() {
       <section className="bg-junior-red px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
-            <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-balance leading-snug text-center">
+            <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-16 text-balance leading-snug text-center" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
               Junior is a second brain for producers
             </h2>
           </ScrollReveal>
@@ -144,7 +146,7 @@ export default function Home() {
           
           {/* Centered headline and intro - full width above the grid */}
           <ScrollReveal>
-            <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 leading-snug text-center text-balance">
+            <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-16 leading-snug text-center text-balance" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
               BUILT BY CANADIAN FILMMAKERS,<br />FOR CANADIAN FILMMAKERS.
             </h2>
           </ScrollReveal>
@@ -233,7 +235,7 @@ export default function Home() {
       <section id="cta" className="bg-junior-red px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal>
-            <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-6 text-balance leading-snug">
+            <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-6 text-balance leading-snug" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
               THE CAVALRY'S NOT COMING. BUT JUNIOR IS.
             </h2>
             <p className="font-sans text-junior-white text-lg md:text-xl font-semibold mb-16">
@@ -251,7 +253,7 @@ export default function Home() {
             <div className="text-right">
               <p 
                 className="font-display text-junior-white uppercase mb-2 leading-none"
-                style={{ fontSize: "clamp(2rem, 5vw, 3rem)" }}
+                style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 900, fontFamily: 'var(--font-barlow)' }}
               >
                 JUNIOR
               </p>

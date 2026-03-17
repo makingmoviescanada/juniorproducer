@@ -28,7 +28,7 @@ const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) =>
   return (
     <div className="bg-junior-white border-2 border-junior-black p-8 flex flex-col h-full shadow-hard-parchment-sm">
       <div className="mb-6">
-        <h3 className="font-display text-junior-black text-lg md:text-xl font-black uppercase tracking-wider mb-3">
+        <h3 className="font-display text-junior-black text-lg md:text-xl uppercase tracking-wider mb-3" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
           {label}
         </h3>
         <p className="font-sans text-junior-black/70 italic text-sm md:text-base">
@@ -77,7 +77,7 @@ const TierCard: React.FC<TierProps> = ({ label, subheading, body, features }) =>
       <button
         data-tier={label.toLowerCase()}
         onClick={() => handleTierClick(label.toLowerCase())}
-        className="w-full px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider btn-hover font-sans text-sm md:text-base"
+        className="w-full px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider btn-red font-sans text-sm md:text-base"
       >
         Join the Waitlist
       </button>
@@ -128,7 +128,7 @@ export function PricingTiers() {
     <section className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
       <div className="max-w-7xl mx-auto">
         <ScrollReveal>
-          <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 text-center text-balance leading-snug">
+          <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-16 text-center text-balance leading-snug" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
             START WHERE YOU ARE.<br />GROW AS YOU GO.
           </h2>
         </ScrollReveal>
