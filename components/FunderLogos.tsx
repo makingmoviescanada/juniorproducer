@@ -33,7 +33,7 @@ export function FunderLogos({
   className?: string 
 }) {
   return (
-    <div className={`${className} flex flex-col`}>
+    <div className={`${className} flex flex-col py-20`}>
       <h2 className="text-center text-junior-white font-display text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-16 leading-snug text-balance" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
         {title}
       </h2>
@@ -41,16 +41,29 @@ export function FunderLogos({
         {funders.map((funder, index) => (
           <div
             key={index}
-            className="border-2 border-junior-black flex items-center justify-center w-full sm:w-[calc(50%-8px)] md:w-[calc(33.333%-11px)] lg:w-[calc(20%-13px)]"
-            style={{ height: "120px", padding: "16px", backgroundColor: "#ffffff" }}
+            style={{
+              width: "180px",
+              height: "80px",
+              background: "#FFFFFF",
+              border: "1px solid #1A1A1A",
+              borderRadius: "6px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "16px",
+            }}
           >
             <Image
               src={funder.logo}
               alt={funder.name}
-              width={160}
-              height={80}
-              className="max-w-full max-h-full object-contain"
-              style={{ backgroundColor: "#ffffff" }}
+              width={140}
+              height={48}
+              style={{
+                maxWidth: "140px",
+                maxHeight: "48px",
+                objectFit: "contain",
+                filter: "grayscale(100%)",
+              }}
             />
           </div>
         ))}
