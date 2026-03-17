@@ -233,7 +233,7 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section id="cta" className="bg-junior-red px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
+      <section id="cta" className="bg-[#E8392A] px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-3xl mx-auto text-center">
           <ScrollReveal>
             <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-6 text-balance leading-snug" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
@@ -248,7 +248,7 @@ export default function Home() {
       </section>
 
       {/* Section 7: Footer */}
-      <footer className="bg-junior-black border-t-2 border-junior-black px-6 py-16 md:px-12 lg:px-24">
+      <footer className="bg-[#1A1A1A] text-white border-t-2 border-junior-black px-6 py-16 md:px-12 lg:px-24">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row justify-end items-end gap-12">
             <div className="text-right">
@@ -259,7 +259,7 @@ export default function Home() {
                 JUNIOR
               </p>
               <p className="text-junior-white/50 text-sm font-sans">
-                © Intersectional Films Inc.
+                © Intersectionnel Films Inc.
               </p>
             </div>
           </div>

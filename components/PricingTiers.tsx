@@ -21,9 +21,9 @@ const TIER_DIFFERENTIATORS: Record<string, string> = {
 }
 
 const TIER_BUTTON_TEXT: Record<string, string> = {
-  ARTIST: "SIGNUP FOR ARTIST",
-  PRODUCER: "SIGNUP FOR PRODUCER",
-  STUDIO: "SIGNUP FOR STUDIO",
+  ARTIST: "JOIN AS ARTIST",
+  PRODUCER: "JOIN AS PRODUCER",
+  STUDIO: "JOIN AS STUDIO",
 }
 
 interface TierProps {
