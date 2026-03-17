@@ -12,7 +12,7 @@ export default function ClosingCTA() {
   };
 
   return (
-    <div style={{ backgroundColor: '#E8392A', width: '100%', padding: '120px 24px' }}>
+    <div className="w-full px-6 py-120 bg-[#E8392A]">
       <div className="flex flex-col items-center justify-center">
         {/* Headline */}
         <h2
