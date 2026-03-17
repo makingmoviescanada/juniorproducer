@@ -110,15 +110,15 @@ export default function Home() {
       <ThreeCardSection />
 
       {/* Section: Second Brain & Integrations */}
-      <section className="bg-junior-red px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
+      <section className="grain-overlay px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black" style={{ backgroundColor: '#F0EBE0' }}>
         <div className="max-w-7xl mx-auto">
           <ScrollReveal>
-            <h2 className="font-display text-junior-white text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-16 text-balance leading-snug text-center" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
-              Junior is a second brain for producers
+            <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-16 text-balance leading-snug text-center" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
+              JUNIOR IS A SECOND BRAIN FOR PRODUCERS
             </h2>
           </ScrollReveal>
           <ScrollReveal delay={100}>
-            <p className="text-junior-white/90 text-lg md:text-xl leading-relaxed font-sans max-w-2xl mb-16 text-center mx-auto">
+            <p className="text-junior-black text-lg md:text-xl leading-relaxed font-sans max-w-2xl mb-16 text-center mx-auto">
               Junior makes sure nothing falls through the cracks. Every deadline tracked, every document versioned, every funding window watched — so you can focus on making the film.
             </p>
           </ScrollReveal>

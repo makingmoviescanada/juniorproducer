@@ -16,19 +16,18 @@ export function ToolStrip() {
         {tools.map((tool, index) => (
           <div
             key={index}
-            className="flex items-center justify-center border-2 border-junior-black w-20 h-20 md:w-24 md:h-24 p-3"
-            style={{ backgroundColor: "#ffffff" }}
+            className="flex items-center justify-center"
           >
             <img
               src={tool.logo}
               alt={tool.name}
               className="max-w-full max-h-full object-contain"
-              style={{ backgroundColor: "#ffffff" }}
+              style={{ width: '80px', height: '80px' }}
             />
           </div>
         ))}
       </div>
-      <p className="text-junior-white/80 text-center font-sans text-sm">
+      <p className="text-junior-black text-center font-sans text-sm" style={{ color: '#1A1A1A' }}>
         Junior connects to the tools you already use.
       </p>
     </div>
