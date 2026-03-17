@@ -53,6 +53,7 @@ export function StickyHeader() {
             backgroundColor: "#E8392A",
             borderRadius: "5px",
             letterSpacing: "0.05em",
+            color: "#FFFFFF",
           }}
         >
           Get Early Access

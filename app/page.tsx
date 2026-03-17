@@ -46,9 +46,9 @@ export default function Home() {
         </svg>
 
         <div className="max-w-7xl mx-auto w-full" style={{ position: "relative", zIndex: 2 }}>
-          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-stretch">
+          <div className="flex flex-col lg:flex-row gap-12 lg:gap-16">
 
-            {/* Left column — all copy stacked */}
+            {/* Left column — all copy stacked, centered vertically against right column on desktop */}
             <div className="flex-1 flex flex-col justify-center gap-4">
               <ScrollReveal>
                 <h1
@@ -76,6 +76,7 @@ export default function Home() {
                     borderRadius: "5px",
                     letterSpacing: "0.05em",
                     fontSize: "0.875rem",
+                    color: "#FFFFFF",
                   }}
                 >
                   Get Early Access
@@ -84,8 +85,8 @@ export default function Home() {
 
             </div>
 
-            {/* Right column — image fills full height */}
-            <ScrollReveal delay={200} direction="left" className="w-full lg:w-2/5 lg:flex-shrink-0">
+            {/* Right column — responsive photo sizing */}
+            <ScrollReveal delay={200} direction="left" className="w-full md:w-2/5 lg:w-[45%] flex-shrink-0">
               <div style={{ 
                 filter: "grayscale(100%) contrast(1.1)",
                 boxShadow: "6px 6px 0px #1A1A1A"
