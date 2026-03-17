@@ -15,14 +15,14 @@ const cards: Card[] = [
     body: "Junior crawls so you can run — every funding window, eligibility requirement, and deadline.",
   },
   {
-    title: "24/7 Support",
+    title: "always on",
     subtitle: "",
-    body: "Junior is always standing by — no office hours, no callbacks, no waiting.",
+    body: "No office hours. No callbacks. No waiting. Junior is standing by whenever the deadline hits — even at 11:59PM.",
   },
   {
-    title: "No Staff, No Problem",
+    title: "no budget, no problem",
     subtitle: "",
-    body: "Junior automates admin and version chaos — for less than one billable hour per month.",
+    body: "Junior does the work of a junior producer for a fraction of the cost. No hiring, no onboarding, no salary.",
   },
 ]
 
