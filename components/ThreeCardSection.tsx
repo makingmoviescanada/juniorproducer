@@ -10,17 +10,17 @@ interface Card {
 
 const cards: Card[] = [
   {
-    title: "for canadians",
+    title: "FOR CANADIANS",
     subtitle: "",
     body: "Junior crawls so you can run — every funding window, eligibility requirement, and deadline.",
   },
   {
-    title: "always on",
+    title: "ALWAYS ON",
     subtitle: "",
     body: "No office hours. No callbacks. No waiting. Junior is standing by — even at 11:59PM.",
   },
   {
-    title: "no budget, no problem",
+    title: "NO BUDGET, NO PROBLEM",
     subtitle: "",
     body: "Junior automates admin and version chaos — so you can focus on tasks that move the needle.",
   },
@@ -42,7 +42,7 @@ export function ThreeCardSection() {
               <div
                 className="p-6 bg-junior-parchment border border-[#1A1A1A] rounded-[8px] shadow-card-hard h-full flex flex-col"
               >
-                <h3 className="font-display text-junior-black text-base md:text-lg uppercase tracking-wider mb-3" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
+                <h3 className="font-display text-[#1A1A1A] text-base md:text-lg uppercase tracking-wider mb-3" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
                   {card.title}
                 </h3>
                 <p className="font-sans text-junior-black/80 text-sm md:text-base leading-relaxed flex-grow">
