@@ -16,22 +16,77 @@ export default function Home() {
     <main>
       <StickyHeader />
       {/* Section 1: Hero */}
-      <section className="bg-junior-parchment px-6 pt-32 pb-24 md:px-12 lg:px-24 border-b-2 border-junior-black">
-        <div className="max-w-7xl mx-auto w-full">
+      <section
+        className="bg-junior-parchment px-6 pt-32 pb-24 md:px-12 lg:px-24 border-b-2 border-junior-black"
+        style={{ position: "relative", overflow: "hidden" }}
+      >
+        {/* Paper grain texture overlay */}
+        <svg
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            inset: 0,
+            width: "100%",
+            height: "100%",
+            pointerEvents: "none",
+            opacity: 0.05,
+            zIndex: 0,
+          }}
+        >
+          <filter id="hero-grain">
+            <feTurbulence
+              type="fractalNoise"
+              baseFrequency="0.75"
+              numOctaves="4"
+              stitchTiles="stitch"
+            />
+            <feColorMatrix type="saturate" values="0" />
+          </filter>
+          <rect width="100%" height="100%" filter="url(#hero-grain)" />
+        </svg>
+
+        {/* Floating clapperboard collage element */}
+        <div
+          aria-hidden="true"
+          style={{
+            position: "absolute",
+            top: "6%",
+            right: "5%",
+            zIndex: 1,
+            transform: "rotate(5deg)",
+            fontSize: "clamp(80px, 10vw, 140px)",
+            lineHeight: 1,
+            userSelect: "none",
+            opacity: 0.18,
+            filter: "grayscale(1) contrast(1.2)",
+            fontFamily: "serif",
+          }}
+        >
+          🎬
+        </div>
+
+        <div className="max-w-7xl mx-auto w-full" style={{ position: "relative", zIndex: 2 }}>
           <div className="flex flex-col lg:flex-row gap-12 lg:gap-16 items-stretch">
 
             {/* Left column — all copy stacked */}
             <div className="flex-1 flex flex-col justify-center gap-6">
-              <div 
+              <div
                 className="inline-flex items-center border-2 border-junior-black px-4 py-2 self-start"
-                style={{ borderRadius: "6px" }}
+                style={{ borderRadius: "86px" }}
               >
                 <span className="font-display text-junior-black text-sm uppercase tracking-wider font-black">
                   JUNIOR
                 </span>
               </div>
               <ScrollReveal>
-                <h1 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl font-black tracking-wider leading-snug text-pretty uppercase">
+                <h1
+                  className="font-display text-junior-black font-black uppercase text-pretty"
+                  style={{
+                    fontSize: "clamp(2.75rem, 7vw, 6.5rem)",
+                    letterSpacing: "0.058em",
+                    lineHeight: 1.14,
+                  }}
+                >
                   Your producing partner.<br />Available 24/7.
                 </h1>
               </ScrollReveal>
@@ -43,14 +98,19 @@ export default function Home() {
               <ScrollReveal delay={200}>
                 <a
                   href="#cta"
-                  className="inline-block px-6 py-3 bg-junior-red border-2 border-junior-black text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm self-start"
-                  style={{ letterSpacing: "0.05em", fontSize: "0.875rem" }}
+                  className="inline-block px-6 py-3 text-junior-white font-bold uppercase tracking-wider shadow-hard-red-sm btn-hover font-sans text-sm self-start border-2 border-junior-black"
+                  style={{
+                    backgroundColor: "#E8392A",
+                    borderRadius: "5px",
+                    letterSpacing: "0.05em",
+                    fontSize: "0.875rem",
+                  }}
                 >
                   Get Early Access
                 </a>
-            </ScrollReveal>
+              </ScrollReveal>
 
-          </div>
+            </div>
 
             {/* Right column — image fills full height */}
             <ScrollReveal delay={200} direction="left" className="w-full lg:w-2/5 lg:flex-shrink-0">
