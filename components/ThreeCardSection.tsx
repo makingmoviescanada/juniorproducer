@@ -98,7 +98,7 @@ export function ThreeCardSection() {
             className="font-sans text-lg md:text-xl leading-relaxed"
             style={{ color: '#FFFFFF' }}
           >
-            The average film producer earns $19.70/hour and 50% have no full-time employees.
+            The average film producer earns $19.70/hour and 50% have no full-time employees. (in Quebec)
           </p>
           <p
             className="font-sans text-sm mt-4"
