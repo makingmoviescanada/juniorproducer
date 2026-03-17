@@ -12,8 +12,8 @@ export default function ClosingCTA() {
   };
 
   return (
-    <section style={{ backgroundColor: '#E8392A', paddingTop: '120px', paddingBottom: '120px' }}>
-      <div className="flex flex-col items-center justify-center px-4">
+    <div style={{ backgroundColor: '#E8392A', width: '100%', padding: '120px 24px' }}>
+      <div className="flex flex-col items-center justify-center">
         {/* Headline */}
         <h2
           className="text-center text-white uppercase text-balance"
@@ -81,6 +81,6 @@ export default function ClosingCTA() {
           </button>
         </form>
       </div>
-    </section>
+    </div>
   );
 }
