@@ -17,12 +17,12 @@ const cards: Card[] = [
   {
     title: "always on",
     subtitle: "",
-    body: "No office hours. No callbacks. No waiting. Junior is standing by whenever the deadline hits — even at 11:59PM.",
+    body: "No office hours. No callbacks. No waiting. Junior is standing by — even at 11:59PM.",
   },
   {
     title: "no budget, no problem",
     subtitle: "",
-    body: "Junior does the work of a junior producer for a fraction of the cost — No hiring, no onboarding, no salary.",
+    body: "Junior automates the admin drudgery and version chaos that falls on producers with no staff — for less than one billable hour per month.",
   },
 ]
 
