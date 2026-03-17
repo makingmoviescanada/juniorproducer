@@ -4,7 +4,7 @@
   "private": true,
   "packageManager": "pnpm@9.15.1",
   "scripts": {
-    "dev": "TURBOPACK=0 npx next dev",
+    "dev": "npx next dev",
     "build": "npx next build",
     "start": "npx next start",
     "lint": "eslint ."
