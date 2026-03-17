@@ -29,7 +29,7 @@ const TIER_BUTTON_TEXT: Record<string, string> = {
 const TIER_PRICE_ANCHORS: Record<string, string> = {
   ARTIST: "Less than a script coverage note.",
   PRODUCER: "Less than half a coordinator's day rate.",
-  STUDIO: "One day rate. One month of Junior.",
+  STUDIO: "Less than a coordinator's day rate.",
 }
 
 interface TierProps {
