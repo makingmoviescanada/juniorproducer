@@ -22,7 +22,7 @@ const cards: Card[] = [
   {
     title: "no budget, no problem",
     subtitle: "",
-    body: "Junior does the work of a junior producer for a fraction of the cost. No hiring, no onboarding, no salary.",
+    body: "Junior does the work of a junior producer for a fraction of the cost — No hiring, no onboarding, no salary.",
   },
 ]
 
