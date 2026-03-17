@@ -13,32 +13,36 @@ export function ToolStrip() {
   return (
     <div className="flex flex-col items-center gap-8">
       <div className="flex flex-wrap justify-center gap-6">
-        {tools.map((tool, index) => (
-          <div
-            key={index}
-            style={{
-              background: '#FFFFFF',
-              border: '1px solid #1A1A1A',
-              borderRadius: '8px',
-              width: '64px',
-              height: '64px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
-            <img
-              src={tool.logo}
-              alt={tool.name}
+        {tools.map((tool, index) => {
+          const isAsana = tool.name === 'Asana'
+          const logoSize = isAsana ? '52px' : '40px'
+          return (
+            <div
+              key={index}
               style={{
-                width: '40px',
-                height: '40px',
-                objectFit: 'contain',
-                filter: 'grayscale(100%)',
+                background: '#FFFFFF',
+                border: '1px solid #1A1A1A',
+                borderRadius: '8px',
+                width: '64px',
+                height: '64px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
               }}
-            />
-          </div>
-        ))}
+            >
+              <img
+                src={tool.logo}
+                alt={tool.name}
+                style={{
+                  width: logoSize,
+                  height: logoSize,
+                  objectFit: 'contain',
+                  filter: 'grayscale(100%)',
+                }}
+              />
+            </div>
+          )
+        })}
       </div>
       <p className="text-center font-sans text-lg md:text-xl" style={{ color: '#1A1A1A' }}>
         Junior connects to the tools you already use.
