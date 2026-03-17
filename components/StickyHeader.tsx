@@ -18,7 +18,7 @@ export function StickyHeader() {
     <header 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 ${
         isScrolled 
-          ? "bg-junior-white border-b-2 border-junior-black shadow-hard-parchment-sm" 
+          ? "bg-junior-parchment border-b-2 border-junior-black shadow-hard-parchment-sm" 
           : "bg-transparent"
       }`}
     >

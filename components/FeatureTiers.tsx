@@ -31,7 +31,7 @@ export function FeatureTiers({ dark = false }: { dark?: boolean }) {
       {features.map((feature, index) => (
         <div key={index} className="border-2 border-junior-black flex flex-col">
           <div className="border-b-2 border-junior-black px-6 py-4">
-            <h3 className="font-display text-junior-black text-base md:text-lg font-black uppercase tracking-wider">
+            <h3 className="font-display text-junior-black text-base md:text-lg font-black">
               {feature.category}
             </h3>
           </div>

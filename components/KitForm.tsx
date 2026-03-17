@@ -77,8 +77,8 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
           border: 2px solid #1A1A1A !important;
           border-radius: 0 !important;
           padding: 0.75rem 1rem !important;
-          font-family: 'Lato', sans-serif !important;
-          font-size: 0.9375rem !important;
+          font-family: 'Barlow', sans-serif !important;
+          font-size: 1.0625rem !important;
           background-color: ${inputBg} !important;
           color: ${inputColor} !important;
           box-shadow: none !important;
@@ -108,8 +108,8 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
           font-weight: 700 !important;
           text-transform: uppercase !important;
           letter-spacing: 0.06em !important;
-          font-family: 'Lato', sans-serif !important;
-          font-size: 0.8125rem !important;
+          font-family: 'Barlow', sans-serif !important;
+          font-size: 0.875rem !important;
           cursor: pointer !important;
           transition: transform 0.15s ease, box-shadow 0.15s ease !important;
           box-shadow: 5px 5px 0 ${btnShadow} !important;
@@ -136,7 +136,7 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
         .formkit-form[data-uid="7770c7b826"] [data-element="errors"] {
           color: ${alertColor} !important;
           font-size: 0.8125rem !important;
-          font-family: 'Lato', sans-serif !important;
+          font-family: 'Barlow', sans-serif !important;
           margin-bottom: 0.5rem !important;
           list-style: none !important;
           padding: 0 !important;

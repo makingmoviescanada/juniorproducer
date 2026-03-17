@@ -78,6 +78,8 @@
   
   body {
     @apply bg-junior-parchment text-junior-black;
+    font-size: 18px;
+    line-height: 1.6;
   }
 }
 
@@ -160,7 +162,9 @@
   .font-display {
     font-family: 'Barlow', sans-serif;
     font-weight: 900;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.058em;
+    line-height: 1.14;
+    text-transform: uppercase;
   }
   
   /* Text balance */

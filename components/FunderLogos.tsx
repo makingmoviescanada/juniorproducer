@@ -34,7 +34,7 @@ export function FunderLogos({
 }) {
   return (
     <div className={`${className} flex flex-col`}>
-      <h2 className="text-center text-junior-white font-display text-4xl md:text-5xl lg:text-6xl font-black uppercase tracking-wider mb-16 leading-snug text-balance">
+      <h2 className="text-center text-junior-white font-display text-4xl md:text-5xl font-black mb-16 text-balance">
         {title}
       </h2>
       <div className="flex flex-wrap justify-center gap-4">
