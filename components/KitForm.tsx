@@ -174,7 +174,7 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
                   type="email"
                 />
               </div>
-              <button data-element="submit" className="formkit-submit formkit-submit">
+              <button data-element="submit" className="formkit-submit formkit-submit" style={{ backgroundColor: '#E8392A', background: '#E8392A' }}>
                 <span>Get Early Access</span>
               </button>
             </div>
