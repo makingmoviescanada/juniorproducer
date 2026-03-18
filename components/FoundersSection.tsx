@@ -78,7 +78,7 @@ export default function FoundersSection() {
                 marginTop: "16px",
               }}
             >
-              Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 and The Morning Show (Apple TV+).
+              Lisa Purisima is a Canadian Screen Award-nominated producer whose credits include John Wick 4 (Lionsgate) and The Morning Show (Apple TV+).
             </p>
           </div>
         </div>
