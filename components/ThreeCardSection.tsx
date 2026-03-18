@@ -82,38 +82,17 @@ export function ThreeCardSection() {
         <ScrollReveal delay={300} className="mt-12 text-center">
           <a
             href="#cta"
-            className="inline-block px-6 py-3 uppercase tracking-wider font-sans text-sm font-bold btn-black"
+            className="inline-block px-6 py-3 uppercase tracking-wider font-sans text-sm font-bold"
             style={{
-              backgroundColor: '#1A1A1A',
+              backgroundColor: '#E8392A',
               color: '#FFFFFF',
-              borderRadius: '6px',
+              border: '2px solid #FFFFFF',
+              borderRadius: '0px',
+              boxShadow: '4px 4px 0px #1A1A1A',
             }}
           >
             Get Early Access
           </a>
-        </ScrollReveal>
-
-        <ScrollReveal delay={400} className="mt-12 text-center">
-          <p
-            className="font-sans text-lg md:text-xl leading-relaxed"
-            style={{ color: '#FFFFFF' }}
-          >
-            The average film producer earns $19.70/hour and 50% have no full-time employees. (Quebec)
-          </p>
-          <p
-            className="font-sans text-sm mt-4"
-            style={{ color: '#FFFFFF' }}
-          >
-            <a
-              href="https://uppcq.com/wp-content/uploads/2024/11/Study-on-the-socio-economic-conditions-of-quebec-film-producers.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline"
-              style={{ color: '#FFFFFF' }}
-            >
-              Source: UPPCQ, 2024
-            </a>
-          </p>
         </ScrollReveal>
       </div>
     </section>

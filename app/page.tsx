@@ -61,7 +61,7 @@ export default function Home() {
                     fontFamily: 'var(--font-barlow)',
                   }}
                 >
-                  Your producing partner.<br />Available 24/7.
+                  Your 24/7<br />producing partner.
                 </h1>
               </ScrollReveal>
               <ScrollReveal delay={100}>
@@ -253,7 +253,7 @@ export default function Home() {
                 JUNIOR
               </p>
               <p className="text-junior-white/50 text-sm font-sans">
-                © Intersectionnel Films Inc.
+                © 2026 Intersectionnel Films Inc.
               </p>
             </div>
           </div>
