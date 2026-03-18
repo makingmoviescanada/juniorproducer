@@ -86,7 +86,7 @@ export function ThreeCardSection() {
             style={{
               backgroundColor: '#E8392A',
               color: '#FFFFFF',
-              border: '2px solid #FFFFFF',
+              border: '2px solid #1A1A1A',
               borderRadius: '0px',
               boxShadow: '4px 4px 0px #1A1A1A',
             }}
