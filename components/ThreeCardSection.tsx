@@ -42,7 +42,7 @@ export function ThreeCardSection() {
               fontFamily: 'var(--font-barlow)',
             }}
           >
-            You&apos;re doing the work of an entire production office — Junior is here to help.
+            You&apos;re doing the work of an entire production office — Junior is finally here to help.
           </h2>
         </ScrollReveal>
 
