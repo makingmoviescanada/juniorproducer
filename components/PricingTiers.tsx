@@ -47,7 +47,7 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
               letterSpacing: '0.08em',
               color: '#FFFFFF',
               background: '#E8392A',
-              borderRadius: '4px',
+              borderRadius: '0px',
               padding: '4px 10px',
               textTransform: 'uppercase',
             }}
