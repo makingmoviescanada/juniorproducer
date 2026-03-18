@@ -60,7 +60,7 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
         className="flex flex-col flex-1 p-8"
         style={{
           background: '#F0EBE0',
-          border: featured ? '2px solid #E8392A' : '1px solid #1A1A1A',
+          border: featured ? '2px solid #E8392A' : '2px solid #1A1A1A',
           borderRadius: '16px',
           boxShadow: '6px 6px 0px #1A1A1A',
         }}
