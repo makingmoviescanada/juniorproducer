@@ -26,7 +26,7 @@ export function StickyHeader() {
         <a 
           href="#" 
           className="px-4 py-3 bg-junior-parchment border-2 border-junior-black font-display text-junior-black uppercase tracking-wider text-lg font-bold"
-          style={{ borderRadius: "6px" }}
+          style={{ borderRadius: "0px" }}
         >
           Junior
         </a>
