@@ -42,7 +42,7 @@ export function FunderLogos({
           <div
             key={index}
             style={{
-              width: "180px",
+              width: "100%",
               height: "80px",
               background: "#FFFFFF",
               border: "1px solid #1A1A1A",
