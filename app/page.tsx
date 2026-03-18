@@ -61,7 +61,7 @@ export default function Home() {
                     fontFamily: 'var(--font-barlow)',
                   }}
                 >
-                  Junior — your 24/7<br />producing partner.
+                  Your 24/7<br />producing partner.
                 </h1>
               </ScrollReveal>
               <ScrollReveal delay={100}>
