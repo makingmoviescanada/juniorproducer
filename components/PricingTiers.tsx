@@ -17,13 +17,11 @@ function handleTierClick(tier: string) {
 const TIER_DIFFERENTIATORS: Record<string, string> = {
   ARTIST: "For independent filmmakers",
   PRODUCER: "For producers with a slate",
-  STUDIO: "For production companies with a full slate",
 }
 
 const TIER_BUTTON_TEXT: Record<string, string> = {
   ARTIST: "JOIN AS ARTIST",
   PRODUCER: "JOIN AS PRODUCER",
-  STUDIO: "JOIN AS STUDIO",
 }
 
 interface TierProps {
@@ -165,26 +163,20 @@ export function PricingTiers() {
     {
       label: "ARTIST",
       features: [
-        "Your guide through the funding maze — chat with a Canadian arts funding intelligence agent anytime",
-        "Every arts council deadline and funding window tracked automatically — synced to your Google Calendar so you never miss an opportunity",
+        "Your guide through the funding maze — chat with a Canadian arts funding intelligence agent trained on all the councils",
+        "Every arts council deadline and funding window tracked automatically — synced to your Google Calendar so your schedule reflects your films",
       ],
     },
     {
       label: "PRODUCER",
       features: [
-        "Your own Canadian film funding intelligence agent — trained on all major Canadian funding bodies",
-        "Connect your project management tools to automate the admin drudgery",
+        "Your own Canadian film funding intelligence agent — trained on all major funders: Telefilm, CMF, NFB, SODEC, and more",
+        "Sync your entire slate's development cycles and funding deadlines to your calendar automatically — so your schedule reflects your slate",
+        "Connect your project management tools to automate your entire slate workflow",
+        "Junior becomes your second brain — every document, draft, and decision versioned and searchable",
         "Always working off the latest version — no more version chaos",
       ],
       featured: true,
-    },
-    {
-      label: "STUDIO",
-      features: [
-        "Everything in producer",
-        "Your whole team gets access to Canadian film funding intelligence",
-        "Full project and document memory across your entire slate",
-      ],
     },
   ]
 
@@ -201,7 +193,7 @@ export function PricingTiers() {
         </ScrollReveal>
 
         <ScrollReveal delay={150}>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch max-w-4xl mx-auto">
             {tiers.map((tier, idx) => (
               <TierCard key={idx} {...tier} />
             ))}
