@@ -134,7 +134,7 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
           style={{
             background: '#E8392A',
             color: '#FFFFFF',
-            borderRadius: '6px',
+            borderRadius: '0px',
             border: 'none',
             fontFamily: 'var(--font-barlow)',
             fontWeight: 700,
