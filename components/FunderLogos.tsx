@@ -38,7 +38,7 @@ export function FunderLogos({
         {title}
       </h2>
       <div className="flex justify-center w-full px-4">
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3 lg:gap-4 justify-items-center place-items-center max-w-7xl">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2 md:gap-3 lg:gap-4 justify-items-center place-items-center w-full">
         {funders.map((funder, index) => (
           <div
             key={index}
