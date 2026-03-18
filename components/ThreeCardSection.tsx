@@ -15,14 +15,14 @@ const cards: Card[] = [
     body: "Junior crawls so you can run — every funding window, eligibility requirement, and deadline.",
   },
   {
-    title: "ALWAYS ON",
+    title: "AUTO-SYNC CALENDARS",
     subtitle: "",
-    body: "No office hours. No callbacks. No waiting. Junior is standing by — even at 11:59PM.",
+    body: "Junior autosyncs the latest deadlines to your calendar — no more whiteboards in the living room.",
   },
   {
     title: "NO BUDGET, NO PROBLEM",
     subtitle: "",
-    body: "Junior automates admin and version chaos — so you can focus on tasks that move the needle.",
+    body: "Junior automates admin and version chaos — so you can focus on what really matters.",
   },
 ]
 
@@ -42,7 +42,7 @@ export function ThreeCardSection() {
               fontFamily: 'var(--font-barlow)',
             }}
           >
-            You&apos;re doing the work of an entire production office — Junior is here to help.
+            You&apos;re doing the work of an entire production office — Junior is finally here to help.
           </h2>
         </ScrollReveal>
 
@@ -86,7 +86,7 @@ export function ThreeCardSection() {
             style={{
               backgroundColor: '#E8392A',
               color: '#FFFFFF',
-              border: '2px solid #FFFFFF',
+              border: '2px solid #1A1A1A',
               borderRadius: '0px',
               boxShadow: '4px 4px 0px #1A1A1A',
             }}
