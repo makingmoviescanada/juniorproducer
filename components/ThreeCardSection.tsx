@@ -15,7 +15,7 @@ const cards: Card[] = [
     body: "Junior crawls so you can run — every funding window, eligibility requirement, and deadline.",
   },
   {
-    title: "AUTO-SYNC DEADLINES",
+    title: "AUTO-SYNC CALENDARS",
     subtitle: "",
     body: "Junior autosyncs the latest deadlines to your calendar — no more whiteboards in the living room.",
   },
