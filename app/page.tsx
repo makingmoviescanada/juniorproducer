@@ -83,7 +83,7 @@ export default function Home() {
 
             {/* Right column — responsive photo sizing */}
             <ScrollReveal delay={200} direction="left" className="w-full md:w-2/5 lg:w-[45%] flex-shrink-0">
-              <div style={{ 
+              <div style={{
                 filter: "grayscale(100%) contrast(1.1)",
                 boxShadow: "8px 8px 0px #1A1A1A"
               }}>
@@ -138,14 +138,14 @@ export default function Home() {
       {/* Section: Founders/About */}
       <section id="why-we-built-it" className="bg-junior-parchment px-6 py-24 md:px-12 lg:px-24 border-t-2 border-junior-black">
         <div className="max-w-7xl mx-auto">
-          
+
           {/* Centered headline and intro - full width above the grid */}
           <ScrollReveal>
             <h2 className="font-display text-junior-black text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-16 leading-snug text-center text-balance" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
               BUILT BY CANADIAN FILMMAKERS,<br />FOR CANADIAN FILMMAKERS.
             </h2>
           </ScrollReveal>
-          
+
           <ScrollReveal delay={100}>
             <p className="text-junior-black/80 text-lg md:text-xl leading-relaxed font-sans mb-16 text-center max-w-3xl mx-auto">
               Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.
@@ -233,10 +233,10 @@ export default function Home() {
             <h2 className="font-display text-white text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-6 text-balance leading-snug" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
               <span className="whitespace-nowrap">THE CAVALRY'S NOT COMING.</span><br />BUT JUNIOR IS.
             </h2>
-            <p className="font-sans text-junior-white text-lg md:text-xl font-semibold mb-16">
+            <p className="font-sans text-junior-white text-lg md:text-xl font-semibold mb-12">
               Early access. Limited spots.
             </p>
-            <KitForm className="justify-center" />
+            <KitForm className="justify-center w-full max-w-2xl mx-auto" />
           </ScrollReveal>
         </div>
       </section>
@@ -246,7 +246,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col lg:flex-row justify-end items-end gap-12">
             <div className="text-right">
-              <p 
+              <p
                 className="font-display text-junior-white uppercase mb-2 leading-none"
                 style={{ fontSize: "clamp(2rem, 5vw, 3rem)", fontWeight: 900, fontFamily: 'var(--font-barlow)' }}
               >

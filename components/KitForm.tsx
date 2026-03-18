@@ -32,12 +32,12 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
       <div className={`w-full ${className}`}>
         <div className="flex flex-wrap gap-3 items-stretch">
           <div className="flex-1 min-w-[220px]">
-            <div 
+            <div
               className="h-12 border-2 border-junior-black bg-white"
               style={{ minHeight: '48px' }}
             />
           </div>
-          <div 
+          <div
             className="h-12 px-6 bg-[#1A1A1A] border-2 border-[#1A1A1A] flex items-center justify-center"
             style={{ minHeight: '48px', boxShadow: '5px 5px 0 #1A1A1A' }}
           >
@@ -100,7 +100,7 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
         .formkit-form[data-uid="7770c7b826"] .formkit-submit {
           height: 48px !important;
           min-height: 48px !important;
-          background-color: #1A1A1A !important;
+background-color: #E8392A !important;
           border: 2px solid #1A1A1A !important;
           border-radius: 0 !important;
           color: #FFFFFF !important;
