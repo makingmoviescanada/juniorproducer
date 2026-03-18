@@ -82,11 +82,13 @@ export function ThreeCardSection() {
         <ScrollReveal delay={300} className="mt-12 text-center">
           <a
             href="#cta"
-            className="inline-block px-6 py-3 uppercase tracking-wider font-sans text-sm font-bold btn-black"
+            className="inline-block px-6 py-3 uppercase tracking-wider font-sans text-sm font-bold"
             style={{
-              backgroundColor: '#1A1A1A',
+              backgroundColor: '#E8392A',
               color: '#FFFFFF',
-              borderRadius: '6px',
+              border: '2px solid #FFFFFF',
+              borderRadius: '0px',
+              boxShadow: '4px 4px 0px #1A1A1A',
             }}
           >
             Get Early Access
