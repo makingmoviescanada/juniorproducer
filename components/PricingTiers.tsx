@@ -34,9 +34,12 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col" style={{ position: 'relative', paddingTop: featured ? '14px' : '0' }}>
       {featured && (
-        <div className="flex justify-center mb-4">
+        <div
+          className="flex justify-center"
+          style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10 }}
+        >
           <span
             style={{
               fontFamily: 'var(--font-barlow)',
@@ -57,7 +60,7 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
       <div
         className="flex flex-col flex-1 p-8"
         style={{
-          background: '#F0EBE0',
+          background: featured ? '#FFFFFF' : '#F0EBE0',
           border: featured ? '2px solid #E8392A' : '2px solid #1A1A1A',
           borderRadius: '16px',
           boxShadow: '6px 6px 0px #1A1A1A',
@@ -129,7 +132,7 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
           data-tier={label.toLowerCase()}
           onClick={() => handleTierClick(label.toLowerCase())}
           className="w-full px-6 py-3 font-bold uppercase tracking-wider text-sm md:text-base transition-all duration-150 ease-in-out"
-          style={{
+          style={featured ? {
             background: '#E8392A',
             color: '#FFFFFF',
             borderRadius: '0px',
@@ -137,18 +140,36 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
             fontFamily: 'var(--font-barlow)',
             fontWeight: 700,
             boxShadow: '4px 4px 0px #1A1A1A',
+          } : {
+            background: 'transparent',
+            color: '#E8392A',
+            borderRadius: '0px',
+            border: '2px solid #E8392A',
+            fontFamily: 'var(--font-barlow)',
+            fontWeight: 700,
+            boxShadow: 'none',
           }}
           onMouseEnter={e => {
             const el = e.currentTarget
-            el.style.background = '#C9301F'
-            el.style.transform = 'translateY(-2px)'
-            el.style.boxShadow = '4px 4px 0px #1A1A1A'
+            if (featured) {
+              el.style.background = '#C9301F'
+              el.style.transform = 'translateY(-2px)'
+              el.style.boxShadow = '4px 4px 0px #1A1A1A'
+            } else {
+              el.style.background = '#E8392A'
+              el.style.color = '#FFFFFF'
+            }
           }}
           onMouseLeave={e => {
             const el = e.currentTarget
-            el.style.background = '#E8392A'
-            el.style.transform = 'translateY(0)'
-            el.style.boxShadow = 'none'
+            if (featured) {
+              el.style.background = '#E8392A'
+              el.style.transform = 'translateY(0)'
+              el.style.boxShadow = '4px 4px 0px #1A1A1A'
+            } else {
+              el.style.background = 'transparent'
+              el.style.color = '#E8392A'
+            }
           }}
         >
           {TIER_BUTTON_TEXT[label]}
@@ -165,7 +186,8 @@ export function PricingTiers() {
       label: "ARTIST",
       features: [
         "Your guide through the funding maze — chat with a Canadian arts funding intelligence agent trained on all the councils",
-        "Every arts council deadline and funding window tracked automatically — synced to your Google Calendar so your schedule reflects your films",
+        "Every arts council deadline and funding window tracked automatically",
+        "Synced to your Google Calendar so your schedule reflects your films",
       ],
     },
     {
