@@ -20,8 +20,8 @@ const TIER_DIFFERENTIATORS: Record<string, string> = {
 }
 
 const TIER_BUTTON_TEXT: Record<string, string> = {
-  ARTIST: "JOIN AS ARTIST",
-  PRODUCER: "JOIN AS PRODUCER",
+  ARTIST: "JOIN AS AN ARTIST",
+  PRODUCER: "JOIN AS A PRODUCER",
 }
 
 interface TierProps {
@@ -34,11 +34,11 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
-    <div className="flex flex-col" style={{ position: 'relative', paddingTop: featured ? '14px' : '0' }}>
+    <div className="flex flex-col" style={{ position: 'relative', paddingTop: featured ? '0' : '0' }}>
       {featured && (
         <div
           className="flex justify-center"
-          style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10 }}
+          style={{ position: 'absolute', top: '-14px', left: 0, right: 0, zIndex: 10 }}
         >
           <span
             style={{
