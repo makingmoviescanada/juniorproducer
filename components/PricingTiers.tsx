@@ -133,9 +133,10 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
             background: '#E8392A',
             color: '#FFFFFF',
             borderRadius: '0px',
-            border: 'none',
+            border: '2px solid #1A1A1A',
             fontFamily: 'var(--font-barlow)',
             fontWeight: 700,
+            boxShadow: '4px 4px 0px #1A1A1A',
           }}
           onMouseEnter={e => {
             const el = e.currentTarget
