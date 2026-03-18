@@ -37,7 +37,7 @@ export function FunderLogos({
       <h2 className="text-center text-junior-white font-display text-4xl md:text-5xl lg:text-6xl uppercase tracking-wider mb-16 leading-snug text-balance" style={{ fontWeight: 900, fontFamily: 'var(--font-barlow)' }}>
         {title}
       </h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 justify-items-center">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 md:gap-6 lg:gap-8 justify-items-center max-w-7xl mx-auto w-full px-4">
         {funders.map((funder, index) => (
           <div
             key={index}
