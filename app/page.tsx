@@ -253,7 +253,7 @@ export default function Home() {
                 JUNIOR
               </p>
               <p className="text-junior-white/50 text-sm font-sans">
-                © Intersectionnel Films Inc.
+                © 2026 Intersectionnel Films Inc.
               </p>
             </div>
           </div>
