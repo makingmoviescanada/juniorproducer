@@ -100,7 +100,7 @@ export function KitForm({ className = "", variant = 'light' }: KitFormProps) {
         .formkit-form[data-uid="7770c7b826"] .formkit-submit {
           height: 48px !important;
           min-height: 48px !important;
-background-color: #E8392A !important;
+          background-color: #E8392A !important;
           border: 2px solid #1A1A1A !important;
           border-radius: 0 !important;
           color: #FFFFFF !important;
