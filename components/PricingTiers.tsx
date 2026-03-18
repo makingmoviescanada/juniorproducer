@@ -34,9 +34,9 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
   const [isExpanded, setIsExpanded] = useState(false)
 
   return (
-    <div className="flex flex-col" style={{ position: 'relative', paddingTop: featured ? '20px' : '0' }}>
+    <div className="flex flex-col">
       {featured && (
-        <div className="flex justify-center" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10 }}>
+        <div className="flex justify-center mb-4">
           <span
             style={{
               fontFamily: 'var(--font-barlow)',
@@ -50,7 +50,7 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
               textTransform: 'uppercase',
             }}
           >
-            MOST POPULAR
+            RECOMMENDED
           </span>
         </div>
       )}
