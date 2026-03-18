@@ -216,7 +216,7 @@ export function PricingTiers() {
         </ScrollReveal>
 
         <ScrollReveal delay={150}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start max-w-4xl mx-auto">
             {tiers.map((tier, idx) => (
               <TierCard key={idx} {...tier} />
             ))}
