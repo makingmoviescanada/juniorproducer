@@ -26,7 +26,7 @@ export function StickyHeader() {
         <a 
           href="#" 
           className="px-4 py-3 bg-junior-parchment border-2 border-junior-black font-display text-junior-black uppercase tracking-wider text-lg font-bold"
-          style={{ borderRadius: "6px" }}
+          style={{ borderRadius: "0px" }}
         >
           Junior
         </a>
@@ -51,7 +51,7 @@ export function StickyHeader() {
           className="px-4 py-2 text-junior-white font-bold uppercase tracking-wider btn-red font-sans text-xs border-2 border-junior-black"
           style={{
             backgroundColor: "#E8392A",
-            borderRadius: "5px",
+            borderRadius: "0px",
             letterSpacing: "0.05em",
             color: "#FFFFFF",
           }}
