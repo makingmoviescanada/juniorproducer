@@ -44,9 +44,6 @@ export function ToolStrip() {
           )
         })}
       </div>
-      <p className="text-center font-sans text-lg md:text-xl" style={{ color: '#1A1A1A' }}>
-        Junior connects to the tools you already use.
-      </p>
     </div>
   )
 }
