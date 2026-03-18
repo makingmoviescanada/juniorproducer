@@ -58,7 +58,7 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
         </div>
       )}
       <div
-        className="flex flex-col flex-1 p-8"
+        className="flex flex-col justify-between flex-1 p-8"
         style={{
           background: featured ? '#FFFFFF' : '#F0EBE0',
           border: featured ? '2px solid #E8392A' : '2px solid #1A1A1A',
@@ -87,7 +87,7 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
       </div>
 
       {/* Desktop — always show features */}
-      <ul className="space-y-3 mb-8 flex-grow hidden md:block">
+      <ul className="space-y-3 mb-8 flex-1 hidden md:block">
         {features.map((feature, idx) => (
           <li key={idx} className="flex items-start gap-3">
             <span className="font-bold text-lg flex-shrink-0 mt-0.5" style={{ color: '#E8392A' }}>✓</span>
@@ -102,7 +102,7 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
       </ul>
 
       {/* Mobile — expandable features */}
-      <div className="md:hidden flex-grow mb-8">
+      <div className="md:hidden flex-1 mb-8">
         {isExpanded && (
           <ul className="space-y-3 mb-4">
             {features.map((feature, idx) => (
@@ -127,7 +127,7 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
         </button>
       </div>
 
-      <div style={{ marginTop: 'auto' }}>
+      <div>
         <button
           data-tier={label.toLowerCase()}
           onClick={() => handleTierClick(label.toLowerCase())}
@@ -216,7 +216,7 @@ export function PricingTiers() {
         </ScrollReveal>
 
         <ScrollReveal delay={150}>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start max-w-4xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch max-w-4xl mx-auto">
             {tiers.map((tier, idx) => (
               <TierCard key={idx} {...tier} />
             ))}
