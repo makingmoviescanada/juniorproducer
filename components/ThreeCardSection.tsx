@@ -50,7 +50,7 @@ export function ThreeCardSection() {
           {cards.map((card, index) => (
             <ScrollReveal key={index} delay={index * 100} className="h-full">
               <div
-                className="p-6 h-full flex flex-col"
+                className="px-6 py-6 h-full flex flex-col"
                 style={{
                   backgroundColor: '#F0EBE0',
                   border: '1px solid #1A1A1A',
