@@ -61,7 +61,7 @@ export default function Home() {
                     fontFamily: 'var(--font-barlow)',
                   }}
                 >
-                  Your producing partner.<br />Available 24/7.
+                  Your 24/7 producing partner.
                 </h1>
               </ScrollReveal>
               <ScrollReveal delay={100}>
