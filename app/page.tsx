@@ -1,6 +1,6 @@
 import { VideoPlaceholder } from "@/components/VideoPlaceholder"
 import { KitForm } from "@/components/KitForm"
-import { StickyHeader } from "@/components/StickyHeader"
+import { Nav } from "@/components/Nav"
 import { LogoCloud } from "@/components/LogoCloud"
 import { FunderLogos } from "@/components/FunderLogos"
 import { FeatureTiers } from "@/components/FeatureTiers"
@@ -14,11 +14,11 @@ import { PricingTiers } from "@/components/PricingTiers"
 export default function Home() {
   return (
     <main>
-      <StickyHeader />
+      <Nav />
       {/* Section 1: Hero */}
       <section
-        className="bg-junior-parchment px-6 pt-32 pb-24 md:px-12 lg:px-24 border-b-2 border-junior-black"
-        style={{ position: "relative", overflow: "hidden" }}
+        className="bg-[#F0EBE0] px-6 pt-40 pb-24 md:px-12 lg:px-24 border-b-2 border-[#1A1A1A]"
+        style={{ position: "relative", overflow: "hidden", marginTop: "80px" }}
       >
         {/* Paper grain texture overlay */}
         <svg
