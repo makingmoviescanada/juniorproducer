@@ -17,7 +17,7 @@ const cards: Card[] = [
   {
     title: "AUTOMATE REMINDERS",
     subtitle: "",
-    body: "Junior crawls so you can run — syncs deadlines directly to your calendar and never miss a deadline again.",
+    body: "Junior crawls so you can run — syncing deadlines directly to your calendar and never miss a deadline again.",
   },
   {
     title: "NO BUDGET, NO PROBLEM",
