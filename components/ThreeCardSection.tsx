@@ -10,19 +10,19 @@ interface Card {
 
 const cards: Card[] = [
   {
-    title: "FOR CANADIANS",
+    title: "BUILT FOR CANADA",
     subtitle: "",
-    body: "Junior crawls so you can run — every funding window, eligibility requirement, and deadline.",
+    body: "Junior is trained on the Canadian system — every funding window, eligibility requirement, and deadline.",
   },
   {
-    title: "ALWAYS ON",
+    title: "AUTOMATE REMINDERS",
     subtitle: "",
-    body: "No office hours. No callbacks. No waiting. Junior is standing by — even at 11:59PM.",
+    body: "Junior crawls so you can run — syncing deadlines directly to your calendar and never miss a deadline again.",
   },
   {
     title: "NO BUDGET, NO PROBLEM",
     subtitle: "",
-    body: "Junior automates admin and version chaos — so you can focus on tasks that move the needle.",
+    body: "Junior automates admin drudgery and version chaos — so you can focus on what really matters.",
   },
 ]
 
@@ -42,7 +42,7 @@ export function ThreeCardSection() {
               fontFamily: 'var(--font-barlow)',
             }}
           >
-            You&apos;re doing the work of an entire production office — Junior is here to help.
+            You&apos;re doing the work of an entire production office — Junior is finally here to help.
           </h2>
         </ScrollReveal>
 
@@ -50,7 +50,7 @@ export function ThreeCardSection() {
           {cards.map((card, index) => (
             <ScrollReveal key={index} delay={index * 100} className="h-full">
               <div
-                className="p-6 h-full flex flex-col"
+                className="px-6 py-6 h-full flex flex-col"
                 style={{
                   backgroundColor: '#F0EBE0',
                   border: '1px solid #1A1A1A',
@@ -94,26 +94,6 @@ export function ThreeCardSection() {
         </ScrollReveal>
 
         <ScrollReveal delay={400} className="mt-12 text-center">
-          <p
-            className="font-sans text-lg md:text-xl leading-relaxed"
-            style={{ color: '#FFFFFF' }}
-          >
-            The average film producer earns $19.70/hour and 50% have no full-time employees. (Quebec)
-          </p>
-          <p
-            className="font-sans text-sm mt-4"
-            style={{ color: '#FFFFFF' }}
-          >
-            <a
-              href="https://uppcq.com/wp-content/uploads/2024/11/Study-on-the-socio-economic-conditions-of-quebec-film-producers.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline"
-              style={{ color: '#FFFFFF' }}
-            >
-              Source: UPPCQ, 2024
-            </a>
-          </p>
         </ScrollReveal>
       </div>
     </section>
