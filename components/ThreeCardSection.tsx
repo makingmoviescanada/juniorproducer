@@ -10,14 +10,14 @@ interface Card {
 
 const cards: Card[] = [
   {
-    title: "BUILT FOR CANADIANS",
+    title: "BUILT FOR CANADA",
     subtitle: "",
-    body: "Junior crawls so you can run — every funding window, eligibility requirement, and deadline.",
+    body: "Junior is trained on the Canadian system — every funding window, eligibility requirement, and deadline.",
   },
   {
-    title: "AUTOMATE DEADLINES",
+    title: "AUTOMATE REMINDERS",
     subtitle: "",
-    body: "Junior syncs deadlines directly to your calendar — never miss a deadline again.",
+    body: "Junior crawls so you can run — syncs deadlines directly to your calendar and never miss a deadline again.",
   },
   {
     title: "NO BUDGET, NO PROBLEM",
