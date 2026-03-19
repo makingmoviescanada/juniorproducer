@@ -66,16 +66,16 @@ export default function Home() {
               </ScrollReveal>
               <ScrollReveal delay={100}>
                 <h2 className="font-sans text-junior-black text-xl md:text-2xl font-semibold tracking-wide leading-relaxed text-pretty">
-                  Junior is the producing assistant you've always dreamed of — built for the realities of the Canadian film industry.
+                  Built for the Canadian funding system — every funder, every program, every deadline, and more.
                 </h2>
               </ScrollReveal>
               <ScrollReveal delay={200}>
                 <a
                   href="#cta"
-                  className="btn-primary"
-                  style={{ backgroundColor: '#FFFFFF', color: '#E8392A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', border: '2px solid #E8392A', borderRadius: '0px', boxShadow: '4px 4px 0px #1A1A1A', padding: '0.75rem 1.5rem', display: 'inline-block', cursor: 'pointer' }}
+                  className="font-sans font-black uppercase tracking-[0.05em] text-white inline-block px-6 py-3 rounded-[6px] shadow-[4px_4px_0px_#1A1A1A] cursor-pointer"
+                  style={{ backgroundColor: '#E8392A' }}
                 >
-                  Get Early Access
+                  GET EARLY ACCESS
                 </a>
               </ScrollReveal>
 
