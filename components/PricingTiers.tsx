@@ -17,13 +17,11 @@ function handleTierClick(tier: string) {
 const TIER_DIFFERENTIATORS: Record<string, string> = {
   ARTIST: "For independent filmmakers",
   PRODUCER: "For producers with a slate",
-  STUDIO: "For production companies with a full slate",
 }
 
 const TIER_BUTTON_TEXT: Record<string, string> = {
   ARTIST: "JOIN AS ARTIST",
   PRODUCER: "JOIN AS PRODUCER",
-  STUDIO: "JOIN AS STUDIO",
 }
 
 interface TierProps {
@@ -178,14 +176,6 @@ export function PricingTiers() {
       ],
       featured: true,
     },
-    {
-      label: "STUDIO",
-      features: [
-        "Everything in producer",
-        "Your whole team gets access to Canadian film funding intelligence",
-        "Full project and document memory across your entire slate",
-      ],
-    },
   ]
 
   return (
@@ -201,7 +191,7 @@ export function PricingTiers() {
         </ScrollReveal>
 
         <ScrollReveal delay={150}>
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+          <div className="flex flex-col md:flex-row justify-center gap-8 items-stretch">
             {tiers.map((tier, idx) => (
               <TierCard key={idx} {...tier} />
             ))}
