@@ -73,7 +73,7 @@ export default function Home() {
                 <a
                   href="#cta"
                   className="btn-primary"
-                  style={{ backgroundColor: '#E8392A', color: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', border: '2px solid #1A1A1A', borderRadius: '0px', boxShadow: '4px 4px 0px #1A1A1A', padding: '0.75rem 1.5rem', display: 'inline-block', cursor: 'pointer' }}
+                  style={{ backgroundColor: '#FFFFFF', color: '#E8392A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.05em', border: '2px solid #E8392A', borderRadius: '0px', boxShadow: '4px 4px 0px #1A1A1A', padding: '0.75rem 1.5rem', display: 'inline-block', cursor: 'pointer' }}
                 >
                   Get Early Access
                 </a>
