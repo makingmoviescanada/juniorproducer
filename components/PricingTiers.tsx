@@ -17,13 +17,11 @@ function handleTierClick(tier: string) {
 const TIER_DIFFERENTIATORS: Record<string, string> = {
   ARTIST: "For independent filmmakers",
   PRODUCER: "For producers with a slate",
-  STUDIO: "For production companies with a full slate",
 }
 
 const TIER_BUTTON_TEXT: Record<string, string> = {
   ARTIST: "JOIN AS ARTIST",
   PRODUCER: "JOIN AS PRODUCER",
-  STUDIO: "JOIN AS STUDIO",
 }
 
 interface TierProps {
@@ -177,14 +175,6 @@ export function PricingTiers() {
         "Always working off the latest version — no more version chaos",
       ],
       featured: true,
-    },
-    {
-      label: "STUDIO",
-      features: [
-        "Everything in producer",
-        "Your whole team gets access to Canadian film funding intelligence",
-        "Full project and document memory across your entire slate",
-      ],
     },
   ]
 
