@@ -15,9 +15,9 @@ const cards: Card[] = [
     body: "Junior crawls so you can run — every funding window, eligibility requirement, and deadline.",
   },
   {
-    title: "ALWAYS ON",
+    title: "AUTOMATE DEADLINES",
     subtitle: "",
-    body: "No office hours. No callbacks. No waiting. Junior is standing by — even at 11:59PM.",
+    body: "Junior syncs deadlines directly to your calendar — never miss a deadline again.",
   },
   {
     title: "NO BUDGET, NO PROBLEM",
