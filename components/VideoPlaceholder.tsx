@@ -24,6 +24,14 @@ export function VideoPlaceholder({
       className={`relative w-full border-2 border-junior-black shadow-hard-sm overflow-hidden ${className}`}
       style={{ paddingBottom }}
     >
+      <style>{`
+        .video-play-btn {
+          transition: transform 0.2s ease;
+        }
+        .video-play-btn:hover {
+          transform: scale(1.1);
+        }
+      `}</style>
       <div className="absolute inset-0">
         {imageSrc ? (
           <Image
@@ -40,20 +48,13 @@ export function VideoPlaceholder({
         {showPlayButton && (
           <div className="absolute inset-0 flex items-center justify-center bg-junior-black/30">
             <button 
-              className="flex items-center justify-center"
+              className="flex items-center justify-center video-play-btn"
               style={{
                 width: "72px",
                 height: "72px",
                 backgroundColor: "#E8392A",
                 border: "3px solid white",
                 cursor: "pointer",
-                transition: "transform 0.2s ease"
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = "scale(1.1)"
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = "scale(1)"
               }}
               aria-label="Play video"
             >

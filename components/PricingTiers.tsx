@@ -35,6 +35,16 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
 
   return (
     <div className="flex flex-col" style={{ position: 'relative', paddingTop: featured ? '20px' : '0' }}>
+      <style>{`
+        .tier-button {
+          transition: all 150ms ease-in-out;
+        }
+        .tier-button:hover {
+          background-color: #C9301F;
+          transform: translateY(-2px);
+          box-shadow: 4px 4px 0px #1A1A1A;
+        }
+      `}</style>
       {featured && (
         <div className="flex justify-center" style={{ position: 'absolute', top: 0, left: 0, right: 0, zIndex: 10 }}>
           <span
@@ -128,7 +138,7 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
         <button
           data-tier={label.toLowerCase()}
           onClick={() => handleTierClick(label.toLowerCase())}
-          className="w-full px-6 py-3 font-bold uppercase tracking-wider text-sm md:text-base transition-all duration-150 ease-in-out"
+          className="w-full px-6 py-3 font-bold uppercase tracking-wider text-sm md:text-base tier-button"
           style={{
             background: '#E8392A',
             color: '#FFFFFF',
@@ -136,18 +146,6 @@ const TierCard: React.FC<TierProps> = ({ label, features, featured }) => {
             border: 'none',
             fontFamily: 'var(--font-barlow)',
             fontWeight: 700,
-          }}
-          onMouseEnter={e => {
-            const el = e.currentTarget
-            el.style.background = '#C9301F'
-            el.style.transform = 'translateY(-2px)'
-            el.style.boxShadow = '4px 4px 0px #1A1A1A'
-          }}
-          onMouseLeave={e => {
-            const el = e.currentTarget
-            el.style.background = '#E8392A'
-            el.style.transform = 'translateY(0)'
-            el.style.boxShadow = 'none'
           }}
         >
           {TIER_BUTTON_TEXT[label]}
