@@ -18,20 +18,26 @@ export default function Home() {
         </div>
       </section>
       <section className="w-full px-8 py-20" style={{ backgroundColor: '#E8392A' }}>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px' }}>
-            <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2, marginBottom: '20px' }}>Easily navigate the Canadian funding system.</h3>
-            <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, marginBottom: '20px' }}>Junior knows every funder, every program, and every deadline — finding answers to your questions along the way.</p>
+        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8" style={{ alignItems: 'stretch' }}>
+          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+            <div>
+              <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2, marginBottom: '20px' }}>Easily navigate the Canadian funding system.</h3>
+              <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, marginBottom: '20px' }}>Junior knows every funder, every program, and every deadline — finding answers to your questions along the way.</p>
+            </div>
             <button style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer', width: '100%' }}>GET FUNDING INTELLIGENCE</button>
           </div>
-          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px' }}>
-            <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2, marginBottom: '20px' }}>Automatically track deadlines.</h3>
-            <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, marginBottom: '20px' }}>Junior syncs every funding deadline directly to your calendar and alerts you when application windows open.</p>
+          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+            <div>
+              <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2, marginBottom: '20px' }}>Automatically track deadlines.</h3>
+              <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, marginBottom: '20px' }}>Junior syncs every funding deadline directly to your calendar and alerts you when application windows open.</p>
+            </div>
             <button style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer', width: '100%' }}>GET DEADLINE TOOLS</button>
           </div>
-          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px' }}>
-            <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2, marginBottom: '20px' }}>Effortlessly calculate budgets and tax credits.</h3>
-            <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, marginBottom: '20px' }}>Junior builds your budget using regional rates and calculates your tax credits instantly so you can assess opportunities quickly.</p>
+          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%' }}>
+            <div>
+              <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2, marginBottom: '20px' }}>Effortlessly calculate budgets and tax credits.</h3>
+              <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, marginBottom: '20px' }}>Junior builds your budget using regional rates and calculates your tax credits instantly so you can assess opportunities quickly.</p>
+            </div>
             <button style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer', width: '100%' }}>GET BUDGET TOOLS</button>
           </div>
         </div>
