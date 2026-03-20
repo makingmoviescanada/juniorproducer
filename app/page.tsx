@@ -97,7 +97,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2 }}>
-              The Canadian funding system is a maze. Junior is your map.
+              The Canadian funding system is a maze.
             </h3>
             <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, flex: 1 }}>
               Every funder, every program, every deadline — chat with Junior and get an instant answer, even when the government portals are down.
