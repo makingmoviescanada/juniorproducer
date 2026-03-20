@@ -1,90 +1,602 @@
-export default function Home() {
-  return (
-    <div>
-      <nav className="w-full px-8 py-4 flex items-center justify-between" style={{ backgroundColor: '#F0EBE0' }}>
-        <span style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, fontSize: '1.25rem', letterSpacing: '0.04em', color: '#1A1A1A' }}>JUNIOR</span>
-        <button style={{ backgroundColor: '#E8392A', color: '#FFFFFF', fontFamily: 'var(--font-barlow)', fontWeight: 900, boxShadow: '4px 4px 0px #1A1A1A', border: 'none', letterSpacing: '0.04em', padding: '12px 24px', textTransform: 'uppercase', cursor: 'pointer' }}>GET EARLY ACCESS</button>
-      </nav>
-      <section className="w-full px-8 py-20" style={{ backgroundColor: '#F0EBE0' }}>
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
-          <div className="flex-1 flex flex-col gap-6">
-            <h1 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.04em', color: '#1A1A1A', fontSize: 'clamp(2rem, 4vw, 3.5rem)', lineHeight: 1.1 }}>JUNIOR IS YOUR 24/7 PRODUCING PARTNER.</h1>
-            <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1.125rem', lineHeight: 1.6 }}>Built for the Canadian funding system — every funder, every program, every deadline, and more.</p>
-            <button style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}>GET EARLY ACCESS</button>
-          </div>
-          <div className="flex-1 flex justify-center">
-            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Hero%20Puzzle-uwsYnOuhO4YR32MMy2YkbI5LhKyDwe.png" alt="Junior AI assistant with person collaborating on puzzle" style={{ width: '100%', maxWidth: '500px', objectFit: 'contain' }} />
-          </div>
-        </div>
-      </section>
-      <section className="w-full px-8 py-20" style={{ backgroundColor: '#E8392A' }}>
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8" style={{ alignItems: 'stretch' }}>
-          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', minHeight: '320px' }}>
-            <div>
-              <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2, marginBottom: '20px' }}>Easily navigate the Canadian funding system.</h3>
-              <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, marginTop: '12px', marginBottom: '20px' }}>Junior knows every funder, every program, and every deadline — finding answers to your questions along the way.</p>
-            </div>
-            <button style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer', width: '100%' }}>GET FUNDING INTELLIGENCE</button>
-          </div>
-          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', minHeight: '320px' }}>
-            <div>
-              <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2, marginBottom: '20px' }}>Automatically track deadlines.</h3>
-              <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, marginTop: '12px', marginBottom: '20px' }}>Junior syncs every funding deadline directly to your calendar and alerts you when application windows open.</p>
-            </div>
-            <button style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer', width: '100%' }}>GET DEADLINE TOOLS</button>
-          </div>
-          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', height: '100%', minHeight: '320px' }}>
-            <div>
-              <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2, marginBottom: '20px' }}>Effortlessly calculate budgets and tax credits.</h3>
-              <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, marginTop: '12px', marginBottom: '20px' }}>Junior builds your budget using regional rates and calculates your tax credits instantly so you can assess opportunities quickly.</p>
-            </div>
-            <button style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer', width: '100%' }}>GET BUDGET TOOLS</button>
-          </div>
-        </div>
-      </section>
-      <section className="w-full" style={{ backgroundColor: '#F0EBE0', padding: '64px 48px' }}>
-        <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: '48px', flexWrap: 'wrap' }}>
-          <img src="/logos/telefilm.png" alt="Telefilm Canada" style={{ height: '40px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.6, display: 'block' }} />
-          <img src="/logos/cmf.png" alt="Canada Media Fund" style={{ height: '40px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.6, display: 'block' }} />
-          <img src="/logos/nfb.png" alt="National Film Board of Canada" style={{ height: '40px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.6, display: 'block' }} />
-          <img src="/logos/canada-council.png" alt="Canada Council for the Arts" style={{ height: '40px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.6, display: 'block' }} />
-        </div>
-      </section>
-      <style>{`
-        .closing-cta-btn {
-          background-color: #1A1A1A;
-          color: #FFFFFF;
-          font-family: var(--font-barlow);
-          font-weight: 900;
-          text-transform: uppercase;
-          letter-spacing: 0.04em;
-          padding: 16px 40px;
-          border: none;
-          border-radius: 6px;
-          box-shadow: 4px 4px 0px #FFFFFF;
-          cursor: pointer;
-          transition: all 150ms ease;
-        }
-        .closing-cta-btn:hover {
-          background-color: #333333;
-          box-shadow: 6px 6px 0px #FFFFFF;
-          transform: translateY(-2px);
-        }
-      `}</style>
-      <section className="w-full" style={{ backgroundColor: '#E8392A', padding: '96px 48px' }}>
-        <div className="max-w-7xl mx-auto text-center">
-          <h2 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.04em', color: '#FFFFFF', fontSize: 'clamp(2.5rem, 5vw, 4rem)', lineHeight: 1.14, marginBottom: '20px' }}>THE CAVALRY'S NOT COMING. BUT JUNIOR IS.</h2>
-          <p className="no-italic" style={{ fontFamily: "'Barlow', sans-serif", fontStyle: "normal", fontWeight: 600, color: '#FFFFFF', fontSize: '1.125rem', marginBottom: '40px' }}>Early access. Limited spots.</p>
-          <button className="closing-cta-btn">GET EARLY ACCESS</button>
-        </div>
-      </section>
-      <footer className="w-full flex items-center justify-between px-12 py-8" style={{ backgroundColor: '#1A1A1A', padding: '32px 48px' }}>
-        <div />
-        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
-          <span style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, fontSize: '1.25rem', letterSpacing: '0.04em', color: '#FFFFFF', textTransform: 'uppercase' }}>JUNIOR</span>
-          <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, fontSize: '1rem', color: '#FFFFFF', margin: 0 }}>© 2026 Intersectionnel Films Inc.</p>
-        </div>
-      </footer>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Junior | The Producer's Second Brain</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --parchment: #F0EBE0;
+    --red: #E8392A;
+    --red-hover: #C9301E;
+    --ink: #1A1A1A;
+    --white: #FFFFFF;
+    --radius-card: 0px;
+    --radius-ui: 0px;
+    --shadow: 4px 4px 0px #1A1A1A;
+    --shadow-hover: 6px 6px 0px #1A1A1A;
+  }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--parchment);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  /* NAV */
+  nav {
+    background: var(--parchment);
+    border-bottom: 1.5px solid var(--ink);
+    padding: 0 48px;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .nav-wordmark {
+    font-weight: 900;
+    font-size: 18px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--ink);
+    text-decoration: none;
+  }
+
+  /* BUTTONS */
+  .btn {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    text-decoration: none;
+    display: inline-block;
+    cursor: pointer;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-ui);
+    transition: all 150ms ease;
+  }
+  .btn-red {
+    background: var(--red);
+    color: var(--white);
+    padding: 11px 24px;
+    box-shadow: var(--shadow);
+  }
+  .btn-red:hover {
+    background: var(--red-hover);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+  .btn-white {
+    background: var(--white);
+    color: var(--ink);
+    padding: 15px 36px;
+    box-shadow: var(--shadow);
+  }
+  .btn-white:hover {
+    background: var(--parchment);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+  .btn-ink {
+    background: var(--ink);
+    color: var(--white);
+    padding: 15px 36px;
+    box-shadow: var(--shadow);
+  }
+  .btn-ink:hover {
+    background: #2e2e2e;
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  /* HERO */
+  .hero {
+    background: var(--parchment);
+    padding: 96px 48px;
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 80px;
+    align-items: center;
+    min-height: 90vh;
+  }
+  .hero-eyebrow {
+    font-weight: 900;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--red);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    width: 32px;
+    height: 2px;
+    background: var(--red);
+    display: block;
+    flex-shrink: 0;
+  }
+  .hero-headline {
+    font-weight: 900;
+    font-size: clamp(48px, 5.5vw, 82px);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.08;
+    color: var(--ink);
+    margin-bottom: 28px;
+  }
+  .hero-sub {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.65;
+    color: var(--ink);
+    opacity: 0.7;
+    margin-bottom: 44px;
+    max-width: 500px;
+  }
+  .hero-image-wrap {
+    width: 100%;
+    max-width: 500px;
+    margin-left: auto;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+  }
+  .hero-image-wrap img {
+    width: 100%;
+    height: auto;
+    display: block;
+    /* Slight drop shadow to anchor it on parchment */
+    filter: drop-shadow(4px 4px 0px rgba(26,26,26,0.18));
+  }
+
+  /* FEATURE CARDS */
+  .feature-cards {
+    background: var(--red);
+    padding: 100px 48px;
+  }
+  .section-label {
+    font-weight: 900;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .label-on-red   { color: rgba(255,255,255,0.5); }
+  .label-on-parch { color: var(--red); }
+  .label-on-dark  { color: rgba(240,235,224,0.4); }
+
+  .section-title {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+  }
+  .title-on-red   { color: var(--white); }
+  .title-on-parch { color: var(--ink); }
+  .title-on-dark  { color: var(--parchment); }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    margin-top: 52px;
+  }
+  .feature-card {
+    background: var(--parchment);
+    border: 2.5px solid var(--ink);
+    border-radius: var(--radius-card);
+    padding: 52px 44px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    transition: box-shadow 150ms ease, transform 150ms ease;
+  }
+  .feature-card:hover {
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+  .card-headline {
+    font-weight: 900;
+    font-size: clamp(19px, 1.8vw, 24px);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.12;
+    color: var(--ink);
+  }
+  .card-body {
+    font-weight: 400;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--ink);
+    opacity: 0.68;
+    flex: 1;
+  }
+  .card-cta {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    background: var(--ink);
+    color: var(--white);
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-ui);
+    padding: 14px 18px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: block;
+    box-shadow: var(--shadow);
+    transition: all 150ms ease;
+  }
+  .card-cta:hover {
+    background: #2e2e2e;
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
+  }
+
+  /* FUNDER LOGOS */
+  .funders {
+    background: var(--parchment);
+    padding: 56px 48px;
+    border-top: 2px solid var(--ink);
+    border-bottom: 2px solid var(--ink);
+  }
+  .funders-inner {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+  .funder-logo-wrap {
+    height: 40px;
+    display: flex;
+    align-items: center;
+  }
+  .funder-logo-wrap img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+    filter: grayscale(100%);
+    opacity: 0.5;
+    transition: opacity 150ms ease;
+  }
+  .funder-logo-wrap img:hover { opacity: 0.8; }
+  .funder-name-pill {
+    font-weight: 900;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--ink);
+    opacity: 0.5;
+    padding: 11px 20px;
+    border: 1.5px solid var(--ink);
+    border-radius: 0px;
+    white-space: nowrap;
+    box-shadow: 2px 2px 0px var(--ink);
+  }
+
+  /* FOUNDERS */
+  .founders {
+    background: var(--ink);
+    padding: 100px 48px;
+  }
+  .founders-intro {
+    max-width: 700px;
+    margin-bottom: 64px;
+  }
+  .founders-section-headline {
+    font-size: clamp(28px, 3.5vw, 50px);
+    margin-bottom: 24px;
+  }
+  .founders-body-text {
+    font-weight: 400;
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--parchment);
+    opacity: 0.58;
+  }
+  .founders-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .founder-card {
+    display: flex;
+    gap: 28px;
+    align-items: flex-start;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: var(--radius-card);
+    padding: 44px 40px;
+    transition: background 150ms ease;
+  }
+  .founder-card:hover { background: rgba(255,255,255,0.07); }
+  .founder-photo {
+    width: 96px;
+    flex-shrink: 0;
+    aspect-ratio: 3/4;
+    border-radius: 0px;
+    overflow: hidden;
+    border: 1.5px solid rgba(255,255,255,0.12);
+    background: #444;
+  }
+  .founder-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    display: block;
+  }
+  .founder-photo-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(160deg, #666 0%, #333 100%);
+  }
+  .founder-info { display: flex; flex-direction: column; gap: 8px; }
+  .founder-role {
+    font-weight: 900;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--red);
+  }
+  .founder-name-display {
+    font-weight: 900;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--parchment);
+    line-height: 1.1;
+  }
+  .founder-bio {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--parchment);
+    opacity: 0.52;
+    margin-top: 4px;
+  }
+
+  /* CLOSING CTA */
+  .closing {
+    background: var(--red);
+    padding: 120px 48px;
+    text-align: center;
+  }
+  .closing-headline {
+    font-size: clamp(38px, 6.5vw, 88px);
+    color: var(--white);
+    margin-bottom: 16px;
+    max-width: 1000px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .closing-sub {
+    font-weight: 600;
+    font-size: 17px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 48px;
+  }
+  .email-form {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .email-input {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    flex: 1;
+    min-width: 220px;
+    padding: 15px 20px;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius-ui);
+    background: var(--white);
+    color: var(--ink);
+    outline: none;
+    box-shadow: var(--shadow);
+  }
+  .email-input::placeholder { color: rgba(26,26,26,0.35); }
+  .email-input:focus { box-shadow: var(--shadow-hover); }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    padding: 32px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-copy {
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--parchment);
+    opacity: 0.3;
+  }
+  .footer-wordmark {
+    font-weight: 900;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--parchment);
+    opacity: 0.7;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .cards-grid { grid-template-columns: 1fr; }
+    .founders-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    nav, .hero, .feature-cards, .funders, .founders, .closing { padding-left: 24px; padding-right: 24px; }
+    footer { padding: 28px 24px; }
+    .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 60px; padding-bottom: 60px; }
+    .hero-image-wrap { display: none; }
+    .founder-card { flex-direction: column; }
+    footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .footer-right { align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-wordmark">Junior</a>
+  <a href="#early-access" class="btn btn-red">Get Early Access</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-eyebrow">Early Access — Limited Spots</div>
+    <h1 class="hero-headline">Junior Is Your 24/7 Producing Partner.</h1>
+    <p class="hero-sub">Built for Canadian filmmakers — automate the funding research, the deadlines, and the admin.</p>
+    <a href="#early-access" class="btn btn-red">Get Early Access</a>
+  </div>
+  <div>
+    <div class="hero-image-wrap">
+      <img src="/images/Hero_Puzzle_nobg.png" alt="Junior — AI producing assistant">
     </div>
-  );
-}
+  </div>
+</section>
+
+<!-- FEATURE CARDS -->
+<section class="feature-cards">
+  <span class="section-label label-on-red">What Junior Does</span>
+  <h2 class="section-title title-on-red" style="font-size:clamp(32px,4vw,52px);">Junior handles the back office so you can focus on making the movies.</h2>
+  <div class="cards-grid">
+
+    <div class="feature-card">
+      <h3 class="card-headline">Navigate the Canadian funding system with ease.</h3>
+      <p class="card-body">Junior knows every funder, every program, and every deadline — finding answers to your questions instantly, even when the government portals are down.</p>
+      <a href="#early-access" class="card-cta" data-tier="funding-intelligence" onclick="setInterest('funding-intelligence')">Get Junior's funding intelligence</a>
+    </div>
+
+    <div class="feature-card">
+      <h3 class="card-headline">Automatically track every deadline.</h3>
+      <p class="card-body">Junior monitors every funding program and syncs deadlines directly to your calendar — alerting you the moment a window opens, even the ones that appear without warning.</p>
+      <a href="#early-access" class="card-cta" data-tier="deadline-reminders" onclick="setInterest('deadline-reminders')">Get Junior's deadline tools</a>
+    </div>
+
+    <div class="feature-card">
+      <h3 class="card-headline">Effortlessly calculate budgets and tax credits.</h3>
+      <p class="card-body">Junior builds your budget using regional rates and calculates your tax credits instantly — so you can assess opportunities quickly and stop doing the same work twice.</p>
+      <a href="#early-access" class="card-cta" data-tier="admin-tools" onclick="setInterest('admin-tools')">Get Junior's admin tools</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- FUNDER LOGOS — no headline, logos only -->
+<section class="funders">
+  <div class="funders-inner">
+    <!-- Swap in real logos when /public/logos/ is populated -->
+    <!--
+    <div class="funder-logo-wrap"><img src="/logos/telefilm.png" alt="Telefilm Canada"></div>
+    <div class="funder-logo-wrap"><img src="/logos/cmf.png" alt="Canada Media Fund"></div>
+    <div class="funder-logo-wrap"><img src="/logos/nfb.png" alt="National Film Board"></div>
+    <div class="funder-logo-wrap"><img src="/logos/canada-council.png" alt="Canada Council for the Arts"></div>
+    -->
+    <span class="funder-name-pill">Telefilm Canada</span>
+    <span class="funder-name-pill">Canada Media Fund</span>
+    <span class="funder-name-pill">National Film Board</span>
+    <span class="funder-name-pill">Canada Council for the Arts</span>
+  </div>
+</section>
+
+<!-- FOUNDERS -->
+<section class="founders">
+  <div class="founders-intro">
+    <span class="section-label label-on-dark">The Founders</span>
+    <h2 class="section-title title-on-dark founders-section-headline">Built by Canadian Filmmakers, for Canadian Filmmakers.</h2>
+    <p class="founders-body-text">Junior started as our own in-house tool — built out of frustration with broken government portals, missed funding windows, and the sheer volume of admin that falls on independent filmmakers with no staff and no budgets to keep the lights on between productions.</p>
+  </div>
+  <div class="founders-grid">
+
+    <div class="founder-card">
+      <div class="founder-photo">
+        <!-- <img src="/images/gavin.jpg" alt="Gavin Seal"> -->
+        <img src="/images/gavin.png" alt="Gavin Seal" style="width:100%;height:100%;object-fit:cover;filter:grayscale(100%);display:block;">
+      </div>
+      <div class="founder-info">
+        <span class="founder-role">Co-Founder</span>
+        <div class="founder-name-display">Gavin Seal</div>
+        <p class="founder-bio">Writers Guild of Canada prize-winning writer and Golden Sheaf Award-winning director. Has led in-house creative teams at Mattel and Shopify.</p>
+      </div>
+    </div>
+
+    <div class="founder-card">
+      <div class="founder-photo">
+        <!-- <img src="/images/lisa.jpg" alt="Lisa Purisima"> -->
+        <img src="/images/lisa.png" alt="Lisa Purisima" style="width:100%;height:100%;object-fit:cover;filter:grayscale(100%);display:block;">
+      </div>
+      <div class="founder-info">
+        <span class="founder-role">Co-Founder</span>
+        <div class="founder-name-display">Lisa Purisima</div>
+        <p class="founder-bio">Canadian Screen Award-nominated producer. Credits include John Wick 4 (Lionsgate) and The Morning Show (Apple TV+).</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CLOSING CTA -->
+<section class="closing" id="early-access">
+  <h2 class="section-title closing-headline">The Cavalry's Not Coming. But Junior Is.</h2>
+  <p class="closing-sub">Early access. Limited spots.</p>
+  <form class="email-form" id="early-access-form" onsubmit="return false;">
+    <input type="hidden" id="interest-field" name="interest" value="general">
+    <input type="email" class="email-input" placeholder="Email Address" required>
+    <button type="submit" class="btn btn-white" data-tier="general">Get Early Access</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-wordmark">Junior</span>
+  <span class="footer-copy">© 2026 Intersectionnel Films Inc.</span>
+</footer>
+
+<script>
+  // Sets hidden field to track which benefit the user clicked before signing up.
+  // Last click wins — if someone clicks two cards, the final one is recorded.
+  function setInterest(value) {
+    var field = document.getElementById('interest-field');
+    if (field) field.value = value;
+  }
+
+  // On form submit, append interest value as a URL param so Kit can read it.
+  // Wire the action attribute to your Kit form endpoint when ready.
+  document.getElementById('early-access-form').addEventListener('submit', function(e) {
+    var interest = document.getElementById('interest-field').value;
+    var email = this.querySelector('input[type="email"]').value;
+    // TODO: replace with Kit form submission endpoint
+    // Kit embed will pick up the hidden field automatically if using their JS embed.
+    console.log('Submit:', { email: email, interest: interest });
+  });
+</script>
+</body>
+</html>
