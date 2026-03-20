@@ -13,7 +13,7 @@ export default function Home() {
             <button style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}>GET EARLY ACCESS</button>
           </div>
           <div className="flex-1 flex justify-center">
-            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/AI%20work%20assistant%20concept%205-cbBkjxz0NKeVgJrfyqYTiuvHt3cozy.png" alt="Junior AI assistant with person" style={{ width: '100%', maxWidth: '500px', objectFit: 'contain', filter: 'grayscale(100%) blur(0.3px) contrast(1.1)' }} />
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Hero%20Puzzle-uwsYnOuhO4YR32MMy2YkbI5LhKyDwe.png" alt="Junior AI assistant with person collaborating on puzzle" style={{ width: '100%', maxWidth: '500px', objectFit: 'contain' }} />
           </div>
         </div>
       </section>
