@@ -1,5 +1,3 @@
-'use client';
-
 export default function Home() {
   return (
     <div>
@@ -16,7 +14,7 @@ export default function Home() {
             <button style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}>GET EARLY ACCESS</button>
           </div>
           <div className="flex-1 flex justify-center">
-            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Junior-Hero-h0ulJrnATP37NQeLk8CWrvxbo8Y1ca.png" alt="Junior producing partner" style={{ aspectRatio: '3 / 4', width: '100%', maxWidth: '420px', objectFit: 'cover', filter: 'grayscale(100%)', outline: '3px solid #1A1A1A', boxShadow: '8px 8px 0px #1A1A1A' }} />
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Heading-2-AsUuouZ5nzHUBcLItWufVjZaG6zH2D.jpeg" alt="Junior grant matching platform" style={{ width: '100%', maxWidth: '600px', objectFit: 'contain' }} />
           </div>
         </div>
       </section>
