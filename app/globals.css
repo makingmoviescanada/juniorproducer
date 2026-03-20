@@ -224,4 +224,10 @@
     font-family: 'Barlow', sans-serif !important;
     font-weight: 600 !important;
   }
+
+  .no-italic {
+    font-style: normal !important;
+    font-family: 'Barlow', sans-serif !important;
+    font-weight: 600 !important;
+  }
 }
