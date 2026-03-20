@@ -44,10 +44,10 @@ export default function Home() {
       </section>
       <section className="w-full" style={{ backgroundColor: '#F0EBE0', padding: '64px 48px' }}>
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: '48px', flexWrap: 'wrap' }}>
-          <img src="/logos/telefilm.png" alt="Telefilm Canada" style={{ height: '48px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.7 }} />
-          <img src="/logos/cmf.png" alt="Canada Media Fund" style={{ height: '48px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.7 }} />
-          <img src="/logos/nfb.png" alt="National Film Board of Canada" style={{ height: '48px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.7 }} />
-          <img src="/logos/canada-council.png" alt="Canada Council for the Arts" style={{ height: '48px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.7 }} />
+          <img src="/logos/telefilm.png" alt="Telefilm Canada" style={{ height: '40px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.6, display: 'block' }} />
+          <img src="/logos/cmf.png" alt="Canada Media Fund" style={{ height: '40px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.6, display: 'block' }} />
+          <img src="/logos/nfb.png" alt="National Film Board of Canada" style={{ height: '40px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.6, display: 'block' }} />
+          <img src="/logos/canada-council.png" alt="Canada Council for the Arts" style={{ height: '40px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.6, display: 'block' }} />
         </div>
       </section>
       <style>{`
