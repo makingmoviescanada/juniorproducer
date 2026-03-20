@@ -75,7 +75,7 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex-1 flex justify-center" style={{ backgroundColor: '#1A1A1A', aspectRatio: '3 / 4', maxWidth: '420px' }}>
+          <div className="flex-1 flex justify-center">
             <img
               src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Junior-Hero-h0ulJrnATP37NQeLk8CWrvxbo8Y1ca.png"
               alt="Junior producing partner with laptop"
@@ -96,8 +96,7 @@ export default function Home() {
       {/* Three Card Section */}
       <section className="w-full px-8 py-20" style={{ backgroundColor: '#E8392A' }}>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Card 1 */}
-          <div style={{ backgroundColor: '#F0EBE0', borderRadius: '86px', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2 }}>
               The Canadian funding system is complicated. Junior isn't.
             </h3>
@@ -106,14 +105,13 @@ export default function Home() {
             </p>
             <button
               className="transition-all duration-150 hover:bg-[#C9301E] hover:shadow-[6px_6px_0px_#1A1A1A] hover:-translate-y-0.5"
-              style={{ backgroundColor: '#E8392A', color: '#FFFFFF', borderRadius: '6px', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
+              style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
             >
               GET FUNDING INTELLIGENCE
             </button>
           </div>
 
-          {/* Card 2 */}
-          <div style={{ backgroundColor: '#F0EBE0', borderRadius: '86px', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2 }}>
               Never miss a deadline again.
             </h3>
@@ -122,14 +120,13 @@ export default function Home() {
             </p>
             <button
               className="transition-all duration-150 hover:bg-[#C9301E] hover:shadow-[6px_6px_0px_#1A1A1A] hover:-translate-y-0.5"
-              style={{ backgroundColor: '#E8392A', color: '#FFFFFF', borderRadius: '6px', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
+              style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
             >
               GET DEADLINE TOOLS
             </button>
           </div>
 
-          {/* Card 3 */}
-          <div style={{ backgroundColor: '#F0EBE0', borderRadius: '86px', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2 }}>
               Budgets and tax credits in seconds.
             </h3>
@@ -138,7 +135,7 @@ export default function Home() {
             </p>
             <button
               className="transition-all duration-150 hover:bg-[#C9301E] hover:shadow-[6px_6px_0px_#1A1A1A] hover:-translate-y-0.5"
-              style={{ backgroundColor: '#E8392A', color: '#FFFFFF', borderRadius: '6px', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
+              style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
             >
               GET BUDGET TOOLS
             </button>
