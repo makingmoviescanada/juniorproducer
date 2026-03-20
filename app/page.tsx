@@ -73,10 +73,10 @@ export default function Home() {
             </div>
           </div>
 
-          <div className="flex-1 flex justify-center">
+          <div className="flex-1 flex justify-center" style={{ backgroundColor: '#1A1A1A', aspectRatio: '3 / 4', maxWidth: '420px' }}>
             <img
-              src="/placeholder.svg?height=560&width=420"
-              alt="Junior producing partner illustration"
+              src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Junior-Hero-h0ulJrnATP37NQeLk8CWrvxbo8Y1ca.png"
+              alt="Junior producing partner with laptop"
               style={{
                 aspectRatio: '3 / 4',
                 width: '100%',
@@ -91,9 +91,9 @@ export default function Home() {
 
       <section className="w-full px-8 py-20" style={{ backgroundColor: '#E8392A' }}>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ backgroundColor: '#F0EBE0', borderRadius: '86px', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2 }}>
-              The Canadian funding system is complicated. Junior isn't.
+              The Canadian funding system is a maze. Junior is your map.
             </h3>
             <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, flex: 1 }}>
               Every funder, every program, every deadline — chat with Junior and get an instant answer, even when the government portals are down. Never miss a window that only opens once a year again.
@@ -101,13 +101,13 @@ export default function Home() {
             <button
               data-tier="funding-intelligence"
               className="transition-all duration-150 hover:bg-[#C9301E] hover:shadow-[6px_6px_0px_#1A1A1A] hover:-translate-y-0.5"
-              style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
+              style={{ backgroundColor: '#E8392A', color: '#FFFFFF', borderRadius: '6px', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
             >
               I WANT JUNIOR'S FUNDING INTELLIGENCE
             </button>
           </div>
 
-          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ backgroundColor: '#F0EBE0', borderRadius: '86px', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2 }}>
               Know your numbers before you're in the room.
             </h3>
@@ -117,13 +117,13 @@ export default function Home() {
             <button
               data-tier="budget-tools"
               className="transition-all duration-150 hover:bg-[#C9301E] hover:shadow-[6px_6px_0px_#1A1A1A] hover:-translate-y-0.5"
-              style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
+              style={{ backgroundColor: '#E8392A', color: '#FFFFFF', borderRadius: '6px', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
             >
               I WANT JUNIOR'S BUDGET TOOLS
             </button>
           </div>
 
-          <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
+          <div style={{ backgroundColor: '#F0EBE0', borderRadius: '86px', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2 }}>
               Never miss a deadline again.
             </h3>
@@ -133,7 +133,7 @@ export default function Home() {
             <button
               data-tier="deadline-tools"
               className="transition-all duration-150 hover:bg-[#C9301E] hover:shadow-[6px_6px_0px_#1A1A1A] hover:-translate-y-0.5"
-              style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
+              style={{ backgroundColor: '#E8392A', color: '#FFFFFF', borderRadius: '6px', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
             >
               I WANT JUNIOR'S DEADLINE TOOLS
             </button>
