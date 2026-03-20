@@ -100,7 +100,7 @@ export default function Home() {
               The Canadian funding system is a maze.
             </h3>
             <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, flex: 1 }}>
-              Every funder, every program, every deadline — chat with Junior and get an instant answer, even when the government portals are down.
+              Every funder, every program, every deadline — Junior is there for you when the government portals are down.
             </p>
             <button
               style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
