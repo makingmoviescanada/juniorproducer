@@ -218,4 +218,10 @@
   .btn-white:active {
     transform: translateY(0);
   }
+
+  .closing-cta-subline {
+    font-style: normal !important;
+    font-family: 'Barlow', sans-serif !important;
+    font-weight: 600 !important;
+  }
 }
