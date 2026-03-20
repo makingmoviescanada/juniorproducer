@@ -72,8 +72,7 @@ export default function Home() {
               <ScrollReveal delay={200}>
                 <a
                   href="#cta"
-                  className="font-sans font-black uppercase tracking-[0.05em] text-white inline-block px-6 py-3 rounded-[6px] shadow-[4px_4px_0px_#1A1A1A] cursor-pointer"
-                  style={{ backgroundColor: '#E8392A' }}
+                  className="bg-[#E8392A] text-white px-6 py-3 rounded-[6px] shadow-[4px_4px_0px_#1A1A1A] font-black uppercase tracking-wider transition-all duration-150 hover:-translate-y-0.5 hover:shadow-[6px_6px_0px_#1A1A1A] hover:bg-[#C9301E]"
                 >
                   GET EARLY ACCESS
                 </a>
