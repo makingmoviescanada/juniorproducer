@@ -1,5 +1,3 @@
-'use client';
-
 export default function Home() {
   return (
     <div>
@@ -99,10 +97,10 @@ export default function Home() {
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2 }}>
-              The Canadian funding system is complicated. Junior isn't.
+              The Canadian funding system is a maze. Junior is your map.
             </h3>
             <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, flex: 1 }}>
-              Every funder, every program, every deadline — chat with Junior and get an instant answer, even when the government portals are down. Never miss a window that only opens once a year again.
+              Every funder, every program, every deadline — chat with Junior and get an instant answer, even when the government portals are down.
             </p>
             <button
               style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
@@ -113,10 +111,10 @@ export default function Home() {
 
           <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2 }}>
-              Never miss a deadline again.
+              Automate deadline reminders.
             </h3>
             <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, flex: 1 }}>
-              Junior monitors every funding program and alerts you the moment a window opens. Every deadline synced directly to your calendar.
+              Junior monitors every funding program and alerts you the moment a window opens. Every deadline synced directly to your calendar. Never miss a window that only opens once a year again.
             </p>
             <button
               style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
@@ -127,7 +125,7 @@ export default function Home() {
 
           <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px', display: 'flex', flexDirection: 'column', gap: '20px' }}>
             <h3 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, color: '#1A1A1A', fontSize: '1.5rem', lineHeight: 1.2 }}>
-              Budgets and tax credits in seconds.
+              Calculate budgets and tax credits.
             </h3>
             <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, flex: 1 }}>
               Junior builds your budget, calculates your tax credits, and tells you exactly what you qualify for — before you pitch.
