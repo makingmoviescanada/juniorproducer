@@ -66,7 +66,7 @@ export default function Home() {
       <section className="w-full" style={{ backgroundColor: '#E8392A', padding: '96px 48px' }}>
         <div className="max-w-7xl mx-auto text-center">
           <h2 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.04em', color: '#FFFFFF', fontSize: 'clamp(2.5rem, 5vw, 4rem)', lineHeight: 1.14, marginBottom: '20px' }}>THE CAVALRY'S NOT COMING. BUT JUNIOR IS.</h2>
-          <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 600, fontStyle: 'normal', color: '#FFFFFF', fontSize: '1.125rem', marginBottom: '40px' }}>Early access. Limited spots.</p>
+          <p style={{ fontFamily: "'Barlow', sans-serif", fontStyle: "normal", fontWeight: 600, color: '#FFFFFF', fontSize: '1.125rem', marginBottom: '40px' }}>Early access. Limited spots.</p>
           <button className="closing-cta-btn">GET EARLY ACCESS</button>
         </div>
       </section>
