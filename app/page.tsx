@@ -9,7 +9,6 @@ export default function Home() {
           JUNIOR
         </span>
         <button
-          className="px-6 py-3 uppercase transition-all duration-150 hover:bg-[#C9301E] hover:shadow-[6px_6px_0px_#1A1A1A] hover:-translate-y-0.5"
           style={{
             backgroundColor: '#E8392A',
             color: '#FFFFFF',
@@ -17,7 +16,10 @@ export default function Home() {
             fontWeight: 900,
             boxShadow: '4px 4px 0px #1A1A1A',
             border: 'none',
-            letterSpacing: '0.04em'
+            letterSpacing: '0.04em',
+            padding: '12px 24px',
+            textTransform: 'uppercase',
+            cursor: 'pointer',
           }}
         >
           GET EARLY ACCESS
@@ -56,7 +58,6 @@ export default function Home() {
 
             <div>
               <button
-                className="transition-all duration-150 hover:bg-[#C9301E] hover:shadow-[6px_6px_0px_#1A1A1A] hover:-translate-y-0.5"
                 style={{
                   backgroundColor: '#E8392A',
                   color: '#FFFFFF',
@@ -104,7 +105,6 @@ export default function Home() {
               Every funder, every program, every deadline — chat with Junior and get an instant answer, even when the government portals are down. Never miss a window that only opens once a year again.
             </p>
             <button
-              className="transition-all duration-150 hover:bg-[#C9301E] hover:shadow-[6px_6px_0px_#1A1A1A] hover:-translate-y-0.5"
               style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
             >
               GET FUNDING INTELLIGENCE
@@ -119,7 +119,6 @@ export default function Home() {
               Junior monitors every funding program and alerts you the moment a window opens. Every deadline synced directly to your calendar.
             </p>
             <button
-              className="transition-all duration-150 hover:bg-[#C9301E] hover:shadow-[6px_6px_0px_#1A1A1A] hover:-translate-y-0.5"
               style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
             >
               GET DEADLINE TOOLS
@@ -134,7 +133,6 @@ export default function Home() {
               Junior builds your budget, calculates your tax credits, and tells you exactly what you qualify for — before you pitch.
             </p>
             <button
-              className="transition-all duration-150 hover:bg-[#C9301E] hover:shadow-[6px_6px_0px_#1A1A1A] hover:-translate-y-0.5"
               style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
             >
               GET BUDGET TOOLS
