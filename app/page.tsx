@@ -44,10 +44,10 @@ export default function Home() {
       </section>
       <section className="w-full" style={{ backgroundColor: '#F0EBE0', padding: '64px 48px' }}>
         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: '48px', flexWrap: 'wrap' }}>
-          <span style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 600, color: '#1A1A1A', fontSize: '1rem', filter: 'grayscale(100%)', opacity: 0.6 }}>Telefilm Canada</span>
-          <span style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 600, color: '#1A1A1A', fontSize: '1rem', filter: 'grayscale(100%)', opacity: 0.6 }}>Canada Media Fund</span>
-          <span style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 600, color: '#1A1A1A', fontSize: '1rem', filter: 'grayscale(100%)', opacity: 0.6 }}>National Film Board of Canada</span>
-          <span style={{ fontFamily: "'Barlow', sans-serif", fontWeight: 600, color: '#1A1A1A', fontSize: '1rem', filter: 'grayscale(100%)', opacity: 0.6 }}>Canada Council for the Arts</span>
+          <img src="/logos/telefilm.png" alt="Telefilm Canada" style={{ height: '48px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.7 }} />
+          <img src="/logos/cmf.png" alt="Canada Media Fund" style={{ height: '48px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.7 }} />
+          <img src="/logos/nfb.png" alt="National Film Board of Canada" style={{ height: '48px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.7 }} />
+          <img src="/logos/canada-council.png" alt="Canada Council for the Arts" style={{ height: '48px', width: 'auto', objectFit: 'contain', filter: 'grayscale(100%)', opacity: 0.7 }} />
         </div>
       </section>
       <style>{`
