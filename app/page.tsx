@@ -14,7 +14,6 @@ export default function Home() {
             color: '#FFFFFF',
             fontFamily: 'var(--font-barlow)',
             fontWeight: 900,
-            borderRadius: '6px',
             boxShadow: '4px 4px 0px #1A1A1A',
             border: 'none',
             letterSpacing: '0.04em'
@@ -64,7 +63,6 @@ export default function Home() {
               style={{
                 backgroundColor: '#E8392A',
                 color: '#FFFFFF',
-                borderRadius: '6px',
                 boxShadow: '4px 4px 0px #1A1A1A',
                 fontWeight: 900,
                 letterSpacing: '0.04em',
@@ -112,7 +110,6 @@ export default function Home() {
           <div
             style={{
               backgroundColor: '#F0EBE0',
-              borderRadius: '86px',
               boxShadow: '4px 4px 0px #1A1A1A',
               padding: '40px 32px',
               display: 'flex',
@@ -148,7 +145,6 @@ export default function Home() {
               style={{
                 backgroundColor: '#E8392A',
                 color: '#FFFFFF',
-                borderRadius: '6px',
                 boxShadow: '4px 4px 0px #1A1A1A',
                 fontWeight: 900,
                 letterSpacing: '0.04em',
@@ -169,7 +165,6 @@ export default function Home() {
           <div
             style={{
               backgroundColor: '#F0EBE0',
-              borderRadius: '86px',
               boxShadow: '4px 4px 0px #1A1A1A',
               padding: '40px 32px',
               display: 'flex',
@@ -205,7 +200,6 @@ export default function Home() {
               style={{
                 backgroundColor: '#E8392A',
                 color: '#FFFFFF',
-                borderRadius: '6px',
                 boxShadow: '4px 4px 0px #1A1A1A',
                 fontWeight: 900,
                 letterSpacing: '0.04em',
@@ -226,7 +220,6 @@ export default function Home() {
           <div
             style={{
               backgroundColor: '#F0EBE0',
-              borderRadius: '86px',
               boxShadow: '4px 4px 0px #1A1A1A',
               padding: '40px 32px',
               display: 'flex',
@@ -262,7 +255,6 @@ export default function Home() {
               style={{
                 backgroundColor: '#E8392A',
                 color: '#FFFFFF',
-                borderRadius: '6px',
                 boxShadow: '4px 4px 0px #1A1A1A',
                 fontWeight: 900,
                 letterSpacing: '0.04em',
