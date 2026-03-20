@@ -5,7 +5,6 @@ export default function Home() {
         <span style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, fontSize: '1.25rem', letterSpacing: '0.04em', color: '#1A1A1A' }}>JUNIOR</span>
         <button style={{ backgroundColor: '#E8392A', color: '#FFFFFF', fontFamily: 'var(--font-barlow)', fontWeight: 900, boxShadow: '4px 4px 0px #1A1A1A', border: 'none', letterSpacing: '0.04em', padding: '12px 24px', textTransform: 'uppercase', cursor: 'pointer' }}>GET EARLY ACCESS</button>
       </nav>
-
       <section className="w-full px-8 py-20" style={{ backgroundColor: '#F0EBE0' }}>
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-12">
           <div className="flex-1 flex flex-col gap-6">
@@ -14,11 +13,10 @@ export default function Home() {
             <button style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}>GET EARLY ACCESS</button>
           </div>
           <div className="flex-1 flex justify-center">
-            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Heading-2-AsUuouZ5nzHUBcLItWufVjZaG6zH2D.jpeg" alt="Junior grant matching platform" style={{ width: '100%', maxWidth: '600px', objectFit: 'contain' }} />
+            <img src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/AI%20work%20assistant%20concept%205-cbBkjxz0NKeVgJrfyqYTiuvHt3cozy.png" alt="Junior AI assistant with person" style={{ width: '100%', maxWidth: '500px', objectFit: 'contain' }} />
           </div>
         </div>
       </section>
-
       <section className="w-full px-8 py-20" style={{ backgroundColor: '#E8392A' }}>
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
           <div style={{ backgroundColor: '#F0EBE0', boxShadow: '4px 4px 0px #1A1A1A', padding: '40px 32px' }}>
