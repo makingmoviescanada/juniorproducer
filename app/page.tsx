@@ -85,6 +85,8 @@ export default function Home() {
                 maxWidth: '420px',
                 objectFit: 'cover',
                 filter: 'grayscale(100%)',
+                outline: '3px solid #1A1A1A',
+                boxShadow: '8px 8px 0px #1A1A1A',
               }}
             />
           </div>
@@ -103,7 +105,6 @@ export default function Home() {
               Every funder, every program, every deadline — chat with Junior and get an instant answer, even when the government portals are down. Never miss a window that only opens once a year again.
             </p>
             <button
-              data-tier="funding-intelligence"
               className="transition-all duration-150 hover:bg-[#C9301E] hover:shadow-[6px_6px_0px_#1A1A1A] hover:-translate-y-0.5"
               style={{ backgroundColor: '#E8392A', color: '#FFFFFF', borderRadius: '6px', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
             >
@@ -120,7 +121,6 @@ export default function Home() {
               Junior monitors every funding program and alerts you the moment a window opens. Every deadline synced directly to your calendar.
             </p>
             <button
-              data-tier="deadline-tools"
               className="transition-all duration-150 hover:bg-[#C9301E] hover:shadow-[6px_6px_0px_#1A1A1A] hover:-translate-y-0.5"
               style={{ backgroundColor: '#E8392A', color: '#FFFFFF', borderRadius: '6px', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
             >
@@ -137,7 +137,6 @@ export default function Home() {
               Junior builds your budget, calculates your tax credits, and tells you exactly what you qualify for — before you pitch.
             </p>
             <button
-              data-tier="budget-tools"
               className="transition-all duration-150 hover:bg-[#C9301E] hover:shadow-[6px_6px_0px_#1A1A1A] hover:-translate-y-0.5"
               style={{ backgroundColor: '#E8392A', color: '#FFFFFF', borderRadius: '6px', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
             >
