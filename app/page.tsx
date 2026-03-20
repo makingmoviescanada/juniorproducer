@@ -43,8 +43,11 @@ export default function Home() {
         </div>
       </section>
       <footer className="w-full flex items-center justify-between px-12 py-8" style={{ backgroundColor: '#1A1A1A', padding: '32px 48px' }}>
-        <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, fontSize: '1rem', color: '#FFFFFF', margin: 0 }}>© 2026 Intersectionnel Films Inc.</p>
-        <span style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, fontSize: '1.25rem', letterSpacing: '0.04em', color: '#FFFFFF', textTransform: 'uppercase' }}>JUNIOR</span>
+        <div />
+        <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>
+          <span style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, fontSize: '1.25rem', letterSpacing: '0.04em', color: '#FFFFFF', textTransform: 'uppercase' }}>JUNIOR</span>
+          <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, fontSize: '1rem', color: '#FFFFFF', margin: 0 }}>© 2026 Intersectionnel Films Inc.</p>
+        </div>
       </footer>
     </div>
   );
