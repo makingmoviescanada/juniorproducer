@@ -114,7 +114,7 @@ export default function Home() {
               Automate deadline reminders.
             </h3>
             <p style={{ fontFamily: 'var(--font-barlow)', fontWeight: 400, color: '#1A1A1A', fontSize: '1rem', lineHeight: 1.6, flex: 1 }}>
-              Junior monitors every funding program and alerts you the moment a window opens. Every deadline synced directly to your calendar. Never miss a window that only opens once a year again.
+              Every deadline synced directly to your calendar - Junior monitors every funding program and alerts you when a window opens.
             </p>
             <button
               style={{ backgroundColor: '#E8392A', color: '#FFFFFF', boxShadow: '4px 4px 0px #1A1A1A', fontWeight: 900, letterSpacing: '0.04em', padding: '12px 24px', border: 'none', textTransform: 'uppercase', fontFamily: 'var(--font-barlow)', cursor: 'pointer' }}
