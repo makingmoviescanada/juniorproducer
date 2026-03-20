@@ -42,6 +42,34 @@ export default function Home() {
           </div>
         </div>
       </section>
+      <style>{`
+        .closing-cta-btn {
+          background-color: #1A1A1A;
+          color: #FFFFFF;
+          font-family: var(--font-barlow);
+          font-weight: 900;
+          text-transform: uppercase;
+          letter-spacing: 0.04em;
+          padding: 16px 40px;
+          border: none;
+          border-radius: 6px;
+          box-shadow: 4px 4px 0px #FFFFFF;
+          cursor: pointer;
+          transition: all 150ms ease;
+        }
+        .closing-cta-btn:hover {
+          background-color: #333333;
+          box-shadow: 6px 6px 0px #FFFFFF;
+          transform: translateY(-2px);
+        }
+      `}</style>
+      <section className="w-full" style={{ backgroundColor: '#E8392A', padding: '96px 48px' }}>
+        <div className="max-w-7xl mx-auto text-center">
+          <h2 style={{ fontFamily: 'var(--font-barlow)', fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.04em', color: '#FFFFFF', fontSize: 'clamp(2.5rem, 5vw, 4rem)', lineHeight: 1.14, marginBottom: '20px' }}>THE CAVALRY'S NOT COMING. BUT JUNIOR IS.</h2>
+          <p className="closing-cta-subline" style={{ fontFamily: "'Barlow', sans-serif", fontStyle: "normal", fontWeight: 600, color: '#FFFFFF', fontSize: '1.125rem', marginBottom: '40px' }}>Early access. Limited spots.</p>
+          <button className="closing-cta-btn">GET EARLY ACCESS</button>
+        </div>
+      </section>
       <footer className="w-full flex items-center justify-between px-12 py-8" style={{ backgroundColor: '#1A1A1A', padding: '32px 48px' }}>
         <div />
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-end', gap: '8px' }}>

@@ -13,6 +13,15 @@ export default function ClosingCTA() {
 
   return (
     <div className="w-full px-6 py-120 bg-[#E8392A]">
+      <style>{`
+        .cta-submit-btn {
+          transition: background-color 150ms ease, border-color 150ms ease;
+        }
+        .cta-submit-btn:hover {
+          background-color: #E8392A;
+          border-color: #E8392A;
+        }
+      `}</style>
       <div className="flex flex-col items-center justify-center">
         {/* Headline */}
         <h2
@@ -64,6 +73,7 @@ export default function ClosingCTA() {
           />
           <button
             type="submit"
+            className="cta-submit-btn"
             style={{
               backgroundColor: '#1A1A1A',
               border: '2px solid #1A1A1A',
@@ -75,15 +85,6 @@ export default function ClosingCTA() {
               fontSize: '16px',
               textTransform: 'uppercase',
               cursor: 'pointer',
-              transition: 'background-color 150ms ease, border-color 150ms ease',
-            }}
-            onMouseEnter={e => {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#E8392A';
-              (e.currentTarget as HTMLButtonElement).style.borderColor = '#E8392A';
-            }}
-            onMouseLeave={e => {
-              (e.currentTarget as HTMLButtonElement).style.backgroundColor = '#1A1A1A';
-              (e.currentTarget as HTMLButtonElement).style.borderColor = '#1A1A1A';
             }}
           >
             Get Early Access
