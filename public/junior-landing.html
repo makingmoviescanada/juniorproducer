@@ -150,17 +150,14 @@
   .hero-image-wrap {
     width: 100%;
     max-width: 460px;
-    max-height: 420px;
     margin-left: auto;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden;
   }
   .hero-image-wrap img {
     width: 100%;
-    height: 100%;
-    object-fit: contain;
+    height: auto;
     display: block;
     filter: drop-shadow(4px 4px 0px rgba(26,26,26,0.18));
   }
@@ -323,7 +320,7 @@
   .founder-card {
     display: flex;
     gap: 28px;
-    align-items: flex-start;
+    align-items: center;
     background: rgba(255,255,255,0.04);
     border: 1px solid rgba(255,255,255,0.09);
     border-radius: var(--radius-card);
@@ -384,13 +381,12 @@
     text-align: center;
   }
   .closing-headline {
-    font-size: clamp(32px, 4.5vw, 64px);
+    font-size: clamp(28px, 3.8vw, 58px);
     color: var(--white);
     margin-bottom: 16px;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-    white-space: nowrap;
   }
   .closing-sub {
     font-weight: 600;
