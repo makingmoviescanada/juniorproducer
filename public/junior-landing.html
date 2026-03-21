@@ -102,13 +102,14 @@
   /* HERO */
   .hero {
     background: var(--parchment);
-    padding: 80px 7vw;
+    padding: 60px 7vw 0;
     display: grid;
     grid-template-columns: 1.1fr 0.9fr;
     gap: 60px;
-    align-items: center;
-    min-height: 75vh;
+    align-items: end;
+    min-height: 60vh;
   }
+  .hero-left { padding-bottom: 60px; }
   .hero-eyebrow {
     font-weight: 900;
     font-size: 11px;
@@ -135,7 +136,7 @@
     letter-spacing: 0.04em;
     line-height: 1.08;
     color: var(--ink);
-    margin-bottom: 28px;
+    margin-bottom: 16px;
   }
   .hero-sub {
     font-weight: 400;
@@ -165,7 +166,7 @@
   /* FEATURE CARDS */
   .feature-cards {
     background: var(--red);
-    padding: 100px 7vw;
+    padding: 80px 7vw;
   }
   .section-label {
     font-weight: 900;
@@ -253,7 +254,7 @@
   /* FUNDER LOGOS */
   .funders {
     background: var(--parchment);
-    padding: 56px 7vw;
+    padding: 40px 7vw;
     border-top: 2px solid var(--ink);
     border-bottom: 2px solid var(--ink);
   }
@@ -295,7 +296,7 @@
   /* FOUNDERS */
   .founders {
     background: var(--ink);
-    padding: 100px 7vw;
+    padding: 80px 7vw;
   }
   .founders-intro {
     max-width: 700px;
@@ -329,7 +330,7 @@
   }
   .founder-card:hover { background: rgba(255,255,255,0.07); }
   .founder-photo {
-    width: 96px;
+    width: 130px;
     flex-shrink: 0;
     aspect-ratio: 3/4;
     border-radius: 0px;
@@ -377,14 +378,14 @@
   /* CLOSING CTA */
   .closing {
     background: var(--red);
-    padding: 120px 7vw;
+    padding: 90px 7vw;
     text-align: center;
   }
   .closing-headline {
-    font-size: clamp(38px, 6.5vw, 88px);
+    font-size: clamp(36px, 5vw, 72px);
     color: var(--white);
     margin-bottom: 16px;
-    max-width: 1000px;
+    max-width: 900px;
     margin-left: auto;
     margin-right: auto;
   }
@@ -470,8 +471,7 @@
 
 <!-- HERO -->
 <section class="hero">
-  <div>
-    <div class="hero-eyebrow">Early Access — Limited Spots</div>
+  <div class="hero-left">
     <h1 class="hero-headline">Junior Is Your 24/7 Producing Partner.</h1>
     <p class="hero-sub">Built for Canadian filmmakers — automate the funding research, the deadlines, and the admin.</p>
     <a href="#early-access" class="btn btn-red">Get Early Access</a>
