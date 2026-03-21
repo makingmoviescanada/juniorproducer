@@ -566,13 +566,13 @@
 <section class="closing" id="early-access">
   <h2 class="section-title closing-headline">The Cavalry's Not Coming. But Junior Is.</h2>
   <p class="closing-sub">Early access. Limited spots.</p>
-  <form class="email-form" id="early-access-form">
-    <input type="hidden" id="interest-field" name="interest" value="general">
-    <input type="email" id="email-input" class="email-input" placeholder="Email Address" required>
+  <form class="email-form" id="early-access-form" action="https://app.kit.com/forms/9206634/subscriptions" method="POST" target="kit-iframe">
+    <input type="hidden" id="interest-field" name="fields[interest]" value="general">
+    <input type="email" id="email-input" name="email_address" class="email-input" placeholder="Email Address" required>
     <button type="submit" id="submit-btn" class="btn btn-white" data-tier="general">Get Early Access</button>
   </form>
+  <iframe name="kit-iframe" style="display:none;" id="kit-iframe"></iframe>
   <p id="form-success" style="display:none;color:#fff;font-family:'Barlow',sans-serif;font-weight:600;font-size:16px;margin-top:20px;">Thanks for signing up! Check your inbox.</p>
-  <p id="form-error" style="display:none;color:rgba(255,255,255,0.7);font-family:'Barlow',sans-serif;font-weight:400;font-size:15px;margin-top:20px;">Something went wrong — try again or email us directly.</p>
 </section>
 
 <!-- FOOTER -->
@@ -588,35 +588,10 @@
   }
 
   document.getElementById('early-access-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    var email = document.getElementById('email-input').value;
-    var interest = document.getElementById('interest-field').value;
-    var btn = document.getElementById('submit-btn');
-
-    btn.textContent = 'Sending...';
-    btn.disabled = true;
-
-    fetch('https://app.kit.com/forms/9206634/subscriptions', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email_address: email,
-        fields: { interest: interest }
-      })
-    })
-    .then(function(res) {
-      if (res.ok || res.status === 200 || res.status === 201) {
-        document.getElementById('early-access-form').style.display = 'none';
-        document.getElementById('form-success').style.display = 'block';
-      } else {
-        throw new Error('Request failed');
-      }
-    })
-    .catch(function() {
-      btn.textContent = 'Get Early Access';
-      btn.disabled = false;
-      document.getElementById('form-error').style.display = 'block';
-    });
+    setTimeout(function() {
+      document.getElementById('early-access-form').style.display = 'none';
+      document.getElementById('form-success').style.display = 'block';
+    }, 500);
   });
 </script>
 </body>
