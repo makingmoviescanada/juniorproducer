@@ -566,11 +566,13 @@
 <section class="closing" id="early-access">
   <h2 class="section-title closing-headline">The Cavalry's Not Coming. But Junior Is.</h2>
   <p class="closing-sub">Early access. Limited spots.</p>
-  <form class="email-form" id="early-access-form" onsubmit="return false;">
+  <form class="email-form" id="early-access-form">
     <input type="hidden" id="interest-field" name="interest" value="general">
-    <input type="email" class="email-input" placeholder="Email Address" required>
-    <button type="submit" class="btn btn-white" data-tier="general">Get Early Access</button>
+    <input type="email" id="email-input" class="email-input" placeholder="Email Address" required>
+    <button type="submit" id="submit-btn" class="btn btn-white" data-tier="general">Get Early Access</button>
   </form>
+  <p id="form-success" style="display:none;color:#fff;font-family:'Barlow',sans-serif;font-weight:600;font-size:16px;margin-top:20px;">Thanks for signing up! Check your inbox.</p>
+  <p id="form-error" style="display:none;color:rgba(255,255,255,0.7);font-family:'Barlow',sans-serif;font-weight:400;font-size:15px;margin-top:20px;">Something went wrong — try again or email us directly.</p>
 </section>
 
 <!-- FOOTER -->
@@ -580,21 +582,41 @@
 </footer>
 
 <script>
-  // Sets hidden field to track which benefit the user clicked before signing up.
-  // Last click wins — if someone clicks two cards, the final one is recorded.
   function setInterest(value) {
     var field = document.getElementById('interest-field');
     if (field) field.value = value;
   }
 
-  // On form submit, append interest value as a URL param so Kit can read it.
-  // Wire the action attribute to your Kit form endpoint when ready.
   document.getElementById('early-access-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    var email = document.getElementById('email-input').value;
     var interest = document.getElementById('interest-field').value;
-    var email = this.querySelector('input[type="email"]').value;
-    // TODO: replace with Kit form submission endpoint
-    // Kit embed will pick up the hidden field automatically if using their JS embed.
-    console.log('Submit:', { email: email, interest: interest });
+    var btn = document.getElementById('submit-btn');
+
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    fetch('https://app.kit.com/forms/9206634/subscriptions', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email_address: email,
+        fields: { interest: interest }
+      })
+    })
+    .then(function(res) {
+      if (res.ok || res.status === 200 || res.status === 201) {
+        document.getElementById('early-access-form').style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+      } else {
+        throw new Error('Request failed');
+      }
+    })
+    .catch(function() {
+      btn.textContent = 'Get Early Access';
+      btn.disabled = false;
+      document.getElementById('form-error').style.display = 'block';
+    });
   });
 </script>
 </body>
