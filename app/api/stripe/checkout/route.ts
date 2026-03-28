@@ -41,7 +41,6 @@ export async function POST(request: NextRequest) {
     }
 
     let stripeCustomerId: string;
-
     const { data: existingSub } = await supabaseAdmin
       .from('subscriptions')
       .select('stripe_customer_id')
@@ -57,7 +56,6 @@ export async function POST(request: NextRequest) {
         },
       });
       stripeCustomerId = customer.id;
-
       await supabaseAdmin.from('subscriptions').insert({
         user_id: userId,
         stripe_customer_id: stripeCustomerId,
@@ -75,7 +73,7 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: 'subscription',
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/chat?session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/chat`,
       cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/pricing`,
       metadata: {
         userId,
