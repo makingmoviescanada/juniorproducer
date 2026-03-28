@@ -175,7 +175,7 @@ export default function ChatPage() {
 
   return (
     <main style={{ minHeight: '100vh', backgroundColor: '#F0EBE0', display: 'flex', flexDirection: 'column', fontFamily: 'Barlow, sans-serif' }}>
-      <div style={{ padding: '1rem 1.5rem', borderBottom: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ position: 'sticky', top: 0, zIndex: 10, padding: '1rem 1.5rem', borderBottom: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#1A1A1A', margin: 0 }}>JUNIOR</h1>
         <span style={{ fontSize: '0.8rem', color: '#1A1A1A', opacity: 0.5 }}>
           {messageCount}/{MESSAGE_LIMIT} messages
