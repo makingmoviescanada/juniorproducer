@@ -116,6 +116,12 @@ export default function ChatPage() {
   async function sendMessage() {
     if (!input.trim() || loading || limitReached) return
 
+    // Stripe diagnostics
+    console.log('=== STRIPE DIAGNOSTICS ===')
+    console.log('typeof Stripe:', typeof (window as any).Stripe)
+    console.log('window.Stripe:', (window as any).Stripe)
+    console.log('=========================')
+
     const userMessage: Message = { role: 'user', content: input }
     const updatedMessages = [...messages, userMessage]
     setMessages(updatedMessages)
@@ -244,7 +250,7 @@ export default function ChatPage() {
         {limitReached && (
           <div style={{ textAlign: 'center', marginTop: '2rem', padding: '2rem', border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A', color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A' }}>
             <p style={{ fontWeight: 900, fontSize: '1.25rem', marginBottom: '0.5rem' }}>YOU'VE USED YOUR 20 FREE MESSAGES.</p>
-            <p style={{ opacity: 0.7, marginBottom: '1.5rem', fontSize: '0.9rem' }}>Upgrade to Artist tier to unlock unlimited access.</p>
+            <p style={{ opacity: 0.7, marginBottom: '1.5rem', fontSize: '0.9rem' }}>Upgrade to Filmmaker tier to unlock unlimited access.</p>
           </div>
         )}
         <div ref={bottomRef} />
