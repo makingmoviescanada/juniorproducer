@@ -91,24 +91,26 @@ export default function ChatPage() {
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    async function fetchUsage() {
+    async function fetchUser() {
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
       setUser(user)
-      const { data } = await supabase
-        .from('usage')
-        .select('message_count')
-        .eq('user_id', user.id)
-        .maybeSingle()
-      setMessageCount(data?.message_count ?? 0)
-      if (data?.message_count >= MESSAGE_LIMIT) setLimitReached(true)
     }
-    fetchUsage()
+    fetchUser()
   }, [])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  useEffect(() => {
+    // Update message count based on local messages array
+    const userMessageCount = Math.ceil(messages.length / 2)
+    setMessageCount(userMessageCount)
+    if (userMessageCount >= MESSAGE_LIMIT) {
+      setLimitReached(true)
+    }
   }, [messages])
 
   async function sendMessage() {
@@ -140,10 +142,6 @@ export default function ChatPage() {
         window.location.href = '/login'
         return
       }
-
-      const newCount = parseInt(response.headers.get('X-Message-Count') ?? '0')
-      setMessageCount(newCount)
-      if (newCount >= MESSAGE_LIMIT) setLimitReached(true)
 
       if (!response.body) return
 
