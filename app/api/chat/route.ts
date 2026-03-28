@@ -109,7 +109,16 @@ export async function POST(request: Request) {
 
   const currentCount = usage?.message_count ?? 0
 
-  if (currentCount >= MESSAGE_LIMIT) {
+  // CHECK SUBSCRIPTION STATUS BEFORE ENFORCING CAP
+  const { data: subscription } = await supabase
+    .from('subscriptions')
+    .select('subscription_status, tier')
+    .eq('user_id', user.id)
+    .single()
+
+  // Only enforce the cap if user has NO active subscription
+  const hasActiveSubscription = subscription?.subscription_status === 'active'
+  if (!hasActiveSubscription && currentCount >= MESSAGE_LIMIT) {
     return new Response(
       JSON.stringify({ error: 'limit_reached', count: currentCount }),
       { status: 429, headers: { 'Content-Type': 'application/json' } }
