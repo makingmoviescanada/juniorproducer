@@ -1,186 +1,307 @@
-import Anthropic from '@anthropic-ai/sdk'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+'use client'
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-})
+import { useState, useRef, useEffect } from 'react'
+import { createClient } from '@/lib/supabase/client'
+import UpgradeWall from '@/components/UpgradeWall'
+
+type Message = {
+  role: 'user' | 'assistant'
+  content: string
+}
+
+type CalendarEvent = {
+  title: string
+  description: string
+  date: string
+  remind_days: number
+}
 
 const MESSAGE_LIMIT = 20
 
-const SYSTEM_PROMPT = `You are Junior, an AI producer's assistant built specifically for Canadian independent filmmakers. You were created by Intersectionnel Films.
+function parseCalendarTag(content: string): { text: string; event: CalendarEvent | null } {
+  const regex = /\[CALENDAR:\s*title="([^"]+)"\s*description="([^"]+)"\s*date="([^"]+)"\s*remind_days=(\d+)\]/
+  const match = content.match(regex)
+  if (!match) return { text: content, event: null }
+  const text = content.replace(regex, '').trim()
+  return {
+    text,
+    event: {
+      title: match[1],
+      description: match[2],
+      date: match[3],
+      remind_days: parseInt(match[4]),
+    },
+  }
+}
 
-Your job is to give accurate, useful answers about Canadian arts funding — clearly, directly, and without wasting the filmmaker's time. You are not a cheerleader. You are the knowledgeable colleague who has actually read the guidelines, knows the deadlines, and will tell the truth even when it's not what someone wants to hear.
+function downloadICS(event: CalendarEvent) {
+  const now = new Date()
 
-You are warm but direct. You treat every filmmaker as a capable professional. You never talk down, never hedge unnecessarily, and never pad your answers with filler.
-
-WHAT YOU KNOW:
-Your current knowledge covers Canada Council for the Arts — specifically the Artistic Creation grant (up to $75K, 3 applications/year, covers full creative cycle from research through public sharing) and the Micro-grant (up to $10K, 3 applications/year, professional development and career advancement). Both are part of the Explore and Create program.
-
-KEY RULES FOR FILM/MEDIA ARTS AT CANADA COUNCIL:
-- Only the director applies — not the producer or production company
-- Works must be independent of commercial film, television, and video games
-- Applicants need a validated profile in the Canada Council portal — account must be created at least 30 days before applying
-- The new portal uses character counts, not word counts
-- Up to 3 applications per year per grant type
-- Canada Council portal URL: portal.canadacouncil.ca
-- Canada Council main website: canadacouncil.ca
-- Program officer phone: 1-800-263-5588
-- Program officer email: info@canadacouncil.ca
-
-GRANT SELECTION LOGIC:
-- Artistic Creation (up to $75K): covers the full creative cycle — research, development, production, post-production, and public sharing. Right for any project where the director is driving creative work from idea through completion.
-- Micro-grant (up to $10K): professional development, career advancement, presentation opportunities, residencies. Right for activities that build the filmmaker's practice rather than produce a specific work.
-- If someone has a project they're making, it's almost certainly Artistic Creation. Propose it directly rather than asking which one they want.
-
-DEADLINE LOGIC:
-Both Artistic Creation and Micro-grant are ROLLING deadlines — there is no fixed annual cutoff. You apply before your project start date. The real constraint is the 30-day portal profile validation window. If someone doesn't have a validated profile yet, that clock is already ticking. When anyone asks about deadlines, tell them this clearly and ask whether they have a validated portal profile.
-
-CONTEXT TRACKING:
-Pay attention to what the filmmaker has already told you in this conversation. Never ask for information they have already provided. If they've told you their project type, their timeline, or their stage — use that information in subsequent answers. Do not re-ask.
-
-APPLICATION GUIDANCE:
-When helping a filmmaker think through their application, ask concrete project-specific questions rather than referencing abstract assessment criteria. The criteria (Artistic Merit, Impact, Feasibility) are interpreted by jurors against the actual application — they are not useful as abstract concepts for the filmmaker to think about. Instead ask:
-- "What's the artistic vision — why does this project need to exist and what makes it yours?"
-- "Who is the audience and how will you reach them once it's made?"
-- "What's your realistic timeline and what will it actually cost?"
-These are the same questions the criteria are asking, but grounded in the filmmaker's actual project.
-
-NEXT STEPS MENU:
-When you finish an answer, always propose the single most relevant next action. Make it specific and directive — not a menu of options, not an abstract suggestion. Choose the one action that matters most right now:
-- If they don't have a portal profile: "Create your portal profile now at portal.canadacouncil.ca — the 30-day validation clock starts the moment you do."
-- If they have a profile and a project: "Tell me when you want to start — that's your application deadline."
-- If they know their deadline: "Start your draft in a Google Doc today. What's the first thing you want to articulate about this project?"
-- If they're drafting: "What's the artistic vision — why does this project need to exist and what makes it yours?"
-- If they're unsure about eligibility: "Call a program officer before applying — they'll tell you straight: 1-800-263-5588."
-
-CALENDAR EVENTS:
-When you mention a time-sensitive action that the filmmaker should put in their calendar, output a calendar event tag at the end of your response in this exact format on its own line:
-
-[CALENDAR: title="<event title>" description="<short description>" date="<YYYY-MM-DD or ask>" remind_days=<number>]
-
-For the date field:
-- If the user has mentioned a specific date or project start date, calculate the appropriate date and use YYYY-MM-DD format
-- If no date is known, use date="ask" — the system will default to 30 days from today
-- For portal profile creation, always use date="ask"
-- Always output this tag when you mention the portal profile validation requirement or any application deadline
-
-Examples:
-[CALENDAR: title="Create Canada Council portal profile" description="Required 30 days before applying. Go to portal.canadacouncil.ca" date="ask" remind_days=7]
-[CALENDAR: title="Submit Canada Council application" description="Apply before your project start date." date="2026-06-01" remind_days=14]
-
-REASONING RULES:
-1. ACCURACY FIRST. If you are not certain, say so. Never present an uncertain answer as a definitive one.
-2. ELIGIBILITY CALLS. Make eligibility calls clearly when you can. If you genuinely cannot determine eligibility, direct them to call 1-800-263-5588 or email info@canadacouncil.ca.
-3. SCOPE GAPS. If asked about Telefilm Canada, CMF, SODEC, or provincial funders, acknowledge the gap honestly and point them to the right place. Do not guess.
-4. BAD NEWS. If a filmmaker does not qualify, tell them directly and explain why. Then tell them what to do instead.
-5. DEADLINES. Rolling deadlines are not a reason to wait — the 30-day profile validation window means action is always required now.
-6. CONCISE BY DEFAULT. Give the shortest accurate answer. No preamble, no padding, no restating the question. Lead with the direct answer first.
-7. NEVER INVENT. If a program, deadline, amount, or rule is not in your knowledge, say so and tell the user where to verify.
-8. NEXT STEPS. Never end a response without proposing one clear next action from the NEXT STEPS MENU above. One action. Not a list.`
-
-export async function POST(request: Request) {
-  const cookieStore = await cookies()
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return cookieStore.getAll() },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          )
-        },
-      },
-    }
-  )
-
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
-    return new Response('Unauthorized', { status: 401 })
+  let start: Date
+  if (event.date === 'ask' || !event.date.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    // Default to 30 days from today
+    start = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
+  } else {
+    start = new Date(event.date + 'T09:00:00')
   }
 
-  const { data: usage } = await supabase
-    .from('usage')
-    .select('message_count')
-    .eq('user_id', user.id)
-    .maybeSingle()
+  const end = new Date(start.getTime() + 60 * 60 * 1000)
 
-  const currentCount = usage?.message_count ?? 0
+  const format = (d: Date) =>
+    d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
 
-  // CHECK SUBSCRIPTION STATUS BEFORE ENFORCING CAP
-  const { data: subscription } = await supabase
-    .from('subscriptions')
-    .select('subscription_status, tier')
-    .eq('user_id', user.id)
-    .maybeSingle()
+  const reminderMinutes = event.remind_days * 24 * 60
 
-  // Only allow unlimited messages if subscription exists AND is active
-  const hasActiveSubscription = subscription && subscription.subscription_status === 'active'
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Junior//juniorproducer.ca//EN',
+    'BEGIN:VEVENT',
+    `UID:${Date.now()}@juniorproducer.ca`,
+    `DTSTAMP:${format(now)}`,
+    `DTSTART:${format(start)}`,
+    `DTEND:${format(end)}`,
+    `SUMMARY:${event.title}`,
+    `DESCRIPTION:${event.description}`,
+    'BEGIN:VALARM',
+    'TRIGGER:-PT' + reminderMinutes + 'M',
+    'ACTION:DISPLAY',
+    `DESCRIPTION:Reminder: ${event.title}`,
+    'END:VALARM',
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].join('\r\n')
 
-  // Enforce limit for free/non-subscribed users
-  if (!hasActiveSubscription && currentCount >= MESSAGE_LIMIT) {
-    return new Response(
-      JSON.stringify({ error: 'limit_reached', count: currentCount }),
-      { status: 429, headers: { 'Content-Type': 'application/json' } }
-    )
-  }
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `${event.title.replace(/\s+/g, '-').toLowerCase()}.ics`
+  a.click()
+  URL.revokeObjectURL(url)
+}
 
-  const { messages } = await request.json()
+export default function ChatPage() {
+  const [messages, setMessages] = useState<Message[]>([])
+  const [input, setInput] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [messageCount, setMessageCount] = useState(0)
+  const [limitReached, setLimitReached] = useState(false)
+  const [user, setUser] = useState<any>(null)
+  const bottomRef = useRef<HTMLDivElement>(null)
 
-  await supabase.from('messages').insert({
-    user_id: user.id,
-    conversation_id: null,
-    role: 'user',
-    content: messages[messages.length - 1].content,
-  })
-
-  await supabase.from('usage').upsert({
-    user_id: user.id,
-    message_count: currentCount + 1,
-    updated_at: new Date().toISOString(),
-  })
-
-  const stream = await client.messages.stream({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 1024,
-    system: SYSTEM_PROMPT,
-    messages,
-  })
-
-  const encoder = new TextEncoder()
-  let fullResponse = ''
-
-  const readable = new ReadableStream({
-    async start(controller) {
-      for await (const chunk of stream) {
-        if (
-          chunk.type === 'content_block_delta' &&
-          chunk.delta.type === 'text_delta'
-        ) {
-          fullResponse += chunk.delta.text
-          controller.enqueue(encoder.encode(chunk.delta.text))
-        }
+  useEffect(() => {
+    async function fetchUsage() {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      setUser(user)
+      const { data } = await supabase
+        .from('usage')
+        .select('message_count')
+        .eq('user_id', user.id)
+        .maybeSingle()
+      if (data) {
+        setMessageCount(data.message_count)
+        if (data.message_count >= MESSAGE_LIMIT) setLimitReached(true)
+      } else {
+        setMessageCount(0)
       }
+    }
+    fetchUsage()
+  }, [])
 
-      await supabase.from('messages').insert({
-        user_id: user.id,
-        conversation_id: null,
-        role: 'assistant',
-        content: fullResponse,
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  async function sendMessage() {
+    if (!input.trim() || loading || limitReached) return
+
+    const userMessage: Message = { role: 'user', content: input }
+    const updatedMessages = [...messages, userMessage]
+    setMessages(updatedMessages)
+    setInput('')
+    setLoading(true)
+
+    const assistantMessage: Message = { role: 'assistant', content: '' }
+    setMessages([...updatedMessages, assistantMessage])
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: updatedMessages }),
       })
 
-      controller.close()
-    },
-  })
+      if (response.status === 429) {
+        setLimitReached(true)
+        setMessages(updatedMessages)
+        return
+      }
 
-  return new Response(readable, {
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'Transfer-Encoding': 'chunked',
-      'X-Message-Count': String(currentCount + 1),
-      'X-Message-Limit': String(MESSAGE_LIMIT),
-    },
-  })
+      if (response.status === 401) {
+        window.location.href = '/login'
+        return
+      }
+
+      const newCount = parseInt(response.headers.get('X-Message-Count') ?? '0')
+      setMessageCount(newCount)
+      if (newCount >= MESSAGE_LIMIT) setLimitReached(true)
+
+      if (!response.body) return
+
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+      let text = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        text += decoder.decode(value, { stream: true })
+        setMessages([...updatedMessages, { role: 'assistant', content: text }])
+      }
+    } catch (err) {
+      setMessages([...updatedMessages, { role: 'assistant', content: 'Something went wrong. Please try again.' }])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  function handleKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault()
+      sendMessage()
+    }
+  }
+
+  return (
+    <main style={{ minHeight: '100vh', backgroundColor: '#F0EBE0', display: 'flex', flexDirection: 'column', fontFamily: 'Barlow, sans-serif' }}>
+      <div style={{ position: 'sticky', top: 0, zIndex: 10, padding: '1rem 1.5rem', borderBottom: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <h1 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#1A1A1A', margin: 0 }}>JUNIOR</h1>
+        <span style={{ fontSize: '0.8rem', color: '#1A1A1A', opacity: 0.5 }}>
+          {messageCount}/{MESSAGE_LIMIT} messages
+        </span>
+      </div>
+
+      <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        {messages.length === 0 && !limitReached && (
+          <div style={{ textAlign: 'center', marginTop: '4rem', color: '#1A1A1A' }}>
+            <p style={{ fontWeight: 900, fontSize: '1.25rem' }}>What are you working on?</p>
+            <p style={{ fontSize: '0.9rem', opacity: 0.6 }}>Ask about Canada Council grants, eligibility, or deadlines.</p>
+          </div>
+        )}
+        {messages.map((msg, i) => {
+          if (msg.role === 'user') {
+            return (
+              <div key={i} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <div style={{
+                  maxWidth: '70%',
+                  padding: '0.75rem 1rem',
+                  backgroundColor: '#1A1A1A',
+                  color: '#FFFFFF',
+                  border: '2px solid #1A1A1A',
+                  boxShadow: '4px 4px 0px #1A1A1A',
+                  whiteSpace: 'pre-wrap',
+                  lineHeight: 1.5,
+                }}>
+                  {msg.content}
+                </div>
+              </div>
+            )
+          }
+
+          const { text, event } = parseCalendarTag(msg.content)
+          return (
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem' }}>
+              <div style={{
+                maxWidth: '70%',
+                padding: '0.75rem 1rem',
+                backgroundColor: '#FFFFFF',
+                color: '#1A1A1A',
+                border: '2px solid #1A1A1A',
+                boxShadow: '4px 4px 0px #1A1A1A',
+                whiteSpace: 'pre-wrap',
+                lineHeight: 1.5,
+              }}>
+                {text}
+              </div>
+              {event && !loading && (
+                <button
+                  onClick={() => downloadICS(event)}
+                  style={{
+                    padding: '0.5rem 1rem',
+                    backgroundColor: '#E8392A',
+                    color: '#FFFFFF',
+                    border: '2px solid #1A1A1A',
+                    fontFamily: 'Barlow, sans-serif',
+                    fontWeight: 900,
+                    fontSize: '0.85rem',
+                    cursor: 'pointer',
+                    boxShadow: '4px 4px 0px #1A1A1A',
+                  }}
+                >
+                  + ADD TO CALENDAR
+                </button>
+              )}
+            </div>
+          )
+        })}
+        {limitReached && (
+          <div style={{ textAlign: 'center', marginTop: '2rem', padding: '2rem', border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A', color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A' }}>
+            <p style={{ fontWeight: 900, fontSize: '1.25rem', marginBottom: '0.5rem' }}>YOU'VE USED YOUR 20 FREE MESSAGES.</p>
+            <p style={{ opacity: 0.7, marginBottom: '1.5rem', fontSize: '0.9rem' }}>Upgrade to Artist tier to unlock unlimited access.</p>
+          </div>
+        )}
+        <div ref={bottomRef} />
+      </div>
+
+      {!limitReached && (
+        <div style={{ padding: '1rem 1.5rem', borderTop: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', display: 'flex', gap: '0.75rem' }}>
+          <textarea
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+            placeholder="Ask Junior..."
+            rows={1}
+            style={{
+              flex: 1,
+              padding: '0.75rem',
+              border: '2px solid #1A1A1A',
+              backgroundColor: '#F0EBE0',
+              fontFamily: 'Barlow, sans-serif',
+              fontSize: '1rem',
+              resize: 'none',
+              outline: 'none',
+            }}
+          />
+          <button
+            onClick={sendMessage}
+            disabled={loading || !input.trim()}
+            style={{
+              padding: '0.75rem 1.5rem',
+              backgroundColor: loading || !input.trim() ? '#999' : '#E8392A',
+              color: '#FFFFFF',
+              border: '2px solid #1A1A1A',
+              fontFamily: 'Barlow, sans-serif',
+              fontWeight: 900,
+              fontSize: '1rem',
+              cursor: loading || !input.trim() ? 'not-allowed' : 'pointer',
+              boxShadow: '4px 4px 0px #1A1A1A',
+            }}
+          >
+            {loading ? '...' : 'SEND'}
+          </button>
+        </div>
+      )}
+
+      {user && messageCount !== undefined && (
+        <UpgradeWall 
+          userId={user.id} 
+          messageCount={messageCount} 
+          messageLimit={20} 
+        />
+      )}
+    </main>
+  )
 }
