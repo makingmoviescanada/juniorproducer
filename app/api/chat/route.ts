@@ -1,8 +1,12 @@
 import Anthropic from '@anthropic-ai/sdk'
+import { createServerClient } from '@supabase/ssr'
+import { cookies } from 'next/headers'
 
 const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 })
+
+const MESSAGE_LIMIT = 20
 
 const SYSTEM_PROMPT = `You are Junior, an AI producer's assistant built specifically for Canadian independent filmmakers. You were created by Intersectionnel Films.
 
@@ -30,7 +34,59 @@ REASONING RULES:
 7. NEVER INVENT. If a program, deadline, amount, or rule is not in your knowledge, say so and tell the user where to verify.`
 
 export async function POST(request: Request) {
+  const cookieStore = await cookies()
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        getAll() { return cookieStore.getAll() },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value, options }) =>
+            cookieStore.set(name, value, options)
+          )
+        },
+      },
+    }
+  )
+
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) {
+    return new Response('Unauthorized', { status: 401 })
+  }
+
+  // Check usage
+  const { data: usage } = await supabase
+    .from('usage')
+    .select('message_count')
+    .eq('user_id', user.id)
+    .single()
+
+  const currentCount = usage?.message_count ?? 0
+
+  if (currentCount >= MESSAGE_LIMIT) {
+    return new Response(
+      JSON.stringify({ error: 'limit_reached', count: currentCount }),
+      { status: 429, headers: { 'Content-Type': 'application/json' } }
+    )
+  }
+
   const { messages } = await request.json()
+
+  // Log user message
+  await supabase.from('messages').insert({
+    user_id: user.id,
+    conversation_id: messages[0]?.conversation_id ?? null,
+    role: 'user',
+    content: messages[messages.length - 1].content,
+  })
+
+  // Increment usage
+  await supabase.from('usage').upsert({
+    user_id: user.id,
+    message_count: currentCount + 1,
+    updated_at: new Date().toISOString(),
+  })
 
   const stream = await client.messages.stream({
     model: 'claude-sonnet-4-20250514',
@@ -40,6 +96,7 @@ export async function POST(request: Request) {
   })
 
   const encoder = new TextEncoder()
+  let fullResponse = ''
 
   const readable = new ReadableStream({
     async start(controller) {
@@ -48,9 +105,19 @@ export async function POST(request: Request) {
           chunk.type === 'content_block_delta' &&
           chunk.delta.type === 'text_delta'
         ) {
+          fullResponse += chunk.delta.text
           controller.enqueue(encoder.encode(chunk.delta.text))
         }
       }
+
+      // Log assistant response
+      await supabase.from('messages').insert({
+        user_id: user.id,
+        conversation_id: null,
+        role: 'assistant',
+        content: fullResponse,
+      })
+
       controller.close()
     },
   })
@@ -59,6 +126,8 @@ export async function POST(request: Request) {
     headers: {
       'Content-Type': 'text/plain; charset=utf-8',
       'Transfer-Encoding': 'chunked',
+      'X-Message-Count': String(currentCount + 1),
+      'X-Message-Limit': String(MESSAGE_LIMIT),
     },
   })
 }
