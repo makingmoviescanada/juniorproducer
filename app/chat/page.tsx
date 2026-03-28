@@ -104,8 +104,8 @@ export default function ChatPage() {
             <div style={{
               maxWidth: '70%',
               padding: '0.75rem 1rem',
-              backgroundColor: msg.role === 'user' ? '#E8392A' : '#1A1A1A',
-              color: '#FFFFFF',
+              backgroundColor: msg.role === 'user' ? '#E8392A' : '#FFFFFF',
+              color: msg.role === 'user' ? '#FFFFFF' : '#1A1A1A',
               border: '2px solid #1A1A1A',
               boxShadow: '4px 4px 0px #1A1A1A',
               whiteSpace: 'pre-wrap',
