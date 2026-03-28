@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import UpgradeWall from '@/components/UpgradeWall'
 
 type Message = {
   role: 'user' | 'assistant'
@@ -86,6 +87,7 @@ export default function ChatPage() {
   const [loading, setLoading] = useState(false)
   const [messageCount, setMessageCount] = useState(0)
   const [limitReached, setLimitReached] = useState(false)
+  const [user, setUser] = useState<any>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -93,6 +95,7 @@ export default function ChatPage() {
       const supabase = createClient()
       const { data: { user } } = await supabase.auth.getUser()
       if (!user) return
+      setUser(user)
       const { data } = await supabase
         .from('usage')
         .select('message_count')
@@ -245,10 +248,7 @@ export default function ChatPage() {
         {limitReached && (
           <div style={{ textAlign: 'center', marginTop: '2rem', padding: '2rem', border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A', color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A' }}>
             <p style={{ fontWeight: 900, fontSize: '1.25rem', marginBottom: '0.5rem' }}>YOU'VE USED YOUR 20 FREE MESSAGES.</p>
-            <p style={{ opacity: 0.7, marginBottom: '1.5rem', fontSize: '0.9rem' }}>Junior is in early access. Join the waitlist to be notified when paid plans open.</p>
-            <a href="https://www.juniorproducer.ca" style={{ backgroundColor: '#E8392A', color: '#FFFFFF', padding: '0.75rem 1.5rem', border: '2px solid #FFFFFF', fontWeight: 900, textDecoration: 'none', boxShadow: '4px 4px 0px #FFFFFF' }}>
-              JOIN THE WAITLIST
-            </a>
+            <p style={{ opacity: 0.7, marginBottom: '1.5rem', fontSize: '0.9rem' }}>Upgrade to Artist tier to unlock unlimited access.</p>
           </div>
         )}
         <div ref={bottomRef} />
@@ -291,6 +291,14 @@ export default function ChatPage() {
             {loading ? '...' : 'SEND'}
           </button>
         </div>
+      )}
+
+      {user && messageCount !== undefined && (
+        <UpgradeWall 
+          userId={user.id} 
+          messageCount={messageCount} 
+          messageLimit={20} 
+        />
       )}
     </main>
   )
