@@ -14,11 +14,16 @@ export default function UpgradeWall({
   messageLimit,
 }: UpgradeWallProps) {
   const [loading, setLoading] = useState(false)
-  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>(
-    'annual'
+  const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual' | null>(
+    null
   )
 
   const handleCheckout = async () => {
+    if (!billingPeriod) {
+      alert('Please select a billing period')
+      return
+    }
+
     setLoading(true)
     try {
       const priceId =
@@ -94,7 +99,7 @@ export default function UpgradeWall({
             margin: 0,
             lineHeight: 1.5,
           }}>
-            Unlimited access to Junior for $32/month. Get expert guidance on Canada Council grants, deadlines, and applications.
+            Get unlimited access to Junior for expert guidance on Canada Council grants, deadlines, and applications.
           </p>
         </div>
 
@@ -103,104 +108,125 @@ export default function UpgradeWall({
           gap: '0.75rem',
           marginBottom: '1.5rem',
         }}>
-          <button
-            onClick={() => setBillingPeriod('annual')}
-            style={{
-              flex: 1,
-              padding: '0.75rem',
-              backgroundColor: billingPeriod === 'annual' ? '#E8392A' : 'transparent',
-              color: billingPeriod === 'annual' ? '#FFFFFF' : '#1A1A1A',
-              border: `2px solid #1A1A1A`,
-              fontFamily: 'Barlow, sans-serif',
+          <div style={{ flex: 1, position: 'relative' }}>
+            <button
+              onClick={() => setBillingPeriod('annual')}
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                backgroundColor: billingPeriod === 'annual' ? '#E8392A' : 'transparent',
+                color: billingPeriod === 'annual' ? '#FFFFFF' : '#1A1A1A',
+                border: `2px solid #1A1A1A`,
+                fontFamily: 'Barlow, sans-serif',
+                fontWeight: 900,
+                fontSize: '0.9rem',
+                cursor: 'pointer',
+                transition: 'all 150ms ease',
+                boxShadow: billingPeriod === 'annual' ? '2px 2px 0px #1A1A1A' : 'none',
+                textTransform: 'uppercase',
+              }}
+              onMouseEnter={(e) => {
+                if (billingPeriod !== 'annual') {
+                  e.currentTarget.style.backgroundColor = '#E8392A'
+                  e.currentTarget.style.color = '#FFFFFF'
+                  e.currentTarget.style.boxShadow = '2px 2px 0px #1A1A1A'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (billingPeriod !== 'annual') {
+                  e.currentTarget.style.backgroundColor = 'transparent'
+                  e.currentTarget.style.color = '#1A1A1A'
+                  e.currentTarget.style.boxShadow = 'none'
+                }
+              }}
+            >
+              ANNUAL
+              <div style={{ fontSize: '0.8rem', opacity: 0.7, marginTop: '0.25rem' }}>
+                CA$390/yr
+              </div>
+            </button>
+          </div>
+
+          <div style={{ flex: 1, position: 'relative' }}>
+            <div style={{
+              position: 'absolute',
+              top: '-0.5rem',
+              right: '0.5rem',
+              backgroundColor: '#E8392A',
+              color: '#FFFFFF',
+              fontSize: '0.65rem',
               fontWeight: 900,
-              fontSize: '0.9rem',
-              cursor: 'pointer',
-              transition: 'all 150ms ease',
-              boxShadow: billingPeriod === 'annual' ? '2px 2px 0px #1A1A1A' : 'none',
-            }}
-            onMouseEnter={(e) => {
-              if (billingPeriod !== 'annual') {
-                e.currentTarget.style.backgroundColor = '#E8392A'
-                e.currentTarget.style.color = '#FFFFFF'
-                e.currentTarget.style.boxShadow = '2px 2px 0px #1A1A1A'
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (billingPeriod !== 'annual') {
-                e.currentTarget.style.backgroundColor = 'transparent'
-                e.currentTarget.style.color = '#1A1A1A'
-                e.currentTarget.style.boxShadow = 'none'
-              }
-            }}
-          >
-            ANNUAL
-            <div style={{ fontSize: '0.8rem', opacity: 0.7, marginTop: '0.25rem' }}>
-              CA$390/yr
+              padding: '0.25rem 0.5rem',
+              textTransform: 'uppercase',
+              letterSpacing: '0.03em',
+            }}>
+              RECOMMENDED
             </div>
-          </button>
-          <button
-            onClick={() => setBillingPeriod('monthly')}
-            style={{
-              flex: 1,
-              padding: '0.75rem',
-              backgroundColor: billingPeriod === 'monthly' ? '#E8392A' : 'transparent',
-              color: billingPeriod === 'monthly' ? '#FFFFFF' : '#1A1A1A',
-              border: `2px solid #1A1A1A`,
-              fontFamily: 'Barlow, sans-serif',
-              fontWeight: 900,
-              fontSize: '0.9rem',
-              cursor: 'pointer',
-              transition: 'all 150ms ease',
-              boxShadow: billingPeriod === 'monthly' ? '2px 2px 0px #1A1A1A' : 'none',
-            }}
-            onMouseEnter={(e) => {
-              if (billingPeriod !== 'monthly') {
-                e.currentTarget.style.backgroundColor = '#E8392A'
-                e.currentTarget.style.color = '#FFFFFF'
-                e.currentTarget.style.boxShadow = '2px 2px 0px #1A1A1A'
-              }
-            }}
-            onMouseLeave={(e) => {
-              if (billingPeriod !== 'monthly') {
-                e.currentTarget.style.backgroundColor = 'transparent'
-                e.currentTarget.style.color = '#1A1A1A'
-                e.currentTarget.style.boxShadow = 'none'
-              }
-            }}
-          >
-            MONTHLY
-            <div style={{ fontSize: '0.8rem', opacity: 0.7, marginTop: '0.25rem' }}>
-              CA$39/mo
-            </div>
-          </button>
+            <button
+              onClick={() => setBillingPeriod('monthly')}
+              style={{
+                width: '100%',
+                padding: '0.75rem',
+                backgroundColor: billingPeriod === 'monthly' ? '#E8392A' : 'transparent',
+                color: billingPeriod === 'monthly' ? '#FFFFFF' : '#1A1A1A',
+                border: `2px solid #1A1A1A`,
+                fontFamily: 'Barlow, sans-serif',
+                fontWeight: 900,
+                fontSize: '0.9rem',
+                cursor: 'pointer',
+                transition: 'all 150ms ease',
+                boxShadow: billingPeriod === 'monthly' ? '2px 2px 0px #1A1A1A' : 'none',
+                textTransform: 'uppercase',
+              }}
+              onMouseEnter={(e) => {
+                if (billingPeriod !== 'monthly') {
+                  e.currentTarget.style.backgroundColor = '#E8392A'
+                  e.currentTarget.style.color = '#FFFFFF'
+                  e.currentTarget.style.boxShadow = '2px 2px 0px #1A1A1A'
+                }
+              }}
+              onMouseLeave={(e) => {
+                if (billingPeriod !== 'monthly') {
+                  e.currentTarget.style.backgroundColor = 'transparent'
+                  e.currentTarget.style.color = '#1A1A1A'
+                  e.currentTarget.style.boxShadow = 'none'
+                }
+              }}
+            >
+              MONTHLY
+              <div style={{ fontSize: '0.8rem', opacity: 0.7, marginTop: '0.25rem' }}>
+                CA$39/mo
+              </div>
+            </button>
+          </div>
         </div>
 
         <button
           onClick={handleCheckout}
-          disabled={loading}
+          disabled={loading || !billingPeriod}
           style={{
             width: '100%',
             padding: '1rem',
-            backgroundColor: loading ? '#999' : '#E8392A',
+            backgroundColor: loading || !billingPeriod ? '#999' : '#E8392A',
             color: '#FFFFFF',
             border: '2px solid #1A1A1A',
             fontFamily: 'Barlow, sans-serif',
             fontWeight: 900,
             fontSize: '1rem',
-            cursor: loading ? 'not-allowed' : 'pointer',
+            cursor: loading || !billingPeriod ? 'not-allowed' : 'pointer',
             boxShadow: '4px 4px 0px #1A1A1A',
             transition: 'all 150ms ease',
             textTransform: 'uppercase',
             letterSpacing: '0.04em',
           }}
           onMouseEnter={(e) => {
-            if (!loading) {
+            if (!loading && billingPeriod) {
               e.currentTarget.style.transform = 'translateY(-2px)'
               e.currentTarget.style.boxShadow = '6px 6px 0px #1A1A1A'
             }
           }}
           onMouseLeave={(e) => {
-            if (!loading) {
+            if (!loading && billingPeriod) {
               e.currentTarget.style.transform = 'translateY(0)'
               e.currentTarget.style.boxShadow = '4px 4px 0px #1A1A1A'
             }
