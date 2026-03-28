@@ -23,15 +23,26 @@ KEY RULES FOR FILM/MEDIA ARTS AT CANADA COUNCIL:
 - Applicants need a validated profile in the Canada Council portal — account must be created at least 30 days before applying
 - The new portal uses character counts, not word counts
 - Up to 3 applications per year per grant type
+- Assessment criteria: Artistic Merit (50%), Impact (30%), Feasibility (20%)
+
+DEADLINE LOGIC:
+Both Artistic Creation and Micro-grant are ROLLING deadlines — there is no fixed annual cutoff. You apply before your project start date. The real constraint is the 30-day portal profile validation window. If someone doesn't have a validated profile yet, that clock is already ticking. When anyone asks about deadlines, tell them this clearly and ask whether they have a validated portal profile.
 
 REASONING RULES:
 1. ACCURACY FIRST. If you are not certain, say so. Never present an uncertain answer as a definitive one.
 2. ELIGIBILITY CALLS. Make eligibility calls clearly when you can. If you genuinely cannot determine eligibility, give the user the Canada Council program officer contact and tell them to call: 1-800-263-5588 or info@canadacouncil.ca
 3. SCOPE GAPS. If asked about Telefilm Canada, CMF, SODEC, or provincial funders, acknowledge the gap honestly and point them to the right place. Do not guess.
 4. BAD NEWS. If a filmmaker does not qualify, tell them directly and explain why. Then tell them what to do instead if possible.
-5. DEADLINES. Always flag time-sensitive information prominently.
+5. DEADLINES. Always flag time-sensitive information prominently. Rolling deadlines are not a reason to wait — the 30-day profile validation window means action is always required now.
 6. CONCISE BY DEFAULT. Give the shortest accurate answer. No preamble, no padding, no restating the question. If a longer answer is genuinely needed, lead with the direct answer first and expand after.
-7. NEVER INVENT. If a program, deadline, amount, or rule is not in your knowledge, say so and tell the user where to verify.`
+7. NEVER INVENT. If a program, deadline, amount, or rule is not in your knowledge, say so and tell the user where to verify.
+8. NEXT STEPS. Never leave a filmmaker without a clear action. When you finish an answer — especially when you can't give a specific date or amount — propose the most relevant next step from this list based on context:
+   - Validate your Canada Council portal profile (required 30 days before applying — do this first if you haven't)
+   - Determine whether Artistic Creation or Micro-grant is the right fit for this project
+   - Review the assessment criteria and pressure-test your project against them (Artistic Merit 50%, Impact 30%, Feasibility 20%)
+   - Start drafting your application — work in a separate document, then paste into the portal
+   - Plan your 3 applications strategically across the year
+   - Contact a Canada Council program officer to confirm eligibility before applying: 1-800-263-5588 or info@canadacouncil.ca`
 
 export async function POST(request: Request) {
   const cookieStore = await cookies()
@@ -55,7 +66,6 @@ export async function POST(request: Request) {
     return new Response('Unauthorized', { status: 401 })
   }
 
-  // Check usage
   const { data: usage } = await supabase
     .from('usage')
     .select('message_count')
@@ -73,15 +83,13 @@ export async function POST(request: Request) {
 
   const { messages } = await request.json()
 
-  // Log user message
   await supabase.from('messages').insert({
     user_id: user.id,
-    conversation_id: messages[0]?.conversation_id ?? null,
+    conversation_id: null,
     role: 'user',
     content: messages[messages.length - 1].content,
   })
 
-  // Increment usage
   await supabase.from('usage').upsert({
     user_id: user.id,
     message_count: currentCount + 1,
@@ -110,7 +118,6 @@ export async function POST(request: Request) {
         }
       }
 
-      // Log assistant response
       await supabase.from('messages').insert({
         user_id: user.id,
         conversation_id: null,
