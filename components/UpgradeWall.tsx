@@ -24,6 +24,12 @@ export default function UpgradeWall({
       return
     }
 
+    // Stripe diagnostics
+    console.log('=== STRIPE CHECKOUT DIAGNOSTICS ===')
+    console.log('typeof Stripe:', typeof (window as any).Stripe)
+    console.log('window.Stripe:', (window as any).Stripe)
+    console.log('====================================')
+
     setLoading(true)
     try {
       const priceId =
