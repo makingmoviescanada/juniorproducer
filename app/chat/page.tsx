@@ -33,8 +33,8 @@ function parseCalendarTag(content: string): { text: string; event: CalendarEvent
 
 function downloadICS(event: CalendarEvent) {
   const now = new Date()
-  const start = new Date(now.getTime() + 24 * 60 * 60 * 1000) // tomorrow as placeholder
-  const end = new Date(start.getTime() + 60 * 60 * 1000) // 1 hour duration
+  const start = new Date(now.getTime() + 24 * 60 * 60 * 1000)
+  const end = new Date(start.getTime() + 60 * 60 * 1000)
 
   const format = (d: Date) =>
     d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
@@ -183,7 +183,7 @@ export default function ChatPage() {
                 <div style={{
                   maxWidth: '70%',
                   padding: '0.75rem 1rem',
-                  backgroundColor: '#E8392A',
+                  backgroundColor: '#1A1A1A',
                   color: '#FFFFFF',
                   border: '2px solid #1A1A1A',
                   boxShadow: '4px 4px 0px #1A1A1A',
@@ -216,8 +216,8 @@ export default function ChatPage() {
                   onClick={() => downloadICS(event)}
                   style={{
                     padding: '0.5rem 1rem',
-                    backgroundColor: '#F0EBE0',
-                    color: '#1A1A1A',
+                    backgroundColor: '#E8392A',
+                    color: '#FFFFFF',
                     border: '2px solid #1A1A1A',
                     fontFamily: 'Barlow, sans-serif',
                     fontWeight: 900,
