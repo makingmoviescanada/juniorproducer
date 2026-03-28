@@ -114,10 +114,12 @@ export async function POST(request: Request) {
     .from('subscriptions')
     .select('subscription_status, tier')
     .eq('user_id', user.id)
-    .single()
+    .maybeSingle()
 
-  // Only enforce the cap if user has NO active subscription
-  const hasActiveSubscription = subscription?.subscription_status === 'active'
+  // Only allow unlimited messages if subscription exists AND is active
+  const hasActiveSubscription = subscription && subscription.subscription_status === 'active'
+
+  // Enforce limit for free/non-subscribed users
   if (!hasActiveSubscription && currentCount >= MESSAGE_LIMIT) {
     return new Response(
       JSON.stringify({ error: 'limit_reached', count: currentCount }),
