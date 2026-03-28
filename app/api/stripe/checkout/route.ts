@@ -59,10 +59,22 @@ export async function POST(request: NextRequest) {
       await supabaseAdmin.from('subscriptions').insert({
         user_id: userId,
         stripe_customer_id: stripeCustomerId,
-        tier: 'artist',
+        tier: 'filmmaker',
         subscription_status: 'pending',
       });
     }
+
+    // DEBUG: Log env vars
+    const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.juniorproducer.ca';
+    const successUrl = `${siteUrl}/chat`;
+    const cancelUrl = `${siteUrl}/pricing`;
+    
+    console.log('=== STRIPE CHECKOUT DEBUG ===');
+    console.log('NEXT_PUBLIC_SITE_URL env var:', process.env.NEXT_PUBLIC_SITE_URL);
+    console.log('siteUrl fallback:', siteUrl);
+    console.log('success_url:', successUrl);
+    console.log('cancel_url:', cancelUrl);
+    console.log('=============================');
 
     const session = await stripe.checkout.sessions.create({
       customer: stripeCustomerId,
@@ -73,13 +85,16 @@ export async function POST(request: NextRequest) {
         },
       ],
       mode: 'subscription',
-      success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/chat`,
-      cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/pricing`,
+      success_url: successUrl,
+      cancel_url: cancelUrl,
       metadata: {
         userId,
-        tier: 'artist',
+        tier: 'filmmaker',
       },
     });
+
+    console.log('Stripe session created:', session.id);
+    console.log('Session success_url:', session.success_url);
 
     return NextResponse.json({ sessionId: session.id });
   } catch (error) {
