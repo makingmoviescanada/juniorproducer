@@ -8,7 +8,67 @@ type Message = {
   content: string
 }
 
+type CalendarEvent = {
+  title: string
+  description: string
+  remind_days: number
+}
+
 const MESSAGE_LIMIT = 20
+
+function parseCalendarTag(content: string): { text: string; event: CalendarEvent | null } {
+  const regex = /\[CALENDAR:\s*title="([^"]+)"\s*description="([^"]+)"\s*remind_days=(\d+)\]/
+  const match = content.match(regex)
+  if (!match) return { text: content, event: null }
+  const text = content.replace(regex, '').trim()
+  return {
+    text,
+    event: {
+      title: match[1],
+      description: match[2],
+      remind_days: parseInt(match[3]),
+    },
+  }
+}
+
+function downloadICS(event: CalendarEvent) {
+  const now = new Date()
+  const start = new Date(now.getTime() + 24 * 60 * 60 * 1000) // tomorrow as placeholder
+  const end = new Date(start.getTime() + 60 * 60 * 1000) // 1 hour duration
+
+  const format = (d: Date) =>
+    d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
+
+  const reminderMinutes = event.remind_days * 24 * 60
+
+  const ics = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    'PRODID:-//Junior//juniorproducer.ca//EN',
+    'BEGIN:VEVENT',
+    `UID:${Date.now()}@juniorproducer.ca`,
+    `DTSTAMP:${format(now)}`,
+    `DTSTART:${format(start)}`,
+    `DTEND:${format(end)}`,
+    `SUMMARY:${event.title}`,
+    `DESCRIPTION:${event.description}`,
+    'BEGIN:VALARM',
+    'TRIGGER:-PT' + reminderMinutes + 'M',
+    'ACTION:DISPLAY',
+    `DESCRIPTION:Reminder: ${event.title}`,
+    'END:VALARM',
+    'END:VEVENT',
+    'END:VCALENDAR',
+  ].join('\r\n')
+
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `${event.title.replace(/\s+/g, '-').toLowerCase()}.ics`
+  a.click()
+  URL.revokeObjectURL(url)
+}
 
 export default function ChatPage() {
   const [messages, setMessages] = useState<Message[]>([])
@@ -116,22 +176,62 @@ export default function ChatPage() {
             <p style={{ fontSize: '0.9rem', opacity: 0.6 }}>Ask about Canada Council grants, eligibility, or deadlines.</p>
           </div>
         )}
-        {messages.map((msg, i) => (
-          <div key={i} style={{ display: 'flex', justifyContent: msg.role === 'user' ? 'flex-end' : 'flex-start' }}>
-            <div style={{
-              maxWidth: '70%',
-              padding: '0.75rem 1rem',
-              backgroundColor: msg.role === 'user' ? '#E8392A' : '#FFFFFF',
-              color: msg.role === 'user' ? '#FFFFFF' : '#1A1A1A',
-              border: '2px solid #1A1A1A',
-              boxShadow: '4px 4px 0px #1A1A1A',
-              whiteSpace: 'pre-wrap',
-              lineHeight: 1.5,
-            }}>
-              {msg.content}
+        {messages.map((msg, i) => {
+          if (msg.role === 'user') {
+            return (
+              <div key={i} style={{ display: 'flex', justifyContent: 'flex-end' }}>
+                <div style={{
+                  maxWidth: '70%',
+                  padding: '0.75rem 1rem',
+                  backgroundColor: '#E8392A',
+                  color: '#FFFFFF',
+                  border: '2px solid #1A1A1A',
+                  boxShadow: '4px 4px 0px #1A1A1A',
+                  whiteSpace: 'pre-wrap',
+                  lineHeight: 1.5,
+                }}>
+                  {msg.content}
+                </div>
+              </div>
+            )
+          }
+
+          const { text, event } = parseCalendarTag(msg.content)
+          return (
+            <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem' }}>
+              <div style={{
+                maxWidth: '70%',
+                padding: '0.75rem 1rem',
+                backgroundColor: '#FFFFFF',
+                color: '#1A1A1A',
+                border: '2px solid #1A1A1A',
+                boxShadow: '4px 4px 0px #1A1A1A',
+                whiteSpace: 'pre-wrap',
+                lineHeight: 1.5,
+              }}>
+                {text}
+              </div>
+              {event && !loading && (
+                <button
+                  onClick={() => downloadICS(event)}
+                  style={{
+                    padding: '0.5rem 1rem',
+                    backgroundColor: '#F0EBE0',
+                    color: '#1A1A1A',
+                    border: '2px solid #1A1A1A',
+                    fontFamily: 'Barlow, sans-serif',
+                    fontWeight: 900,
+                    fontSize: '0.85rem',
+                    cursor: 'pointer',
+                    boxShadow: '4px 4px 0px #1A1A1A',
+                  }}
+                >
+                  + ADD TO CALENDAR
+                </button>
+              )}
             </div>
-          </div>
-        ))}
+          )
+        })}
         {limitReached && (
           <div style={{ textAlign: 'center', marginTop: '2rem', padding: '2rem', border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A', color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A' }}>
             <p style={{ fontWeight: 900, fontSize: '1.25rem', marginBottom: '0.5rem' }}>YOU'VE USED YOUR 20 FREE MESSAGES.</p>
