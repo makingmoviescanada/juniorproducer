@@ -1,11 +1,11 @@
-'use client';
+'use client'
 
-import { useState } from 'react';
+import { useState } from 'react'
 
 interface UpgradeWallProps {
-  userId: string;
-  messageCount: number;
-  messageLimit: number;
+  userId: string
+  messageCount: number
+  messageLimit: number
 }
 
 export default function UpgradeWall({
@@ -13,19 +13,18 @@ export default function UpgradeWall({
   messageCount,
   messageLimit,
 }: UpgradeWallProps) {
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(false)
   const [billingPeriod, setBillingPeriod] = useState<'monthly' | 'annual'>(
     'annual'
-  );
+  )
 
   const handleCheckout = async () => {
-    setLoading(true);
+    setLoading(true)
     try {
       const priceId =
         billingPeriod === 'annual'
           ? 'price_1TFpZtRwIeAXbMNlyXvqXME9'
-          : 'price_1TFpWNRwIeAXbMNlc8W0Z8Fp';
-
+          : 'price_1TFpWNRwIeAXbMNlc8W0Z8Fp'
       const response = await fetch('/api/stripe/checkout', {
         method: 'POST',
         headers: {
@@ -36,76 +35,192 @@ export default function UpgradeWall({
           billingPeriod,
           userId,
         }),
-      });
+      })
 
-      const data = await response.json();
-
+      const data = await response.json()
       if (data.sessionId) {
-        window.location.href = `https://checkout.stripe.com/pay/${data.sessionId}`;
+        window.location.href = `https://checkout.stripe.com/pay/${data.sessionId}`
       } else {
-        alert('Failed to create checkout session');
+        alert('Failed to create checkout session')
       }
     } catch (error) {
-      console.error('Checkout error:', error);
-      alert('Error initiating checkout');
+      console.error('Checkout error:', error)
+      alert('Error initiating checkout')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
 
   if (messageCount < messageLimit) {
-    return null;
+    return null
   }
 
   return (
-    <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-      <div className="bg-white rounded-lg shadow-lg max-w-md w-full p-8">
-        <div className="mb-6">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">
-            You've used your 20 free messages
+    <div style={{
+      position: 'fixed',
+      inset: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '1rem',
+      zIndex: 50,
+      fontFamily: 'Barlow, sans-serif',
+    }}>
+      <div style={{
+        backgroundColor: '#F0EBE0',
+        border: '2px solid #E8392A',
+        boxShadow: '4px 4px 0px #E8392A',
+        maxWidth: '500px',
+        width: '100%',
+        padding: '2rem',
+      }}>
+        <div style={{ marginBottom: '1.5rem' }}>
+          <h2 style={{
+            fontSize: '1.25rem',
+            fontWeight: 900,
+            color: '#1A1A1A',
+            margin: 0,
+            marginBottom: '0.5rem',
+            textTransform: 'uppercase',
+            letterSpacing: '0.04em',
+          }}>
+            You've unlocked filmmaker tier.
           </h2>
-          <p className="text-gray-600">
-            Join the Artist tier to get unlimited access to Junior.
+          <p style={{
+            fontSize: '0.95rem',
+            color: '#1A1A1A',
+            opacity: 0.75,
+            margin: 0,
+            lineHeight: 1.5,
+          }}>
+            Unlimited access to Junior for $32/month. Get expert guidance on Canada Council grants, deadlines, and applications.
           </p>
         </div>
 
-        <div className="mb-6 flex gap-3">
+        <div style={{
+          display: 'flex',
+          gap: '0.75rem',
+          marginBottom: '1.5rem',
+        }}>
           <button
             onClick={() => setBillingPeriod('annual')}
-            className={`flex-1 py-3 px-4 rounded font-semibold transition-colors ${
-              billingPeriod === 'annual'
-                ? 'bg-red-600 text-white'
-                : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-            }`}
+            style={{
+              flex: 1,
+              padding: '0.75rem',
+              backgroundColor: billingPeriod === 'annual' ? '#E8392A' : 'transparent',
+              color: billingPeriod === 'annual' ? '#FFFFFF' : '#1A1A1A',
+              border: `2px solid #1A1A1A`,
+              fontFamily: 'Barlow, sans-serif',
+              fontWeight: 900,
+              fontSize: '0.9rem',
+              cursor: 'pointer',
+              transition: 'all 150ms ease',
+              boxShadow: billingPeriod === 'annual' ? '2px 2px 0px #1A1A1A' : 'none',
+            }}
+            onMouseEnter={(e) => {
+              if (billingPeriod !== 'annual') {
+                e.currentTarget.style.backgroundColor = '#E8392A'
+                e.currentTarget.style.color = '#FFFFFF'
+                e.currentTarget.style.boxShadow = '2px 2px 0px #1A1A1A'
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (billingPeriod !== 'annual') {
+                e.currentTarget.style.backgroundColor = 'transparent'
+                e.currentTarget.style.color = '#1A1A1A'
+                e.currentTarget.style.boxShadow = 'none'
+              }
+            }}
           >
-            Annual
-            <div className="text-sm font-normal">CA$32/mo</div>
+            ANNUAL
+            <div style={{ fontSize: '0.8rem', opacity: 0.7, marginTop: '0.25rem' }}>
+              CA$390/yr
+            </div>
           </button>
           <button
             onClick={() => setBillingPeriod('monthly')}
-            className={`flex-1 py-3 px-4 rounded font-semibold transition-colors ${
-              billingPeriod === 'monthly'
-                ? 'bg-red-600 text-white'
-                : 'bg-gray-100 text-gray-900 hover:bg-gray-200'
-            }`}
+            style={{
+              flex: 1,
+              padding: '0.75rem',
+              backgroundColor: billingPeriod === 'monthly' ? '#E8392A' : 'transparent',
+              color: billingPeriod === 'monthly' ? '#FFFFFF' : '#1A1A1A',
+              border: `2px solid #1A1A1A`,
+              fontFamily: 'Barlow, sans-serif',
+              fontWeight: 900,
+              fontSize: '0.9rem',
+              cursor: 'pointer',
+              transition: 'all 150ms ease',
+              boxShadow: billingPeriod === 'monthly' ? '2px 2px 0px #1A1A1A' : 'none',
+            }}
+            onMouseEnter={(e) => {
+              if (billingPeriod !== 'monthly') {
+                e.currentTarget.style.backgroundColor = '#E8392A'
+                e.currentTarget.style.color = '#FFFFFF'
+                e.currentTarget.style.boxShadow = '2px 2px 0px #1A1A1A'
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (billingPeriod !== 'monthly') {
+                e.currentTarget.style.backgroundColor = 'transparent'
+                e.currentTarget.style.color = '#1A1A1A'
+                e.currentTarget.style.boxShadow = 'none'
+              }
+            }}
           >
-            Monthly
-            <div className="text-sm font-normal">CA$39/mo</div>
+            MONTHLY
+            <div style={{ fontSize: '0.8rem', opacity: 0.7, marginTop: '0.25rem' }}>
+              CA$39/mo
+            </div>
           </button>
         </div>
 
         <button
           onClick={handleCheckout}
           disabled={loading}
-          className="w-full bg-red-600 hover:bg-red-700 disabled:bg-gray-400 text-white font-bold py-3 px-4 rounded transition-colors"
+          style={{
+            width: '100%',
+            padding: '1rem',
+            backgroundColor: loading ? '#999' : '#E8392A',
+            color: '#FFFFFF',
+            border: '2px solid #1A1A1A',
+            fontFamily: 'Barlow, sans-serif',
+            fontWeight: 900,
+            fontSize: '1rem',
+            cursor: loading ? 'not-allowed' : 'pointer',
+            boxShadow: '4px 4px 0px #1A1A1A',
+            transition: 'all 150ms ease',
+            textTransform: 'uppercase',
+            letterSpacing: '0.04em',
+          }}
+          onMouseEnter={(e) => {
+            if (!loading) {
+              e.currentTarget.style.transform = 'translateY(-2px)'
+              e.currentTarget.style.boxShadow = '6px 6px 0px #1A1A1A'
+            }
+          }}
+          onMouseLeave={(e) => {
+            if (!loading) {
+              e.currentTarget.style.transform = 'translateY(0)'
+              e.currentTarget.style.boxShadow = '4px 4px 0px #1A1A1A'
+            }
+          }}
         >
-          {loading ? 'Loading...' : 'Join as Artist'}
+          {loading ? 'PROCESSING...' : 'JOIN AS FILMMAKER'}
         </button>
 
-        <p className="text-xs text-gray-500 text-center mt-4">
+        <p style={{
+          fontSize: '0.75rem',
+          color: '#1A1A1A',
+          opacity: 0.5,
+          textAlign: 'center',
+          marginTop: '1rem',
+          margin: 0,
+          marginTop: '1rem',
+        }}>
           Secure checkout powered by Stripe
         </p>
       </div>
     </div>
-  );
+  )
 }
