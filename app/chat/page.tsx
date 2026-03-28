@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
+import { createClient } from '@/lib/supabase/client'
 
 type Message = {
   role: 'user' | 'assistant'
@@ -16,6 +17,24 @@ export default function ChatPage() {
   const [messageCount, setMessageCount] = useState(0)
   const [limitReached, setLimitReached] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    async function fetchUsage() {
+      const supabase = createClient()
+      const { data: { user } } = await supabase.auth.getUser()
+      if (!user) return
+      const { data } = await supabase
+        .from('usage')
+        .select('message_count')
+        .eq('user_id', user.id)
+        .single()
+      if (data) {
+        setMessageCount(data.message_count)
+        if (data.message_count >= MESSAGE_LIMIT) setLimitReached(true)
+      }
+    }
+    fetchUsage()
+  }, [])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -83,7 +102,6 @@ export default function ChatPage() {
 
   return (
     <main style={{ minHeight: '100vh', backgroundColor: '#F0EBE0', display: 'flex', flexDirection: 'column', fontFamily: 'Barlow, sans-serif' }}>
-      {/* Header */}
       <div style={{ padding: '1rem 1.5rem', borderBottom: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#1A1A1A', margin: 0 }}>JUNIOR</h1>
         <span style={{ fontSize: '0.8rem', color: '#1A1A1A', opacity: 0.5 }}>
@@ -91,7 +109,6 @@ export default function ChatPage() {
         </span>
       </div>
 
-      {/* Messages */}
       <div style={{ flex: 1, overflowY: 'auto', padding: '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
         {messages.length === 0 && !limitReached && (
           <div style={{ textAlign: 'center', marginTop: '4rem', color: '#1A1A1A' }}>
@@ -127,7 +144,6 @@ export default function ChatPage() {
         <div ref={bottomRef} />
       </div>
 
-      {/* Input */}
       {!limitReached && (
         <div style={{ padding: '1rem 1.5rem', borderTop: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', display: 'flex', gap: '0.75rem' }}>
           <textarea
