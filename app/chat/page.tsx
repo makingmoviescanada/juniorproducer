@@ -101,12 +101,8 @@ export default function ChatPage() {
         .select('message_count')
         .eq('user_id', user.id)
         .maybeSingle()
-      if (data) {
-        setMessageCount(data.message_count)
-        if (data.message_count >= MESSAGE_LIMIT) setLimitReached(true)
-      } else {
-        setMessageCount(0)
-      }
+      setMessageCount(data?.message_count ?? 0)
+      if (data?.message_count >= MESSAGE_LIMIT) setLimitReached(true)
     }
     fetchUsage()
   }, [])
