@@ -50,7 +50,18 @@ export async function POST(request: NextRequest) {
     if (existingSub?.stripe_customer_id) {
       stripeCustomerId = existingSub.stripe_customer_id;
     } else {
+      // Fetch user email from Supabase Auth
+      const { data: { user } } = await supabaseAdmin.auth.admin.getUserById(userId);
+      
+      if (!user?.email) {
+        return NextResponse.json(
+          { error: 'User email not found' },
+          { status: 400 }
+        );
+      }
+
       const customer = await stripe.customers.create({
+        email: user.email,
         metadata: {
           userId,
         },
