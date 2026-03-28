@@ -11,13 +11,14 @@ type Message = {
 type CalendarEvent = {
   title: string
   description: string
+  date: string
   remind_days: number
 }
 
 const MESSAGE_LIMIT = 20
 
 function parseCalendarTag(content: string): { text: string; event: CalendarEvent | null } {
-  const regex = /\[CALENDAR:\s*title="([^"]+)"\s*description="([^"]+)"\s*remind_days=(\d+)\]/
+  const regex = /\[CALENDAR:\s*title="([^"]+)"\s*description="([^"]+)"\s*date="([^"]+)"\s*remind_days=(\d+)\]/
   const match = content.match(regex)
   if (!match) return { text: content, event: null }
   const text = content.replace(regex, '').trim()
@@ -26,14 +27,23 @@ function parseCalendarTag(content: string): { text: string; event: CalendarEvent
     event: {
       title: match[1],
       description: match[2],
-      remind_days: parseInt(match[3]),
+      date: match[3],
+      remind_days: parseInt(match[4]),
     },
   }
 }
 
 function downloadICS(event: CalendarEvent) {
   const now = new Date()
-  const start = new Date(now.getTime() + 24 * 60 * 60 * 1000)
+
+  let start: Date
+  if (event.date === 'ask' || !event.date.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    // Default to 30 days from today
+    start = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
+  } else {
+    start = new Date(event.date + 'T09:00:00')
+  }
+
   const end = new Date(start.getTime() + 60 * 60 * 1000)
 
   const format = (d: Date) =>
