@@ -1,7 +1,9 @@
 import type { Metadata } from 'next'
 import { Barlow } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import { ClerkProvider, SignInButton, SignUpButton, Show, UserButton } from '@clerk/nextjs'
 import './globals.css'
+
 const barlow = Barlow({
   subsets: ['latin'],
   weight: ['400', '500', '600', '900'],
@@ -43,8 +45,10 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${barlow.variable}`}>
       <body className="font-sans antialiased">
-        {children}
-        <Analytics />
+        <ClerkProvider>
+          {children}
+          <Analytics />
+        </ClerkProvider>
       </body>
     </html>
   )
