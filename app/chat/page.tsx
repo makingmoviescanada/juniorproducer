@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import { useUser } from '@clerk/nextjs'
 import UpgradeWall from '@/components/UpgradeWall'
 
 type Message = {
@@ -39,7 +39,6 @@ function downloadICS(event: CalendarEvent) {
 
   let start: Date
   if (event.date === 'ask' || !event.date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    // Default to 30 days from today
     start = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
   } else {
     start = new Date(event.date + 'T09:00:00')
@@ -82,30 +81,19 @@ function downloadICS(event: CalendarEvent) {
 }
 
 export default function ChatPage() {
+  const { user } = useUser()
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [messageCount, setMessageCount] = useState(0)
   const [limitReached, setLimitReached] = useState(false)
-  const [user, setUser] = useState<any>(null)
   const bottomRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    async function fetchUser() {
-      const supabase = createClient()
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-      setUser(user)
-    }
-    fetchUser()
-  }, [])
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
   useEffect(() => {
-    // Update message count based on local messages array
     const userMessageCount = Math.ceil(messages.length / 2)
     setMessageCount(userMessageCount)
     if (userMessageCount >= MESSAGE_LIMIT) {
@@ -115,12 +103,6 @@ export default function ChatPage() {
 
   async function sendMessage() {
     if (!input.trim() || loading || limitReached) return
-
-    // Stripe diagnostics
-    console.log('=== STRIPE DIAGNOSTICS ===')
-    console.log('typeof Stripe:', typeof (window as any).Stripe)
-    console.log('window.Stripe:', (window as any).Stripe)
-    console.log('=========================')
 
     const userMessage: Message = { role: 'user', content: input }
     const updatedMessages = [...messages, userMessage]
@@ -145,7 +127,7 @@ export default function ChatPage() {
       }
 
       if (response.status === 401) {
-        window.location.href = '/login'
+        window.location.href = '/sign-in'
         return
       }
 
@@ -296,10 +278,10 @@ export default function ChatPage() {
       )}
 
       {user && messageCount !== undefined && (
-        <UpgradeWall 
-          userId={user.id} 
-          messageCount={messageCount} 
-          messageLimit={20} 
+        <UpgradeWall
+          userId={user.id}
+          messageCount={messageCount}
+          messageLimit={20}
         />
       )}
     </main>
