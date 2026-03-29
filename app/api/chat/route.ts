@@ -1,10 +1,15 @@
 import Anthropic from '@anthropic-ai/sdk'
-import { createServerClient } from '@supabase/ssr'
-import { cookies } from 'next/headers'
+import { createClient } from '@supabase/supabase-js'
+import { auth } from '@clerk/nextjs/server'
 
 const client = new Anthropic({
   apiKey: process.env.ANTHROPIC_API_KEY,
 })
+
+const supabase = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SECRET_KEY!
+)
 
 const MESSAGE_LIMIT = 20
 
@@ -80,46 +85,28 @@ REASONING RULES:
 8. NEXT STEPS. Never end a response without proposing one clear next action from the NEXT STEPS MENU above. One action. Not a list.`
 
 export async function POST(request: Request) {
-  const cookieStore = await cookies()
-  const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
-    {
-      cookies: {
-        getAll() { return cookieStore.getAll() },
-        setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
-            cookieStore.set(name, value, options)
-          )
-        },
-      },
-    }
-  )
+  const { userId } = await auth()
 
-  const { data: { user } } = await supabase.auth.getUser()
-  if (!user) {
+  if (!userId) {
     return new Response('Unauthorized', { status: 401 })
   }
 
   const { data: usage } = await supabase
     .from('usage')
     .select('message_count')
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .single()
 
   const currentCount = usage?.message_count ?? 0
 
-  // CHECK SUBSCRIPTION STATUS BEFORE ENFORCING CAP
   const { data: subscription } = await supabase
     .from('subscriptions')
     .select('subscription_status, tier')
-    .eq('user_id', user.id)
+    .eq('user_id', userId)
     .maybeSingle()
 
-  // Only allow unlimited messages if subscription exists AND is active
-  const hasActiveSubscription = subscription && subscription.subscription_status === 'active'
+  const hasActiveSubscription = subscription?.subscription_status === 'active'
 
-  // Enforce limit for free/non-subscribed users
   if (!hasActiveSubscription && currentCount >= MESSAGE_LIMIT) {
     return new Response(
       JSON.stringify({ error: 'limit_reached', count: currentCount }),
@@ -130,17 +117,20 @@ export async function POST(request: Request) {
   const { messages } = await request.json()
 
   await supabase.from('messages').insert({
-    user_id: user.id,
+    user_id: userId,
     conversation_id: null,
     role: 'user',
     content: messages[messages.length - 1].content,
   })
 
-  await supabase.from('usage').upsert({
-    user_id: user.id,
-    message_count: currentCount + 1,
-    updated_at: new Date().toISOString(),
-  })
+  await supabase.from('usage').upsert(
+    {
+      user_id: userId,
+      message_count: currentCount + 1,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: 'user_id' }
+  )
 
   const stream = await client.messages.stream({
     model: 'claude-sonnet-4-20250514',
@@ -165,7 +155,7 @@ export async function POST(request: Request) {
       }
 
       await supabase.from('messages').insert({
-        user_id: user.id,
+        user_id: userId,
         conversation_id: null,
         role: 'assistant',
         content: fullResponse,
