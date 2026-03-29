@@ -107,10 +107,7 @@ const INTENT_CARDS = [
 ]
 
 const LOCKED_PROJECTS = [
-  { label: 'My Next Feature Film', voteKey: 'feature:projects' },
-  { label: 'Fiction Short Film', voteKey: 'feature:projects' },
-  { label: 'Documentary', voteKey: 'feature:projects' },
-  { label: 'Animation', voteKey: 'feature:projects' },
+  { label: 'My next great film goes here.', voteKey: 'feature:projects' },
 ]
 
 const FUNDERS = [
