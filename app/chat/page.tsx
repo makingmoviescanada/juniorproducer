@@ -68,7 +68,7 @@ const INTENT_CARDS = [
     id: 'grants',
     title: 'Grants & Funding',
     description: 'Find funding, check eligibility, navigate applications.',
-    pill: 'BETA',
+    pill: 'NEW!',
     live: true,
     voteKey: null,
   },
@@ -76,7 +76,7 @@ const INTENT_CARDS = [
     id: 'calendar',
     title: 'Deadlines & Calendar',
     description: 'Never miss a grant deadline.',
-    pill: 'JOIN WAITLIST',
+    pill: 'VOTE FOR THIS',
     live: false,
     voteKey: 'feature:calendar',
   },
@@ -110,14 +110,16 @@ const LOCKED_PROJECTS = [
   { label: 'My Next Feature Film', voteKey: 'feature:projects' },
   { label: 'Fiction Short Film', voteKey: 'feature:projects' },
   { label: 'Documentary', voteKey: 'feature:projects' },
-  { label: 'Animated Idea', voteKey: 'feature:projects' },
+  { label: 'Animation', voteKey: 'feature:projects' },
 ]
 
 const FUNDERS = [
   { label: 'Canada Council for the Arts', live: true, voteKey: null },
+  { label: 'Provincial Arts Councils', live: false, voteKey: 'funder:provincial_arts' },
   { label: 'Telefilm Canada', live: false, voteKey: 'funder:telefilm' },
   { label: 'CMF', live: false, voteKey: 'funder:cmf' },
-  { label: 'SODEC', live: false, voteKey: 'funder:sodec' },
+  { label: 'NFB', live: false, voteKey: 'funder:nfb' },
+  { label: 'Provincial Funders', live: false, voteKey: 'funder:provincial' },
 ]
 
 type VoteModal = {
@@ -256,8 +258,7 @@ export default function ChatPage() {
         {/* Projects */}
         <div style={{ padding: '1.25rem 1rem 0.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#666', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Projects</span>
-            <span style={{ fontSize: '0.55rem', padding: '0.1rem 0.4rem', backgroundColor: '#333', color: '#666', letterSpacing: '0.05em' }}>COMING SOON</span>
+            <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Projects</span>
           </div>
           {LOCKED_PROJECTS.map((p) => (
             <button
@@ -265,9 +266,9 @@ export default function ChatPage() {
               onClick={() => openVoteModal(p.label, p.voteKey)}
               style={{
                 width: '100%', padding: '0.4rem 0.5rem', backgroundColor: 'transparent',
-                border: 'none', color: '#444', fontFamily: 'Barlow, sans-serif',
+                border: 'none', color: '#999', fontFamily: 'Barlow, sans-serif',
                 fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left', display: 'block',
-                opacity: 0.5,
+                opacity: 0.6,
               }}
             >
               🎬 {p.label}
@@ -278,7 +279,7 @@ export default function ChatPage() {
         {/* Funders */}
         <div style={{ padding: '1rem 1rem 0.5rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#666', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Funders</span>
+            <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Funders</span>
           </div>
           {FUNDERS.map((f) => (
             <button
@@ -296,8 +297,8 @@ export default function ChatPage() {
                 border: 'none', fontFamily: 'Barlow, sans-serif',
                 fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left', display: 'flex',
                 alignItems: 'center', gap: '0.4rem',
-                color: f.live ? '#F0EBE0' : '#444',
-                opacity: f.live ? 1 : 0.5,
+                color: f.live ? '#F0EBE0' : '#999',
+                opacity: f.live ? 1 : 0.6,
               }}
             >
               🏛 {f.label}
@@ -342,7 +343,7 @@ export default function ChatPage() {
               fontSize: '1.75rem', fontWeight: 900, color: '#1A1A1A',
               lineHeight: 1.2, marginBottom: '2.5rem', maxWidth: '600px',
             }}>
-              Let Junior handle the bureaucracy and admin of making movies in Canada. Let's make filmmaking fun again.
+              Let Junior handle the bureaucracy and admin of making movies in Canada.
             </h1>
 
             {/* Intent cards — 2x2 + 1 full width */}
