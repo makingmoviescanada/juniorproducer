@@ -17,6 +17,8 @@ type CalendarEvent = {
 
 const MESSAGE_LIMIT = 20
 
+const JUNIOR_WELCOME = "Hi — I'm Junior, your Canadian film funding assistant. I know Canada Council for the Arts inside and out: eligibility, deadlines, the Artistic Creation grant, the Micro-grant, and how to navigate the portal. What are you working on?"
+
 function parseCalendarTag(content: string): { text: string; event: CalendarEvent | null } {
   const regex = /\[CALENDAR:\s*title="([^"]+)"\s*description="([^"]+)"\s*date="([^"]+)"\s*remind_days=(\d+)\]/
   const match = content.match(regex)
@@ -159,6 +161,12 @@ export default function ChatPage() {
     if (count >= MESSAGE_LIMIT) setLimitReached(true)
   }, [messages])
 
+  function startChat() {
+    setChatStarted(true)
+    setMessages([{ role: 'assistant', content: JUNIOR_WELCOME }])
+    if (isMobile) setSidebarOpen(false)
+  }
+
   async function castVote(voteKey: string) {
     if (!user || votedItems.has(voteKey)) return
     try {
@@ -187,7 +195,6 @@ export default function ChatPage() {
     const text = prefill ?? input
     if (!text.trim() || loading || limitReached) return
     if (!chatStarted) setChatStarted(true)
-    if (isMobile) setSidebarOpen(false)
 
     const userMessage: Message = { role: 'user', content: text }
     const updatedMessages = [...messages, userMessage]
@@ -243,7 +250,7 @@ export default function ChatPage() {
       left: 0,
       height: '100vh',
       overflowY: 'auto',
-      zIndex: isMobile ? 50 : 'auto',
+      zIndex: isMobile ? 50 : 'auto' as any,
       transform: isMobile && !sidebarOpen ? 'translateX(-100%)' : 'translateX(0)',
       transition: 'transform 250ms ease',
     }}>
@@ -296,9 +303,7 @@ export default function ChatPage() {
             key={f.label}
             onClick={() => {
               if (f.live) {
-                setChatStarted(true)
-                if (isMobile) setSidebarOpen(false)
-                sendMessage(`Tell me about ${f.label} funding programs.`)
+                startChat()
               } else if (f.voteKey) {
                 openVoteModal(f.label, f.voteKey)
               }
@@ -335,7 +340,6 @@ export default function ChatPage() {
   return (
     <main style={{ minHeight: '100vh', backgroundColor: '#F0EBE0', display: 'flex', fontFamily: 'Barlow, sans-serif' }}>
 
-      {/* Mobile overlay */}
       {isMobile && sidebarOpen && (
         <div
           onClick={() => setSidebarOpen(false)}
@@ -343,14 +347,10 @@ export default function ChatPage() {
         />
       )}
 
-      {/* Sidebar */}
-      {!isMobile && sidebar}
-      {isMobile && sidebar}
+      {sidebar}
 
-      {/* MAIN AREA */}
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh', minWidth: 0 }}>
 
-        {/* Top bar */}
         <div style={{
           padding: '0.875rem 1.25rem', borderBottom: '2px solid #1A1A1A',
           backgroundColor: '#F0EBE0', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
@@ -374,7 +374,6 @@ export default function ChatPage() {
           </span>
         </div>
 
-        {/* LANDING STATE */}
         {!chatStarted && (
           <div style={{ flex: 1, padding: isMobile ? '1.5rem 1rem' : '3rem 2.5rem 1.5rem', display: 'flex', flexDirection: 'column' }}>
             <h1 style={{
@@ -394,7 +393,7 @@ export default function ChatPage() {
                 <button
                   key={card.id}
                   onClick={() => {
-                    if (card.live) setChatStarted(true)
+                    if (card.live) startChat()
                     else if (card.voteKey) openVoteModal(card.title, card.voteKey)
                   }}
                   style={{
@@ -448,7 +447,6 @@ export default function ChatPage() {
           </div>
         )}
 
-        {/* CHAT STATE */}
         {chatStarted && (
           <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '1rem' : '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {messages.map((msg, i) => {
@@ -507,7 +505,6 @@ export default function ChatPage() {
           </div>
         )}
 
-        {/* INPUT */}
         {!limitReached && (
           <div style={{
             padding: isMobile ? '0.75rem' : '1rem 1.5rem',
@@ -545,7 +542,6 @@ export default function ChatPage() {
         )}
       </div>
 
-      {/* VOTE MODAL */}
       {voteModal.open && (
         <div
           onClick={closeVoteModal}
