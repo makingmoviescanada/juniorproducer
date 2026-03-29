@@ -116,9 +116,8 @@ export async function POST(request: Request) {
 
   const { messages } = await request.json()
 
-  await supabase.from('messages').insert({
+  await supabase.from('chat_messages').insert({
     user_id: userId,
-    conversation_id: null,
     role: 'user',
     content: messages[messages.length - 1].content,
   })
@@ -154,9 +153,8 @@ export async function POST(request: Request) {
         }
       }
 
-      await supabase.from('messages').insert({
+      await supabase.from('chat_messages').insert({
         user_id: userId,
-        conversation_id: null,
         role: 'assistant',
         content: fullResponse,
       })
