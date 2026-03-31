@@ -124,6 +124,11 @@
     margin-bottom: 20px;
     max-width: 900px;
   }
+  .hero-headline .flip-word {
+    color: var(--red);
+    display: inline-block;
+    transition: opacity 0.28s ease, transform 0.28s ease;
+  }
   .hero-sub {
     font-weight: 400;
     font-size: 18px;
@@ -179,6 +184,15 @@
   .title-on-red   { color: var(--white); }
   .title-on-parch { color: var(--ink); }
   .title-on-dark  { color: var(--parchment); }
+
+  .section-intro {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.65;
+    color: rgba(255,255,255,0.75);
+    max-width: 600px;
+    margin-top: 16px;
+  }
 
   .cards-grid {
     display: grid;
@@ -243,7 +257,7 @@
     transform: translateY(-2px);
   }
 
-  /* FUNDER PILLS — inside cards section */
+  /* FUNDER PILLS */
   .funders-strip {
     display: flex;
     align-items: center;
@@ -495,15 +509,16 @@
 
 <!-- HERO -->
 <section class="hero">
-  <p class="hero-eyebrow">Canadian Film Funding Intelligence</p>
-  <h1 class="hero-headline">Junior Is Your 24/7 Producing Partner.</h1>
-  <p class="hero-sub">Built for Canadian filmmakers and producers to automate great research, grant writing and admin to save you time and increase profit margins.</p>
+  <p class="hero-eyebrow">Your Producer's Second Brain</p>
+  <h1 class="hero-headline">Let Junior Handle the <span class="flip-word" id="flip-word">Boring</span> Parts of Producing.</h1>
+  <p class="hero-sub">Your 24/7 producing partner — available for $32/month.</p>
   <button class="hero-join-btn" onclick="openModal()">Join Now</button>
 </section>
 
 <!-- FEATURE CARDS -->
 <section class="feature-cards">
   <span class="section-label label-on-red">How Junior Helps</span>
+  <p class="section-intro">Built for Canadian filmmakers and producers to automate great research, grant writing and admin — so you can save time and increase profit margins.</p>
   <div class="cards-grid">
 
     <div class="feature-card">
@@ -607,6 +622,23 @@
 </div>
 
 <script>
+  // Flip word animation
+  const flipWords = ["boring", "annoying", "painful", "frustrating", "overwhelming"];
+  let flipIndex = 0;
+  const flipEl = document.getElementById('flip-word');
+  flipEl.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+  setInterval(() => {
+    flipEl.style.opacity = '0';
+    flipEl.style.transform = 'translateY(-8px)';
+    setTimeout(() => {
+      flipIndex = (flipIndex + 1) % flipWords.length;
+      const w = flipWords[flipIndex];
+      flipEl.textContent = w.charAt(0).toUpperCase() + w.slice(1);
+      flipEl.style.opacity = '1';
+      flipEl.style.transform = 'translateY(0)';
+    }, 300);
+  }, 2200);
+
   function setInterest(value) {
     document.getElementById('interest-field-modal').value = value;
     document.getElementById('interest-field-closing').value = value;
