@@ -145,13 +145,13 @@ function downloadICS(event: CalendarEvent) {
     start = new Date(event.date + 'T09:00:00')
   }
   const end = new Date(start.getTime() + 60 * 60 * 1000)
-  const format = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
+  const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
   const reminderMinutes = event.remind_days * 24 * 60
   const ics = [
     'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Junior//juniorproducer.ca//EN',
     'BEGIN:VEVENT',
     `UID:${Date.now()}@juniorproducer.ca`,
-    `DTSTAMP:${format(now)}`, `DTSTART:${format(start)}`, `DTEND:${format(end)}`,
+    `DTSTAMP:${fmt(now)}`, `DTSTART:${fmt(start)}`, `DTEND:${fmt(end)}`,
     `SUMMARY:${event.title}`, `DESCRIPTION:${event.description}`,
     'BEGIN:VALARM', 'TRIGGER:-PT' + reminderMinutes + 'M', 'ACTION:DISPLAY',
     `DESCRIPTION:Reminder: ${event.title}`, 'END:VALARM',
@@ -184,7 +184,7 @@ export default function ChatPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
-  const nameInputRef = useRef<HTMLInputElement>(null)
+  const mainInputRef = useRef<HTMLInputElement>(null)
   const intakeInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -205,8 +205,10 @@ export default function ChatPage() {
   }, [messages])
 
   useEffect(() => {
-    if (wizardStep === 'name') nameInputRef.current?.focus()
-    if (wizardStep === 'intake') intakeInputRef.current?.focus()
+    setTimeout(() => {
+      if (wizardStep === 'name') mainInputRef.current?.focus()
+      if (wizardStep === 'intake') intakeInputRef.current?.focus()
+    }, 50)
   }, [wizardStep, intakeStep])
 
   function resetWizard() {
@@ -226,6 +228,10 @@ export default function ChatPage() {
     setWizardStep('category')
   }
 
+  function handleNameKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter') { e.preventDefault(); handleNameSubmit() }
+  }
+
   function handleCategorySelect(cat: typeof CATEGORIES[0]) {
     setSelectedCategory(cat)
     setWizardStep('intake')
@@ -242,6 +248,10 @@ export default function ChatPage() {
     } else {
       startChat(updated)
     }
+  }
+
+  function handleIntakeKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter') { e.preventDefault(); handleIntakeAnswer() }
   }
 
   function startChat(answers: IntakeAnswers) {
@@ -321,16 +331,8 @@ export default function ChatPage() {
     }
   }
 
-  function handleKeyDown(e: React.KeyboardEvent) {
+  function handleChatKeyDown(e: React.KeyboardEvent) {
     if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() }
-  }
-
-  function handleIntakeKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Enter') { e.preventDefault(); handleIntakeAnswer() }
-  }
-
-  function handleNameKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Enter') { e.preventDefault(); handleNameSubmit() }
   }
 
   async function castVote(voteKey: string) {
@@ -357,10 +359,66 @@ export default function ChatPage() {
     setVoteModal({ open: false, label: '', voteKey: '', voted: false })
   }
 
+  // Progress: 0=name, 1=category, 2=intake(0-2), 3=chat
+  const progressStep = wizardStep === 'name' ? 0 : wizardStep === 'category' ? 1 : wizardStep === 'intake' ? 2 : 3
+
+  const contextStrip = !isMobile && (
+    <div style={{ width: '200px', minWidth: '200px', borderRight: '2px solid #1A1A1A', padding: '1.5rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '1.5rem', backgroundColor: '#F0EBE0' }}>
+
+      {/* Progress bar */}
+      <div>
+        <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.6rem' }}>Progress</span>
+        <div style={{ display: 'flex', gap: '4px' }}>
+          {[0, 1, 2].map(i => (
+            <div key={i} style={{ flex: 1, height: '4px', backgroundColor: progressStep > i ? '#E8392A' : '#DDD6C8', transition: 'background-color 300ms ease' }} />
+          ))}
+        </div>
+      </div>
+
+      {/* Project */}
+      <div>
+        <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.35rem' }}>Project</span>
+        <span style={{ fontSize: '0.85rem', fontWeight: 900, color: projectName ? '#1A1A1A' : '#CCC' }}>{projectName || '—'}</span>
+      </div>
+
+      {/* Focus */}
+      <div>
+        <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.35rem' }}>Focus</span>
+        <span style={{ fontSize: '0.85rem', color: selectedCategory ? '#1A1A1A' : '#CCC' }}>{selectedCategory?.title || '—'}</span>
+      </div>
+
+      {/* Format */}
+      <div>
+        <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.35rem' }}>Format</span>
+        <span style={{ fontSize: '0.85rem', color: intakeAnswers.format ? '#1A1A1A' : '#CCC' }}>{intakeAnswers.format || '—'}</span>
+      </div>
+
+      {/* Stage */}
+      <div>
+        <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.35rem' }}>Stage</span>
+        <span style={{ fontSize: '0.85rem', color: intakeAnswers.stage ? '#1A1A1A' : '#CCC' }}>{intakeAnswers.stage || '—'}</span>
+      </div>
+
+      {/* Province */}
+      <div>
+        <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.35rem' }}>Province</span>
+        <span style={{ fontSize: '0.85rem', color: intakeAnswers.province ? '#1A1A1A' : '#CCC' }}>{intakeAnswers.province || '—'}</span>
+      </div>
+
+      {wizardStep === 'chat' && (
+        <div style={{ marginTop: 'auto' }}>
+          <button onClick={resetWizard} style={{ fontSize: '0.75rem', fontWeight: 700, color: '#E8392A', background: 'none', border: 'none', cursor: 'pointer', padding: 0, letterSpacing: '0.04em' }}>
+            ← New project
+          </button>
+        </div>
+      )}
+    </div>
+  )
+
   const sidebar = (
     <div style={{
-      width: isMobile ? '100%' : '240px',
-      minWidth: isMobile ? 'unset' : '240px',
+      width: isMobile ? '100%' : '220px',
+      minWidth: isMobile ? 'unset' : '220px',
       backgroundColor: '#1A1A1A',
       display: 'flex',
       flexDirection: 'column',
@@ -377,9 +435,7 @@ export default function ChatPage() {
     }}>
       <div style={{ padding: '0 1.25rem 1.25rem', borderBottom: '1px solid #333', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontSize: '1rem', fontWeight: 900, color: '#F0EBE0', letterSpacing: '0.08em' }}>JUNIOR</span>
-        {isMobile && (
-          <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: '#999', fontSize: '1.25rem', cursor: 'pointer' }}>✕</button>
-        )}
+        {isMobile && <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: '#999', fontSize: '1.25rem', cursor: 'pointer' }}>✕</button>}
       </div>
 
       <div style={{ padding: '1rem 1rem 0' }}>
@@ -392,18 +448,14 @@ export default function ChatPage() {
       </div>
 
       <div style={{ padding: '1.25rem 1rem 0.5rem' }}>
-        <div style={{ marginBottom: '0.5rem' }}>
-          <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Projects</span>
-        </div>
-        <div style={{ width: '100%', padding: '0.4rem 0.5rem', color: projectName ? '#F0EBE0' : '#666', fontFamily: 'Barlow, sans-serif', fontSize: '0.8rem', textAlign: 'left' }}>
+        <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>Projects</span>
+        <div style={{ padding: '0.4rem 0.5rem', color: projectName ? '#F0EBE0' : '#666', fontFamily: 'Barlow, sans-serif', fontSize: '0.8rem' }}>
           🎬 {projectName || 'No active project'}
         </div>
       </div>
 
       <div style={{ padding: '1rem 1rem 0.5rem' }}>
-        <div style={{ marginBottom: '0.5rem' }}>
-          <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Funders</span>
-        </div>
+        <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>Funders</span>
         {FUNDERS.map((f) => (
           <button key={f.label} onClick={() => { if (f.live) resetWizard(); else if (f.voteKey) openVoteModal(f.label, f.voteKey) }}
             style={{ width: '100%', padding: '0.4rem 0.5rem', backgroundColor: 'transparent', border: 'none', fontFamily: 'Barlow, sans-serif', fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '0.4rem', color: f.live ? '#F0EBE0' : '#999', opacity: f.live ? 1 : 0.6 }}>
@@ -429,159 +481,140 @@ export default function ChatPage() {
 
       {sidebar}
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh', minWidth: 0 }}>
+      {/* MAIN AREA */}
+      <div style={{ flex: 1, display: 'flex', minHeight: '100vh', minWidth: 0 }}>
 
-        <div style={{ padding: '0.875rem 1.25rem', borderBottom: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            {isMobile && (
-              <button onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-                <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
-                <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
-                <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
-              </button>
-            )}
-            {isMobile && <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#1A1A1A', letterSpacing: '0.08em' }}>JUNIOR</span>}
-          </div>
-          <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.4, letterSpacing: '0.05em' }}>
-            {wizardStep === 'chat' ? `${messageCount}/${MESSAGE_LIMIT} MESSAGES` : 'BETA'}
-          </span>
-        </div>
+        {/* Context strip — always visible on desktop during wizard + chat */}
+        {contextStrip}
 
-        {/* WIZARD: NAME */}
-        {wizardStep === 'name' && (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: isMobile ? '2rem 1.25rem' : '4rem 2.5rem' }}>
-            <div style={{ maxWidth: '480px', width: '100%' }}>
-              <h1 style={{ fontSize: isMobile ? '1.4rem' : '2rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.5rem', lineHeight: 1.2 }}>
-                What's your project called?
-              </h1>
-              <p style={{ fontSize: '0.9rem', color: '#1A1A1A', opacity: 0.5, marginBottom: '1.5rem' }}>
-                Junior will use this to keep your session organised.
-              </p>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <input ref={nameInputRef} type="text" value={projectName} onChange={e => setProjectName(e.target.value)} onKeyDown={handleNameKeyDown} placeholder="e.g. The Last Frontier"
-                  style={{ flex: 1, padding: '0.75rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none' }} />
-                <button onClick={handleNameSubmit} disabled={!projectName.trim()}
-                  style={{ padding: '0.75rem 1.25rem', backgroundColor: projectName.trim() ? '#E8392A' : '#999', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: projectName.trim() ? 'pointer' : 'not-allowed', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
-                  NEXT →
+        {/* Content area */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0 }}>
+
+          {/* Top bar */}
+          <div style={{ padding: '0.875rem 1.25rem', borderBottom: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              {isMobile && (
+                <button onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+                  <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
+                  <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
+                  <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
                 </button>
-              </div>
+              )}
+              {isMobile && <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#1A1A1A', letterSpacing: '0.08em' }}>JUNIOR</span>}
             </div>
+            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.4, letterSpacing: '0.05em' }}>
+              {wizardStep === 'chat' ? `${messageCount}/${MESSAGE_LIMIT} MESSAGES` : 'BETA'}
+            </span>
           </div>
-        )}
 
-        {/* WIZARD: CATEGORY */}
-        {wizardStep === 'category' && (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: isMobile ? '1.25rem 1rem' : '3rem 2.5rem', overflowY: 'auto' }}>
-            <div style={{ width: '100%', maxWidth: '900px' }}>
-              <h1 style={{ fontSize: isMobile ? '1.2rem' : '1.75rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.4rem', lineHeight: 1.2 }}>
-                What would you like help with?
-              </h1>
-              <p style={{ fontSize: '0.85rem', color: '#1A1A1A', opacity: 0.5, marginBottom: '1.5rem' }}>
-                For <strong style={{ opacity: 1 }}>{projectName}</strong>
-              </p>
-              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '0.75rem' }}>
-                {CATEGORIES.slice(0, 3).map((cat) => (
-                  <button key={cat.id} onClick={() => handleCategorySelect(cat)}
-                    style={{ padding: '1.25rem', backgroundColor: '#FFFFFF', border: '2px solid #1A1A1A', cursor: 'pointer', textAlign: 'left', boxShadow: '4px 4px 0px #1A1A1A', transition: 'all 150ms ease' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '6px 6px 0px #1A1A1A' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' }}>
-                    <div style={{ fontSize: '0.9rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.4rem' }}>{cat.title}</div>
-                    <p style={{ fontSize: '0.8rem', color: '#1A1A1A', opacity: 0.6, margin: 0, lineHeight: 1.4 }}>{cat.description}</p>
+          {/* WIZARD: NAME */}
+          {wizardStep === 'name' && (
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: isMobile ? '3rem 1.25rem 2rem' : '4rem 3rem 2rem' }}>
+              <div style={{ maxWidth: '560px' }}>
+                <h1 style={{ fontSize: isMobile ? '1.4rem' : '1.75rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.4rem', lineHeight: 1.2 }}>
+                  What's your project called?
+                </h1>
+                <p style={{ fontSize: '0.9rem', color: '#1A1A1A', opacity: 0.5, marginBottom: '1.25rem' }}>
+                  Junior will use this to keep your session organised.
+                </p>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <input ref={mainInputRef} type="text" value={projectName} onChange={e => setProjectName(e.target.value)} onKeyDown={handleNameKeyDown} placeholder="e.g. The Last Frontier"
+                    style={{ flex: 1, padding: '0.875rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A' }} />
+                  <button onClick={handleNameSubmit} disabled={!projectName.trim()}
+                    style={{ padding: '0.875rem 1.25rem', backgroundColor: projectName.trim() ? '#E8392A' : '#999', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: projectName.trim() ? 'pointer' : 'not-allowed', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
+                    NEXT →
                   </button>
-                ))}
-                {CATEGORIES.slice(3).map((cat) => (
-                  <button key={cat.id} onClick={() => handleCategorySelect(cat)}
-                    style={{ padding: '1.25rem', backgroundColor: '#FFFFFF', border: '2px solid #1A1A1A', cursor: 'pointer', textAlign: 'left', boxShadow: '4px 4px 0px #1A1A1A', transition: 'all 150ms ease' }}
-                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '6px 6px 0px #1A1A1A' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' }}>
-                    <div style={{ fontSize: '0.9rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.25rem' }}>{cat.title}</div>
-                    <div style={{ fontSize: '0.8rem', color: '#1A1A1A', opacity: 0.6 }}>{cat.description}</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* WIZARD: INTAKE */}
-        {wizardStep === 'intake' && (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: isMobile ? '2rem 1.25rem' : '4rem 2.5rem' }}>
-            <div style={{ maxWidth: '480px', width: '100%' }}>
-              <div style={{ marginBottom: '0.75rem' }}>
-                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#E8392A', letterSpacing: '0.1em' }}>
-                  {intakeStep + 1} OF {INTAKE_QUESTIONS.length}
-                </span>
-              </div>
-              <h2 style={{ fontSize: isMobile ? '1.2rem' : '1.5rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '1.5rem', lineHeight: 1.3 }}>
-                {INTAKE_QUESTIONS[intakeStep].question}
-              </h2>
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <input ref={intakeInputRef} type="text" value={intakeInput} onChange={e => setIntakeInput(e.target.value)} onKeyDown={handleIntakeKeyDown}
-                  placeholder={INTAKE_QUESTIONS[intakeStep].placeholder}
-                  style={{ flex: 1, padding: '0.75rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none' }} />
-                <button onClick={handleIntakeAnswer} disabled={!intakeInput.trim()}
-                  style={{ padding: '0.75rem 1.25rem', backgroundColor: intakeInput.trim() ? '#E8392A' : '#999', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: intakeInput.trim() ? 'pointer' : 'not-allowed', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
-                  {intakeStep < INTAKE_QUESTIONS.length - 1 ? 'NEXT →' : 'START →'}
-                </button>
-              </div>
-            </div>
-          </div>
-        )}
-
-        {/* CHAT — split panel on desktop */}
-        {wizardStep === 'chat' && (
-          <div style={{ flex: 1, display: 'flex', minHeight: 0, overflow: 'hidden' }}>
-
-            {/* LEFT: context panel — desktop only */}
-            {!isMobile && (
-              <div style={{ width: '220px', minWidth: '220px', borderRight: '2px solid #1A1A1A', padding: '1.5rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '1.25rem', overflowY: 'auto', backgroundColor: '#F0EBE0' }}>
-                <div>
-                  <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Project</span>
-                  <span style={{ fontSize: '0.85rem', fontWeight: 900, color: '#1A1A1A' }}>{projectName}</span>
                 </div>
+              </div>
+            </div>
+          )}
+
+          {/* WIZARD: CATEGORY */}
+          {wizardStep === 'category' && (
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: isMobile ? '3rem 1.25rem 2rem' : '4rem 3rem 2rem', overflowY: 'auto' }}>
+              <div style={{ maxWidth: '760px' }}>
+                <h1 style={{ fontSize: isMobile ? '1.4rem' : '1.75rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.4rem', lineHeight: 1.2 }}>
+                  What would you like help with?
+                </h1>
+                <p style={{ fontSize: '0.9rem', color: '#1A1A1A', opacity: 0.5, marginBottom: '1.5rem' }}>
+                  For <strong style={{ opacity: 1 }}>{projectName}</strong>
+                </p>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '0.65rem' }}>
+                  {CATEGORIES.slice(0, 3).map((cat) => (
+                    <button key={cat.id} onClick={() => handleCategorySelect(cat)}
+                      style={{ padding: '1rem 1.1rem', backgroundColor: '#FFFFFF', border: '2px solid #1A1A1A', cursor: 'pointer', textAlign: 'left', boxShadow: '4px 4px 0px #1A1A1A', transition: 'all 150ms ease' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '6px 6px 0px #1A1A1A' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' }}>
+                      <div style={{ fontSize: '0.85rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.3rem' }}>{cat.title}</div>
+                      <p style={{ fontSize: '0.78rem', color: '#1A1A1A', opacity: 0.55, margin: 0, lineHeight: 1.4 }}>{cat.description}</p>
+                    </button>
+                  ))}
+                  {CATEGORIES.slice(3).map((cat) => (
+                    <button key={cat.id} onClick={() => handleCategorySelect(cat)}
+                      style={{ padding: '1rem 1.1rem', backgroundColor: '#FFFFFF', border: '2px solid #1A1A1A', cursor: 'pointer', textAlign: 'left', boxShadow: '4px 4px 0px #1A1A1A', transition: 'all 150ms ease' }}
+                      onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '6px 6px 0px #1A1A1A' }}
+                      onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' }}>
+                      <div style={{ fontSize: '0.85rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.3rem' }}>{cat.title}</div>
+                      <div style={{ fontSize: '0.78rem', color: '#1A1A1A', opacity: 0.55 }}>{cat.description}</div>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* WIZARD: INTAKE */}
+          {wizardStep === 'intake' && (
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: isMobile ? '3rem 1.25rem 2rem' : '4rem 3rem 2rem' }}>
+              <div style={{ maxWidth: '560px' }}>
+                <div style={{ marginBottom: '0.6rem' }}>
+                  <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#E8392A', letterSpacing: '0.1em' }}>
+                    {intakeStep + 1} OF {INTAKE_QUESTIONS.length}
+                  </span>
+                </div>
+                <h2 style={{ fontSize: isMobile ? '1.2rem' : '1.75rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '1.25rem', lineHeight: 1.2 }}>
+                  {INTAKE_QUESTIONS[intakeStep].question}
+                </h2>
+                <div style={{ display: 'flex', gap: '0.5rem' }}>
+                  <input ref={intakeInputRef} type="text" value={intakeInput} onChange={e => setIntakeInput(e.target.value)} onKeyDown={handleIntakeKeyDown}
+                    placeholder={INTAKE_QUESTIONS[intakeStep].placeholder}
+                    style={{ flex: 1, padding: '0.875rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A' }} />
+                  <button onClick={handleIntakeAnswer} disabled={!intakeInput.trim()}
+                    style={{ padding: '0.875rem 1.25rem', backgroundColor: intakeInput.trim() ? '#E8392A' : '#999', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: intakeInput.trim() ? 'pointer' : 'not-allowed', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
+                    {intakeStep < INTAKE_QUESTIONS.length - 1 ? 'NEXT →' : 'START →'}
+                  </button>
+                </div>
+
+                {/* Category chips — available at all times during intake */}
                 {selectedCategory && (
-                  <div>
-                    <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Focus</span>
-                    <span style={{ fontSize: '0.85rem', color: '#1A1A1A' }}>{selectedCategory.title}</span>
+                  <div style={{ marginTop: '2rem' }}>
+                    <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '0.75rem' }}>Focus</span>
+                    <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                      {CATEGORIES.map(cat => (
+                        <button key={cat.id} onClick={() => setSelectedCategory(cat)}
+                          style={{ padding: '0.4rem 0.85rem', fontSize: '0.78rem', fontWeight: cat.id === selectedCategory.id ? 900 : 600, fontFamily: 'Barlow, sans-serif', border: '2px solid #1A1A1A', backgroundColor: cat.id === selectedCategory.id ? '#1A1A1A' : 'transparent', color: cat.id === selectedCategory.id ? '#F0EBE0' : '#1A1A1A', cursor: 'pointer', transition: 'all 150ms ease' }}>
+                          {cat.title}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 )}
-                {intakeAnswers.format && (
-                  <div>
-                    <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Format</span>
-                    <span style={{ fontSize: '0.85rem', color: '#1A1A1A' }}>{intakeAnswers.format}</span>
-                  </div>
-                )}
-                {intakeAnswers.stage && (
-                  <div>
-                    <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Stage</span>
-                    <span style={{ fontSize: '0.85rem', color: '#1A1A1A' }}>{intakeAnswers.stage}</span>
-                  </div>
-                )}
-                {intakeAnswers.province && (
-                  <div>
-                    <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Province</span>
-                    <span style={{ fontSize: '0.85rem', color: '#1A1A1A' }}>{intakeAnswers.province}</span>
-                  </div>
-                )}
-                <div style={{ marginTop: 'auto' }}>
-                  <button onClick={resetWizard} style={{ fontSize: '0.75rem', fontWeight: 700, color: '#E8392A', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left', letterSpacing: '0.04em' }}>
-                    ← New project
-                  </button>
-                </div>
               </div>
-            )}
+            </div>
+          )}
 
-            {/* RIGHT: conversation */}
-            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
-              <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '1rem' : '2rem' }}>
-                <div style={{ maxWidth: '680px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+          {/* CHAT */}
+          {wizardStep === 'chat' && (
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, overflow: 'hidden' }}>
+              <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '1.5rem 1rem' : '2rem 3rem' }}>
+                <div style={{ maxWidth: '640px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                   {messages.map((msg, i) => {
                     if (msg.role === 'user') return null
                     const { text, event, suggestions } = parseTags(msg.content)
                     const isLoading = loading && i === messages.length - 1 && msg.content === ''
                     return (
                       <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                        <div style={{ padding: '1.25rem 1.5rem', backgroundColor: '#FFFFFF', color: '#1A1A1A', border: '2px solid #1A1A1A', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'pre-wrap', lineHeight: 1.7, fontSize: '1rem', minWidth: isLoading ? '60px' : undefined }}>
+                        <div style={{ padding: '1.25rem 1.5rem', backgroundColor: '#FFFFFF', color: '#1A1A1A', border: '2px solid #1A1A1A', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'pre-wrap', lineHeight: 1.7, fontSize: '0.95rem', minWidth: isLoading ? '60px' : undefined }}>
                           {isLoading ? (
                             <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center' }}>
                               <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
@@ -591,7 +624,7 @@ export default function ChatPage() {
                           ) : text}
                         </div>
                         {event && !loading && (
-                          <button onClick={() => downloadICS(event)} style={{ alignSelf: 'flex-start', padding: '0.5rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}>
+                          <button onClick={() => downloadICS(event)} style={{ alignSelf: 'flex-start', padding: '0.5rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.8rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}>
                             + ADD DEADLINE TO CALENDAR
                           </button>
                         )}
@@ -599,7 +632,7 @@ export default function ChatPage() {
                           <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                             {suggestions.map((s, si) => (
                               <button key={si} onClick={() => sendMessage(s)}
-                                style={{ padding: '0.5rem 1rem', backgroundColor: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', transition: 'all 150ms ease', textAlign: 'left' }}
+                                style={{ padding: '0.45rem 0.9rem', backgroundColor: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.78rem', cursor: 'pointer', transition: 'all 150ms ease' }}
                                 onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#1A1A1A'; (e.currentTarget as HTMLElement).style.color = '#F0EBE0' }}
                                 onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#1A1A1A' }}>
                                 {s} →
@@ -611,8 +644,8 @@ export default function ChatPage() {
                     )
                   })}
                   {limitReached && (
-                    <div style={{ textAlign: 'center', padding: '2rem', border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A', color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A' }}>
-                      <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>YOU'VE USED YOUR 20 FREE MESSAGES.</p>
+                    <div style={{ padding: '2rem', border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A', color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A' }}>
+                      <p style={{ fontWeight: 900, fontSize: '1rem', marginBottom: '0.5rem' }}>YOU'VE USED YOUR 20 FREE MESSAGES.</p>
                       <p style={{ opacity: 0.7, fontSize: '0.85rem' }}>Upgrade to unlock unlimited access.</p>
                     </div>
                   )}
@@ -621,20 +654,21 @@ export default function ChatPage() {
               </div>
 
               {!limitReached && (
-                <div style={{ borderTop: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', padding: isMobile ? '0.75rem' : '1rem 2rem' }}>
-                  <div style={{ maxWidth: '680px', margin: '0 auto', display: 'flex', gap: '0.5rem' }}>
-                    <textarea value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown} placeholder="Ask Junior..." rows={1}
-                      style={{ flex: 1, padding: '0.75rem', border: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', fontFamily: 'Barlow, sans-serif', fontSize: isMobile ? '0.95rem' : '1rem', resize: 'none', outline: 'none' }} />
+                <div style={{ borderTop: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', padding: isMobile ? '0.75rem 1rem' : '1rem 3rem' }}>
+                  <div style={{ maxWidth: '640px', display: 'flex', gap: '0.5rem' }}>
+                    <textarea value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleChatKeyDown} placeholder="Ask Junior..." rows={1}
+                      style={{ flex: 1, padding: '0.875rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', resize: 'none', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A' }} />
                     <button onClick={() => sendMessage()} disabled={loading || !input.trim()}
-                      style={{ padding: isMobile ? '0.75rem 1rem' : '0.75rem 1.5rem', backgroundColor: loading || !input.trim() ? '#999' : '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: loading || !input.trim() ? 'not-allowed' : 'pointer', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
+                      style={{ padding: '0.875rem 1.5rem', backgroundColor: loading || !input.trim() ? '#999' : '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: loading || !input.trim() ? 'not-allowed' : 'pointer', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
                       SEND
                     </button>
                   </div>
                 </div>
               )}
             </div>
-          </div>
-        )}
+          )}
+
+        </div>
       </div>
 
       {voteModal.open && (
