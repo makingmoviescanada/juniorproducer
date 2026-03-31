@@ -661,15 +661,3 @@ export default function ChatPage() {
     </main>
   )
 }
-```
-
-Also need to update `app/api/chat/route.ts` system prompt to handle the non-grants categories. Add this section after the PRODUCTION COMPANY LOGIC block:
-```
-CATEGORY CONTEXT:
-The filmmaker's intake will tell you what category of help they're looking for. Use this to frame your initial response:
-- Grants & Funding: lead with relevant funding options based on their profile
-- Deadlines & Calendar: lead with upcoming deadlines and application timing for relevant funders
-- Project Management: help them think through production organisation, timelines, and key milestones
-- Financial Planning: help with budget structure, tax credit eligibility (CPTC/PSTC), and cost planning
-- Distribution Strategy: help with festival strategy, sales agent relationships, and Canadian distribution requirements
-Always use the full project context (province, stage, format, broadcaster, production company) to make your response specific to their situation.
