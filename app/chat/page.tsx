@@ -20,47 +20,19 @@ type WizardStep = 'name' | 'category' | 'intake' | 'chat'
 const MESSAGE_LIMIT = 20
 
 const INTAKE_QUESTIONS = [
-  { key: 'province', question: 'What province is your production company incorporated in?', placeholder: 'e.g. Quebec, Ontario, BC...' },
+  { key: 'province', question: 'What province are you based in?', placeholder: 'e.g. Quebec, Ontario, BC...' },
   { key: 'stage', question: 'What stage is your project at?', placeholder: 'e.g. Development, Pre-production, Production, Post...' },
   { key: 'format', question: 'What format is the project?', placeholder: 'e.g. Short film, Feature, Documentary...' },
   { key: 'broadcaster', question: 'Do you have a broadcaster or distributor attached?', placeholder: 'e.g. No, or name of broadcaster...' },
+  { key: 'productionCompany', question: 'Do you own or operate a registered production company?', placeholder: 'e.g. Yes, or No...' },
 ]
 
 const CATEGORIES = [
-  {
-    id: 'grants',
-    title: 'Grants & Funding',
-    description: 'Find funding, check eligibility, navigate applications.',
-    live: true,
-  },
-  {
-    id: 'calendar',
-    title: 'Deadlines & Calendar',
-    description: 'Never miss a grant deadline.',
-    live: false,
-    voteKey: 'feature:calendar',
-  },
-  {
-    id: 'projects',
-    title: 'Project Management',
-    description: 'Organize your production from development to delivery.',
-    live: false,
-    voteKey: 'feature:projects',
-  },
-  {
-    id: 'finance',
-    title: 'Financial Planning',
-    description: 'Budgets, tax credits, cost reports.',
-    live: false,
-    voteKey: 'feature:finance',
-  },
-  {
-    id: 'distribution',
-    title: 'Distribution Strategy',
-    description: 'Festival strategy, sales agents, Canadian distribution requirements.',
-    live: false,
-    voteKey: 'feature:distribution',
-  },
+  { id: 'grants', title: 'Grants & Funding', description: 'Find funding, check eligibility, navigate applications.', live: true },
+  { id: 'calendar', title: 'Deadlines & Calendar', description: 'Never miss a grant deadline.', live: false, voteKey: 'feature:calendar' },
+  { id: 'projects', title: 'Project Management', description: 'Organize your production from development to delivery.', live: false, voteKey: 'feature:projects' },
+  { id: 'finance', title: 'Financial Planning', description: 'Budgets, tax credits, cost reports.', live: false, voteKey: 'feature:finance' },
+  { id: 'distribution', title: 'Distribution Strategy', description: 'Festival strategy, sales agents, Canadian distribution requirements.', live: false, voteKey: 'feature:distribution' },
 ]
 
 const FUNDERS = [
@@ -69,7 +41,10 @@ const FUNDERS = [
   { label: 'CMF', live: true, voteKey: null },
   { label: 'NFB', live: true, voteKey: null },
   { label: 'SODEC', live: true, voteKey: null },
-  { label: 'Provincial Funders', live: false, voteKey: 'funder:provincial' },
+  { label: 'CALQ', live: true, voteKey: null },
+  { label: 'Ontario Creates', live: true, voteKey: null },
+  { label: 'Creative BC', live: true, voteKey: null },
+  { label: 'Other Provincial', live: false, voteKey: 'funder:provincial' },
 ]
 
 type VoteModal = {
@@ -84,15 +59,26 @@ type IntakeAnswers = {
   stage: string
   format: string
   broadcaster: string
+  productionCompany: string
+}
+
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/\_\_(.+?)\_\_/g, '$1')
+    .replace(/\_(.+?)\_/g, '$1')
+    .replace(/#{1,6}\s+/g, '')
+    .replace(/`(.+?)`/g, '$1')
 }
 
 function parseCalendarTag(content: string): { text: string; event: CalendarEvent | null } {
   const regex = /\[CALENDAR:\s*title="([^"]+)"\s*description="([^"]+)"\s*date="([^"]+)"\s*remind_days=(\d+)\]/
   const match = content.match(regex)
-  if (!match) return { text: content, event: null }
+  if (!match) return { text: stripMarkdown(content), event: null }
   const text = content.replace(regex, '').trim()
   return {
-    text,
+    text: stripMarkdown(text),
     event: {
       title: match[1],
       description: match[2],
@@ -138,7 +124,7 @@ export default function ChatPage() {
   const [projectName, setProjectName] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('')
   const [intakeStep, setIntakeStep] = useState(0)
-  const [intakeAnswers, setIntakeAnswers] = useState<IntakeAnswers>({ province: '', stage: '', format: '', broadcaster: '' })
+  const [intakeAnswers, setIntakeAnswers] = useState<IntakeAnswers>({ province: '', stage: '', format: '', broadcaster: '', productionCompany: '' })
   const [intakeInput, setIntakeInput] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
@@ -180,7 +166,7 @@ export default function ChatPage() {
     setProjectName('')
     setSelectedCategory('')
     setIntakeStep(0)
-    setIntakeAnswers({ province: '', stage: '', format: '', broadcaster: '' })
+    setIntakeAnswers({ province: '', stage: '', format: '', broadcaster: '', productionCompany: '' })
     setIntakeInput('')
     setMessages([])
     setLimitReached(false)
@@ -207,7 +193,6 @@ export default function ChatPage() {
     const updated = { ...intakeAnswers, [key]: intakeInput }
     setIntakeAnswers(updated)
     setIntakeInput('')
-
     if (intakeStep < INTAKE_QUESTIONS.length - 1) {
       setIntakeStep(intakeStep + 1)
     } else {
@@ -216,10 +201,10 @@ export default function ChatPage() {
   }
 
   function startChat(answers: IntakeAnswers) {
-    const contextMessage = `My project is called "${projectName}". I'm looking for help with ${selectedCategory}. Here's my context: Province: ${answers.province}. Stage: ${answers.stage}. Format: ${answers.format}. Broadcaster/distributor attached: ${answers.broadcaster}.`
+    const contextMessage = `My project is called "${projectName}". I'm looking for help with ${selectedCategory}. Here's my context: Province: ${answers.province}. Stage: ${answers.stage}. Format: ${answers.format}. Broadcaster/distributor attached: ${answers.broadcaster}. Production company: ${answers.productionCompany}.`
     const welcome: Message = {
       role: 'assistant',
-      content: `Got it — let's work on **${projectName}**.\n\nI have your project context. What would you like to tackle first?`,
+      content: `Got it — let's work on ${projectName}.\n\nI have your project context. What would you like to tackle first?`,
     }
     setMessages([welcome])
     setWizardStep('chat')
@@ -376,11 +361,7 @@ export default function ChatPage() {
         <div style={{ marginBottom: '0.5rem' }}>
           <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Projects</span>
         </div>
-        <div style={{
-          width: '100%', padding: '0.4rem 0.5rem',
-          color: projectName ? '#F0EBE0' : '#666',
-          fontFamily: 'Barlow, sans-serif', fontSize: '0.8rem', textAlign: 'left',
-        }}>
+        <div style={{ width: '100%', padding: '0.4rem 0.5rem', color: projectName ? '#F0EBE0' : '#666', fontFamily: 'Barlow, sans-serif', fontSize: '0.8rem', textAlign: 'left' }}>
           🎬 {projectName || 'No active project'}
         </div>
       </div>
@@ -393,11 +374,8 @@ export default function ChatPage() {
           <button
             key={f.label}
             onClick={() => {
-              if (f.live) {
-                resetWizard()
-              } else if (f.voteKey) {
-                openVoteModal(f.label, f.voteKey)
-              }
+              if (f.live) resetWizard()
+              else if (f.voteKey) openVoteModal(f.label, f.voteKey)
             }}
             style={{
               width: '100%', padding: '0.4rem 0.5rem', backgroundColor: 'transparent',
@@ -477,22 +455,12 @@ export default function ChatPage() {
                   onChange={e => setProjectName(e.target.value)}
                   onKeyDown={handleNameKeyDown}
                   placeholder="e.g. The Last Frontier"
-                  style={{
-                    flex: 1, padding: '0.75rem 1rem', border: '2px solid #1A1A1A',
-                    backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif',
-                    fontSize: '1rem', outline: 'none',
-                  }}
+                  style={{ flex: 1, padding: '0.75rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none' }}
                 />
                 <button
                   onClick={handleNameSubmit}
                   disabled={!projectName.trim()}
-                  style={{
-                    padding: '0.75rem 1.5rem', backgroundColor: projectName.trim() ? '#E8392A' : '#999',
-                    color: '#FFFFFF', border: '2px solid #1A1A1A',
-                    fontFamily: 'Barlow, sans-serif', fontWeight: 900,
-                    fontSize: '0.9rem', cursor: projectName.trim() ? 'pointer' : 'not-allowed',
-                    boxShadow: '4px 4px 0px #1A1A1A',
-                  }}
+                  style={{ padding: '0.75rem 1.5rem', backgroundColor: projectName.trim() ? '#E8392A' : '#999', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: projectName.trim() ? 'pointer' : 'not-allowed', boxShadow: '4px 4px 0px #1A1A1A' }}
                 >
                   NEXT →
                 </button>
@@ -515,12 +483,7 @@ export default function ChatPage() {
                 <button
                   key={cat.id}
                   onClick={() => handleCategorySelect(cat)}
-                  style={{
-                    padding: '1rem', backgroundColor: '#FFFFFF',
-                    border: '2px solid #1A1A1A', cursor: 'pointer', textAlign: 'left',
-                    boxShadow: '4px 4px 0px #1A1A1A', transition: 'all 150ms ease',
-                    opacity: cat.live ? 1 : 0.75,
-                  }}
+                  style={{ padding: '1rem', backgroundColor: '#FFFFFF', border: '2px solid #1A1A1A', cursor: 'pointer', textAlign: 'left', boxShadow: '4px 4px 0px #1A1A1A', transition: 'all 150ms ease', opacity: cat.live ? 1 : 0.75 }}
                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '6px 6px 0px #1A1A1A' }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' }}
                 >
@@ -538,13 +501,7 @@ export default function ChatPage() {
               {CATEGORIES[4] && (
                 <button
                   onClick={() => handleCategorySelect(CATEGORIES[4])}
-                  style={{
-                    gridColumn: isMobile ? '1' : '1 / -1',
-                    padding: '1rem', backgroundColor: '#FFFFFF',
-                    border: '2px solid #1A1A1A', cursor: 'pointer', textAlign: 'left',
-                    boxShadow: '4px 4px 0px #1A1A1A', transition: 'all 150ms ease', opacity: 0.75,
-                    display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-                  }}
+                  style={{ gridColumn: isMobile ? '1' : '1 / -1', padding: '1rem', backgroundColor: '#FFFFFF', border: '2px solid #1A1A1A', cursor: 'pointer', textAlign: 'left', boxShadow: '4px 4px 0px #1A1A1A', transition: 'all 150ms ease', opacity: 0.75, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}
                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '6px 6px 0px #1A1A1A' }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' }}
                 >
@@ -581,22 +538,12 @@ export default function ChatPage() {
                   onChange={e => setIntakeInput(e.target.value)}
                   onKeyDown={handleIntakeKeyDown}
                   placeholder={INTAKE_QUESTIONS[intakeStep].placeholder}
-                  style={{
-                    flex: 1, padding: '0.75rem 1rem', border: '2px solid #1A1A1A',
-                    backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif',
-                    fontSize: '1rem', outline: 'none',
-                  }}
+                  style={{ flex: 1, padding: '0.75rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none' }}
                 />
                 <button
                   onClick={handleIntakeAnswer}
                   disabled={!intakeInput.trim()}
-                  style={{
-                    padding: '0.75rem 1.5rem', backgroundColor: intakeInput.trim() ? '#E8392A' : '#999',
-                    color: '#FFFFFF', border: '2px solid #1A1A1A',
-                    fontFamily: 'Barlow, sans-serif', fontWeight: 900,
-                    fontSize: '0.9rem', cursor: intakeInput.trim() ? 'pointer' : 'not-allowed',
-                    boxShadow: '4px 4px 0px #1A1A1A',
-                  }}
+                  style={{ padding: '0.75rem 1.5rem', backgroundColor: intakeInput.trim() ? '#E8392A' : '#999', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: intakeInput.trim() ? 'pointer' : 'not-allowed', boxShadow: '4px 4px 0px #1A1A1A' }}
                 >
                   {intakeStep < INTAKE_QUESTIONS.length - 1 ? 'NEXT →' : 'START →'}
                 </button>
@@ -614,13 +561,7 @@ export default function ChatPage() {
               const isLoading = loading && i === messages.length - 1 && msg.content === ''
               return (
                 <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem' }}>
-                  <div style={{
-                    maxWidth: isMobile ? '85%' : '70%', padding: '0.75rem 1rem',
-                    backgroundColor: '#FFFFFF', color: '#1A1A1A',
-                    border: '2px solid #1A1A1A', boxShadow: '4px 4px 0px #1A1A1A',
-                    whiteSpace: 'pre-wrap', lineHeight: 1.5, fontSize: isMobile ? '0.9rem' : '1rem',
-                    minWidth: isLoading ? '60px' : undefined,
-                  }}>
+                  <div style={{ maxWidth: isMobile ? '85%' : '70%', padding: '0.75rem 1rem', backgroundColor: '#FFFFFF', color: '#1A1A1A', border: '2px solid #1A1A1A', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'pre-wrap', lineHeight: 1.5, fontSize: isMobile ? '0.9rem' : '1rem', minWidth: isLoading ? '60px' : undefined }}>
                     {isLoading ? (
                       <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center' }}>
                         <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
@@ -632,12 +573,7 @@ export default function ChatPage() {
                   {event && !loading && (
                     <button
                       onClick={() => downloadICS(event)}
-                      style={{
-                        padding: '0.5rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF',
-                        border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif',
-                        fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer',
-                        boxShadow: '4px 4px 0px #1A1A1A',
-                      }}
+                      style={{ padding: '0.5rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}
                     >
                       + ADD DEADLINE TO CALENDAR
                     </button>
