@@ -15,9 +15,76 @@ type CalendarEvent = {
   remind_days: number
 }
 
+type WizardStep = 'name' | 'category' | 'intake' | 'chat'
+
 const MESSAGE_LIMIT = 20
 
-const JUNIOR_WELCOME = "Hi — I'm Junior, your Canadian film funding assistant. I know Canada Council for the Arts inside and out: eligibility, deadlines, the Artistic Creation grant, the Micro-grant, and how to navigate the portal. What are you working on?"
+const INTAKE_QUESTIONS = [
+  { key: 'province', question: 'What province is your production company incorporated in?', placeholder: 'e.g. Quebec, Ontario, BC...' },
+  { key: 'stage', question: 'What stage is your project at?', placeholder: 'e.g. Development, Pre-production, Production, Post...' },
+  { key: 'format', question: 'What format is the project?', placeholder: 'e.g. Short film, Feature, Documentary...' },
+  { key: 'broadcaster', question: 'Do you have a broadcaster or distributor attached?', placeholder: 'e.g. No, or name of broadcaster...' },
+]
+
+const CATEGORIES = [
+  {
+    id: 'grants',
+    title: 'Grants & Funding',
+    description: 'Find funding, check eligibility, navigate applications.',
+    live: true,
+  },
+  {
+    id: 'calendar',
+    title: 'Deadlines & Calendar',
+    description: 'Never miss a grant deadline.',
+    live: false,
+    voteKey: 'feature:calendar',
+  },
+  {
+    id: 'projects',
+    title: 'Project Management',
+    description: 'Organize your production from development to delivery.',
+    live: false,
+    voteKey: 'feature:projects',
+  },
+  {
+    id: 'finance',
+    title: 'Financial Planning',
+    description: 'Budgets, tax credits, cost reports.',
+    live: false,
+    voteKey: 'feature:finance',
+  },
+  {
+    id: 'distribution',
+    title: 'Distribution Strategy',
+    description: 'Festival strategy, sales agents, Canadian distribution requirements.',
+    live: false,
+    voteKey: 'feature:distribution',
+  },
+]
+
+const FUNDERS = [
+  { label: 'Canada Council for the Arts', live: true, voteKey: null },
+  { label: 'Telefilm Canada', live: true, voteKey: null },
+  { label: 'CMF', live: true, voteKey: null },
+  { label: 'NFB', live: true, voteKey: null },
+  { label: 'SODEC', live: true, voteKey: null },
+  { label: 'Provincial Funders', live: false, voteKey: 'funder:provincial' },
+]
+
+type VoteModal = {
+  open: boolean
+  label: string
+  voteKey: string
+  voted: boolean
+}
+
+type IntakeAnswers = {
+  province: string
+  stage: string
+  format: string
+  broadcaster: string
+}
 
 function parseCalendarTag(content: string): { text: string; event: CalendarEvent | null } {
   const regex = /\[CALENDAR:\s*title="([^"]+)"\s*description="([^"]+)"\s*date="([^"]+)"\s*remind_days=(\d+)\]/
@@ -65,84 +132,26 @@ function downloadICS(event: CalendarEvent) {
   URL.revokeObjectURL(url)
 }
 
-const INTENT_CARDS = [
-  {
-    id: 'grants',
-    title: 'Grants & Funding',
-    description: 'Find funding, check eligibility, navigate applications.',
-    pill: 'NEW!',
-    live: true,
-    voteKey: null,
-  },
-  {
-    id: 'calendar',
-    title: 'Deadlines & Calendar',
-    description: 'Never miss a grant deadline.',
-    pill: 'VOTE FOR THIS',
-    live: false,
-    voteKey: 'feature:calendar',
-  },
-  {
-    id: 'projects',
-    title: 'Project Management',
-    description: 'Organize your production from development to delivery.',
-    pill: 'VOTE FOR THIS',
-    live: false,
-    voteKey: 'feature:projects',
-  },
-  {
-    id: 'finance',
-    title: 'Financial Planning',
-    description: 'Budgets, tax credits, cost reports.',
-    pill: 'VOTE FOR THIS',
-    live: false,
-    voteKey: 'feature:finance',
-  },
-  {
-    id: 'distribution',
-    title: 'Distribution Strategy',
-    description: 'Festival strategy, sales agents, Canadian distribution requirements.',
-    pill: 'VOTE FOR THIS',
-    live: false,
-    voteKey: 'feature:distribution',
-  },
-]
-
-const LOCKED_PROJECTS = [
-  { label: 'My next great film goes here.', voteKey: 'feature:projects' },
-]
-
-const FUNDERS = [
-  { label: 'Canada Council for the Arts', live: true, voteKey: null },
-  { label: 'Provincial Arts Councils', live: false, voteKey: 'funder:provincial_arts' },
-  { label: 'Telefilm Canada', live: false, voteKey: 'funder:telefilm' },
-  { label: 'CMF', live: false, voteKey: 'funder:cmf' },
-  { label: 'NFB', live: false, voteKey: 'funder:nfb' },
-  { label: 'Provincial Funders', live: false, voteKey: 'funder:provincial' },
-]
-
-type VoteModal = {
-  open: boolean
-  label: string
-  voteKey: string
-  voted: boolean
-}
-
 export default function ChatPage() {
   const { user } = useUser()
+  const [wizardStep, setWizardStep] = useState<WizardStep>('name')
+  const [projectName, setProjectName] = useState('')
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const [intakeStep, setIntakeStep] = useState(0)
+  const [intakeAnswers, setIntakeAnswers] = useState<IntakeAnswers>({ province: '', stage: '', format: '', broadcaster: '' })
+  const [intakeInput, setIntakeInput] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
   const [loading, setLoading] = useState(false)
   const [messageCount, setMessageCount] = useState(0)
   const [limitReached, setLimitReached] = useState(false)
-  const [chatStarted, setChatStarted] = useState(false)
   const [votedItems, setVotedItems] = useState<Set<string>>(new Set())
-  const [voteModal, setVoteModal] = useState<VoteModal>({
-    open: false, label: '', voteKey: '', voted: false,
-  })
+  const [voteModal, setVoteModal] = useState<VoteModal>({ open: false, label: '', voteKey: '', voted: false })
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const nameInputRef = useRef<HTMLInputElement>(null)
+  const intakeInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768)
@@ -161,42 +170,98 @@ export default function ChatPage() {
     if (count >= MESSAGE_LIMIT) setLimitReached(true)
   }, [messages])
 
-  function startChat() {
-    setChatStarted(true)
-    setMessages([{ role: 'assistant', content: JUNIOR_WELCOME }])
+  useEffect(() => {
+    if (wizardStep === 'name') nameInputRef.current?.focus()
+    if (wizardStep === 'intake') intakeInputRef.current?.focus()
+  }, [wizardStep])
+
+  function resetWizard() {
+    setWizardStep('name')
+    setProjectName('')
+    setSelectedCategory('')
+    setIntakeStep(0)
+    setIntakeAnswers({ province: '', stage: '', format: '', broadcaster: '' })
+    setIntakeInput('')
+    setMessages([])
+    setLimitReached(false)
     if (isMobile) setSidebarOpen(false)
   }
 
-  async function castVote(voteKey: string) {
-    if (!user || votedItems.has(voteKey)) return
-    try {
-      await fetch('/api/vote', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ item: voteKey }),
-      })
-      setVotedItems(prev => new Set([...prev, voteKey]))
-      setVoteModal(prev => ({ ...prev, voted: true }))
-    } catch (err) {
-      console.error('Vote failed:', err)
+  function handleNameSubmit() {
+    if (!projectName.trim()) return
+    setWizardStep('category')
+  }
+
+  function handleCategorySelect(cat: typeof CATEGORIES[0]) {
+    if (!cat.live) {
+      openVoteModal(cat.title, cat.voteKey!)
+      return
+    }
+    setSelectedCategory(cat.id)
+    setWizardStep('intake')
+  }
+
+  function handleIntakeAnswer() {
+    if (!intakeInput.trim()) return
+    const key = INTAKE_QUESTIONS[intakeStep].key as keyof IntakeAnswers
+    const updated = { ...intakeAnswers, [key]: intakeInput }
+    setIntakeAnswers(updated)
+    setIntakeInput('')
+
+    if (intakeStep < INTAKE_QUESTIONS.length - 1) {
+      setIntakeStep(intakeStep + 1)
+    } else {
+      startChat(updated)
     }
   }
 
-  function openVoteModal(label: string, voteKey: string) {
-    setVoteModal({ open: true, label, voteKey, voted: votedItems.has(voteKey) })
+  function startChat(answers: IntakeAnswers) {
+    const contextMessage = `My project is called "${projectName}". I'm looking for help with ${selectedCategory}. Here's my context: Province: ${answers.province}. Stage: ${answers.stage}. Format: ${answers.format}. Broadcaster/distributor attached: ${answers.broadcaster}.`
+    const welcome: Message = {
+      role: 'assistant',
+      content: `Got it — let's work on **${projectName}**.\n\nI have your project context. What would you like to tackle first?`,
+    }
+    setMessages([welcome])
+    setWizardStep('chat')
+    sendFirstMessage(contextMessage, [welcome])
     if (isMobile) setSidebarOpen(false)
   }
 
-  function closeVoteModal() {
-    setVoteModal({ open: false, label: '', voteKey: '', voted: false })
+  async function sendFirstMessage(contextMessage: string, currentMessages: Message[]) {
+    const userMessage: Message = { role: 'user', content: contextMessage }
+    const updatedMessages = [...currentMessages, userMessage]
+    setLoading(true)
+    setMessages([...updatedMessages, { role: 'assistant', content: '' }])
+
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: updatedMessages }),
+      })
+      if (response.status === 429) { setLimitReached(true); setMessages(updatedMessages); return }
+      if (response.status === 401) { window.location.href = '/sign-in'; return }
+      if (!response.body) return
+
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+      let text = ''
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        text += decoder.decode(value, { stream: true })
+        setMessages([...updatedMessages, { role: 'assistant', content: text }])
+      }
+    } catch {
+      setMessages([...updatedMessages, { role: 'assistant', content: 'Something went wrong. Please try again.' }])
+    } finally {
+      setLoading(false)
+    }
   }
 
-  async function sendMessage(prefill?: string) {
-    const text = prefill ?? input
-    if (!text.trim() || loading || limitReached) return
-    if (!chatStarted) setChatStarted(true)
-
-    const userMessage: Message = { role: 'user', content: text }
+  async function sendMessage() {
+    if (!input.trim() || loading || limitReached) return
+    const userMessage: Message = { role: 'user', content: input }
     const updatedMessages = [...messages, userMessage]
     setMessages(updatedMessages)
     setInput('')
@@ -230,10 +295,39 @@ export default function ChatPage() {
   }
 
   function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      sendMessage()
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() }
+  }
+
+  function handleIntakeKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter') { e.preventDefault(); handleIntakeAnswer() }
+  }
+
+  function handleNameKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter') { e.preventDefault(); handleNameSubmit() }
+  }
+
+  async function castVote(voteKey: string) {
+    if (!user || votedItems.has(voteKey)) return
+    try {
+      await fetch('/api/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ item: voteKey }),
+      })
+      setVotedItems(prev => new Set([...prev, voteKey]))
+      setVoteModal(prev => ({ ...prev, voted: true }))
+    } catch (err) {
+      console.error('Vote failed:', err)
     }
+  }
+
+  function openVoteModal(label: string, voteKey: string) {
+    setVoteModal({ open: true, label, voteKey, voted: votedItems.has(voteKey) })
+    if (isMobile) setSidebarOpen(false)
+  }
+
+  function closeVoteModal() {
+    setVoteModal({ open: false, label: '', voteKey: '', voted: false })
   }
 
   const sidebar = (
@@ -263,15 +357,18 @@ export default function ChatPage() {
 
       <div style={{ padding: '1rem 1rem 0' }}>
         <button
-          onClick={() => { setMessages([]); setChatStarted(false); setInput(''); if (isMobile) setSidebarOpen(false) }}
+          onClick={resetWizard}
           style={{
             width: '100%', padding: '0.6rem 1rem', backgroundColor: '#E8392A',
             color: '#FFFFFF', border: '2px solid #E8392A', fontFamily: 'Barlow, sans-serif',
             fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left',
-            letterSpacing: '0.05em',
+            letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '0.5rem',
           }}
         >
-          + NEW CHAT
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          START HERE
         </button>
       </div>
 
@@ -279,19 +376,13 @@ export default function ChatPage() {
         <div style={{ marginBottom: '0.5rem' }}>
           <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Projects</span>
         </div>
-        {LOCKED_PROJECTS.map((p) => (
-          <button
-            key={p.label}
-            onClick={() => openVoteModal(p.label, p.voteKey)}
-            style={{
-              width: '100%', padding: '0.4rem 0.5rem', backgroundColor: 'transparent',
-              border: 'none', color: '#999', fontFamily: 'Barlow, sans-serif',
-              fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left', display: 'block', opacity: 0.6,
-            }}
-          >
-            🎬 {p.label}
-          </button>
-        ))}
+        <div style={{
+          width: '100%', padding: '0.4rem 0.5rem',
+          color: projectName ? '#F0EBE0' : '#666',
+          fontFamily: 'Barlow, sans-serif', fontSize: '0.8rem', textAlign: 'left',
+        }}>
+          🎬 {projectName || 'No active project'}
+        </div>
       </div>
 
       <div style={{ padding: '1rem 1rem 0.5rem' }}>
@@ -303,7 +394,7 @@ export default function ChatPage() {
             key={f.label}
             onClick={() => {
               if (f.live) {
-                startChat()
+                resetWizard()
               } else if (f.voteKey) {
                 openVoteModal(f.label, f.voteKey)
               }
@@ -317,9 +408,9 @@ export default function ChatPage() {
             }}
           >
             🏛 {f.label}
-            {f.live && (
-              <span style={{ fontSize: '0.55rem', padding: '0.1rem 0.4rem', backgroundColor: '#E8392A', color: '#FFFFFF', fontWeight: 700, letterSpacing: '0.05em', marginLeft: 'auto' }}>
-                NEW!
+            {!f.live && (
+              <span style={{ fontSize: '0.55rem', padding: '0.1rem 0.4rem', backgroundColor: '#333', color: '#999', fontWeight: 700, letterSpacing: '0.05em', marginLeft: 'auto' }}>
+                SOON
               </span>
             )}
           </button>
@@ -341,10 +432,7 @@ export default function ChatPage() {
     <main style={{ minHeight: '100vh', backgroundColor: '#F0EBE0', display: 'flex', fontFamily: 'Barlow, sans-serif' }}>
 
       {isMobile && sidebarOpen && (
-        <div
-          onClick={() => setSidebarOpen(false)}
-          style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 40 }}
-        />
+        <div onClick={() => setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 40 }} />
       )}
 
       {sidebar}
@@ -358,10 +446,7 @@ export default function ChatPage() {
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             {isMobile && (
-              <button
-                onClick={() => setSidebarOpen(true)}
-                style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem', display: 'flex', flexDirection: 'column', gap: '4px' }}
-              >
+              <button onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
                 <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
                 <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
                 <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
@@ -370,60 +455,89 @@ export default function ChatPage() {
             {isMobile && <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#1A1A1A', letterSpacing: '0.08em' }}>JUNIOR</span>}
           </div>
           <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.4, letterSpacing: '0.05em' }}>
-            {chatStarted ? `${messageCount}/${MESSAGE_LIMIT} MESSAGES` : 'BETA'}
+            {wizardStep === 'chat' ? `${messageCount}/${MESSAGE_LIMIT} MESSAGES` : 'BETA'}
           </span>
         </div>
 
-        {!chatStarted && (
-          <div style={{ flex: 1, padding: isMobile ? '1.5rem 1rem' : '3rem 2.5rem 1.5rem', display: 'flex', flexDirection: 'column' }}>
-            <h1 style={{
-              fontSize: isMobile ? '1.25rem' : '1.75rem', fontWeight: 900, color: '#1A1A1A',
-              lineHeight: 1.2, marginBottom: '1.75rem', maxWidth: '600px',
-            }}>
-              Let Junior handle the bureaucracy and admin of making movies in Canada.
-            </h1>
-
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
-              gap: '0.75rem',
-              maxWidth: '700px',
-            }}>
-              {INTENT_CARDS.slice(0, 4).map((card) => (
-                <button
-                  key={card.id}
-                  onClick={() => {
-                    if (card.live) startChat()
-                    else if (card.voteKey) openVoteModal(card.title, card.voteKey)
+        {/* WIZARD: NAME */}
+        {wizardStep === 'name' && (
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: isMobile ? '2rem 1.5rem' : '4rem 2.5rem' }}>
+            <div style={{ maxWidth: '480px', width: '100%' }}>
+              <h1 style={{ fontSize: isMobile ? '1.5rem' : '2rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.5rem', lineHeight: 1.2 }}>
+                What's your project called?
+              </h1>
+              <p style={{ fontSize: '0.9rem', color: '#1A1A1A', opacity: 0.5, marginBottom: '1.5rem' }}>
+                Junior will use this to keep your session organised.
+              </p>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <input
+                  ref={nameInputRef}
+                  type="text"
+                  value={projectName}
+                  onChange={e => setProjectName(e.target.value)}
+                  onKeyDown={handleNameKeyDown}
+                  placeholder="e.g. The Last Frontier"
+                  style={{
+                    flex: 1, padding: '0.75rem 1rem', border: '2px solid #1A1A1A',
+                    backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif',
+                    fontSize: '1rem', outline: 'none',
                   }}
+                />
+                <button
+                  onClick={handleNameSubmit}
+                  disabled={!projectName.trim()}
+                  style={{
+                    padding: '0.75rem 1.5rem', backgroundColor: projectName.trim() ? '#E8392A' : '#999',
+                    color: '#FFFFFF', border: '2px solid #1A1A1A',
+                    fontFamily: 'Barlow, sans-serif', fontWeight: 900,
+                    fontSize: '0.9rem', cursor: projectName.trim() ? 'pointer' : 'not-allowed',
+                    boxShadow: '4px 4px 0px #1A1A1A',
+                  }}
+                >
+                  NEXT →
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* WIZARD: CATEGORY */}
+        {wizardStep === 'category' && (
+          <div style={{ flex: 1, padding: isMobile ? '1.5rem 1rem' : '3rem 2.5rem' }}>
+            <h1 style={{ fontSize: isMobile ? '1.25rem' : '1.75rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.5rem', lineHeight: 1.2 }}>
+              What would you like help with?
+            </h1>
+            <p style={{ fontSize: '0.9rem', color: '#1A1A1A', opacity: 0.5, marginBottom: '1.75rem' }}>
+              For <strong style={{ opacity: 1 }}>{projectName}</strong>
+            </p>
+            <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr', gap: '0.75rem', maxWidth: '700px' }}>
+              {CATEGORIES.slice(0, 4).map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => handleCategorySelect(cat)}
                   style={{
                     padding: '1rem', backgroundColor: '#FFFFFF',
                     border: '2px solid #1A1A1A', cursor: 'pointer', textAlign: 'left',
                     boxShadow: '4px 4px 0px #1A1A1A', transition: 'all 150ms ease',
-                    opacity: card.live ? 1 : 0.75,
+                    opacity: cat.live ? 1 : 0.75,
                   }}
                   onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '6px 6px 0px #1A1A1A' }}
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' }}
                 >
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.4rem' }}>
-                    <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#1A1A1A' }}>{card.title}</span>
-                    <span style={{
-                      fontSize: '0.55rem', padding: '0.2rem 0.5rem', fontWeight: 700,
-                      letterSpacing: '0.06em', whiteSpace: 'nowrap', marginLeft: '0.5rem',
-                      backgroundColor: card.live ? '#E8392A' : '#1A1A1A', color: '#FFFFFF',
-                    }}>
-                      {card.pill}
-                    </span>
+                    <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#1A1A1A' }}>{cat.title}</span>
+                    {!cat.live && (
+                      <span style={{ fontSize: '0.55rem', padding: '0.2rem 0.5rem', fontWeight: 700, letterSpacing: '0.06em', backgroundColor: '#1A1A1A', color: '#FFFFFF', whiteSpace: 'nowrap', marginLeft: '0.5rem' }}>
+                        VOTE FOR THIS
+                      </span>
+                    )}
                   </div>
-                  <p style={{ fontSize: '0.8rem', color: '#1A1A1A', opacity: 0.6, margin: 0, lineHeight: 1.4 }}>
-                    {card.description}
-                  </p>
+                  <p style={{ fontSize: '0.8rem', color: '#1A1A1A', opacity: 0.6, margin: 0, lineHeight: 1.4 }}>{cat.description}</p>
                 </button>
               ))}
-
-              {INTENT_CARDS[4] && (
+              {CATEGORIES[4] && (
                 <button
-                  onClick={() => openVoteModal(INTENT_CARDS[4].title, INTENT_CARDS[4].voteKey!)}
+                  onClick={() => handleCategorySelect(CATEGORIES[4])}
                   style={{
                     gridColumn: isMobile ? '1' : '1 / -1',
                     padding: '1rem', backgroundColor: '#FFFFFF',
@@ -435,11 +549,11 @@ export default function ChatPage() {
                   onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' }}
                 >
                   <div>
-                    <div style={{ fontSize: '0.9rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.25rem' }}>{INTENT_CARDS[4].title}</div>
-                    <div style={{ fontSize: '0.8rem', color: '#1A1A1A', opacity: 0.6 }}>{INTENT_CARDS[4].description}</div>
+                    <div style={{ fontSize: '0.9rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.25rem' }}>{CATEGORIES[4].title}</div>
+                    <div style={{ fontSize: '0.8rem', color: '#1A1A1A', opacity: 0.6 }}>{CATEGORIES[4].description}</div>
                   </div>
                   <span style={{ fontSize: '0.55rem', padding: '0.2rem 0.5rem', fontWeight: 700, letterSpacing: '0.06em', backgroundColor: '#1A1A1A', color: '#FFFFFF', whiteSpace: 'nowrap', marginLeft: '1rem' }}>
-                    {INTENT_CARDS[4].pill}
+                    VOTE FOR THIS
                   </span>
                 </button>
               )}
@@ -447,24 +561,57 @@ export default function ChatPage() {
           </div>
         )}
 
-        {chatStarted && (
+        {/* WIZARD: INTAKE */}
+        {wizardStep === 'intake' && (
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: isMobile ? '2rem 1.5rem' : '4rem 2.5rem' }}>
+            <div style={{ maxWidth: '480px', width: '100%' }}>
+              <div style={{ marginBottom: '0.75rem' }}>
+                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#E8392A', letterSpacing: '0.1em' }}>
+                  {intakeStep + 1} OF {INTAKE_QUESTIONS.length}
+                </span>
+              </div>
+              <h2 style={{ fontSize: isMobile ? '1.25rem' : '1.5rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '1.5rem', lineHeight: 1.3 }}>
+                {INTAKE_QUESTIONS[intakeStep].question}
+              </h2>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <input
+                  ref={intakeInputRef}
+                  type="text"
+                  value={intakeInput}
+                  onChange={e => setIntakeInput(e.target.value)}
+                  onKeyDown={handleIntakeKeyDown}
+                  placeholder={INTAKE_QUESTIONS[intakeStep].placeholder}
+                  style={{
+                    flex: 1, padding: '0.75rem 1rem', border: '2px solid #1A1A1A',
+                    backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif',
+                    fontSize: '1rem', outline: 'none',
+                  }}
+                />
+                <button
+                  onClick={handleIntakeAnswer}
+                  disabled={!intakeInput.trim()}
+                  style={{
+                    padding: '0.75rem 1.5rem', backgroundColor: intakeInput.trim() ? '#E8392A' : '#999',
+                    color: '#FFFFFF', border: '2px solid #1A1A1A',
+                    fontFamily: 'Barlow, sans-serif', fontWeight: 900,
+                    fontSize: '0.9rem', cursor: intakeInput.trim() ? 'pointer' : 'not-allowed',
+                    boxShadow: '4px 4px 0px #1A1A1A',
+                  }}
+                >
+                  {intakeStep < INTAKE_QUESTIONS.length - 1 ? 'NEXT →' : 'START →'}
+                </button>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* CHAT */}
+        {wizardStep === 'chat' && (
           <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '1rem' : '1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
             {messages.map((msg, i) => {
-              if (msg.role === 'user') {
-                return (
-                  <div key={i} style={{ display: 'flex', justifyContent: 'flex-end' }}>
-                    <div style={{
-                      maxWidth: isMobile ? '85%' : '70%', padding: '0.75rem 1rem',
-                      backgroundColor: '#1A1A1A', color: '#FFFFFF',
-                      border: '2px solid #1A1A1A', boxShadow: '4px 4px 0px #1A1A1A',
-                      whiteSpace: 'pre-wrap', lineHeight: 1.5, fontSize: isMobile ? '0.9rem' : '1rem',
-                    }}>
-                      {msg.content}
-                    </div>
-                  </div>
-                )
-              }
+              if (msg.role === 'user') return null
               const { text, event } = parseCalendarTag(msg.content)
+              const isLoading = loading && i === messages.length - 1 && msg.content === ''
               return (
                 <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem' }}>
                   <div style={{
@@ -472,8 +619,15 @@ export default function ChatPage() {
                     backgroundColor: '#FFFFFF', color: '#1A1A1A',
                     border: '2px solid #1A1A1A', boxShadow: '4px 4px 0px #1A1A1A',
                     whiteSpace: 'pre-wrap', lineHeight: 1.5, fontSize: isMobile ? '0.9rem' : '1rem',
+                    minWidth: isLoading ? '60px' : undefined,
                   }}>
-                    {text}
+                    {isLoading ? (
+                      <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center' }}>
+                        <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
+                        <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0.2s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
+                        <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0.4s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
+                      </span>
+                    ) : text}
                   </div>
                   {event && !loading && (
                     <button
@@ -485,18 +639,14 @@ export default function ChatPage() {
                         boxShadow: '4px 4px 0px #1A1A1A',
                       }}
                     >
-                      + ADD TO CALENDAR
+                      + ADD DEADLINE TO CALENDAR
                     </button>
                   )}
                 </div>
               )
             })}
             {limitReached && (
-              <div style={{
-                textAlign: 'center', marginTop: '2rem', padding: '2rem',
-                border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A',
-                color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A',
-              }}>
+              <div style={{ textAlign: 'center', marginTop: '2rem', padding: '2rem', border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A', color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A' }}>
                 <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>YOU'VE USED YOUR 20 FREE MESSAGES.</p>
                 <p style={{ opacity: 0.7, marginBottom: '1.5rem', fontSize: '0.85rem' }}>Upgrade to unlock unlimited access.</p>
               </div>
@@ -505,109 +655,50 @@ export default function ChatPage() {
           </div>
         )}
 
-        {!limitReached && (
-          <div style={{
-            padding: isMobile ? '0.75rem' : '1rem 1.5rem',
-            borderTop: '2px solid #1A1A1A',
-            backgroundColor: '#F0EBE0', display: 'flex', gap: '0.5rem',
-            position: 'sticky', bottom: 0,
-          }}>
+        {wizardStep === 'chat' && !limitReached && (
+          <div style={{ padding: isMobile ? '0.75rem' : '1rem 1.5rem', borderTop: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', display: 'flex', gap: '0.5rem', position: 'sticky', bottom: 0 }}>
             <textarea
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Ask Junior..."
               rows={1}
-              style={{
-                flex: 1, padding: '0.75rem', border: '2px solid #1A1A1A',
-                backgroundColor: '#F0EBE0', fontFamily: 'Barlow, sans-serif',
-                fontSize: isMobile ? '0.95rem' : '1rem', resize: 'none', outline: 'none',
-              }}
+              style={{ flex: 1, padding: '0.75rem', border: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', fontFamily: 'Barlow, sans-serif', fontSize: isMobile ? '0.95rem' : '1rem', resize: 'none', outline: 'none' }}
             />
             <button
-              onClick={() => sendMessage()}
+              onClick={sendMessage}
               disabled={loading || !input.trim()}
-              style={{
-                padding: isMobile ? '0.75rem 1rem' : '0.75rem 1.5rem',
-                backgroundColor: loading || !input.trim() ? '#999' : '#E8392A',
-                color: '#FFFFFF', border: '2px solid #1A1A1A',
-                fontFamily: 'Barlow, sans-serif', fontWeight: 900,
-                fontSize: '0.9rem', cursor: loading || !input.trim() ? 'not-allowed' : 'pointer',
-                boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap',
-              }}
+              style={{ padding: isMobile ? '0.75rem 1rem' : '0.75rem 1.5rem', backgroundColor: loading || !input.trim() ? '#999' : '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: loading || !input.trim() ? 'not-allowed' : 'pointer', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}
             >
-              {loading ? '...' : 'SEND'}
+              SEND
             </button>
           </div>
         )}
       </div>
 
       {voteModal.open && (
-        <div
-          onClick={closeVoteModal}
-          style={{
-            position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)',
-            display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100,
-            padding: '1rem',
-          }}
-        >
-          <div
-            onClick={e => e.stopPropagation()}
-            style={{
-              backgroundColor: '#F0EBE0', border: '2px solid #1A1A1A',
-              boxShadow: '6px 6px 0px #1A1A1A', padding: '1.75rem',
-              maxWidth: '400px', width: '100%',
-            }}
-          >
+        <div onClick={closeVoteModal} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem' }}>
+          <div onClick={e => e.stopPropagation()} style={{ backgroundColor: '#F0EBE0', border: '2px solid #1A1A1A', boxShadow: '6px 6px 0px #1A1A1A', padding: '1.75rem', maxWidth: '400px', width: '100%' }}>
             {voteModal.voted ? (
               <>
-                <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>VOTE CAST. ✓</p>
+                <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>✓ VOTE CAST</p>
                 <p style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '1.5rem' }}>
                   Your vote helps determine what Junior builds next. We'll let you know when {voteModal.label} is live.
                 </p>
-                <button
-                  onClick={closeVoteModal}
-                  style={{
-                    padding: '0.6rem 1.25rem', backgroundColor: '#1A1A1A',
-                    color: '#FFFFFF', border: '2px solid #1A1A1A',
-                    fontFamily: 'Barlow, sans-serif', fontWeight: 700,
-                    fontSize: '0.85rem', cursor: 'pointer',
-                  }}
-                >
+                <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: '#1A1A1A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer' }}>
                   CLOSE
                 </button>
               </>
             ) : (
               <>
                 <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>VOTE TO UNLOCK</p>
-                <p style={{ fontSize: '1rem', fontWeight: 700, color: '#E8392A', marginBottom: '0.75rem' }}>
-                  {voteModal.label}
-                </p>
-                <p style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '1.5rem' }}>
-                  Junior builds features in order of demand. Cast your vote and we'll prioritize accordingly.
-                </p>
+                <p style={{ fontSize: '1rem', fontWeight: 700, color: '#E8392A', marginBottom: '0.75rem' }}>{voteModal.label}</p>
+                <p style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '1.5rem' }}>Junior builds features in order of demand. Cast your vote and we'll prioritize accordingly.</p>
                 <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                  <button
-                    onClick={() => castVote(voteModal.voteKey)}
-                    style={{
-                      padding: '0.6rem 1.25rem', backgroundColor: '#E8392A',
-                      color: '#FFFFFF', border: '2px solid #1A1A1A',
-                      fontFamily: 'Barlow, sans-serif', fontWeight: 700,
-                      fontSize: '0.85rem', cursor: 'pointer',
-                      boxShadow: '4px 4px 0px #1A1A1A',
-                    }}
-                  >
+                  <button onClick={() => castVote(voteModal.voteKey)} style={{ padding: '0.6rem 1.25rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}>
                     CAST MY VOTE
                   </button>
-                  <button
-                    onClick={closeVoteModal}
-                    style={{
-                      padding: '0.6rem 1.25rem', backgroundColor: 'transparent',
-                      color: '#1A1A1A', border: '2px solid #1A1A1A',
-                      fontFamily: 'Barlow, sans-serif', fontWeight: 700,
-                      fontSize: '0.85rem', cursor: 'pointer',
-                    }}
-                  >
+                  <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer' }}>
                     NOT NOW
                   </button>
                 </div>
@@ -616,6 +707,13 @@ export default function ChatPage() {
           </div>
         </div>
       )}
+
+      <style>{`
+        @keyframes dot-bounce {
+          0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+          40% { transform: translateY(-6px); opacity: 1; }
+        }
+      `}</style>
     </main>
   )
 }
