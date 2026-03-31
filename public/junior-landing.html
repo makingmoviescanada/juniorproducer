@@ -289,3 +289,362 @@
   }
   .founders-grid {
     display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+  }
+  .founder-card {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.09);
+    padding: 44px 40px;
+    transition: background 150ms ease;
+  }
+  .founder-card:hover { background: rgba(255,255,255,0.07); }
+  .founder-photo {
+    width: 130px;
+    flex-shrink: 0;
+    aspect-ratio: 3/4;
+    overflow: hidden;
+    border: 1.5px solid rgba(255,255,255,0.12);
+    background: #444;
+  }
+  .founder-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%);
+    display: block;
+  }
+  .founder-info { display: flex; flex-direction: column; gap: 8px; }
+  .founder-role {
+    font-weight: 900;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    color: var(--red);
+  }
+  .founder-name-display {
+    font-weight: 900;
+    font-size: 22px;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--parchment);
+    line-height: 1.1;
+  }
+  .founder-bio {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--parchment);
+    opacity: 0.52;
+    margin-top: 4px;
+  }
+
+  /* CLOSING CTA */
+  .closing {
+    background: var(--red);
+    padding: 90px 7vw;
+    text-align: center;
+  }
+  .closing-headline {
+    font-size: clamp(28px, 3.8vw, 58px);
+    color: var(--white);
+    margin-bottom: 16px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .closing-sub {
+    font-weight: 600;
+    font-size: 17px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 48px;
+  }
+  .email-form {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    align-items: stretch;
+    flex-wrap: wrap;
+    max-width: 520px;
+    margin: 0 auto;
+  }
+  .email-input {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
+    font-size: 15px;
+    flex: 1;
+    min-width: 220px;
+    padding: 15px 20px;
+    border: 2px solid var(--ink);
+    background: var(--white);
+    color: var(--ink);
+    outline: none;
+    box-shadow: var(--shadow);
+  }
+  .email-input::placeholder { color: rgba(26,26,26,0.35); }
+  .email-input:focus { box-shadow: var(--shadow-hover); }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink);
+    padding: 32px 7vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-top: 1px solid rgba(255,255,255,0.06);
+  }
+  .footer-copy {
+    font-weight: 400;
+    font-size: 13px;
+    color: var(--parchment);
+    opacity: 0.3;
+  }
+  .footer-wordmark {
+    font-weight: 900;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--parchment);
+    opacity: 0.7;
+  }
+
+  /* MODAL */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal-box {
+    background: var(--red);
+    border: 2px solid var(--ink);
+    box-shadow: 6px 6px 0px var(--ink);
+    padding: 48px 44px;
+    max-width: 480px;
+    width: 100%;
+    position: relative;
+    text-align: center;
+  }
+  .modal-close {
+    position: absolute;
+    top: 16px;
+    right: 20px;
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: rgba(255,255,255,0.6);
+    cursor: pointer;
+    font-family: 'Barlow', sans-serif;
+    line-height: 1;
+  }
+  .modal-close:hover { color: var(--white); }
+  .modal-headline {
+    font-weight: 900;
+    font-size: clamp(22px, 3vw, 32px);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 10px;
+  }
+  .modal-sub {
+    font-weight: 600;
+    font-size: 15px;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 28px;
+  }
+  .modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .modal-success {
+    display: none;
+    color: var(--white);
+    font-weight: 600;
+    font-size: 16px;
+    margin-top: 16px;
+  }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .cards-grid { grid-template-columns: 1fr; }
+    .founders-grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 768px) {
+    nav, .hero, .feature-cards, .founders, .closing { padding-left: 5vw; padding-right: 5vw; }
+    footer { padding: 28px 5vw; }
+    .founder-card { flex-direction: column; }
+    footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-wordmark">Junior</a>
+  <button class="btn btn-red" onclick="openModal()">Get Early Access</button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <p class="hero-eyebrow">Canadian Film Funding Intelligence</p>
+  <h1 class="hero-headline">Junior Is Your 24/7 Producing Partner.</h1>
+  <p class="hero-sub">Built for Canadian filmmakers and producers to automate great research, grant writing and admin to save you time and increase profit margins.</p>
+  <button class="hero-join-btn" onclick="openModal()">Join Now</button>
+</section>
+
+<!-- FEATURE CARDS -->
+<section class="feature-cards">
+  <span class="section-label label-on-red">How Junior Helps</span>
+  <div class="cards-grid">
+
+    <div class="feature-card">
+      <div class="card-icon"><i class="fa-solid fa-dollar-sign"></i></div>
+      <h3 class="card-headline">Get Funding</h3>
+      <p class="card-body">Junior navigates complicated program guidelines for you and gets you answers instantly.</p>
+      <a href="#" class="card-cta" data-tier="funding" onclick="setInterest('funding'); openModal(); return false;">Get Junior for Funding</a>
+    </div>
+
+    <div class="feature-card">
+      <div class="card-icon"><i class="fa-solid fa-calendar-days"></i></div>
+      <h3 class="card-headline">Track Deadlines</h3>
+      <p class="card-body">Junior syncs program deadlines to your calendar and sends you reminders to apply.</p>
+      <a href="#" class="card-cta" data-tier="deadlines" onclick="setInterest('deadlines'); openModal(); return false;">Get Junior for Deadlines</a>
+    </div>
+
+    <div class="feature-card">
+      <div class="card-icon"><i class="fa-solid fa-gears"></i></div>
+      <h3 class="card-headline">Automate Admin</h3>
+      <p class="card-body">Junior automates admin to increase your profit margins on fixed line items.</p>
+      <a href="#" class="card-cta" data-tier="admin" onclick="setInterest('admin'); openModal(); return false;">Get Junior for Admin</a>
+    </div>
+
+  </div>
+
+  <div class="funders-strip">
+    <span class="funder-name-pill">Canada Council for the Arts</span>
+    <span class="funder-name-pill">Telefilm Canada</span>
+    <span class="funder-name-pill">Canada Media Fund</span>
+    <span class="funder-name-pill">National Film Board</span>
+  </div>
+</section>
+
+<!-- FOUNDERS -->
+<section class="founders">
+  <div class="founders-intro">
+    <span class="section-label label-on-dark">The Founders</span>
+    <h2 class="section-title title-on-dark founders-section-headline">Built by Canadian Filmmakers, for Canadian Filmmakers.</h2>
+    <p class="founders-body-text">Junior started as an in-house tool for automating admin to keep the lights on with no staff and no budgets between productions.</p>
+  </div>
+  <div class="founders-grid">
+
+    <div class="founder-card">
+      <div class="founder-photo">
+        <img src="/images/gavin.png" alt="Gavin Seal">
+      </div>
+      <div class="founder-info">
+        <span class="founder-role">Co-Founder</span>
+        <div class="founder-name-display">Gavin Seal</div>
+        <p class="founder-bio">Writers Guild of Canada prize-winning filmmaker who has led in-house creative teams at Mattel and Shopify.</p>
+      </div>
+    </div>
+
+    <div class="founder-card">
+      <div class="founder-photo">
+        <img src="/images/lisa.png" alt="Lisa Purisima">
+      </div>
+      <div class="founder-info">
+        <span class="founder-role">Co-Founder</span>
+        <div class="founder-name-display">Lisa Purisima</div>
+        <p class="founder-bio">Canadian Screen Award-nominated producer whose credits include John Witch 4 (Lionsgate) and The Morning Show (Apple TV+).</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CLOSING CTA -->
+<section class="closing" id="early-access">
+  <h2 class="section-title closing-headline">The Cavalry's Not Coming. But Junior Is.</h2>
+  <p class="closing-sub">Early access. Limited spots.</p>
+  <form class="email-form" id="closing-form" action="https://app.kit.com/forms/9206634/subscriptions" method="POST" target="kit-iframe-closing">
+    <input type="hidden" id="interest-field-closing" name="fields[interest]" value="general">
+    <input type="email" name="email_address" class="email-input" placeholder="Email Address" required>
+    <button type="submit" class="btn btn-white" data-tier="general">Get Early Access</button>
+  </form>
+  <iframe name="kit-iframe-closing" style="display:none;"></iframe>
+  <p id="form-success-closing" style="display:none;color:#fff;font-family:'Barlow',sans-serif;font-weight:600;font-size:16px;margin-top:20px;">Thanks for signing up! Check your inbox.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-wordmark">Junior</span>
+  <span class="footer-copy">© 2026 Intersectionnel Films Inc.</span>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal-overlay" onclick="handleOverlayClick(event)">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <h2 class="modal-headline">The Cavalry's Not Coming. But Junior Is.</h2>
+    <p class="modal-sub">Early access. Limited spots.</p>
+    <form class="modal-form" id="modal-form" action="https://app.kit.com/forms/9206634/subscriptions" method="POST" target="kit-iframe-modal">
+      <input type="hidden" id="interest-field-modal" name="fields[interest]" value="general">
+      <input type="email" name="email_address" class="email-input" placeholder="Email Address" required>
+      <button type="submit" class="btn btn-white">Get Early Access</button>
+    </form>
+    <iframe name="kit-iframe-modal" style="display:none;"></iframe>
+    <p class="modal-success" id="modal-success">Thanks for signing up! Check your inbox.</p>
+  </div>
+</div>
+
+<script>
+  function setInterest(value) {
+    document.getElementById('interest-field-modal').value = value;
+    document.getElementById('interest-field-closing').value = value;
+  }
+
+  function openModal() {
+    document.getElementById('modal-overlay').classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById('modal-overlay')) closeModal();
+  }
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+  });
+
+  document.getElementById('modal-form').addEventListener('submit', function() {
+    setTimeout(function() {
+      document.getElementById('modal-form').style.display = 'none';
+      document.getElementById('modal-success').style.display = 'block';
+    }, 500);
+  });
+
+  document.getElementById('closing-form').addEventListener('submit', function() {
+    setTimeout(function() {
+      document.getElementById('closing-form').style.display = 'none';
+      document.getElementById('form-success-closing').style.display = 'block';
+    }, 500);
+  });
+</script>
+</body>
+</html>
