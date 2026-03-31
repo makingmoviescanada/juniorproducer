@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -16,7 +17,6 @@
     --red-hover: #C9301E;
     --ink: #1A1A1A;
     --white: #FFFFFF;
-    --radius-card: 0px;
     --radius-ui: 0px;
     --shadow: 4px 4px 0px #1A1A1A;
     --shadow-hover: 6px 6px 0px #1A1A1A;
@@ -102,14 +102,12 @@
   /* HERO */
   .hero {
     background: var(--parchment);
-    padding: 60px 7vw;
-    display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: 60px;
+    padding: 80px 7vw 100px;
+    display: flex;
+    flex-direction: column;
     align-items: center;
-    min-height: auto;
+    text-align: center;
   }
-  .hero-left { padding-bottom: 0; }
   .hero-eyebrow {
     font-weight: 900;
     font-size: 11px;
@@ -117,26 +115,16 @@
     letter-spacing: 0.18em;
     color: var(--red);
     margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-  .hero-eyebrow::before {
-    content: '';
-    width: 32px;
-    height: 2px;
-    background: var(--red);
-    display: block;
-    flex-shrink: 0;
   }
   .hero-headline {
     font-weight: 900;
-    font-size: clamp(48px, 5.5vw, 82px);
+    font-size: clamp(42px, 6vw, 88px);
     text-transform: uppercase;
     letter-spacing: 0.04em;
-    line-height: 1.08;
+    line-height: 1.06;
     color: var(--ink);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
+    max-width: 900px;
   }
   .hero-sub {
     font-weight: 400;
@@ -144,28 +132,33 @@
     line-height: 1.65;
     color: var(--ink);
     opacity: 0.7;
-    margin-bottom: 44px;
-    max-width: 500px;
+    margin-bottom: 48px;
+    max-width: 540px;
   }
-  .hero-image-wrap {
-    width: 100%;
-    max-width: 460px;
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .hero-join-btn {
+    font-family: 'Barlow', sans-serif;
+    font-weight: 900;
+    font-size: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: var(--red);
+    color: var(--white);
+    border: 2px solid var(--ink);
+    padding: 18px 56px;
+    cursor: pointer;
+    box-shadow: var(--shadow);
+    transition: all 150ms ease;
   }
-  .hero-image-wrap img {
-    width: 100%;
-    height: auto;
-    display: block;
-    filter: drop-shadow(4px 4px 0px rgba(26,26,26,0.18));
+  .hero-join-btn:hover {
+    background: var(--red-hover);
+    box-shadow: var(--shadow-hover);
+    transform: translateY(-2px);
   }
 
   /* FEATURE CARDS */
   .feature-cards {
     background: var(--red);
-    padding: 80px 7vw;
+    padding: 80px 7vw 60px;
   }
   .section-label {
     font-weight: 900;
@@ -198,17 +191,20 @@
   .feature-card {
     background: var(--parchment);
     border: 2.5px solid var(--ink);
-    border-radius: var(--radius-card);
-    padding: 52px 44px;
+    padding: 44px 36px;
     box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: 16px;
     transition: box-shadow 150ms ease, transform 150ms ease;
   }
   .feature-card:hover {
     box-shadow: var(--shadow-hover);
     transform: translateY(-2px);
+  }
+  .card-icon {
+    font-size: 28px;
+    color: var(--red);
   }
   .card-headline {
     font-weight: 900;
@@ -235,7 +231,6 @@
     background: var(--ink);
     color: var(--white);
     border: 2px solid var(--ink);
-    border-radius: var(--radius-ui);
     padding: 14px 18px;
     cursor: pointer;
     text-align: center;
@@ -250,46 +245,26 @@
     transform: translateY(-2px);
   }
 
-  /* FUNDER LOGOS */
-  .funders {
-    background: var(--parchment);
-    padding: 40px 7vw;
-    border-top: 2px solid var(--ink);
-    border-bottom: 2px solid var(--ink);
-  }
-  .funders-inner {
+  /* FUNDER PILLS — inside cards section */
+  .funders-strip {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 24px;
+    gap: 16px;
     flex-wrap: wrap;
+    margin-top: 48px;
+    padding-top: 40px;
+    border-top: 1.5px solid rgba(255,255,255,0.2);
   }
-  .funder-logo-wrap {
-    height: 40px;
-    display: flex;
-    align-items: center;
-  }
-  .funder-logo-wrap img {
-    height: 100%;
-    width: auto;
-    object-fit: contain;
-    filter: grayscale(100%);
-    opacity: 0.5;
-    transition: opacity 150ms ease;
-  }
-  .funder-logo-wrap img:hover { opacity: 0.8; }
   .funder-name-pill {
     font-weight: 900;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--ink);
-    opacity: 0.5;
-    padding: 11px 20px;
-    border: 1.5px solid var(--ink);
-    border-radius: 0px;
+    color: rgba(255,255,255,0.6);
+    padding: 10px 18px;
+    border: 1.5px solid rgba(255,255,255,0.25);
     white-space: nowrap;
-    box-shadow: 2px 2px 0px var(--ink);
   }
 
   /* FOUNDERS */
@@ -314,284 +289,3 @@
   }
   .founders-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 28px;
-  }
-  .founder-card {
-    display: flex;
-    gap: 28px;
-    align-items: center;
-    background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.09);
-    border-radius: var(--radius-card);
-    padding: 44px 40px;
-    transition: background 150ms ease;
-  }
-  .founder-card:hover { background: rgba(255,255,255,0.07); }
-  .founder-photo {
-    width: 130px;
-    flex-shrink: 0;
-    aspect-ratio: 3/4;
-    border-radius: 0px;
-    overflow: hidden;
-    border: 1.5px solid rgba(255,255,255,0.12);
-    background: #444;
-  }
-  .founder-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: grayscale(100%);
-    display: block;
-  }
-  .founder-photo-placeholder {
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(160deg, #666 0%, #333 100%);
-  }
-  .founder-info { display: flex; flex-direction: column; gap: 8px; }
-  .founder-role {
-    font-weight: 900;
-    font-size: 10px;
-    text-transform: uppercase;
-    letter-spacing: 0.16em;
-    color: var(--red);
-  }
-  .founder-name-display {
-    font-weight: 900;
-    font-size: 22px;
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-    color: var(--parchment);
-    line-height: 1.1;
-  }
-  .founder-bio {
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 1.65;
-    color: var(--parchment);
-    opacity: 0.52;
-    margin-top: 4px;
-  }
-
-  /* CLOSING CTA */
-  .closing {
-    background: var(--red);
-    padding: 90px 7vw;
-    text-align: center;
-  }
-  .closing-headline {
-    font-size: clamp(28px, 3.8vw, 58px);
-    color: var(--white);
-    margin-bottom: 16px;
-    max-width: 800px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .closing-sub {
-    font-weight: 600;
-    font-size: 17px;
-    color: rgba(255,255,255,0.6);
-    margin-bottom: 48px;
-  }
-  .email-form {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    align-items: stretch;
-    flex-wrap: wrap;
-    max-width: 520px;
-    margin: 0 auto;
-  }
-  .email-input {
-    font-family: 'Barlow', sans-serif;
-    font-weight: 400;
-    font-size: 15px;
-    flex: 1;
-    min-width: 220px;
-    padding: 15px 20px;
-    border: 2px solid var(--ink);
-    border-radius: var(--radius-ui);
-    background: var(--white);
-    color: var(--ink);
-    outline: none;
-    box-shadow: var(--shadow);
-  }
-  .email-input::placeholder { color: rgba(26,26,26,0.35); }
-  .email-input:focus { box-shadow: var(--shadow-hover); }
-
-  /* FOOTER */
-  footer {
-    background: var(--ink);
-    padding: 32px 7vw;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    border-top: 1px solid rgba(255,255,255,0.06);
-  }
-  .footer-copy {
-    font-weight: 400;
-    font-size: 13px;
-    color: var(--parchment);
-    opacity: 0.3;
-  }
-  .footer-wordmark {
-    font-weight: 900;
-    font-size: 15px;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    color: var(--parchment);
-    opacity: 0.7;
-  }
-
-  /* RESPONSIVE */
-  @media (max-width: 1024px) {
-    .cards-grid { grid-template-columns: 1fr; }
-    .founders-grid { grid-template-columns: 1fr; }
-  }
-  @media (max-width: 768px) {
-    nav, .hero, .feature-cards, .funders, .founders, .closing { padding-left: 5vw; padding-right: 5vw; }
-    footer { padding: 28px 5vw; }
-    .hero { grid-template-columns: 1fr; min-height: auto; padding-top: 60px; padding-bottom: 60px; }
-    .hero-image-wrap { display: none; }
-    .founder-card { flex-direction: column; }
-    footer { flex-direction: column; align-items: flex-start; gap: 16px; }
-    .footer-right { align-items: flex-start; }
-  }
-</style>
-</head>
-<body>
-
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-wordmark">Junior</a>
-  <a href="#early-access" class="btn btn-red">Get Early Access</a>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-left">
-    <h1 class="hero-headline">Junior Is Your 24/7 Producing Partner.</h1>
-    <p class="hero-sub">Built for Canadian filmmakers and producers automate great research, grant writing and admin to save you time and increase profit margins.</p>
-    <a href="#early-access" class="btn btn-red">Get Early Access</a>
-  </div>
-  <div>
-    <div class="hero-image-wrap">
-      <img src="/images/Hero_Puzzle_nobg.png" alt="Junior — AI producing assistant">
-    </div>
-  </div>
-</section>
-
-<!-- FEATURE CARDS -->
-<section class="feature-cards">
-  <span class="section-label label-on-red">How Junior Helps</span>
-  <div class="cards-grid">
-
-    <div class="feature-card">
-      <h3 class="card-headline">Get funding</h3>
-      <p class="card-body">Junior navigates complicated program guidelines for you and gets you answers instantly.</p>
-      <a href="#early-access" class="card-cta" data-tier="funding" onclick="setInterest('funding')">Get Junior for funding</a>
-    </div>
-
-    <div class="feature-card">
-      <h3 class="card-headline">Track deadlines</h3>
-      <p class="card-body">Junior syncs program deadlines to your calendar and sends you reminders to apply.</p>
-      <a href="#early-access" class="card-cta" data-tier="deadlines" onclick="setInterest('deadlines')">Get Junior for deadlines</a>
-    </div>
-
-    <div class="feature-card">
-      <h3 class="card-headline">Automate admin</h3>
-      <p class="card-body">Junior automates admin to increase your profits margins on fixed line items.</p>
-      <a href="#early-access" class="card-cta" data-tier="admin" onclick="setInterest('admin')">Get Junior for admin</a>
-    </div>
-
-  </div>
-</section>
-
-<!-- FUNDER LOGOS — no headline, logos only -->
-<section class="funders">
-  <div class="funders-inner">
-    <!-- Swap in real logos when /public/logos/ is populated -->
-    <!--
-    <div class="funder-logo-wrap"><img src="/logos/telefilm.png" alt="Telefilm Canada"></div>
-    <div class="funder-logo-wrap"><img src="/logos/cmf.png" alt="Canada Media Fund"></div>
-    <div class="funder-logo-wrap"><img src="/logos/nfb.png" alt="National Film Board"></div>
-    <div class="funder-logo-wrap"><img src="/logos/canada-council.png" alt="Canada Council for the Arts"></div>
-    -->
-    <span class="funder-name-pill">Telefilm Canada</span>
-    <span class="funder-name-pill">Canada Media Fund</span>
-    <span class="funder-name-pill">National Film Board</span>
-    <span class="funder-name-pill">Canada Council for the Arts</span>
-  </div>
-</section>
-
-<!-- FOUNDERS -->
-<section class="founders">
-  <div class="founders-intro">
-    <span class="section-label label-on-dark">The Founders</span>
-    <h2 class="section-title title-on-dark founders-section-headline">Built by Canadian Filmmakers, for Canadian Filmmakers.</h2>
-    <p class="founders-body-text">Junior started as an in-house tool for automating admin to keep the lights on with no staff and no budgets between productions.</p>
-  </div>
-  <div class="founders-grid">
-
-    <div class="founder-card">
-      <div class="founder-photo">
-        <!-- <img src="/images/gavin.jpg" alt="Gavin Seal"> -->
-        <img src="/images/gavin.png" alt="Gavin Seal" style="width:100%;height:100%;object-fit:cover;filter:grayscale(100%);display:block;">
-      </div>
-      <div class="founder-info">
-        <span class="founder-role">Co-Founder</span>
-        <div class="founder-name-display">Gavin Seal</div>
-        <p class="founder-bio">Writers Guild of Canada prize-winning filmmaker who has led in-house creative teams at Mattel and Shopify.</p>
-      </div>
-    </div>
-
-    <div class="founder-card">
-      <div class="founder-photo">
-        <!-- <img src="/images/lisa.jpg" alt="Lisa Purisima"> -->
-        <img src="/images/lisa.png" alt="Lisa Purisima" style="width:100%;height:100%;object-fit:cover;filter:grayscale(100%);display:block;">
-      </div>
-      <div class="founder-info">
-        <span class="founder-role">Co-Founder</span>
-        <div class="founder-name-display">Lisa Purisima</div>
-        <p class="founder-bio">Canadian Screen Award-nominated producer whose credits include John Wick 4 (Lionsgate) and The Morning Show (Apple TV+).</p>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<!-- CLOSING CTA -->
-<section class="closing" id="early-access">
-  <h2 class="section-title closing-headline">The Cavalry's Not Coming. But Junior Is.</h2>
-  <p class="closing-sub">Early access. Limited spots.</p>
-  <form class="email-form" id="early-access-form" action="https://app.kit.com/forms/9206634/subscriptions" method="POST" target="kit-iframe">
-    <input type="hidden" id="interest-field" name="fields[interest]" value="general">
-    <input type="email" id="email-input" name="email_address" class="email-input" placeholder="Email Address" required>
-    <button type="submit" id="submit-btn" class="btn btn-white" data-tier="general">Get Early Access</button>
-  </form>
-  <iframe name="kit-iframe" style="display:none;" id="kit-iframe"></iframe>
-  <p id="form-success" style="display:none;color:#fff;font-family:'Barlow',sans-serif;font-weight:600;font-size:16px;margin-top:20px;">Thanks for signing up! Check your inbox.</p>
-</section>
-
-<!-- FOOTER -->
-<footer>
-  <span class="footer-wordmark">Junior</span>
-  <span class="footer-copy">© 2026 Intersectionnel Films Inc.</span>
-</footer>
-
-<script>
-  function setInterest(value) {
-    var field = document.getElementById('interest-field');
-    if (field) field.value = value;
-  }
-
-  document.getElementById('early-access-form').addEventListener('submit', function(e) {
-    setTimeout(function() {
-      document.getElementById('early-access-form').style.display = 'none';
-      document.getElementById('form-success').style.display = 'block';
-    }, 500);
-  });
-</script>
-</body>
-</html>
