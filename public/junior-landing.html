@@ -125,9 +125,26 @@
     max-width: 900px;
   }
   .hero-headline .flip-word {
-    color: var(--red);
+    color: var(--ink);
     display: inline-block;
+    min-width: 4.5ch;
     transition: opacity 0.28s ease, transform 0.28s ease;
+  }
+  .effortlessly {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+  }
+  .effortlessly::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 10px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='10' viewBox='0 0 300 10'%3E%3Cpath d='M2 6 Q 40 1, 80 6 Q 120 11, 160 5 Q 200 0, 240 6 Q 270 10, 298 5' stroke='%23E8392A' stroke-width='2.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
   }
   .hero-sub {
     font-weight: 400;
@@ -510,8 +527,8 @@
 <!-- HERO -->
 <section class="hero">
   <p class="hero-eyebrow">Your Producer's Second Brain</p>
-  <h1 class="hero-headline">Let Junior Handle the <span class="flip-word" id="flip-word">Boring</span> Parts of Producing.</h1>
-  <p class="hero-sub">Your 24/7 producing partner — available for $32/month.</p>
+  <h1 class="hero-headline">Junior Handles the <span class="flip-word" id="flip-word" style="display:inline-block;min-width:4.5ch;">Boring</span><br>Parts of Producing <span class="effortlessly">Effortlessly.</span></h1>
+  <p class="hero-sub">Junior handles the admin so you can focus on more important things.</p>
   <button class="hero-join-btn" onclick="openModal()">Join Now</button>
 </section>
 
@@ -622,7 +639,6 @@
 </div>
 
 <script>
-  // Flip word animation
   const flipWords = ["boring", "annoying", "painful", "frustrating", "overwhelming"];
   let flipIndex = 0;
   const flipEl = document.getElementById('flip-word');
