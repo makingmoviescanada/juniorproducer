@@ -20,11 +20,21 @@ type WizardStep = 'name' | 'category' | 'intake' | 'chat'
 const MESSAGE_LIMIT = 20
 
 const INTAKE_QUESTIONS = [
-  { key: 'province', question: 'What province are you based in?', placeholder: 'e.g. Quebec, Ontario, BC...' },
-  { key: 'stage', question: 'What stage is your project at?', placeholder: 'e.g. Development, Pre-production, Production, Post...' },
-  { key: 'format', question: 'What format is the project?', placeholder: 'e.g. Short film, Feature, Documentary...' },
-  { key: 'broadcaster', question: 'Do you have a broadcaster or distributor attached?', placeholder: 'e.g. No, or name of broadcaster...' },
-  { key: 'productionCompany', question: 'Do you own or operate a registered production company?', placeholder: 'e.g. Yes — Intersectionnel Films Inc., or No...' },
+  {
+    key: 'format',
+    question: 'What format is your project?',
+    placeholder: 'e.g. Feature Film, Short Film, Documentary, TV Series, Web Series...',
+  },
+  {
+    key: 'stage',
+    question: 'What stage is it at?',
+    placeholder: 'e.g. Development, Pre-production, Production, Post-production...',
+  },
+  {
+    key: 'province',
+    question: 'What province are you based in?',
+    placeholder: 'e.g. Quebec, Ontario, BC, Alberta...',
+  },
 ]
 
 const CATEGORIES = [
@@ -80,11 +90,9 @@ type VoteModal = {
 }
 
 type IntakeAnswers = {
-  province: string
-  stage: string
   format: string
-  broadcaster: string
-  productionCompany: string
+  stage: string
+  province: string
 }
 
 function stripMarkdown(text: string): string {
@@ -97,20 +105,35 @@ function stripMarkdown(text: string): string {
     .replace(/`(.+?)`/g, '$1')
 }
 
-function parseCalendarTag(content: string): { text: string; event: CalendarEvent | null } {
-  const regex = /\[CALENDAR:\s*title="([^"]+)"\s*description="([^"]+)"\s*date="([^"]+)"\s*remind_days=(\d+)\]/
-  const match = content.match(regex)
-  if (!match) return { text: stripMarkdown(content), event: null }
-  const text = content.replace(regex, '').trim()
-  return {
-    text: stripMarkdown(text),
-    event: {
-      title: match[1],
-      description: match[2],
-      date: match[3],
-      remind_days: parseInt(match[4]),
-    },
+function parseTags(content: string): {
+  text: string
+  event: CalendarEvent | null
+  suggestions: string[]
+} {
+  let text = content
+  let event: CalendarEvent | null = null
+  let suggestions: string[] = []
+
+  const calRegex = /\[CALENDAR:\s*title="([^"]+)"\s*description="([^"]+)"\s*date="([^"]+)"\s*remind_days=(\d+)\]/
+  const calMatch = text.match(calRegex)
+  if (calMatch) {
+    text = text.replace(calRegex, '').trim()
+    event = {
+      title: calMatch[1],
+      description: calMatch[2],
+      date: calMatch[3],
+      remind_days: parseInt(calMatch[4]),
+    }
   }
+
+  const sugRegex = /\[SUGGESTIONS:\s*"([^"]+)"\s*\|\s*"([^"]+)"\]/
+  const sugMatch = text.match(sugRegex)
+  if (sugMatch) {
+    text = text.replace(sugRegex, '').trim()
+    suggestions = [sugMatch[1], sugMatch[2]]
+  }
+
+  return { text: stripMarkdown(text), event, suggestions }
 }
 
 function downloadICS(event: CalendarEvent) {
@@ -149,7 +172,7 @@ export default function ChatPage() {
   const [projectName, setProjectName] = useState('')
   const [selectedCategory, setSelectedCategory] = useState<typeof CATEGORIES[0] | null>(null)
   const [intakeStep, setIntakeStep] = useState(0)
-  const [intakeAnswers, setIntakeAnswers] = useState<IntakeAnswers>({ province: '', stage: '', format: '', broadcaster: '', productionCompany: '' })
+  const [intakeAnswers, setIntakeAnswers] = useState<IntakeAnswers>({ format: '', stage: '', province: '' })
   const [intakeInput, setIntakeInput] = useState('')
   const [messages, setMessages] = useState<Message[]>([])
   const [input, setInput] = useState('')
@@ -184,14 +207,14 @@ export default function ChatPage() {
   useEffect(() => {
     if (wizardStep === 'name') nameInputRef.current?.focus()
     if (wizardStep === 'intake') intakeInputRef.current?.focus()
-  }, [wizardStep])
+  }, [wizardStep, intakeStep])
 
   function resetWizard() {
     setWizardStep('name')
     setProjectName('')
     setSelectedCategory(null)
     setIntakeStep(0)
-    setIntakeAnswers({ province: '', stage: '', format: '', broadcaster: '', productionCompany: '' })
+    setIntakeAnswers({ format: '', stage: '', province: '' })
     setIntakeInput('')
     setMessages([])
     setLimitReached(false)
@@ -223,10 +246,10 @@ export default function ChatPage() {
 
   function startChat(answers: IntakeAnswers) {
     const cat = selectedCategory!
-    const contextMessage = `My project is called "${projectName}". ${cat.context} Here's my context: Province: ${answers.province}. Stage: ${answers.stage}. Format: ${answers.format}. Broadcaster/distributor attached: ${answers.broadcaster}. Production company: ${answers.productionCompany}.`
+    const contextMessage = `My project is called "${projectName}". ${cat.context} Here's my context: Format: ${answers.format}. Stage: ${answers.stage}. Province: ${answers.province}.`
     const welcome: Message = {
       role: 'assistant',
-      content: `Got it — let's work on ${projectName}.\n\nI have your project context. What would you like to tackle first?`,
+      content: `Got it — let's work on ${projectName}.\n\nI have your context. What would you like to tackle first?`,
     }
     setMessages([welcome])
     setWizardStep('chat')
@@ -264,9 +287,10 @@ export default function ChatPage() {
     }
   }
 
-  async function sendMessage() {
-    if (!input.trim() || loading || limitReached) return
-    const userMessage: Message = { role: 'user', content: input }
+  async function sendMessage(prefill?: string) {
+    const text = prefill ?? input
+    if (!text.trim() || loading || limitReached) return
+    const userMessage: Message = { role: 'user', content: text }
     const updatedMessages = [...messages, userMessage]
     setMessages(updatedMessages)
     setInput('')
@@ -283,12 +307,12 @@ export default function ChatPage() {
       if (!response.body) return
       const reader = response.body.getReader()
       const decoder = new TextDecoder()
-      let text = ''
+      let responseText = ''
       while (true) {
         const { done, value } = await reader.read()
         if (done) break
-        text += decoder.decode(value, { stream: true })
-        setMessages([...updatedMessages, { role: 'assistant', content: text }])
+        responseText += decoder.decode(value, { stream: true })
+        setMessages([...updatedMessages, { role: 'assistant', content: responseText }])
       }
     } catch {
       setMessages([...updatedMessages, { role: 'assistant', content: 'Something went wrong. Please try again.' }])
@@ -359,15 +383,7 @@ export default function ChatPage() {
       </div>
 
       <div style={{ padding: '1rem 1rem 0' }}>
-        <button
-          onClick={resetWizard}
-          style={{
-            width: '100%', padding: '0.6rem 1rem', backgroundColor: '#E8392A',
-            color: '#FFFFFF', border: '2px solid #E8392A', fontFamily: 'Barlow, sans-serif',
-            fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left',
-            letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '0.5rem',
-          }}
-        >
+        <button onClick={resetWizard} style={{ width: '100%', padding: '0.6rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #E8392A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
           </svg>
@@ -389,37 +405,17 @@ export default function ChatPage() {
           <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Funders</span>
         </div>
         {FUNDERS.map((f) => (
-          <button
-            key={f.label}
-            onClick={() => {
-              if (f.live) resetWizard()
-              else if (f.voteKey) openVoteModal(f.label, f.voteKey)
-            }}
-            style={{
-              width: '100%', padding: '0.4rem 0.5rem', backgroundColor: 'transparent',
-              border: 'none', fontFamily: 'Barlow, sans-serif', fontSize: '0.8rem',
-              cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '0.4rem',
-              color: f.live ? '#F0EBE0' : '#999',
-              opacity: f.live ? 1 : 0.6,
-            }}
-          >
+          <button key={f.label} onClick={() => { if (f.live) resetWizard(); else if (f.voteKey) openVoteModal(f.label, f.voteKey) }}
+            style={{ width: '100%', padding: '0.4rem 0.5rem', backgroundColor: 'transparent', border: 'none', fontFamily: 'Barlow, sans-serif', fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '0.4rem', color: f.live ? '#F0EBE0' : '#999', opacity: f.live ? 1 : 0.6 }}>
             🏛 {f.label}
-            {!f.live && (
-              <span style={{ fontSize: '0.55rem', padding: '0.1rem 0.4rem', backgroundColor: '#333', color: '#999', fontWeight: 700, letterSpacing: '0.05em', marginLeft: 'auto' }}>
-                SOON
-              </span>
-            )}
+            {!f.live && <span style={{ fontSize: '0.55rem', padding: '0.1rem 0.4rem', backgroundColor: '#333', color: '#999', fontWeight: 700, letterSpacing: '0.05em', marginLeft: 'auto' }}>SOON</span>}
           </button>
         ))}
       </div>
 
       <div style={{ marginTop: 'auto', padding: '1rem 1.25rem', borderTop: '1px solid #333', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
         <UserButton afterSignOutUrl="/sign-in" />
-        {user && (
-          <span style={{ fontSize: '0.75rem', color: '#666', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-            {user.primaryEmailAddress?.emailAddress}
-          </span>
-        )}
+        {user && <span style={{ fontSize: '0.75rem', color: '#666', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.primaryEmailAddress?.emailAddress}</span>}
       </div>
     </div>
   )
@@ -435,11 +431,7 @@ export default function ChatPage() {
 
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh', minWidth: 0 }}>
 
-        <div style={{
-          padding: '0.875rem 1.25rem', borderBottom: '2px solid #1A1A1A',
-          backgroundColor: '#F0EBE0', display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-          position: 'sticky', top: 0, zIndex: 10,
-        }}>
+        <div style={{ padding: '0.875rem 1.25rem', borderBottom: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             {isMobile && (
               <button onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -466,20 +458,10 @@ export default function ChatPage() {
                 Junior will use this to keep your session organised.
               </p>
               <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <input
-                  ref={nameInputRef}
-                  type="text"
-                  value={projectName}
-                  onChange={e => setProjectName(e.target.value)}
-                  onKeyDown={handleNameKeyDown}
-                  placeholder="e.g. The Last Frontier"
-                  style={{ flex: 1, padding: '0.75rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none' }}
-                />
-                <button
-                  onClick={handleNameSubmit}
-                  disabled={!projectName.trim()}
-                  style={{ padding: '0.75rem 1.25rem', backgroundColor: projectName.trim() ? '#E8392A' : '#999', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: projectName.trim() ? 'pointer' : 'not-allowed', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}
-                >
+                <input ref={nameInputRef} type="text" value={projectName} onChange={e => setProjectName(e.target.value)} onKeyDown={handleNameKeyDown} placeholder="e.g. The Last Frontier"
+                  style={{ flex: 1, padding: '0.75rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none' }} />
+                <button onClick={handleNameSubmit} disabled={!projectName.trim()}
+                  style={{ padding: '0.75rem 1.25rem', backgroundColor: projectName.trim() ? '#E8392A' : '#999', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: projectName.trim() ? 'pointer' : 'not-allowed', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
                   NEXT →
                 </button>
               </div>
@@ -497,31 +479,21 @@ export default function ChatPage() {
               <p style={{ fontSize: '0.85rem', color: '#1A1A1A', opacity: 0.5, marginBottom: '1.5rem' }}>
                 For <strong style={{ opacity: 1 }}>{projectName}</strong>
               </p>
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
-                gap: '0.75rem',
-              }}>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '0.75rem' }}>
                 {CATEGORIES.slice(0, 3).map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => handleCategorySelect(cat)}
+                  <button key={cat.id} onClick={() => handleCategorySelect(cat)}
                     style={{ padding: '1.25rem', backgroundColor: '#FFFFFF', border: '2px solid #1A1A1A', cursor: 'pointer', textAlign: 'left', boxShadow: '4px 4px 0px #1A1A1A', transition: 'all 150ms ease' }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '6px 6px 0px #1A1A1A' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' }}
-                  >
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' }}>
                     <div style={{ fontSize: '0.9rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.4rem' }}>{cat.title}</div>
                     <p style={{ fontSize: '0.8rem', color: '#1A1A1A', opacity: 0.6, margin: 0, lineHeight: 1.4 }}>{cat.description}</p>
                   </button>
                 ))}
                 {CATEGORIES.slice(3).map((cat) => (
-                  <button
-                    key={cat.id}
-                    onClick={() => handleCategorySelect(cat)}
+                  <button key={cat.id} onClick={() => handleCategorySelect(cat)}
                     style={{ padding: '1.25rem', backgroundColor: '#FFFFFF', border: '2px solid #1A1A1A', cursor: 'pointer', textAlign: 'left', boxShadow: '4px 4px 0px #1A1A1A', transition: 'all 150ms ease' }}
                     onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '6px 6px 0px #1A1A1A' }}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' }}
-                  >
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' }}>
                     <div style={{ fontSize: '0.9rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.25rem' }}>{cat.title}</div>
                     <div style={{ fontSize: '0.8rem', color: '#1A1A1A', opacity: 0.6 }}>{cat.description}</div>
                   </button>
@@ -544,20 +516,11 @@ export default function ChatPage() {
                 {INTAKE_QUESTIONS[intakeStep].question}
               </h2>
               <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <input
-                  ref={intakeInputRef}
-                  type="text"
-                  value={intakeInput}
-                  onChange={e => setIntakeInput(e.target.value)}
-                  onKeyDown={handleIntakeKeyDown}
+                <input ref={intakeInputRef} type="text" value={intakeInput} onChange={e => setIntakeInput(e.target.value)} onKeyDown={handleIntakeKeyDown}
                   placeholder={INTAKE_QUESTIONS[intakeStep].placeholder}
-                  style={{ flex: 1, padding: '0.75rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none' }}
-                />
-                <button
-                  onClick={handleIntakeAnswer}
-                  disabled={!intakeInput.trim()}
-                  style={{ padding: '0.75rem 1.25rem', backgroundColor: intakeInput.trim() ? '#E8392A' : '#999', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: intakeInput.trim() ? 'pointer' : 'not-allowed', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}
-                >
+                  style={{ flex: 1, padding: '0.75rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none' }} />
+                <button onClick={handleIntakeAnswer} disabled={!intakeInput.trim()}
+                  style={{ padding: '0.75rem 1.25rem', backgroundColor: intakeInput.trim() ? '#E8392A' : '#999', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: intakeInput.trim() ? 'pointer' : 'not-allowed', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
                   {intakeStep < INTAKE_QUESTIONS.length - 1 ? 'NEXT →' : 'START →'}
                 </button>
               </div>
@@ -565,65 +528,110 @@ export default function ChatPage() {
           </div>
         )}
 
-        {/* CHAT */}
+        {/* CHAT — split panel on desktop */}
         {wizardStep === 'chat' && (
-          <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '1rem' : '2rem 0', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '1rem' }}>
-            <div style={{ width: '100%', maxWidth: '680px', padding: isMobile ? '0' : '0 1.5rem', display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-              {messages.map((msg, i) => {
-                if (msg.role === 'user') return null
-                const { text, event } = parseCalendarTag(msg.content)
-                const isLoading = loading && i === messages.length - 1 && msg.content === ''
-                return (
-                  <div key={i} style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '0.5rem' }}>
-                    <div style={{ width: '100%', padding: '0.75rem 1rem', backgroundColor: '#FFFFFF', color: '#1A1A1A', border: '2px solid #1A1A1A', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'pre-wrap', lineHeight: 1.6, fontSize: isMobile ? '0.9rem' : '1rem', minWidth: isLoading ? '60px' : undefined }}>
-                      {isLoading ? (
-                        <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center' }}>
-                          <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
-                          <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0.2s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
-                          <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0.4s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
-                        </span>
-                      ) : text}
-                    </div>
-                    {event && !loading && (
-                      <button
-                        onClick={() => downloadICS(event)}
-                        style={{ padding: '0.5rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}
-                      >
-                        + ADD DEADLINE TO CALENDAR
-                      </button>
-                    )}
+          <div style={{ flex: 1, display: 'flex', minHeight: 0, overflow: 'hidden' }}>
+
+            {/* LEFT: context panel — desktop only */}
+            {!isMobile && (
+              <div style={{ width: '220px', minWidth: '220px', borderRight: '2px solid #1A1A1A', padding: '1.5rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '1.25rem', overflowY: 'auto', backgroundColor: '#F0EBE0' }}>
+                <div>
+                  <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Project</span>
+                  <span style={{ fontSize: '0.85rem', fontWeight: 900, color: '#1A1A1A' }}>{projectName}</span>
+                </div>
+                {selectedCategory && (
+                  <div>
+                    <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Focus</span>
+                    <span style={{ fontSize: '0.85rem', color: '#1A1A1A' }}>{selectedCategory.title}</span>
                   </div>
-                )
-              })}
-              {limitReached && (
-                <div style={{ textAlign: 'center', marginTop: '2rem', padding: '2rem', border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A', color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A' }}>
-                  <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>YOU'VE USED YOUR 20 FREE MESSAGES.</p>
-                  <p style={{ opacity: 0.7, marginBottom: '1.5rem', fontSize: '0.85rem' }}>Upgrade to unlock unlimited access.</p>
+                )}
+                {intakeAnswers.format && (
+                  <div>
+                    <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Format</span>
+                    <span style={{ fontSize: '0.85rem', color: '#1A1A1A' }}>{intakeAnswers.format}</span>
+                  </div>
+                )}
+                {intakeAnswers.stage && (
+                  <div>
+                    <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Stage</span>
+                    <span style={{ fontSize: '0.85rem', color: '#1A1A1A' }}>{intakeAnswers.stage}</span>
+                  </div>
+                )}
+                {intakeAnswers.province && (
+                  <div>
+                    <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Province</span>
+                    <span style={{ fontSize: '0.85rem', color: '#1A1A1A' }}>{intakeAnswers.province}</span>
+                  </div>
+                )}
+                <div style={{ marginTop: 'auto' }}>
+                  <button onClick={resetWizard} style={{ fontSize: '0.75rem', fontWeight: 700, color: '#E8392A', background: 'none', border: 'none', cursor: 'pointer', padding: 0, textAlign: 'left', letterSpacing: '0.04em' }}>
+                    ← New project
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {/* RIGHT: conversation */}
+            <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minWidth: 0, overflow: 'hidden' }}>
+              <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '1rem' : '2rem' }}>
+                <div style={{ maxWidth: '680px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                  {messages.map((msg, i) => {
+                    if (msg.role === 'user') return null
+                    const { text, event, suggestions } = parseTags(msg.content)
+                    const isLoading = loading && i === messages.length - 1 && msg.content === ''
+                    return (
+                      <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        <div style={{ padding: '1.25rem 1.5rem', backgroundColor: '#FFFFFF', color: '#1A1A1A', border: '2px solid #1A1A1A', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'pre-wrap', lineHeight: 1.7, fontSize: '1rem', minWidth: isLoading ? '60px' : undefined }}>
+                          {isLoading ? (
+                            <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center' }}>
+                              <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
+                              <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0.2s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
+                              <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0.4s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
+                            </span>
+                          ) : text}
+                        </div>
+                        {event && !loading && (
+                          <button onClick={() => downloadICS(event)} style={{ alignSelf: 'flex-start', padding: '0.5rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}>
+                            + ADD DEADLINE TO CALENDAR
+                          </button>
+                        )}
+                        {suggestions.length > 0 && !loading && (
+                          <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                            {suggestions.map((s, si) => (
+                              <button key={si} onClick={() => sendMessage(s)}
+                                style={{ padding: '0.5rem 1rem', backgroundColor: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', transition: 'all 150ms ease', textAlign: 'left' }}
+                                onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#1A1A1A'; (e.currentTarget as HTMLElement).style.color = '#F0EBE0' }}
+                                onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#1A1A1A' }}>
+                                {s} →
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )
+                  })}
+                  {limitReached && (
+                    <div style={{ textAlign: 'center', padding: '2rem', border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A', color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A' }}>
+                      <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>YOU'VE USED YOUR 20 FREE MESSAGES.</p>
+                      <p style={{ opacity: 0.7, fontSize: '0.85rem' }}>Upgrade to unlock unlimited access.</p>
+                    </div>
+                  )}
+                  <div ref={bottomRef} />
+                </div>
+              </div>
+
+              {!limitReached && (
+                <div style={{ borderTop: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', padding: isMobile ? '0.75rem' : '1rem 2rem' }}>
+                  <div style={{ maxWidth: '680px', margin: '0 auto', display: 'flex', gap: '0.5rem' }}>
+                    <textarea value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleKeyDown} placeholder="Ask Junior..." rows={1}
+                      style={{ flex: 1, padding: '0.75rem', border: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', fontFamily: 'Barlow, sans-serif', fontSize: isMobile ? '0.95rem' : '1rem', resize: 'none', outline: 'none' }} />
+                    <button onClick={() => sendMessage()} disabled={loading || !input.trim()}
+                      style={{ padding: isMobile ? '0.75rem 1rem' : '0.75rem 1.5rem', backgroundColor: loading || !input.trim() ? '#999' : '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: loading || !input.trim() ? 'not-allowed' : 'pointer', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
+                      SEND
+                    </button>
+                  </div>
                 </div>
               )}
-              <div ref={bottomRef} />
-            </div>
-          </div>
-        )}
-
-        {wizardStep === 'chat' && !limitReached && (
-          <div style={{ borderTop: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', position: 'sticky', bottom: 0, display: 'flex', justifyContent: 'center', padding: isMobile ? '0.75rem' : '1rem 0' }}>
-            <div style={{ width: '100%', maxWidth: '680px', padding: isMobile ? '0' : '0 1.5rem', display: 'flex', gap: '0.5rem' }}>
-              <textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder="Ask Junior..."
-                rows={1}
-                style={{ flex: 1, padding: '0.75rem', border: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', fontFamily: 'Barlow, sans-serif', fontSize: isMobile ? '0.95rem' : '1rem', resize: 'none', outline: 'none' }}
-              />
-              <button
-                onClick={sendMessage}
-                disabled={loading || !input.trim()}
-                style={{ padding: isMobile ? '0.75rem 1rem' : '0.75rem 1.5rem', backgroundColor: loading || !input.trim() ? '#999' : '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: loading || !input.trim() ? 'not-allowed' : 'pointer', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}
-              >
-                SEND
-              </button>
             </div>
           </div>
         )}
@@ -635,12 +643,8 @@ export default function ChatPage() {
             {voteModal.voted ? (
               <>
                 <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>✓ VOTE CAST</p>
-                <p style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '1.5rem' }}>
-                  Your vote helps determine what Junior builds next. We'll let you know when {voteModal.label} is live.
-                </p>
-                <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: '#1A1A1A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer' }}>
-                  CLOSE
-                </button>
+                <p style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '1.5rem' }}>Your vote helps determine what Junior builds next. We'll let you know when {voteModal.label} is live.</p>
+                <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: '#1A1A1A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer' }}>CLOSE</button>
               </>
             ) : (
               <>
@@ -648,12 +652,8 @@ export default function ChatPage() {
                 <p style={{ fontSize: '1rem', fontWeight: 700, color: '#E8392A', marginBottom: '0.75rem' }}>{voteModal.label}</p>
                 <p style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '1.5rem' }}>Junior builds features in order of demand. Cast your vote and we'll prioritize accordingly.</p>
                 <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                  <button onClick={() => castVote(voteModal.voteKey)} style={{ padding: '0.6rem 1.25rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}>
-                    CAST MY VOTE
-                  </button>
-                  <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer' }}>
-                    NOT NOW
-                  </button>
+                  <button onClick={() => castVote(voteModal.voteKey)} style={{ padding: '0.6rem 1.25rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}>CAST MY VOTE</button>
+                  <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer' }}>NOT NOW</button>
                 </div>
               </>
             )}
