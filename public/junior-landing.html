@@ -22,6 +22,7 @@
 
   body {
     font-family: 'Barlow', sans-serif;
+    font-size: 16px;
     background: var(--parchment);
     color: var(--ink);
     overflow-x: hidden;
@@ -32,7 +33,7 @@
     background: var(--parchment);
     border-bottom: 1.5px solid var(--ink);
     padding: 0 7vw;
-    height: 64px;
+    height: 68px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -42,7 +43,7 @@
   }
   .nav-wordmark {
     font-weight: 900;
-    font-size: 18px;
+    font-size: 20px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--ink);
@@ -53,7 +54,7 @@
   .btn {
     font-family: 'Barlow', sans-serif;
     font-weight: 900;
-    font-size: 13px;
+    font-size: 14px;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     text-decoration: none;
@@ -66,7 +67,7 @@
   .btn-red {
     background: var(--red);
     color: var(--white);
-    padding: 11px 24px;
+    padding: 12px 26px;
     box-shadow: var(--shadow);
   }
   .btn-red:hover {
@@ -100,7 +101,7 @@
   /* HERO */
   .hero {
     background: var(--parchment);
-    padding: 80px 7vw 100px;
+    padding: 90px 7vw 110px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -108,11 +109,11 @@
   }
   .hero-eyebrow {
     font-weight: 900;
-    font-size: 11px;
+    font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.18em;
     color: var(--red);
-    margin-bottom: 24px;
+    margin-bottom: 28px;
   }
   .hero-headline {
     font-weight: 900;
@@ -121,7 +122,7 @@
     letter-spacing: 0.04em;
     line-height: 1.06;
     color: var(--ink);
-    margin-bottom: 20px;
+    margin-bottom: 24px;
     max-width: 900px;
   }
   .hero-headline .flip-word {
@@ -130,30 +131,25 @@
     min-width: 4.5ch;
     transition: opacity 0.15s ease, transform 0.15s ease;
   }
-  .effortlessly {
-    position: relative;
-    display: inline-block;
-    white-space: nowrap;
-  }
   .hero-sub {
     font-weight: 400;
-    font-size: 18px;
-    line-height: 1.65;
+    font-size: 19px;
+    line-height: 1.7;
     color: var(--ink);
-    opacity: 0.7;
-    margin-bottom: 48px;
-    max-width: 540px;
+    opacity: 0.65;
+    margin-bottom: 52px;
+    max-width: 600px;
   }
   .hero-join-btn {
     font-family: 'Barlow', sans-serif;
     font-weight: 900;
-    font-size: 16px;
+    font-size: 17px;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     background: var(--red);
     color: var(--white);
     border: 2px solid var(--ink);
-    padding: 18px 56px;
+    padding: 20px 60px;
     cursor: pointer;
     box-shadow: var(--shadow);
     transition: all 150ms ease;
@@ -167,19 +163,19 @@
   /* FEATURE CARDS */
   .feature-cards {
     background: var(--red);
-    padding: 80px 7vw 60px;
+    padding: 88px 7vw 72px;
   }
   .section-label {
     font-weight: 900;
-    font-size: 11px;
+    font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.18em;
     margin-bottom: 16px;
     display: block;
   }
-  .label-on-red   { color: rgba(255,255,255,0.5); }
+  .label-on-red   { color: rgba(255,255,255,0.6); }
   .label-on-parch { color: var(--red); }
-  .label-on-dark  { color: rgba(240,235,224,0.4); }
+  .label-on-dark  { color: rgba(240,235,224,0.5); }
 
   .section-title {
     font-weight: 900;
@@ -200,11 +196,11 @@
   .feature-card {
     background: var(--parchment);
     border: 2.5px solid var(--ink);
-    padding: 44px 36px;
+    padding: 48px 40px;
     box-shadow: var(--shadow);
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 18px;
     transition: box-shadow 150ms ease, transform 150ms ease;
   }
   .feature-card:hover {
@@ -212,12 +208,12 @@
     transform: translateY(-2px);
   }
   .card-icon {
-    font-size: 28px;
+    font-size: 30px;
     color: var(--red);
   }
   .card-headline {
     font-weight: 900;
-    font-size: clamp(19px, 1.8vw, 24px);
+    font-size: clamp(20px, 1.8vw, 26px);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     line-height: 1.12;
@@ -225,22 +221,22 @@
   }
   .card-body {
     font-weight: 400;
-    font-size: 15px;
-    line-height: 1.7;
+    font-size: 16px;
+    line-height: 1.75;
     color: var(--ink);
-    opacity: 0.68;
+    opacity: 0.8;
     flex: 1;
   }
   .card-cta {
     font-family: 'Barlow', sans-serif;
     font-weight: 900;
-    font-size: 12px;
+    font-size: 13px;
     text-transform: uppercase;
     letter-spacing: 0.05em;
     background: var(--ink);
     color: var(--white);
     border: 2px solid var(--ink);
-    padding: 14px 18px;
+    padding: 15px 18px;
     cursor: pointer;
     text-align: center;
     text-decoration: none;
@@ -261,25 +257,25 @@
     justify-content: center;
     gap: 16px;
     flex-wrap: wrap;
-    margin-top: 48px;
-    padding-top: 40px;
-    border-top: 1.5px solid rgba(255,255,255,0.2);
+    margin-top: 56px;
+    padding-top: 44px;
+    border-top: 1.5px solid rgba(255,255,255,0.25);
   }
   .funder-name-pill {
     font-weight: 900;
-    font-size: 11px;
+    font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: rgba(255,255,255,0.6);
-    padding: 10px 18px;
-    border: 1.5px solid rgba(255,255,255,0.25);
+    color: rgba(255,255,255,0.75);
+    padding: 11px 20px;
+    border: 1.5px solid rgba(255,255,255,0.35);
     white-space: nowrap;
   }
 
   /* FOUNDERS */
   .founders {
     background: var(--ink);
-    padding: 80px 7vw;
+    padding: 90px 7vw;
   }
   .founders-intro {
     max-width: 700px;
@@ -291,10 +287,10 @@
   }
   .founders-body-text {
     font-weight: 400;
-    font-size: 17px;
-    line-height: 1.7;
+    font-size: 18px;
+    line-height: 1.75;
     color: var(--parchment);
-    opacity: 0.58;
+    opacity: 0.72;
   }
   .founders-grid {
     display: grid;
@@ -303,11 +299,11 @@
   }
   .founder-card {
     display: flex;
-    gap: 28px;
+    gap: 32px;
     align-items: center;
     background: rgba(255,255,255,0.04);
-    border: 1px solid rgba(255,255,255,0.09);
-    padding: 44px 40px;
+    border: 1px solid rgba(255,255,255,0.1);
+    padding: 48px 44px;
     transition: background 150ms ease;
   }
   .founder-card:hover { background: rgba(255,255,255,0.07); }
@@ -326,17 +322,17 @@
     filter: grayscale(100%);
     display: block;
   }
-  .founder-info { display: flex; flex-direction: column; gap: 8px; }
+  .founder-info { display: flex; flex-direction: column; gap: 10px; }
   .founder-role {
     font-weight: 900;
-    font-size: 10px;
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.16em;
     color: var(--red);
   }
   .founder-name-display {
     font-weight: 900;
-    font-size: 22px;
+    font-size: 24px;
     text-transform: uppercase;
     letter-spacing: 0.04em;
     color: var(--parchment);
@@ -344,32 +340,32 @@
   }
   .founder-bio {
     font-weight: 400;
-    font-size: 14px;
-    line-height: 1.65;
+    font-size: 15px;
+    line-height: 1.7;
     color: var(--parchment);
-    opacity: 0.52;
+    opacity: 0.65;
     margin-top: 4px;
   }
 
   /* CLOSING CTA */
   .closing {
     background: var(--red);
-    padding: 90px 7vw;
+    padding: 100px 7vw;
     text-align: center;
   }
   .closing-headline {
     font-size: clamp(28px, 3.8vw, 58px);
     color: var(--white);
-    margin-bottom: 16px;
+    margin-bottom: 18px;
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
   }
   .closing-sub {
     font-weight: 600;
-    font-size: 17px;
-    color: rgba(255,255,255,0.6);
-    margin-bottom: 48px;
+    font-size: 18px;
+    color: rgba(255,255,255,0.75);
+    margin-bottom: 52px;
   }
   .email-form {
     display: flex;
@@ -383,10 +379,10 @@
   .email-input {
     font-family: 'Barlow', sans-serif;
     font-weight: 400;
-    font-size: 15px;
+    font-size: 16px;
     flex: 1;
     min-width: 220px;
-    padding: 15px 20px;
+    padding: 16px 20px;
     border: 2px solid var(--ink);
     background: var(--white);
     color: var(--ink);
@@ -399,7 +395,7 @@
   /* FOOTER */
   footer {
     background: var(--ink);
-    padding: 32px 7vw;
+    padding: 36px 7vw;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -407,13 +403,13 @@
   }
   .footer-copy {
     font-weight: 400;
-    font-size: 13px;
+    font-size: 14px;
     color: var(--parchment);
-    opacity: 0.3;
+    opacity: 0.45;
   }
   .footer-wordmark {
     font-weight: 900;
-    font-size: 15px;
+    font-size: 16px;
     text-transform: uppercase;
     letter-spacing: 0.08em;
     color: var(--parchment);
@@ -436,7 +432,7 @@
     background: var(--red);
     border: 2px solid var(--ink);
     box-shadow: 6px 6px 0px var(--ink);
-    padding: 48px 44px;
+    padding: 52px 48px;
     max-width: 480px;
     width: 100%;
     position: relative;
@@ -457,18 +453,18 @@
   .modal-close:hover { color: var(--white); }
   .modal-headline {
     font-weight: 900;
-    font-size: clamp(22px, 3vw, 32px);
+    font-size: clamp(22px, 3vw, 34px);
     text-transform: uppercase;
     letter-spacing: 0.04em;
     line-height: 1.1;
     color: var(--white);
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
   .modal-sub {
     font-weight: 600;
-    font-size: 15px;
-    color: rgba(255,255,255,0.6);
-    margin-bottom: 28px;
+    font-size: 16px;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 32px;
   }
   .modal-form {
     display: flex;
@@ -479,7 +475,7 @@
     display: none;
     color: var(--white);
     font-weight: 600;
-    font-size: 16px;
+    font-size: 17px;
     margin-top: 16px;
   }
 
@@ -502,7 +498,7 @@
 <nav>
   <a href="#" class="nav-wordmark">Junior</a>
   <div style="display:flex;align-items:center;gap:20px;">
-    <a href="/sign-in" id="signin-btn" style="font-family:'Barlow',sans-serif;font-weight:900;font-size:13px;text-transform:uppercase;letter-spacing:0.06em;text-decoration:none;color:#1A1A1A;border:2px solid #1A1A1A;padding:9px 20px;opacity:0.5;box-shadow:4px 4px 0px #1A1A1A;transition:all 150ms ease;">Sign In</a>
+    <a href="/sign-in" id="signin-btn" style="font-family:'Barlow',sans-serif;font-weight:900;font-size:14px;text-transform:uppercase;letter-spacing:0.06em;text-decoration:none;color:#1A1A1A;border:2px solid #1A1A1A;padding:10px 22px;opacity:0.5;box-shadow:4px 4px 0px #1A1A1A;transition:all 150ms ease;">Sign In</a>
     <button class="btn btn-red" onclick="openModal()">Get Early Access</button>
   </div>
 </nav>
@@ -598,7 +594,7 @@
     <button type="submit" class="btn btn-white" data-tier="general">Get Early Access</button>
   </form>
   <iframe name="kit-iframe-closing" style="display:none;"></iframe>
-  <p id="form-success-closing" style="display:none;color:#fff;font-family:'Barlow',sans-serif;font-weight:600;font-size:16px;margin-top:20px;">Thanks for signing up! Check your inbox.</p>
+  <p id="form-success-closing" style="display:none;color:#fff;font-family:'Barlow',sans-serif;font-weight:600;font-size:17px;margin-top:20px;">Thanks for signing up! Check your inbox.</p>
 </section>
 
 <!-- FOOTER -->
@@ -678,7 +674,8 @@
       document.getElementById('form-success-closing').style.display = 'block';
     }, 500);
   });
- const signinBtn = document.getElementById('signin-btn');
+
+  const signinBtn = document.getElementById('signin-btn');
   signinBtn.addEventListener('mouseenter', () => {
     signinBtn.style.opacity = '1';
     signinBtn.style.boxShadow = '6px 6px 0px #1A1A1A';
