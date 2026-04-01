@@ -25,20 +25,17 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const validPrices = {
-      monthly: 'price_1TFpWNRwIeAXbMNlc8W0Z8Fp',
-      annual: 'price_1TFpZtRwIeAXbMNlyXvqXME9',
-    };
-
-    if (
-      priceId !== validPrices.monthly &&
-      priceId !== validPrices.annual
-    ) {
-      return NextResponse.json(
-        { error: 'Invalid price ID' },
-        { status: 400 }
-      );
-    }
+    const validPrices = [
+  'price_1TFrW4RzmBTZm8w5ZRTltdfM', // monthly
+  'price_1TFrW3RzmBTZm8w5FafvtRoL', // annual
+  'price_1TFrW2RzmBTZm8w5R94Bx3w9', // 7-day
+];
+if (!validPrices.includes(priceId)) {
+  return NextResponse.json(
+    { error: 'Invalid price ID' },
+    { status: 400 }
+  );
+}
 
     let stripeCustomerId: string;
     const { data: existingSub } = await supabaseAdmin
@@ -51,21 +48,9 @@ export async function POST(request: NextRequest) {
       stripeCustomerId = existingSub.stripe_customer_id;
     } else {
       // Fetch user email from Supabase Auth
-      const { data: { user } } = await supabaseAdmin.auth.admin.getUserById(userId);
-      
-      if (!user?.email) {
-        return NextResponse.json(
-          { error: 'User email not found' },
-          { status: 400 }
-        );
-      }
-
       const customer = await stripe.customers.create({
-        email: user.email,
-        metadata: {
-          userId,
-        },
-      });
+  metadata: { userId },
+});
       stripeCustomerId = customer.id;
       await supabaseAdmin.from('subscriptions').insert({
         user_id: userId,
@@ -83,7 +68,7 @@ export async function POST(request: NextRequest) {
           quantity: 1,
         },
       ],
-      mode: 'subscription',
+      mode: billingPeriod === 'one_time' ? 'payment' : 'subscription',
       success_url: 'https://www.juniorproducer.ca/chat',
       cancel_url: 'https://www.juniorproducer.ca/pricing',
       metadata: {
