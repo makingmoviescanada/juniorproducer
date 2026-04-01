@@ -344,10 +344,23 @@ export default function ChatPage() {
           </button>
         ))}
       </div>
-      <div style={{ marginTop: 'auto', padding: '1rem 1.5rem', borderTop: '1px solid #333', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-        <UserButton afterSignOutUrl="/sign-in" />
-        {user && <span style={{ fontSize: '0.8rem', color: '#555', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.primaryEmailAddress?.emailAddress}</span>}
-      </div>
+      <div style={{ marginTop: 'auto', borderTop: '1px solid #333' }}>
+  <div style={{ padding: '1rem 1.5rem' }}>
+    <button
+      onClick={async () => {
+        const res = await fetch('/api/stripe/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ priceId: 'price_1TFrW4RzmBTZm8w5ZRTltdfM', billingPeriod: 'monthly', userId: user?.id }) })
+        const { url } = await res.json()
+        if (url) window.location.href = url
+      }}
+      style={{ width: '100%', padding: '0.7rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #E8392A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.8rem', cursor: 'pointer', letterSpacing: '0.05em', boxShadow: '4px 4px 0px #E8392A' }}>
+      UPGRADE →
+    </button>
+  </div>
+  <div style={{ padding: '0 1.5rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+    <UserButton afterSignOutUrl="/sign-in" />
+    {user && <span style={{ fontSize: '0.8rem', color: '#555', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.primaryEmailAddress?.emailAddress}</span>}
+  </div>
+</div>
     </div>
   )
 
