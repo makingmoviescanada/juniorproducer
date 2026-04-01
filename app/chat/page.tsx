@@ -515,11 +515,40 @@ export default function ChatPage() {
                   )
                 })}
                 {limitReached && (
-                  <div style={{ padding: '2rem', border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A', color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A' }}>
-                    <p style={{ fontWeight: 900, fontSize: '1rem', marginBottom: '0.5rem' }}>YOU'VE USED YOUR 20 FREE MESSAGES.</p>
-                    <p style={{ opacity: 0.7, fontSize: '0.9rem' }}>Upgrade to unlock unlimited access.</p>
-                  </div>
-                )}
+  <div style={{ padding: '2rem', border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A', color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A' }}>
+    <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem', letterSpacing: '0.03em' }}>YOU'VE USED YOUR 20 FREE MESSAGES.</p>
+    <p style={{ opacity: 0.7, fontSize: '0.9rem', marginBottom: '1.5rem' }}>Upgrade to unlock unlimited access to Junior.</p>
+    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+      <button
+        onClick={async () => {
+          const res = await fetch('/api/stripe/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ priceId: 'price_1TFrW2RzmBTZm8w5R94Bx3w9', billingPeriod: 'one_time', userId: user?.id }) })
+          const { sessionId } = await res.json()
+          if (sessionId) { const stripe = (await import('@stripe/stripe-js')).loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!); (await stripe)?.redirectToCheckout({ sessionId }) }
+        }}
+        style={{ padding: '0.7rem 1.25rem', backgroundColor: 'transparent', color: '#FFFFFF', border: '2px solid #FFFFFF', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', letterSpacing: '0.05em' }}>
+        7 DAYS — $19
+      </button>
+      <button
+        onClick={async () => {
+          const res = await fetch('/api/stripe/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ priceId: 'price_1TFrW4RzmBTZm8w5ZRTltdfM', billingPeriod: 'monthly', userId: user?.id }) })
+          const { sessionId } = await res.json()
+          if (sessionId) { const stripe = (await import('@stripe/stripe-js')).loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!); (await stripe)?.redirectToCheckout({ sessionId }) }
+        }}
+        style={{ padding: '0.7rem 1.25rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #E8392A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '4px 4px 0px #E8392A', letterSpacing: '0.05em' }}>
+        MONTHLY — $39/MO ★
+      </button>
+      <button
+        onClick={async () => {
+          const res = await fetch('/api/stripe/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ priceId: 'price_1TFrW3RzmBTZm8w5FafvtRoL', billingPeriod: 'annual', userId: user?.id }) })
+          const { sessionId } = await res.json()
+          if (sessionId) { const stripe = (await import('@stripe/stripe-js')).loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!); (await stripe)?.redirectToCheckout({ sessionId }) }
+        }}
+        style={{ padding: '0.7rem 1.25rem', backgroundColor: 'transparent', color: '#FFFFFF', border: '2px solid #FFFFFF', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', letterSpacing: '0.05em' }}>
+        ANNUAL — $390/YR
+      </button>
+    </div>
+  </div>
+)}
                 <div ref={bottomRef} />
               </div>
             </div>
