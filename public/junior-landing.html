@@ -128,22 +128,12 @@
     color: var(--ink);
     display: inline-block;
     min-width: 4.5ch;
-    transition: opacity 0.28s ease, transform 0.28s ease;
+    transition: opacity 0.15s ease, transform 0.15s ease;
   }
   .effortlessly {
     position: relative;
     display: inline-block;
     white-space: nowrap;
-  }
-  .effortlessly::after {
-    content: '';
-    position: absolute;
-    left: 0;
-    bottom: -4px;
-    width: 100%;
-    height: 4px;
-    background-color: #E8392A;
-    border-radius: 2px;
   }
   .hero-sub {
     font-weight: 400;
@@ -200,15 +190,6 @@
   .title-on-red   { color: var(--white); }
   .title-on-parch { color: var(--ink); }
   .title-on-dark  { color: var(--parchment); }
-
-  .section-intro {
-    font-weight: 400;
-    font-size: 18px;
-    line-height: 1.65;
-    color: rgba(255,255,255,0.75);
-    max-width: 600px;
-    margin-top: 16px;
-  }
 
   .cards-grid {
     display: grid;
@@ -525,17 +506,23 @@
 
 <!-- HERO -->
 <section class="hero">
-  <p class="hero-eyebrow">Your Producer's Second Brain</p>
-  <h1 class="hero-headline">Junior Handles the <span id="flip-word" style="display:inline-block;min-width:4.5ch;transition:opacity 0.28s ease,transform 0.28s ease;">Tedious</span><br>Parts of Producing <span class="effortlessly">Effortlessly.</span></h1>
-  <p class="hero-sub">Junior is an AI assistant for Canadian producers. It handles your administrative burden so you can focus on making films.</p>
+  <p class="hero-eyebrow">Junior is your Second Brain</p>
+  <h1 class="hero-headline">Junior Handles the <span class="flip-word" id="flip-word" style="display:inline-block;min-width:4.5ch;">Tedious</span><br>Parts of Producing <span class="effortlessly">Effortlessly.</span></h1>
+  <p class="hero-sub">Junior is an AI assistant for Canadian producers — built to eliminate the administrative burden of independent filmmaking.</p>
   <button class="hero-join-btn" onclick="openModal()">Join Now</button>
 </section>
 
 <!-- FEATURE CARDS -->
 <section class="feature-cards">
   <span class="section-label label-on-red">How Junior Helps</span>
-  <p class="section-intro">Built to reduce the administrative burden of independent producing — from grant research to deadline tracking to back-office admin.</p>
   <div class="cards-grid">
+
+    <div class="feature-card">
+      <div class="card-icon"><i class="fa-solid fa-gears"></i></div>
+      <h3 class="card-headline">Automate Admin</h3>
+      <p class="card-body">Junior automates admin to increase your profit margins on fixed line items.</p>
+      <a href="#" class="card-cta" data-tier="admin" onclick="setInterest('admin'); openModal(); return false;">Get Junior for Admin</a>
+    </div>
 
     <div class="feature-card">
       <div class="card-icon"><i class="fa-solid fa-dollar-sign"></i></div>
@@ -549,13 +536,6 @@
       <h3 class="card-headline">Track Deadlines</h3>
       <p class="card-body">Junior syncs program deadlines to your calendar and sends you reminders to apply.</p>
       <a href="#" class="card-cta" data-tier="deadlines" onclick="setInterest('deadlines'); openModal(); return false;">Get Junior for Deadlines</a>
-    </div>
-
-    <div class="feature-card">
-      <div class="card-icon"><i class="fa-solid fa-gears"></i></div>
-      <h3 class="card-headline">Automate Admin</h3>
-      <p class="card-body">Junior automates admin to increase your profit margins on fixed line items.</p>
-      <a href="#" class="card-cta" data-tier="admin" onclick="setInterest('admin'); openModal(); return false;">Get Junior for Admin</a>
     </div>
 
   </div>
