@@ -739,8 +739,8 @@
 <nav>
   <a href="#" class="nav-wordmark">Junior</a>
   <div style="display:flex;align-items:center;gap:16px;">
-    <a href="/sign-in" id="signin-btn" class="btn-ghost">Sign In</a>
-    <button class="btn-primary" onclick="openModal()">Try the Beta Free</button>
+    <a href="https://www.juniorproducer.ca/sign-in" id="signin-btn" class="btn-ghost">Sign In</a>
+    <a href="https://www.juniorproducer.ca/sign-up" class="btn-primary">Try the Beta Free</a>
   </div>
 </nav>
 
@@ -754,7 +754,7 @@
   </h1>
   <p class="hero-sub">Junior knows every Canadian funder and helps you navigate the funding maze, build stronger applications, and survive the reapplication cycle.</p>
   <p class="hero-price-note">Open beta · No credit card required · CA$32/month when you're ready</p>
-  <button class="hero-join-btn" onclick="openModal()">Try the Beta Free</button>
+  <a href="https://www.juniorproducer.ca/sign-up" class="hero-join-btn">Try the Beta Free</a>
 </section>
 <div class="sec-divider"></div>
 
@@ -798,7 +798,7 @@
       <div class="card-num">01</div>
       <h3 class="card-headline">Know every funder before you apply</h3>
       <p class="card-body">Telefilm, CMF, Canada Council, SODEC, Ontario Creates, Creative BC — Junior matches your project to the right program at the right stage. It explains exactly why you qualify, and flags why you might not, before you commit a week to the wrong application.</p>
-      <a href="#" class="card-cta" data-tier="funding" onclick="setInterest('funding'); openModal(); return false;">Try the Beta Free</a>
+      <a href="https://www.juniorproducer.ca/sign-up" class="card-cta">Try the Beta Free</a>
     </div>
 
     <div class="feature-card">
@@ -808,7 +808,7 @@
       <div class="card-num">02</div>
       <h3 class="card-headline">Reapplications without the version chaos</h3>
       <p class="card-body">Got rejected last round? Programs change. Criteria shift. Junior helps you understand what's different this cycle, what needs to be updated in your supporting materials, and how to reframe your project for a stronger second attempt — without rebuilding from zero.</p>
-      <a href="#" class="card-cta" data-tier="revisions" onclick="setInterest('revisions'); openModal(); return false;">Try the Beta Free</a>
+      <a href="https://www.juniorproducer.ca/sign-up" class="card-cta">Try the Beta Free</a>
     </div>
 
     <div class="feature-card">
@@ -818,7 +818,7 @@
       <div class="card-num">03</div>
       <h3 class="card-headline">Every deadline. Every round. Tracked.</h3>
       <p class="card-body">Junior knows when every program opens, closes, and what changed between cycles. No more finding out about a Telefilm round three days before it closes. No more missing a Canada Council deadline because you didn't know it existed. Junior automatically syncs every relevant deadline to your calendar across your entire slate.</p>
-      <a href="#" class="card-cta" data-tier="deadlines" onclick="setInterest('deadlines'); openModal(); return false;">Try the Beta Free</a>
+      <a href="https://www.juniorproducer.ca/sign-up" class="card-cta">Try the Beta Free</a>
     </div>
 
   </div>
@@ -1048,13 +1048,7 @@
 <section class="closing" id="early-access">
   <h2 class="closing-headline">The cavalry's not coming.<br>But <em>Junior</em> is.</h2>
   <p class="closing-sub">The Canadian film funding system wasn't built to be easy. Junior makes it effortless. Try the beta free — no credit card.</p>
-  <form class="email-form" id="closing-form" action="https://app.kit.com/forms/9206634/subscriptions" method="POST" target="kit-iframe-closing">
-    <input type="hidden" id="interest-field-closing" name="fields[interest]" value="general">
-    <input type="email" name="email_address" class="email-input" placeholder="Email address" required>
-    <button type="submit" class="btn-primary" style="padding:16px 36px;" data-tier="general">Try the Beta Free</button>
-  </form>
-  <iframe name="kit-iframe-closing" style="display:none;"></iframe>
-  <p id="form-success-closing" style="display:none;color:var(--indigo);font-family:'Barlow',sans-serif;font-weight:700;font-size:17px;margin-top:20px;">You're in. Check your inbox.</p>
+  <a href="https://www.juniorproducer.ca/sign-up" class="hero-join-btn" style="text-decoration:none;">Try the Beta Free</a>
   <p class="closing-footnote">Open beta · No credit card required · CA$32/month when you're ready</p>
 </section>
 
@@ -1070,22 +1064,12 @@
     <button class="modal-close" onclick="closeModal()">✕</button>
     <h2 class="modal-headline">The development producer<br>you can <em>finally</em> afford.</h2>
     <p class="modal-sub">Try Junior free — built for the Canadian film funding system. No credit card required.</p>
-    <form class="modal-form" id="modal-form" action="https://app.kit.com/forms/9206634/subscriptions" method="POST" target="kit-iframe-modal">
-      <input type="hidden" id="interest-field-modal" name="fields[interest]" value="general">
-      <input type="email" name="email_address" class="email-input" placeholder="Email address" required>
-      <button type="submit" class="btn-primary" style="padding:15px 36px;">Try the Beta Free</button>
-    </form>
-    <iframe name="kit-iframe-modal" style="display:none;"></iframe>
-    <p class="modal-success" id="modal-success">You're in. Check your inbox.</p>
+    <a href="https://www.juniorproducer.ca/sign-up" class="btn-primary" style="display:block;text-align:center;text-decoration:none;padding:15px 36px;font-size:15px;">Try the Beta Free</a>
+    <p style="margin-top:14px;font-size:12px;color:rgba(26,18,48,0.35);text-transform:uppercase;letter-spacing:0.06em;">No credit card required</p>
   </div>
 </div>
 
 <script>
-  function setInterest(value) {
-    document.getElementById('interest-field-modal').value = value;
-    document.getElementById('interest-field-closing').value = value;
-  }
-
   function openModal() {
     document.getElementById('modal-overlay').classList.add('active');
     document.body.style.overflow = 'hidden';
@@ -1102,20 +1086,6 @@
 
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeModal();
-  });
-
-  document.getElementById('modal-form').addEventListener('submit', function() {
-    setTimeout(function() {
-      document.getElementById('modal-form').style.display = 'none';
-      document.getElementById('modal-success').style.display = 'block';
-    }, 500);
-  });
-
-  document.getElementById('closing-form').addEventListener('submit', function() {
-    setTimeout(function() {
-      document.getElementById('closing-form').style.display = 'none';
-      document.getElementById('form-success-closing').style.display = 'block';
-    }, 500);
   });
 
   const signinBtn = document.getElementById('signin-btn');
