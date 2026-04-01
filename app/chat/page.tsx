@@ -426,12 +426,13 @@ export default function ChatPage() {
                   placeholder={inputPlaceholder}
                   style={{ width: '100%', padding: '1.1rem 6rem 1.1rem 1.25rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1.05rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A', boxSizing: 'border-box' }}
                 />
-                {/* Icons inside input — right side */}
                 <div style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span title="Drop a file to attach" style={{ fontSize: '0.85rem', opacity: 0.3, cursor: 'default' }}>📎</span>
-                  <button onClick={toggleDictation} title={isListening ? 'Stop dictation' : 'Dictate'}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: isListening ? '#E8392A' : '#1A1A1A', opacity: isListening ? 1 : 0.4, transition: 'all 150ms ease' }}>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.3, cursor: 'default', letterSpacing: '0.04em' }}>+ FILE</span>
+                  <button onClick={toggleDictation}
+                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: isListening ? '#E8392A' : '#1A1A1A', opacity: isListening ? 1 : 0.35, transition: 'all 150ms ease' }}
+                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.8'}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = isListening ? '1' : '0.35' }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
                       <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
                       <line x1="12" y1="19" x2="12" y2="23"/>
@@ -463,7 +464,7 @@ export default function ChatPage() {
                 </div>
               )}
 
-              {/* Focus cards — subordinate, smaller */}
+              {/* Focus cards */}
               <div>
                 <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#AAA', letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.6rem' }}>Focus</span>
                 <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '0.5rem' }}>
@@ -561,7 +562,7 @@ export default function ChatPage() {
                     placeholder={inputPlaceholder}
                     style={{ flex: 1, padding: '0.875rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A' }}
                   />
-                  <button onClick={toggleDictation} title={isListening ? 'Stop' : 'Dictate'}
+                  <button onClick={toggleDictation}
                     style={{ padding: '0.875rem 0.875rem', backgroundColor: isListening ? '#E8392A' : '#FFFFFF', color: isListening ? '#FFFFFF' : '#1A1A1A', border: '2px solid #1A1A1A', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A', flexShrink: 0, transition: 'all 150ms ease' }}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
