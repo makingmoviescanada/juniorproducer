@@ -87,7 +87,7 @@ export default function SignUpPage() {
         {/* Headline */}
         <h1 style={{
           fontWeight: 900,
-          fontSize: "clamp(28px, 3.2vw, 46px)",
+          fontSize: "clamp(28px, 2.8vw, 42px)",
           textTransform: "uppercase",
           letterSpacing: "0.03em",
           lineHeight: 1.08,
@@ -95,8 +95,8 @@ export default function SignUpPage() {
           marginBottom: "16px",
           maxWidth: "680px",
         }}>
-          Your dream development producer.<br />
-          Available right now.
+          Your dream development producer,<br />
+          available right now.
         </h1>
 
         {/* Sub */}
