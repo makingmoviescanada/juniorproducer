@@ -187,16 +187,10 @@ export default function ChatPage() {
     if (!inputValue.trim()) return
     const value = inputValue.trim()
     setInputValue('')
-
-    if (stage === 'chat') {
-      sendChatMessage(value)
-      return
-    }
-
+    if (stage === 'chat') { sendChatMessage(value); return }
     const key = INTAKE_SEQUENCE[intakeStep].key as keyof IntakeAnswers
     const updated = { ...intakeAnswers, [key]: value }
     setIntakeAnswers(updated)
-
     if (intakeStep < INTAKE_SEQUENCE.length - 1) {
       const next = intakeStep + 1
       setIntakeStep(next)
@@ -213,10 +207,7 @@ export default function ChatPage() {
   function beginChat(answers: IntakeAnswers) {
     const cat = selectedCategory || CATEGORIES[0]
     const contextMessage = `My project is called "${answers.name}". ${cat.context} Format: ${answers.format}. Stage: ${answers.stage}. Province: ${answers.province}.`
-    const welcome: Message = {
-      role: 'assistant',
-      content: `Got it — let's work on ${answers.name}.\n\nI have your context. What would you like to tackle first?`,
-    }
+    const welcome: Message = { role: 'assistant', content: `Got it — let's work on ${answers.name}.\n\nI have your context. What would you like to tackle first?` }
     setMessages([welcome])
     setStage('chat')
     setInputPlaceholder('Ask Junior...')
@@ -230,11 +221,7 @@ export default function ChatPage() {
     setLoading(true)
     setMessages([...updatedMessages, { role: 'assistant', content: '' }])
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: updatedMessages }),
-      })
+      const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: updatedMessages }) })
       if (response.status === 429) { setLimitReached(true); setMessages(updatedMessages); return }
       if (response.status === 401) { window.location.href = '/sign-in'; return }
       if (!response.body) return
@@ -249,9 +236,7 @@ export default function ChatPage() {
       }
     } catch {
       setMessages([...updatedMessages, { role: 'assistant', content: 'Something went wrong. Please try again.' }])
-    } finally {
-      setLoading(false)
-    }
+    } finally { setLoading(false) }
   }
 
   async function sendChatMessage(text: string) {
@@ -263,11 +248,7 @@ export default function ChatPage() {
     setInteractionCount(c => c + 1)
     setMessages([...updatedMessages, { role: 'assistant', content: '' }])
     try {
-      const response = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ messages: updatedMessages }),
-      })
+      const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: updatedMessages }) })
       if (response.status === 429) { setLimitReached(true); setMessages(updatedMessages); return }
       if (response.status === 401) { window.location.href = '/sign-in'; return }
       if (!response.body) return
@@ -282,9 +263,7 @@ export default function ChatPage() {
       }
     } catch {
       setMessages([...updatedMessages, { role: 'assistant', content: 'Something went wrong. Please try again.' }])
-    } finally {
-      setLoading(false)
-    }
+    } finally { setLoading(false) }
   }
 
   function handleDragOver(e: React.DragEvent) { e.preventDefault(); setIsDragging(true) }
@@ -303,10 +282,7 @@ export default function ChatPage() {
   }
 
   function toggleDictation() {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-      alert('Dictation is not supported in this browser. Try Chrome.')
-      return
-    }
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) { alert('Dictation is not supported in this browser. Try Chrome.'); return }
     if (isListening) { recognitionRef.current?.stop(); setIsListening(false); return }
     const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
     const recognition = new SR()
@@ -341,42 +317,42 @@ export default function ChatPage() {
   function closeVoteModal() { setVoteModal({ open: false, label: '', voteKey: '', voted: false }) }
 
   const sidebar = (
-    <div style={{ width: isMobile ? '100%' : '220px', minWidth: isMobile ? 'unset' : '220px', backgroundColor: '#1A1A1A', display: 'flex', flexDirection: 'column', padding: '1.25rem 0', borderRight: isMobile ? 'none' : '2px solid #1A1A1A', position: isMobile ? 'fixed' : 'sticky', top: 0, left: 0, height: '100vh', overflowY: 'auto', zIndex: isMobile ? 50 : 'auto' as any, transform: isMobile && !sidebarOpen ? 'translateX(-100%)' : 'translateX(0)', transition: 'transform 250ms ease' }}>
-      <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: '1rem', fontWeight: 900, color: '#F0EBE0', letterSpacing: '0.08em' }}>JUNIOR</span>
+    <div style={{ width: isMobile ? '100%' : '240px', minWidth: isMobile ? 'unset' : '240px', backgroundColor: '#1A1A1A', display: 'flex', flexDirection: 'column', padding: '1.5rem 0', borderRight: isMobile ? 'none' : '2px solid #1A1A1A', position: isMobile ? 'fixed' : 'sticky', top: 0, left: 0, height: '100vh', overflowY: 'auto', zIndex: isMobile ? 50 : 'auto' as any, transform: isMobile && !sidebarOpen ? 'translateX(-100%)' : 'translateX(0)', transition: 'transform 250ms ease' }}>
+      <div style={{ padding: '0 1.5rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#F0EBE0', letterSpacing: '0.08em' }}>JUNIOR</span>
         {isMobile && <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: '#999', fontSize: '1.25rem', cursor: 'pointer' }}>✕</button>}
       </div>
-      <div style={{ padding: '1rem 1rem 0' }}>
-        <button onClick={resetToHome} style={{ width: '100%', padding: '0.6rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #E8392A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+      <div style={{ padding: '0 1rem 1rem' }}>
+        <button onClick={resetToHome} style={{ width: '100%', padding: '0.7rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #E8392A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer', textAlign: 'left', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
           START HERE
         </button>
       </div>
-      <div style={{ padding: '1.25rem 1rem 0.5rem' }}>
-        <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>Projects</span>
-        <div style={{ padding: '0.4rem 0.5rem', color: intakeAnswers.name ? '#F0EBE0' : '#666', fontFamily: 'Barlow, sans-serif', fontSize: '0.8rem' }}>
+      <div style={{ padding: '1rem 1.25rem 0.5rem' }}>
+        <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#666', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>Projects</span>
+        <div style={{ padding: '0.4rem 0.5rem', color: intakeAnswers.name ? '#F0EBE0' : '#555', fontFamily: 'Barlow, sans-serif', fontSize: '0.9rem' }}>
           🎬 {intakeAnswers.name || 'No active project'}
         </div>
       </div>
-      <div style={{ padding: '1rem 1rem 0.5rem' }}>
-        <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>Funders</span>
+      <div style={{ padding: '1rem 1.25rem 0.5rem' }}>
+        <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#666', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>Funders</span>
         {FUNDERS.map((f) => (
           <button key={f.label} onClick={() => { if (f.live) resetToHome(); else if (f.voteKey) openVoteModal(f.label, f.voteKey) }}
-            style={{ width: '100%', padding: '0.4rem 0.5rem', backgroundColor: 'transparent', border: 'none', fontFamily: 'Barlow, sans-serif', fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '0.4rem', color: f.live ? '#F0EBE0' : '#999', opacity: f.live ? 1 : 0.6 }}>
+            style={{ width: '100%', padding: '0.45rem 0.5rem', backgroundColor: 'transparent', border: 'none', fontFamily: 'Barlow, sans-serif', fontSize: '0.875rem', cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '0.4rem', color: f.live ? '#F0EBE0' : '#999', opacity: f.live ? 1 : 0.6 }}>
             🏛 {f.label}
-            {!f.live && <span style={{ fontSize: '0.55rem', padding: '0.1rem 0.4rem', backgroundColor: '#333', color: '#999', fontWeight: 700, letterSpacing: '0.05em', marginLeft: 'auto' }}>SOON</span>}
+            {!f.live && <span style={{ fontSize: '0.6rem', padding: '0.1rem 0.4rem', backgroundColor: '#333', color: '#999', fontWeight: 700, letterSpacing: '0.05em', marginLeft: 'auto' }}>SOON</span>}
           </button>
         ))}
       </div>
-      <div style={{ marginTop: 'auto', padding: '1rem 1.25rem', borderTop: '1px solid #333', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+      <div style={{ marginTop: 'auto', padding: '1rem 1.5rem', borderTop: '1px solid #333', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
         <UserButton afterSignOutUrl="/sign-in" />
-        {user && <span style={{ fontSize: '0.75rem', color: '#666', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.primaryEmailAddress?.emailAddress}</span>}
+        {user && <span style={{ fontSize: '0.8rem', color: '#555', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.primaryEmailAddress?.emailAddress}</span>}
       </div>
     </div>
   )
 
   return (
-    <main style={{ minHeight: '100vh', backgroundColor: '#F0EBE0', display: 'flex', fontFamily: 'Barlow, sans-serif' }}>
+    <main style={{ minHeight: '100vh', backgroundColor: '#F0EBE0', display: 'flex', fontFamily: 'Barlow, sans-serif', fontSize: '16px' }}>
       {isMobile && sidebarOpen && <div onClick={() => setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 40 }} />}
       {sidebar}
 
@@ -399,7 +375,7 @@ export default function ChatPage() {
               <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
             </button>
             <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#1A1A1A', letterSpacing: '0.08em' }}>JUNIOR</span>
-            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.4 }}>{stage === 'chat' ? `${interactionCount} MSG` : 'BETA'}</span>
+            <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.4 }}>{stage === 'chat' ? `${interactionCount} MSG` : 'BETA'}</span>
           </div>
         )}
 
@@ -408,19 +384,17 @@ export default function ChatPage() {
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', padding: isMobile ? '2rem 1.25rem' : '0 3rem', overflowY: 'auto', paddingTop: isMobile ? '2rem' : '8vh' }}>
             <div style={{ width: '100%', maxWidth: '680px' }}>
 
-              {/* Headline */}
               <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
                 <h1 style={{ fontSize: isMobile ? 'clamp(1.6rem, 6vw, 2rem)' : 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, color: '#1A1A1A', lineHeight: 1.1, marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
                   {intakeStep === 0 ? 'What can Junior take off your plate today?' : INTAKE_SEQUENCE[intakeStep].prompt}
                 </h1>
                 {intakeStep === 0 && (
-                  <p style={{ fontSize: '0.9rem', color: '#1A1A1A', opacity: 0.45 }}>
+                  <p style={{ fontSize: '1rem', color: '#1A1A1A', opacity: 0.5 }}>
                     Pick a focus below, then tell us about your project.
                   </p>
                 )}
               </div>
 
-              {/* Input — hero element */}
               <div style={{ position: 'relative', marginBottom: '1rem' }}>
                 <input
                   ref={inputRef}
@@ -429,15 +403,15 @@ export default function ChatPage() {
                   onChange={e => setInputValue(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder={inputPlaceholder}
-                  style={{ width: '100%', padding: '1.1rem 6rem 1.1rem 1.25rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1.05rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A', boxSizing: 'border-box' }}
+                  style={{ width: '100%', padding: '1.1rem 6rem 1.1rem 1.25rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1.1rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A', boxSizing: 'border-box' }}
                 />
                 <div style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.3, cursor: 'default', letterSpacing: '0.04em' }}>+ FILE</span>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.3, cursor: 'default', letterSpacing: '0.04em' }}>+ FILE</span>
                   <button onClick={toggleDictation}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: isListening ? '#E8392A' : '#1A1A1A', opacity: isListening ? 1 : 0.35, transition: 'all 150ms ease' }}
                     onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.8'}
                     onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = isListening ? '1' : '0.35' }}>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
                       <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
                       <line x1="12" y1="19" x2="12" y2="23"/>
@@ -447,20 +421,18 @@ export default function ChatPage() {
                 </div>
               </div>
 
-              {/* Submit — only visible when there's input */}
               {inputValue.trim() && (
                 <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1.5rem' }}>
                   <button onClick={handleInputSubmit}
-                    style={{ padding: '0.6rem 1.5rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A', letterSpacing: '0.05em' }}>
+                    style={{ padding: '0.65rem 1.5rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A', letterSpacing: '0.05em' }}>
                     {intakeStep < INTAKE_SEQUENCE.length - 1 ? 'NEXT →' : 'START →'}
                   </button>
                 </div>
               )}
 
-              {/* Progress — only show from step 2 onward */}
               {intakeStep > 0 && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2rem' }}>
-                  <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Step {intakeStep + 1} of {INTAKE_SEQUENCE.length}</span>
+                  <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Step {intakeStep + 1} of {INTAKE_SEQUENCE.length}</span>
                   <div style={{ display: 'flex', gap: '4px' }}>
                     {INTAKE_SEQUENCE.map((_, i) => (
                       <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: i < intakeStep ? '#E8392A' : i === intakeStep ? '#1A1A1A' : '#DDD6C8', transition: 'background-color 300ms ease' }} />
@@ -469,17 +441,16 @@ export default function ChatPage() {
                 </div>
               )}
 
-              {/* Focus cards */}
               <div>
-                <span style={{ fontSize: '0.6rem', fontWeight: 700, color: '#AAA', letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.6rem' }}>Focus</span>
+                <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#AAA', letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.6rem' }}>Focus</span>
                 <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '0.5rem' }}>
                   {CATEGORIES.map((cat) => (
                     <button key={cat.id} onClick={() => handleCategorySelect(cat)}
-                      style={{ padding: '0.65rem 0.85rem', backgroundColor: selectedCategory?.id === cat.id ? '#1A1A1A' : '#FFFFFF', border: `1.5px solid ${selectedCategory?.id === cat.id ? '#1A1A1A' : '#D0C9BE'}`, cursor: 'pointer', textAlign: 'left', boxShadow: selectedCategory?.id === cat.id ? '3px 3px 0px #E8392A' : 'none', transition: 'all 150ms ease' }}
+                      style={{ padding: '0.75rem 0.9rem', backgroundColor: selectedCategory?.id === cat.id ? '#1A1A1A' : '#FFFFFF', border: `1.5px solid ${selectedCategory?.id === cat.id ? '#1A1A1A' : '#D0C9BE'}`, cursor: 'pointer', textAlign: 'left', boxShadow: selectedCategory?.id === cat.id ? '3px 3px 0px #E8392A' : 'none', transition: 'all 150ms ease' }}
                       onMouseEnter={e => { if (selectedCategory?.id !== cat.id) { (e.currentTarget as HTMLElement).style.borderColor = '#1A1A1A'; (e.currentTarget as HTMLElement).style.boxShadow = '3px 3px 0px #1A1A1A' } }}
                       onMouseLeave={e => { if (selectedCategory?.id !== cat.id) { (e.currentTarget as HTMLElement).style.borderColor = '#D0C9BE'; (e.currentTarget as HTMLElement).style.boxShadow = 'none' } }}>
-                      <div style={{ fontSize: '0.8rem', fontWeight: 900, color: selectedCategory?.id === cat.id ? '#F0EBE0' : '#1A1A1A', marginBottom: '0.15rem' }}>{cat.title}</div>
-                      <p style={{ fontSize: '0.7rem', color: selectedCategory?.id === cat.id ? '#F0EBE0' : '#1A1A1A', opacity: selectedCategory?.id === cat.id ? 0.6 : 0.45, margin: 0, lineHeight: 1.35 }}>{cat.description}</p>
+                      <div style={{ fontSize: '0.875rem', fontWeight: 900, color: selectedCategory?.id === cat.id ? '#F0EBE0' : '#1A1A1A', marginBottom: '0.2rem' }}>{cat.title}</div>
+                      <p style={{ fontSize: '0.78rem', color: selectedCategory?.id === cat.id ? '#F0EBE0' : '#1A1A1A', opacity: selectedCategory?.id === cat.id ? 0.6 : 0.5, margin: 0, lineHeight: 1.4 }}>{cat.description}</p>
                     </button>
                   ))}
                 </div>
@@ -488,10 +459,9 @@ export default function ChatPage() {
               {isListening && (
                 <div style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                   <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#E8392A', display: 'inline-block', animation: 'dot-bounce 1.2s infinite' }} />
-                  <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#E8392A', letterSpacing: '0.06em' }}>LISTENING...</span>
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#E8392A', letterSpacing: '0.06em' }}>LISTENING...</span>
                 </div>
               )}
-
             </div>
           </div>
         )}
@@ -499,24 +469,23 @@ export default function ChatPage() {
         {/* CHAT */}
         {stage === 'chat' && (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, overflow: 'hidden' }}>
-
             {!isMobile && (
               <div style={{ padding: '0.5rem 3rem', display: 'flex', justifyContent: 'flex-end' }}>
-                <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.35, letterSpacing: '0.06em' }}>
+                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.35, letterSpacing: '0.06em' }}>
                   {interactionCount} {interactionCount === 1 ? 'MESSAGE' : 'MESSAGES'}
                 </span>
               </div>
             )}
 
             <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '1.5rem 1rem' : '2rem 3rem' }}>
-              <div style={{ maxWidth: '640px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <div style={{ maxWidth: '680px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {messages.map((msg, i) => {
                   if (msg.role === 'user') return null
                   const { text, event, suggestions } = parseTags(msg.content)
                   const isLoadingMsg = loading && i === messages.length - 1 && msg.content === ''
                   return (
                     <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                      <div style={{ padding: '1.25rem 1.5rem', backgroundColor: '#FFFFFF', color: '#1A1A1A', border: '2px solid #1A1A1A', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'pre-wrap', lineHeight: 1.7, fontSize: '0.95rem' }}>
+                      <div style={{ padding: '1.35rem 1.6rem', backgroundColor: '#FFFFFF', color: '#1A1A1A', border: '2px solid #1A1A1A', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'pre-wrap', lineHeight: 1.75, fontSize: '1rem' }}>
                         {isLoadingMsg ? (
                           <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center' }}>
                             <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
@@ -526,7 +495,7 @@ export default function ChatPage() {
                         ) : linkifyUrls(text)}
                       </div>
                       {event && !loading && (
-                        <button onClick={() => downloadICS(event)} style={{ alignSelf: 'flex-start', padding: '0.5rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.8rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}>
+                        <button onClick={() => downloadICS(event)} style={{ alignSelf: 'flex-start', padding: '0.55rem 1.1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.875rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}>
                           + ADD DEADLINE TO CALENDAR
                         </button>
                       )}
@@ -534,7 +503,7 @@ export default function ChatPage() {
                         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                           {suggestions.map((s, si) => (
                             <button key={si} onClick={() => sendChatMessage(s)}
-                              style={{ padding: '0.45rem 0.9rem', backgroundColor: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.78rem', cursor: 'pointer', transition: 'all 150ms ease' }}
+                              style={{ padding: '0.5rem 1rem', backgroundColor: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer', transition: 'all 150ms ease' }}
                               onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#1A1A1A'; (e.currentTarget as HTMLElement).style.color = '#F0EBE0' }}
                               onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#1A1A1A' }}>
                               {s} →
@@ -548,7 +517,7 @@ export default function ChatPage() {
                 {limitReached && (
                   <div style={{ padding: '2rem', border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A', color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A' }}>
                     <p style={{ fontWeight: 900, fontSize: '1rem', marginBottom: '0.5rem' }}>YOU'VE USED YOUR 20 FREE MESSAGES.</p>
-                    <p style={{ opacity: 0.7, fontSize: '0.85rem' }}>Upgrade to unlock unlimited access.</p>
+                    <p style={{ opacity: 0.7, fontSize: '0.9rem' }}>Upgrade to unlock unlimited access.</p>
                   </div>
                 )}
                 <div ref={bottomRef} />
@@ -557,7 +526,7 @@ export default function ChatPage() {
 
             {!limitReached && (
               <div style={{ borderTop: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', padding: isMobile ? '0.75rem 1rem' : '1rem 3rem' }}>
-                <div style={{ maxWidth: '640px', display: 'flex', gap: '0.5rem', alignItems: 'flex-end' }}>
+                <div style={{ maxWidth: '680px', display: 'flex', gap: '0.5rem', alignItems: 'flex-end' }}>
                   <input
                     ref={inputRef}
                     type="text"
@@ -565,10 +534,10 @@ export default function ChatPage() {
                     onChange={e => setInputValue(e.target.value)}
                     onKeyDown={handleKeyDown}
                     placeholder={inputPlaceholder}
-                    style={{ flex: 1, padding: '0.875rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A' }}
+                    style={{ flex: 1, padding: '0.95rem 1.1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1.05rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A' }}
                   />
                   <button onClick={toggleDictation}
-                    style={{ padding: '0.875rem 0.875rem', backgroundColor: isListening ? '#E8392A' : '#FFFFFF', color: isListening ? '#FFFFFF' : '#1A1A1A', border: '2px solid #1A1A1A', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A', flexShrink: 0, transition: 'all 150ms ease' }}>
+                    style={{ padding: '0.95rem 0.95rem', backgroundColor: isListening ? '#E8392A' : '#FFFFFF', color: isListening ? '#FFFFFF' : '#1A1A1A', border: '2px solid #1A1A1A', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A', flexShrink: 0, transition: 'all 150ms ease' }}>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                       <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
                       <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
@@ -577,13 +546,13 @@ export default function ChatPage() {
                     </svg>
                   </button>
                   <button onClick={() => sendChatMessage(inputValue)} disabled={loading || !inputValue.trim()}
-                    style={{ padding: '0.875rem 1.5rem', backgroundColor: loading || !inputValue.trim() ? '#999' : '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: loading || !inputValue.trim() ? 'not-allowed' : 'pointer', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
+                    style={{ padding: '0.95rem 1.6rem', backgroundColor: loading || !inputValue.trim() ? '#999' : '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.95rem', cursor: loading || !inputValue.trim() ? 'not-allowed' : 'pointer', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
                     SEND
                   </button>
                 </div>
                 {isListening && (
-                  <div style={{ maxWidth: '640px', marginTop: '0.5rem' }}>
-                    <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#E8392A', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                  <div style={{ maxWidth: '680px', marginTop: '0.5rem' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#E8392A', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
                       <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#E8392A', display: 'inline-block', animation: 'dot-bounce 1.2s infinite' }} />
                       LISTENING...
                     </span>
@@ -601,17 +570,17 @@ export default function ChatPage() {
             {voteModal.voted ? (
               <>
                 <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>✓ VOTE CAST</p>
-                <p style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '1.5rem' }}>Your vote helps determine what Junior builds next. We'll let you know when {voteModal.label} is live.</p>
-                <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: '#1A1A1A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer' }}>CLOSE</button>
+                <p style={{ fontSize: '0.9rem', opacity: 0.7, marginBottom: '1.5rem' }}>Your vote helps determine what Junior builds next. We'll let you know when {voteModal.label} is live.</p>
+                <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: '#1A1A1A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}>CLOSE</button>
               </>
             ) : (
               <>
                 <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>VOTE TO UNLOCK</p>
                 <p style={{ fontSize: '1rem', fontWeight: 700, color: '#E8392A', marginBottom: '0.75rem' }}>{voteModal.label}</p>
-                <p style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '1.5rem' }}>Junior builds features in order of demand. Cast your vote and we'll prioritize accordingly.</p>
+                <p style={{ fontSize: '0.9rem', opacity: 0.7, marginBottom: '1.5rem' }}>Junior builds features in order of demand. Cast your vote and we'll prioritize accordingly.</p>
                 <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                  <button onClick={() => castVote(voteModal.voteKey)} style={{ padding: '0.6rem 1.25rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}>CAST MY VOTE</button>
-                  <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer' }}>NOT NOW</button>
+                  <button onClick={() => castVote(voteModal.voteKey)} style={{ padding: '0.6rem 1.25rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}>CAST MY VOTE</button>
+                  <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}>NOT NOW</button>
                 </div>
               </>
             )}
