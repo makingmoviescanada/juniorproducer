@@ -395,7 +395,6 @@ export default function ChatPage() {
         {/* HOME */}
         {stage === 'home' && (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: isMobile ? '2rem 1.25rem' : '0 3rem', overflowY: 'auto', paddingTop: isMobile ? '2rem' : '0' }}>
-  <div style={{ width: '100%', maxWidth: '680px' }}>
             <div style={{ width: '100%', maxWidth: '680px' }}>
 
               <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
