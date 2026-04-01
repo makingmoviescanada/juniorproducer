@@ -1,198 +1,719 @@
-import Anthropic from '@anthropic-ai/sdk'
-import { createClient } from '@supabase/supabase-js'
-import { auth } from '@clerk/nextjs/server'
+'use client'
 
-const client = new Anthropic({
-  apiKey: process.env.ANTHROPIC_API_KEY,
-})
+import { useState, useRef, useEffect } from 'react'
+import { useUser, UserButton } from '@clerk/nextjs'
 
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SECRET_KEY!
-)
+type Message = {
+  role: 'user' | 'assistant'
+  content: string
+}
+
+type CalendarEvent = {
+  title: string
+  description: string
+  date: string
+  remind_days: number
+}
+
+type WizardStep = 'category' | 'intake' | 'chat'
 
 const MESSAGE_LIMIT = 20
 
-const SYSTEM_PROMPT = `You are Junior, an AI producer's assistant built specifically for Canadian independent filmmakers. You were created by Intersectionnel Films.
+const INTAKE_QUESTIONS = [
+  {
+    key: 'name',
+    question: "What's your project called?",
+    placeholder: 'e.g. The Last Frontier',
+  },
+  {
+    key: 'format',
+    question: 'What format is your project?',
+    placeholder: 'e.g. Feature Film, Short Film, Documentary, TV Series...',
+  },
+  {
+    key: 'stage',
+    question: 'What stage is it at?',
+    placeholder: 'e.g. Development, Pre-production, Production, Post-production...',
+  },
+  {
+    key: 'province',
+    question: 'What province are you based in?',
+    placeholder: 'e.g. Quebec, Ontario, BC, Alberta...',
+  },
+]
 
-Your job is to give accurate, useful answers about Canadian arts funding — clearly, directly, and without wasting the filmmaker's time. You are not a cheerleader. You are the knowledgeable colleague who has actually read the guidelines, knows the deadlines, and will tell the truth even when it's not what someone wants to hear.
+const CATEGORIES = [
+  {
+    id: 'grants',
+    title: 'Grants & Funding',
+    description: 'Find funding, check eligibility, navigate applications.',
+    context: 'I need help finding and applying for grants and funding for my project.',
+  },
+  {
+    id: 'deadlines',
+    title: 'Deadlines & Calendar',
+    description: 'Never miss a grant deadline.',
+    context: 'I need help tracking deadlines and planning my application calendar.',
+  },
+  {
+    id: 'projects',
+    title: 'Project Management',
+    description: 'Organise your production from development to delivery.',
+    context: 'I need help organising and managing my production.',
+  },
+  {
+    id: 'finance',
+    title: 'Financial Planning',
+    description: 'Budgets, tax credits, cost reports.',
+    context: 'I need help with financial planning — budgets, tax credits, and cost reports.',
+  },
+  {
+    id: 'distribution',
+    title: 'Distribution Strategy',
+    description: 'Festival strategy, sales agents, Canadian distribution requirements.',
+    context: 'I need help planning my distribution strategy — festivals, sales agents, and Canadian requirements.',
+  },
+]
 
-You are warm but direct. You treat every filmmaker as a capable professional. You never talk down, never hedge unnecessarily, and never pad your answers with filler.
+const FUNDERS = [
+  { label: 'Canada Council for the Arts', live: true, voteKey: null },
+  { label: 'Telefilm Canada', live: true, voteKey: null },
+  { label: 'CMF', live: true, voteKey: null },
+  { label: 'NFB', live: true, voteKey: null },
+  { label: 'SODEC', live: true, voteKey: null },
+  { label: 'CALQ', live: true, voteKey: null },
+  { label: 'Ontario Creates', live: true, voteKey: null },
+  { label: 'Creative BC', live: true, voteKey: null },
+  { label: 'Other Provincial', live: false, voteKey: 'funder:provincial' },
+]
 
-FORMATTING:
-Never use markdown formatting in your responses. No bold text, no asterisks, no bullet point symbols, no headers with pound signs, no italics. Write in plain prose and plain lists only. Use plain dashes for lists if needed.
+type VoteModal = {
+  open: boolean
+  label: string
+  voteKey: string
+  voted: boolean
+}
 
-SCOPE:
-You help Canadian independent filmmakers navigate the full Canadian public funding ecosystem — including Canada Council for the Arts, Telefilm Canada, CMF (film programs), NFB, SODEC, CALQ, Ontario Creates, Creative BC, and other Canadian funders. You are most precise on Canada Council for the Arts. For other funders, reason confidently from what you know, flag when you are less certain, and tell the filmmaker where to verify — but always lead with your best answer first. Never refuse to engage with a question just because it falls outside Canada Council.
+type IntakeAnswers = {
+  name: string
+  format: string
+  stage: string
+  province: string
+}
 
-CATEGORY CONTEXT:
-The filmmaker's intake will tell you what category of help they're looking for. Use this to frame your first response:
-- Grants & Funding: immediately surface the most relevant funding options for their profile (format, stage, province). In your first or second message, ask whether they have a registered production company — this is the key eligibility filter for Telefilm, CMF, SODEC, and provincial funders.
-- Deadlines & Calendar: lead with upcoming deadlines and application timing for relevant funders given their stage and province.
-- Project Management: help them think through production organisation, timelines, and key milestones for their format and stage.
-- Financial Planning: help with budget structure, tax credit eligibility (CPTC/PSTC), and cost planning appropriate to their format.
-- Distribution Strategy: help with festival strategy, sales agent relationships, and Canadian distribution requirements for their format.
+function stripMarkdown(text: string): string {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '$1')
+    .replace(/\*(.+?)\*/g, '$1')
+    .replace(/\_\_(.+?)\_\_/g, '$1')
+    .replace(/\_(.+?)\_/g, '$1')
+    .replace(/#{1,6}\s+/g, '')
+    .replace(/`(.+?)`/g, '$1')
+}
 
-PRODUCTION COMPANY ELIGIBILITY:
-Do not ask about production company status upfront. Only raise it when discussing grants that require one (Telefilm, CMF, SODEC production programs, Ontario Creates, Creative BC). When it becomes relevant, ask directly: "Do you have a registered production company?" Then use the answer to filter recommendations:
-- Arts councils (Canada Council, CALQ, provincial arts councils) are available to individual filmmakers with or without a production company.
-- Telefilm, CMF, SODEC production programs, Ontario Creates, and Creative BC generally require a registered Canadian production company.
-- If they don't have one, focus on arts councils and note that a production company would open additional options.
-
-WHAT YOU KNOW IN DEPTH — CANADA COUNCIL FOR THE ARTS:
-Your most detailed knowledge covers Canada Council for the Arts — specifically the Artistic Creation grant (up to $75K, 3 applications/year, covers full creative cycle from research through public sharing) and the Micro-grant (up to $10K, 3 applications/year, professional development and career advancement). Both are part of the Explore and Create program.
-
-KEY RULES FOR FILM/MEDIA ARTS AT CANADA COUNCIL:
-- Only the director applies — not the producer or production company
-- Works must be independent of commercial film, television, and video games
-- Applicants need a validated profile in the Canada Council portal — account must be created at least 30 days before applying
-- The new portal uses character counts, not word counts
-- Up to 3 applications per year per grant type
-- Canada Council portal URL: portal.canadacouncil.ca
-- Canada Council main website: canadacouncil.ca
-
-GENERAL KNOWLEDGE — OTHER FUNDERS:
-- Telefilm Canada: supports feature film development, production, marketing and distribution. Key programs include the Canada Feature Film Fund and Talent Fund. Generally requires a Canadian distributor attached. Requires a production company.
-- CMF (Canada Media Fund): supports film and TV with broadcaster attachment. Film programs require a Canadian broadcaster and production company. Co-production friendly.
-- NFB: produces and co-produces documentary and animation. Has filmmaker-in-residence and co-production programs. Not a grant body — a creative collaborator.
-- SODEC: Quebec-based, supports Quebec filmmakers and francophone projects. Has development, production, and distribution programs. Production programs require a Quebec production company.
-- CALQ (Conseil des arts et des lettres du Québec): Quebec arts council for individual artists. Available to Quebec-based filmmakers without a production company. Supports creation and career development.
-- Ontario Creates: Ontario's provincial funder. Supports Ontario-based production companies with development and production funding. Generally requires an Ontario production company.
-- Creative BC: BC's provincial funder. Supports BC-based production companies. Generally requires a BC production company.
-- CAVCO: administers Canadian film and video tax credits (CPTC and PSTC). Not a grant — a tax incentive requiring a Canadian production company.
-
-GRANT SELECTION LOGIC (Canada Council):
-- Artistic Creation (up to $75K): covers the full creative cycle — research, development, production, post-production, and public sharing. Right for any project where the director is driving creative work from idea through completion.
-- Micro-grant (up to $10K): professional development, career advancement, presentation opportunities, residencies. Right for activities that build the filmmaker's practice rather than produce a specific work.
-- If someone has a project they're making, it's almost certainly Artistic Creation. Propose it directly.
-
-DEADLINE LOGIC:
-Both Canada Council Artistic Creation and Micro-grant are ROLLING deadlines — there is no fixed annual cutoff. You apply before your project start date. The real constraint is the 30-day portal profile validation window. When anyone asks about Canada Council deadlines, tell them this clearly and ask whether they have a validated portal profile.
-
-CONTEXT TRACKING:
-Pay attention to what the filmmaker has already told you — their project name, format, stage, province, and any other details shared in conversation. Never ask for information they have already provided.
-
-APPLICATION GUIDANCE:
-When helping with applications, ask concrete project-specific questions:
-- "What's the artistic vision — why does this project need to exist and what makes it yours?"
-- "Who is the audience and how will you reach them once it's made?"
-- "What's your realistic timeline and what will it actually cost?"
-
-CALENDAR EVENTS:
-When you mention a time-sensitive action, output a calendar event tag at the end of your response on its own line:
-
-[CALENDAR: title="<event title>" description="<short description>" date="<YYYY-MM-DD or ask>" remind_days=<number>]
-
-Use date="ask" if no specific date is known. Always output this tag when mentioning the portal profile validation requirement or any application deadline.
-
-SUGGESTIONS:
-At the end of every response, output exactly two follow-up suggestions on their own line in this exact format:
-
-[SUGGESTIONS: "suggestion one" | "suggestion two"]
-
-Keep each suggestion under 8 words. Make them specific to what was just discussed — the next most useful thing the filmmaker would want to know. These will appear as clickable buttons in the interface.
-
-Examples:
-[SUGGESTIONS: "Check my Canada Council eligibility" | "How do I create a portal profile?"]
-[SUGGESTIONS: "What budget do I need for Telefilm?" | "Tell me about SODEC development funding"]
-
-REASONING RULES:
-1. ACCURACY FIRST. If you are not certain, say so clearly — but still give your best answer before flagging uncertainty. Never lead with a disclaimer.
-2. LEAD WITH WHAT YOU KNOW. Reason through the question using your knowledge before suggesting the filmmaker contact anyone. Only suggest contacting a funder directly when the question is genuinely edge-case or requires information you cannot know.
-3. BAD NEWS. If a filmmaker does not qualify, tell them directly and explain why. Then tell them what to do instead.
-4. DEADLINES. Rolling deadlines are not a reason to wait — the 30-day Canada Council profile validation window means action is always required now.
-5. CONCISE BY DEFAULT. Give the shortest accurate answer. No preamble, no padding, no restating the question. Lead with the direct answer first.
-6. ONE THOUGHT PER RESPONSE. Say one thing clearly, then stop. Do not pile multiple points into a single response. If there are several things to cover, cover the most important one and let the conversation develop naturally from there.
-7. SOURCE LINKS. When referencing a specific program, portal, or resource, include the URL as plain text immediately after the reference. Example: "Create your profile at portal.canadacouncil.ca" or "Full guidelines at canadacouncil.ca/funding". Never describe a link — include it inline.
-8. NEVER INVENT. If a program, deadline, amount, or rule is not in your knowledge, say so and tell the user where to verify.
-9. SUGGESTIONS. Always end with the [SUGGESTIONS:] tag. Two specific follow-up prompts. Never generic.
-10. NO MARKDOWN. Never use asterisks, pound signs, or any markdown syntax. Plain text only.`
-
-export async function POST(request: Request) {
-  const { userId } = await auth()
-
-  if (!userId) {
-    return new Response('Unauthorized', { status: 401 })
-  }
-
-  const { data: usage } = await supabase
-    .from('usage')
-    .select('message_count')
-    .eq('user_id', userId)
-    .single()
-
-  const currentCount = usage?.message_count ?? 0
-
-  const { data: subscription } = await supabase
-    .from('subscriptions')
-    .select('subscription_status, tier')
-    .eq('user_id', userId)
-    .maybeSingle()
-
-  const hasActiveSubscription = subscription?.subscription_status === 'active'
-
-  if (!hasActiveSubscription && currentCount >= MESSAGE_LIMIT) {
-    return new Response(
-      JSON.stringify({ error: 'limit_reached', count: currentCount }),
-      { status: 429, headers: { 'Content-Type': 'application/json' } }
-    )
-  }
-
-  const { messages } = await request.json()
-
-  await supabase.from('chat_messages').insert({
-    user_id: userId,
-    role: 'user',
-    content: messages[messages.length - 1].content,
+function linkifyUrls(text: string): React.ReactNode[] {
+  const urlRegex = /(https?:\/\/[^\s]+|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?)/g
+  const parts = text.split(urlRegex)
+  return parts.map((part, i) => {
+    if (urlRegex.test(part)) {
+      const href = part.startsWith('http') ? part : `https://${part}`
+      return (
+        <a key={i} href={href} target="_blank" rel="noopener noreferrer"
+          style={{ color: '#E8392A', textDecoration: 'underline', wordBreak: 'break-all' }}>
+          {part}
+        </a>
+      )
+    }
+    return part
   })
+}
 
-  await supabase.from('usage').upsert(
-    {
-      user_id: userId,
-      message_count: currentCount + 1,
-      updated_at: new Date().toISOString(),
-    },
-    { onConflict: 'user_id' }
+function parseTags(content: string): {
+  text: string
+  event: CalendarEvent | null
+  suggestions: string[]
+} {
+  let text = content
+  let event: CalendarEvent | null = null
+  let suggestions: string[] = []
+
+  const calRegex = /\[CALENDAR:\s*title="([^"]+)"\s*description="([^"]+)"\s*date="([^"]+)"\s*remind_days=(\d+)\]/
+  const calMatch = text.match(calRegex)
+  if (calMatch) {
+    text = text.replace(calRegex, '').trim()
+    event = {
+      title: calMatch[1],
+      description: calMatch[2],
+      date: calMatch[3],
+      remind_days: parseInt(calMatch[4]),
+    }
+  }
+
+  const sugRegex = /\[SUGGESTIONS:\s*"([^"]+)"\s*\|\s*"([^"]+)"\]/
+  const sugMatch = text.match(sugRegex)
+  if (sugMatch) {
+    text = text.replace(sugRegex, '').trim()
+    suggestions = [sugMatch[1], sugMatch[2]]
+  }
+
+  return { text: stripMarkdown(text), event, suggestions }
+}
+
+function downloadICS(event: CalendarEvent) {
+  const now = new Date()
+  let start: Date
+  if (event.date === 'ask' || !event.date.match(/^\d{4}-\d{2}-\d{2}$/)) {
+    start = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
+  } else {
+    start = new Date(event.date + 'T09:00:00')
+  }
+  const end = new Date(start.getTime() + 60 * 60 * 1000)
+  const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
+  const reminderMinutes = event.remind_days * 24 * 60
+  const ics = [
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Junior//juniorproducer.ca//EN',
+    'BEGIN:VEVENT',
+    `UID:${Date.now()}@juniorproducer.ca`,
+    `DTSTAMP:${fmt(now)}`, `DTSTART:${fmt(start)}`, `DTEND:${fmt(end)}`,
+    `SUMMARY:${event.title}`, `DESCRIPTION:${event.description}`,
+    'BEGIN:VALARM', 'TRIGGER:-PT' + reminderMinutes + 'M', 'ACTION:DISPLAY',
+    `DESCRIPTION:Reminder: ${event.title}`, 'END:VALARM',
+    'END:VEVENT', 'END:VCALENDAR',
+  ].join('\r\n')
+  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const a = document.createElement('a')
+  a.href = url
+  a.download = `${event.title.replace(/\s+/g, '-').toLowerCase()}.ics`
+  a.click()
+  URL.revokeObjectURL(url)
+}
+
+export default function ChatPage() {
+  const { user } = useUser()
+  const [wizardStep, setWizardStep] = useState<WizardStep>('category')
+  const [selectedCategory, setSelectedCategory] = useState<typeof CATEGORIES[0] | null>(null)
+  const [intakeStep, setIntakeStep] = useState(0)
+  const [intakeAnswers, setIntakeAnswers] = useState<IntakeAnswers>({ name: '', format: '', stage: '', province: '' })
+  const [intakeInput, setIntakeInput] = useState('')
+  const [messages, setMessages] = useState<Message[]>([])
+  const [input, setInput] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [interactionCount, setInteractionCount] = useState(0)
+  const [limitReached, setLimitReached] = useState(false)
+  const [votedItems, setVotedItems] = useState<Set<string>>(new Set())
+  const [voteModal, setVoteModal] = useState<VoteModal>({ open: false, label: '', voteKey: '', voted: false })
+  const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+  const [isDragging, setIsDragging] = useState(false)
+  const [isListening, setIsListening] = useState(false)
+  const bottomRef = useRef<HTMLDivElement>(null)
+  const intakeInputRef = useRef<HTMLInputElement>(null)
+  const recognitionRef = useRef<any>(null)
+
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth < 768)
+    check()
+    window.addEventListener('resize', check)
+    return () => window.removeEventListener('resize', check)
+  }, [])
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages])
+
+  useEffect(() => {
+    const count = Math.ceil(messages.length / 2)
+    if (count >= MESSAGE_LIMIT) setLimitReached(true)
+  }, [messages])
+
+  useEffect(() => {
+    setTimeout(() => {
+      if (wizardStep === 'intake') intakeInputRef.current?.focus()
+    }, 50)
+  }, [wizardStep, intakeStep])
+
+  function resetWizard() {
+    setWizardStep('category')
+    setSelectedCategory(null)
+    setIntakeStep(0)
+    setIntakeAnswers({ name: '', format: '', stage: '', province: '' })
+    setIntakeInput('')
+    setMessages([])
+    setLimitReached(false)
+    setInteractionCount(0)
+    if (isMobile) setSidebarOpen(false)
+  }
+
+  function handleCategorySelect(cat: typeof CATEGORIES[0]) {
+    setSelectedCategory(cat)
+    setWizardStep('intake')
+  }
+
+  function handleIntakeAnswer() {
+    if (!intakeInput.trim()) return
+    const key = INTAKE_QUESTIONS[intakeStep].key as keyof IntakeAnswers
+    const updated = { ...intakeAnswers, [key]: intakeInput }
+    setIntakeAnswers(updated)
+    setIntakeInput('')
+    if (intakeStep < INTAKE_QUESTIONS.length - 1) {
+      setIntakeStep(intakeStep + 1)
+    } else {
+      startChat(updated)
+    }
+  }
+
+  function handleIntakeKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter') { e.preventDefault(); handleIntakeAnswer() }
+  }
+
+  function startChat(answers: IntakeAnswers) {
+    const cat = selectedCategory!
+    const contextMessage = `My project is called "${answers.name}". ${cat.context} Here's my context: Format: ${answers.format}. Stage: ${answers.stage}. Province: ${answers.province}.`
+    const welcome: Message = {
+      role: 'assistant',
+      content: `Got it — let's work on ${answers.name}.\n\nI have your context. What would you like to tackle first?`,
+    }
+    setMessages([welcome])
+    setWizardStep('chat')
+    sendFirstMessage(contextMessage, [welcome])
+    if (isMobile) setSidebarOpen(false)
+  }
+
+  async function sendFirstMessage(contextMessage: string, currentMessages: Message[]) {
+    const userMessage: Message = { role: 'user', content: contextMessage }
+    const updatedMessages = [...currentMessages, userMessage]
+    setLoading(true)
+    setMessages([...updatedMessages, { role: 'assistant', content: '' }])
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: updatedMessages }),
+      })
+      if (response.status === 429) { setLimitReached(true); setMessages(updatedMessages); return }
+      if (response.status === 401) { window.location.href = '/sign-in'; return }
+      if (!response.body) return
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+      let text = ''
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        text += decoder.decode(value, { stream: true })
+        setMessages([...updatedMessages, { role: 'assistant', content: text }])
+      }
+    } catch {
+      setMessages([...updatedMessages, { role: 'assistant', content: 'Something went wrong. Please try again.' }])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function sendMessage(prefill?: string) {
+    const text = prefill ?? input
+    if (!text.trim() || loading || limitReached) return
+    const userMessage: Message = { role: 'user', content: text }
+    const updatedMessages = [...messages, userMessage]
+    setMessages(updatedMessages)
+    setInput('')
+    setLoading(true)
+    setInteractionCount(c => c + 1)
+    setMessages([...updatedMessages, { role: 'assistant', content: '' }])
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ messages: updatedMessages }),
+      })
+      if (response.status === 429) { setLimitReached(true); setMessages(updatedMessages); return }
+      if (response.status === 401) { window.location.href = '/sign-in'; return }
+      if (!response.body) return
+      const reader = response.body.getReader()
+      const decoder = new TextDecoder()
+      let responseText = ''
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        responseText += decoder.decode(value, { stream: true })
+        setMessages([...updatedMessages, { role: 'assistant', content: responseText }])
+      }
+    } catch {
+      setMessages([...updatedMessages, { role: 'assistant', content: 'Something went wrong. Please try again.' }])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  function handleChatKeyDown(e: React.KeyboardEvent) {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() }
+  }
+
+  // Drag and drop
+  function handleDragOver(e: React.DragEvent) {
+    e.preventDefault()
+    setIsDragging(true)
+  }
+
+  function handleDragLeave(e: React.DragEvent) {
+    e.preventDefault()
+    setIsDragging(false)
+  }
+
+  async function handleDrop(e: React.DragEvent) {
+    e.preventDefault()
+    setIsDragging(false)
+    const files = Array.from(e.dataTransfer.files)
+    if (!files.length) return
+    for (const file of files) {
+      if (file.type === 'text/plain' || file.name.endsWith('.txt') || file.name.endsWith('.md')) {
+        const text = await file.text()
+        setInput(prev => prev ? `${prev}\n\n[From ${file.name}]:\n${text}` : `[From ${file.name}]:\n${text}`)
+      } else if (file.type === 'application/pdf') {
+        setInput(prev => prev ? `${prev}\n\n[Attached: ${file.name} — PDF content not yet extractable in browser. Please paste the relevant text directly.]` : `[Attached: ${file.name} — PDF content not yet extractable in browser. Please paste the relevant text directly.]`)
+      } else {
+        setInput(prev => prev ? `${prev}\n\n[Attached: ${file.name}]` : `[Attached: ${file.name}]`)
+      }
+    }
+  }
+
+  // Dictation
+  function toggleDictation() {
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+      alert('Dictation is not supported in this browser. Try Chrome.')
+      return
+    }
+    if (isListening) {
+      recognitionRef.current?.stop()
+      setIsListening(false)
+      return
+    }
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
+    const recognition = new SpeechRecognition()
+    recognition.continuous = true
+    recognition.interimResults = true
+    recognition.lang = 'en-CA'
+    recognition.onresult = (e: any) => {
+      const transcript = Array.from(e.results)
+        .map((r: any) => r[0].transcript)
+        .join('')
+      setInput(transcript)
+    }
+    recognition.onend = () => setIsListening(false)
+    recognition.onerror = () => setIsListening(false)
+    recognitionRef.current = recognition
+    recognition.start()
+    setIsListening(true)
+  }
+
+  async function castVote(voteKey: string) {
+    if (!user || votedItems.has(voteKey)) return
+    try {
+      await fetch('/api/vote', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ item: voteKey }),
+      })
+      setVotedItems(prev => new Set([...prev, voteKey]))
+      setVoteModal(prev => ({ ...prev, voted: true }))
+    } catch (err) {
+      console.error('Vote failed:', err)
+    }
+  }
+
+  function openVoteModal(label: string, voteKey: string) {
+    setVoteModal({ open: true, label, voteKey, voted: votedItems.has(voteKey) })
+    if (isMobile) setSidebarOpen(false)
+  }
+
+  function closeVoteModal() {
+    setVoteModal({ open: false, label: '', voteKey: '', voted: false })
+  }
+
+  const sidebar = (
+    <div style={{
+      width: isMobile ? '100%' : '220px',
+      minWidth: isMobile ? 'unset' : '220px',
+      backgroundColor: '#1A1A1A',
+      display: 'flex',
+      flexDirection: 'column',
+      padding: '1.25rem 0',
+      borderRight: isMobile ? 'none' : '2px solid #1A1A1A',
+      position: isMobile ? 'fixed' : 'sticky',
+      top: 0,
+      left: 0,
+      height: '100vh',
+      overflowY: 'auto',
+      zIndex: isMobile ? 50 : 'auto' as any,
+      transform: isMobile && !sidebarOpen ? 'translateX(-100%)' : 'translateX(0)',
+      transition: 'transform 250ms ease',
+    }}>
+      <div style={{ padding: '0 1.25rem 1.25rem', borderBottom: '1px solid #333', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: '1rem', fontWeight: 900, color: '#F0EBE0', letterSpacing: '0.08em' }}>JUNIOR</span>
+        {isMobile && <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: '#999', fontSize: '1.25rem', cursor: 'pointer' }}>✕</button>}
+      </div>
+
+      <div style={{ padding: '1rem 1rem 0' }}>
+        <button onClick={resetWizard} style={{ width: '100%', padding: '0.6rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #E8392A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          START HERE
+        </button>
+      </div>
+
+      <div style={{ padding: '1.25rem 1rem 0.5rem' }}>
+        <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>Projects</span>
+        <div style={{ padding: '0.4rem 0.5rem', color: intakeAnswers.name ? '#F0EBE0' : '#666', fontFamily: 'Barlow, sans-serif', fontSize: '0.8rem' }}>
+          🎬 {intakeAnswers.name || 'No active project'}
+        </div>
+      </div>
+
+      <div style={{ padding: '1rem 1rem 0.5rem' }}>
+        <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>Funders</span>
+        {FUNDERS.map((f) => (
+          <button key={f.label} onClick={() => { if (f.live) resetWizard(); else if (f.voteKey) openVoteModal(f.label, f.voteKey) }}
+            style={{ width: '100%', padding: '0.4rem 0.5rem', backgroundColor: 'transparent', border: 'none', fontFamily: 'Barlow, sans-serif', fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '0.4rem', color: f.live ? '#F0EBE0' : '#999', opacity: f.live ? 1 : 0.6 }}>
+            🏛 {f.label}
+            {!f.live && <span style={{ fontSize: '0.55rem', padding: '0.1rem 0.4rem', backgroundColor: '#333', color: '#999', fontWeight: 700, letterSpacing: '0.05em', marginLeft: 'auto' }}>SOON</span>}
+          </button>
+        ))}
+      </div>
+
+      <div style={{ marginTop: 'auto', padding: '1rem 1.25rem', borderTop: '1px solid #333', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <UserButton afterSignOutUrl="/sign-in" />
+        {user && <span style={{ fontSize: '0.75rem', color: '#666', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.primaryEmailAddress?.emailAddress}</span>}
+      </div>
+    </div>
   )
 
-  const stream = await client.messages.stream({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 1024,
-    system: SYSTEM_PROMPT,
-    messages,
-  })
+  return (
+    <main style={{ minHeight: '100vh', backgroundColor: '#F0EBE0', display: 'flex', fontFamily: 'Barlow, sans-serif' }}>
 
-  const encoder = new TextEncoder()
-  let fullResponse = ''
+      {isMobile && sidebarOpen && (
+        <div onClick={() => setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 40 }} />
+      )}
 
-  const readable = new ReadableStream({
-    async start(controller) {
-      for await (const chunk of stream) {
-        if (
-          chunk.type === 'content_block_delta' &&
-          chunk.delta.type === 'text_delta'
-        ) {
-          fullResponse += chunk.delta.text
-          controller.enqueue(encoder.encode(chunk.delta.text))
+      {sidebar}
+
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh', minWidth: 0 }}>
+
+        {isMobile && (
+          <div style={{ padding: '0.875rem 1.25rem', borderBottom: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10 }}>
+            <button onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
+              <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
+              <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
+              <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
+            </button>
+            <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#1A1A1A', letterSpacing: '0.08em' }}>JUNIOR</span>
+            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.4 }}>
+              {wizardStep === 'chat' ? `${interactionCount} MESSAGES` : 'BETA'}
+            </span>
+          </div>
+        )}
+
+        {!isMobile && wizardStep === 'chat' && (
+          <div style={{ padding: '0.6rem 3rem', borderBottom: '1px solid rgba(26,26,26,0.1)', backgroundColor: '#F0EBE0', display: 'flex', justifyContent: 'flex-end' }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.35, letterSpacing: '0.06em' }}>
+              {interactionCount} {interactionCount === 1 ? 'MESSAGE' : 'MESSAGES'}
+            </span>
+          </div>
+        )}
+
+        {/* CATEGORY */}
+        {wizardStep === 'category' && (
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: isMobile ? '3rem 1.25rem 2rem' : '4rem 3rem 2rem', overflowY: 'auto' }}>
+            <div style={{ maxWidth: '760px' }}>
+              <h1 style={{ fontSize: isMobile ? '1.4rem' : '1.75rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.4rem', lineHeight: 1.2 }}>
+                What can Junior take off your plate today?
+              </h1>
+              <p style={{ fontSize: '0.9rem', color: '#1A1A1A', opacity: 0.5, marginBottom: '1.5rem' }}>
+                Pick a focus area to get started.
+              </p>
+              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '0.65rem' }}>
+                {CATEGORIES.map((cat) => (
+                  <button key={cat.id} onClick={() => handleCategorySelect(cat)}
+                    style={{ padding: '1rem 1.1rem', backgroundColor: '#FFFFFF', border: '2px solid #1A1A1A', cursor: 'pointer', textAlign: 'left', boxShadow: '4px 4px 0px #1A1A1A', transition: 'all 150ms ease' }}
+                    onMouseEnter={e => { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '6px 6px 0px #1A1A1A' }}
+                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' }}>
+                    <div style={{ fontSize: '0.85rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '0.3rem' }}>{cat.title}</div>
+                    <p style={{ fontSize: '0.78rem', color: '#1A1A1A', opacity: 0.55, margin: 0, lineHeight: 1.4 }}>{cat.description}</p>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* INTAKE */}
+        {wizardStep === 'intake' && (
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: isMobile ? '3rem 1.25rem 2rem' : '4rem 3rem 2rem' }}>
+            <div style={{ maxWidth: '560px' }}>
+              <div style={{ marginBottom: '0.6rem' }}>
+                <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#E8392A', letterSpacing: '0.1em' }}>
+                  {intakeStep + 1} OF {INTAKE_QUESTIONS.length}
+                </span>
+              </div>
+              <h2 style={{ fontSize: isMobile ? '1.2rem' : '1.75rem', fontWeight: 900, color: '#1A1A1A', marginBottom: '1.25rem', lineHeight: 1.2 }}>
+                {INTAKE_QUESTIONS[intakeStep].question}
+              </h2>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <input ref={intakeInputRef} type="text" value={intakeInput} onChange={e => setIntakeInput(e.target.value)} onKeyDown={handleIntakeKeyDown}
+                  placeholder={INTAKE_QUESTIONS[intakeStep].placeholder}
+                  style={{ flex: 1, padding: '0.875rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A' }} />
+                <button onClick={handleIntakeAnswer} disabled={!intakeInput.trim()}
+                  style={{ padding: '0.875rem 1.25rem', backgroundColor: intakeInput.trim() ? '#E8392A' : '#999', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: intakeInput.trim() ? 'pointer' : 'not-allowed', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
+                  {intakeStep < INTAKE_QUESTIONS.length - 1 ? 'NEXT →' : 'START →'}
+                </button>
+              </div>
+              {selectedCategory && (
+                <div style={{ marginTop: '2rem' }}>
+                  <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '0.75rem' }}>Focus</span>
+                  <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                    {CATEGORIES.map(cat => (
+                      <button key={cat.id} onClick={() => setSelectedCategory(cat)}
+                        style={{ padding: '0.4rem 0.85rem', fontSize: '0.78rem', fontWeight: cat.id === selectedCategory.id ? 900 : 600, fontFamily: 'Barlow, sans-serif', border: '2px solid #1A1A1A', backgroundColor: cat.id === selectedCategory.id ? '#1A1A1A' : 'transparent', color: cat.id === selectedCategory.id ? '#F0EBE0' : '#1A1A1A', cursor: 'pointer', transition: 'all 150ms ease' }}>
+                        {cat.title}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* CHAT */}
+        {wizardStep === 'chat' && (
+          <div
+            style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, overflow: 'hidden', position: 'relative' }}
+            onDragOver={handleDragOver}
+            onDragLeave={handleDragLeave}
+            onDrop={handleDrop}
+          >
+            {/* Drag overlay */}
+            {isDragging && (
+              <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(232,57,42,0.08)', border: '3px dashed #E8392A', zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
+                <div style={{ backgroundColor: '#F0EBE0', border: '2px solid #E8392A', padding: '1rem 2rem', boxShadow: '4px 4px 0px #1A1A1A' }}>
+                  <span style={{ fontWeight: 900, fontSize: '1rem', color: '#E8392A', letterSpacing: '0.04em' }}>DROP FILE TO ATTACH</span>
+                </div>
+              </div>
+            )}
+
+            <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '1.5rem 1rem' : '2rem 3rem' }}>
+              <div style={{ maxWidth: '640px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+                {messages.map((msg, i) => {
+                  if (msg.role === 'user') return null
+                  const { text, event, suggestions } = parseTags(msg.content)
+                  const isLoading = loading && i === messages.length - 1 && msg.content === ''
+                  return (
+                    <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                      <div style={{ padding: '1.25rem 1.5rem', backgroundColor: '#FFFFFF', color: '#1A1A1A', border: '2px solid #1A1A1A', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'pre-wrap', lineHeight: 1.7, fontSize: '0.95rem', minWidth: isLoading ? '60px' : undefined }}>
+                        {isLoading ? (
+                          <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center' }}>
+                            <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
+                            <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0.2s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
+                            <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0.4s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
+                          </span>
+                        ) : linkifyUrls(text)}
+                      </div>
+                      {event && !loading && (
+                        <button onClick={() => downloadICS(event)} style={{ alignSelf: 'flex-start', padding: '0.5rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.8rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}>
+                          + ADD DEADLINE TO CALENDAR
+                        </button>
+                      )}
+                      {suggestions.length > 0 && !loading && (
+                        <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
+                          {suggestions.map((s, si) => (
+                            <button key={si} onClick={() => sendMessage(s)}
+                              style={{ padding: '0.45rem 0.9rem', backgroundColor: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.78rem', cursor: 'pointer', transition: 'all 150ms ease' }}
+                              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#1A1A1A'; (e.currentTarget as HTMLElement).style.color = '#F0EBE0' }}
+                              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#1A1A1A' }}>
+                              {s} →
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )
+                })}
+                {limitReached && (
+                  <div style={{ padding: '2rem', border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A', color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A' }}>
+                    <p style={{ fontWeight: 900, fontSize: '1rem', marginBottom: '0.5rem' }}>YOU'VE USED YOUR 20 FREE MESSAGES.</p>
+                    <p style={{ opacity: 0.7, fontSize: '0.85rem' }}>Upgrade to unlock unlimited access.</p>
+                  </div>
+                )}
+                <div ref={bottomRef} />
+              </div>
+            </div>
+
+            {!limitReached && (
+              <div style={{ borderTop: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', padding: isMobile ? '0.75rem 1rem' : '1rem 3rem' }}>
+                <div style={{ maxWidth: '640px', display: 'flex', gap: '0.5rem', alignItems: 'flex-end' }}>
+                  <textarea value={input} onChange={e => setInput(e.target.value)} onKeyDown={handleChatKeyDown} placeholder="Ask Junior... or drop a file" rows={1}
+                    style={{ flex: 1, padding: '0.875rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', resize: 'none', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A' }} />
+                  {/* Mic button */}
+                  <button
+                    onClick={toggleDictation}
+                    title={isListening ? 'Stop dictation' : 'Start dictation'}
+                    style={{ padding: '0.875rem 0.875rem', backgroundColor: isListening ? '#E8392A' : '#FFFFFF', color: isListening ? '#FFFFFF' : '#1A1A1A', border: '2px solid #1A1A1A', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A', flexShrink: 0, transition: 'all 150ms ease' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                      <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                      <line x1="12" y1="19" x2="12" y2="23"/>
+                      <line x1="8" y1="23" x2="16" y2="23"/>
+                    </svg>
+                  </button>
+                  <button onClick={() => sendMessage()} disabled={loading || !input.trim()}
+                    style={{ padding: '0.875rem 1.5rem', backgroundColor: loading || !input.trim() ? '#999' : '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: loading || !input.trim() ? 'not-allowed' : 'pointer', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
+                    SEND
+                  </button>
+                </div>
+                {isListening && (
+                  <div style={{ maxWidth: '640px', marginTop: '0.5rem' }}>
+                    <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#E8392A', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#E8392A', display: 'inline-block', animation: 'dot-bounce 1.2s infinite' }} />
+                      LISTENING...
+                    </span>
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+        )}
+
+      </div>
+
+      {voteModal.open && (
+        <div onClick={closeVoteModal} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem' }}>
+          <div onClick={e => e.stopPropagation()} style={{ backgroundColor: '#F0EBE0', border: '2px solid #1A1A1A', boxShadow: '6px 6px 0px #1A1A1A', padding: '1.75rem', maxWidth: '400px', width: '100%' }}>
+            {voteModal.voted ? (
+              <>
+                <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>✓ VOTE CAST</p>
+                <p style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '1.5rem' }}>Your vote helps determine what Junior builds next. We'll let you know when {voteModal.label} is live.</p>
+                <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: '#1A1A1A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer' }}>CLOSE</button>
+              </>
+            ) : (
+              <>
+                <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>VOTE TO UNLOCK</p>
+                <p style={{ fontSize: '1rem', fontWeight: 700, color: '#E8392A', marginBottom: '0.75rem' }}>{voteModal.label}</p>
+                <p style={{ fontSize: '0.85rem', opacity: 0.7, marginBottom: '1.5rem' }}>Junior builds features in order of demand. Cast your vote and we'll prioritize accordingly.</p>
+                <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                  <button onClick={() => castVote(voteModal.voteKey)} style={{ padding: '0.6rem 1.25rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}>CAST MY VOTE</button>
+                  <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer' }}>NOT NOW</button>
+                </div>
+              </>
+            )}
+          </div>
+        </div>
+      )}
+
+      <style>{`
+        @keyframes dot-bounce {
+          0%, 80%, 100% { transform: translateY(0); opacity: 0.4; }
+          40% { transform: translateY(-6px); opacity: 1; }
         }
-      }
-
-      await supabase.from('chat_messages').insert({
-        user_id: userId,
-        role: 'assistant',
-        content: fullResponse,
-      })
-
-      controller.close()
-    },
-  })
-
-  return new Response(readable, {
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'Transfer-Encoding': 'chunked',
-      'X-Message-Count': String(currentCount + 1),
-      'X-Message-Limit': String(MESSAGE_LIMIT),
-    },
-  })
+      `}</style>
+    </main>
+  )
 }
