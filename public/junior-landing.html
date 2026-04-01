@@ -641,18 +641,18 @@
   const flipWords = ["tedious", "repetitive", "complex", "draining", "stressful"];
   let flipIndex = 0;
   const flipEl = document.getElementById('flip-word');
-  flipEl.style.transition = 'opacity 0.28s ease, transform 0.28s ease';
+  flipEl.style.transition = 'opacity 0.15s ease, transform 0.15s ease';
   setInterval(() => {
     flipEl.style.opacity = '0';
-    flipEl.style.transform = 'translateY(-8px)';
+    flipEl.style.transform = 'translateY(-6px)';
     setTimeout(() => {
       flipIndex = (flipIndex + 1) % flipWords.length;
       const w = flipWords[flipIndex];
       flipEl.textContent = w.charAt(0).toUpperCase() + w.slice(1);
       flipEl.style.opacity = '1';
       flipEl.style.transform = 'translateY(0)';
-    }, 300);
-  }, 2200);
+    }, 150);
+  }, 1600);
 
   function setInterest(value) {
     document.getElementById('interest-field-modal').value = value;
