@@ -676,6 +676,17 @@
       document.getElementById('form-success-closing').style.display = 'block';
     }, 500);
   });
+ const signinBtn = document.getElementById('signin-btn');
+  signinBtn.addEventListener('mouseenter', () => {
+    signinBtn.style.opacity = '1';
+    signinBtn.style.boxShadow = '6px 6px 0px #1A1A1A';
+    signinBtn.style.transform = 'translateY(-2px)';
+  });
+  signinBtn.addEventListener('mouseleave', () => {
+    signinBtn.style.opacity = '0.5';
+    signinBtn.style.boxShadow = '4px 4px 0px #1A1A1A';
+    signinBtn.style.transform = 'translateY(0)';
+  });
 </script>
 </body>
 </html>
