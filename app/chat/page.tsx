@@ -188,7 +188,6 @@ export default function ChatPage() {
       return
     }
 
-    // Intake flow
     const key = INTAKE_SEQUENCE[intakeStep].key as keyof IntakeAnswers
     const updated = { ...intakeAnswers, [key]: value }
     setIntakeAnswers(updated)
@@ -306,7 +305,7 @@ export default function ChatPage() {
     if (isListening) { recognitionRef.current?.stop(); setIsListening(false); return }
     const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
     const recognition = new SR()
-    recognition.continuous = true
+    recognition.continuous = false
     recognition.interimResults = true
     recognition.lang = 'en-CA'
     recognition.onresult = (e: any) => {
@@ -336,12 +335,9 @@ export default function ChatPage() {
 
   function closeVoteModal() { setVoteModal({ open: false, label: '', voteKey: '', voted: false }) }
 
-  // Current intake prompt label
-  const currentPrompt = stage === 'home' ? INTAKE_SEQUENCE[intakeStep].prompt : null
-
   const sidebar = (
     <div style={{ width: isMobile ? '100%' : '220px', minWidth: isMobile ? 'unset' : '220px', backgroundColor: '#1A1A1A', display: 'flex', flexDirection: 'column', padding: '1.25rem 0', borderRight: isMobile ? 'none' : '2px solid #1A1A1A', position: isMobile ? 'fixed' : 'sticky', top: 0, left: 0, height: '100vh', overflowY: 'auto', zIndex: isMobile ? 50 : 'auto' as any, transform: isMobile && !sidebarOpen ? 'translateX(-100%)' : 'translateX(0)', transition: 'transform 250ms ease' }}>
-      <div style={{ padding: '0 1.25rem 1.25rem', borderBottom: '1px solid #333', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{ fontSize: '1rem', fontWeight: 900, color: '#F0EBE0', letterSpacing: '0.08em' }}>JUNIOR</span>
         {isMobile && <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: '#999', fontSize: '1.25rem', cursor: 'pointer' }}>✕</button>}
       </div>
@@ -382,7 +378,6 @@ export default function ChatPage() {
       <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh', minWidth: 0 }}
         onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
 
-        {/* Drag overlay */}
         {isDragging && (
           <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(232,57,42,0.08)', border: '3px dashed #E8392A', zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
             <div style={{ backgroundColor: '#F0EBE0', border: '2px solid #E8392A', padding: '1rem 2rem', boxShadow: '4px 4px 0px #1A1A1A' }}>
@@ -391,7 +386,6 @@ export default function ChatPage() {
           </div>
         )}
 
-        {/* Mobile top bar */}
         {isMobile && (
           <div style={{ padding: '0.875rem 1.25rem', borderBottom: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10 }}>
             <button onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
@@ -404,33 +398,38 @@ export default function ChatPage() {
           </div>
         )}
 
-        {/* HOME — input + cards */}
+        {/* HOME */}
         {stage === 'home' && (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: isMobile ? '2rem 1.25rem' : '3rem 3rem 2rem', overflowY: 'auto' }}>
 
-            {/* Headline */}
+            {/* Headline — swaps to current intake question after step 0 */}
             <div style={{ marginBottom: '1.5rem' }}>
               <h1 style={{ fontSize: isMobile ? '1.3rem' : '1.6rem', fontWeight: 900, color: '#1A1A1A', lineHeight: 1.2, marginBottom: '0.25rem' }}>
-                What can Junior take off your plate today?
+                {intakeStep === 0 ? 'What can Junior take off your plate today?' : INTAKE_SEQUENCE[intakeStep].prompt}
               </h1>
-              <p style={{ fontSize: '0.85rem', color: '#1A1A1A', opacity: 0.45 }}>
-                {intakeStep === 0 ? 'Select a focus below, then tell us about your project.' : INTAKE_SEQUENCE[intakeStep].prompt}
-              </p>
+              {intakeStep === 0 && (
+                <p style={{ fontSize: '0.85rem', color: '#1A1A1A', opacity: 0.45 }}>
+                  Select a focus below, then tell us about your project.
+                </p>
+              )}
             </div>
 
             {/* Input bar */}
             <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'stretch', marginBottom: '1.75rem' }}>
-              <input
-                ref={inputRef}
-                type="text"
-                value={inputValue}
-                onChange={e => setInputValue(e.target.value)}
-                onKeyDown={handleKeyDown}
-                placeholder={inputPlaceholder}
-                style={{ flex: 1, padding: '0.875rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A' }}
-              />
-              <button onClick={toggleDictation} title={isListening ? 'Stop' : 'Dictate'}
-                style={{ padding: '0 0.875rem', backgroundColor: isListening ? '#E8392A' : '#FFFFFF', color: isListening ? '#FFFFFF' : '#1A1A1A', border: '2px solid #1A1A1A', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A', flexShrink: 0 }}>
+              <div style={{ flex: 1, position: 'relative' }}>
+                <input
+                  ref={inputRef}
+                  type="text"
+                  value={inputValue}
+                  onChange={e => setInputValue(e.target.value)}
+                  onKeyDown={handleKeyDown}
+                  placeholder={inputPlaceholder}
+                  style={{ width: '100%', padding: '0.875rem 3rem 0.875rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A', boxSizing: 'border-box' }}
+                />
+                <span title="Drop a file to attach" style={{ position: 'absolute', right: '0.6rem', top: '50%', transform: 'translateY(-50%)', fontSize: '0.9rem', opacity: 0.3, pointerEvents: 'none' }}>📎</span>
+              </div>
+              <button onClick={toggleDictation} title={isListening ? 'Stop dictation' : 'Start dictation'}
+                style={{ padding: '0 0.875rem', backgroundColor: isListening ? '#E8392A' : '#FFFFFF', color: isListening ? '#FFFFFF' : '#1A1A1A', border: '2px solid #1A1A1A', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A', flexShrink: 0, transition: 'all 150ms ease' }}>
                 <svg width="16" height="16" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
                   <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
@@ -474,9 +473,10 @@ export default function ChatPage() {
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, overflow: 'hidden' }}>
 
             {!isMobile && (
-              <div style={{ padding: '0.5rem 3rem', borderBottom: '1px solid rgba(26,26,26,0.1)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.35, letterSpacing: '0.06em' }}>{intakeAnswers.name} · {selectedCategory?.title}</span>
-                <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.35, letterSpacing: '0.06em' }}>{interactionCount} {interactionCount === 1 ? 'MESSAGE' : 'MESSAGES'}</span>
+              <div style={{ padding: '0.5rem 3rem', display: 'flex', justifyContent: 'flex-end' }}>
+                <span style={{ fontSize: '0.72rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.35, letterSpacing: '0.06em' }}>
+                  {interactionCount} {interactionCount === 1 ? 'MESSAGE' : 'MESSAGES'}
+                </span>
               </div>
             )}
 
