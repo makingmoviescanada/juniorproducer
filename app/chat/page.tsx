@@ -419,7 +419,14 @@ export default function ChatPage() {
                   style={{ width: '100%', padding: '1.1rem 6rem 1.1rem 1.25rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1.1rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A', boxSizing: 'border-box' }}
                 />
                 <div style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.3, cursor: 'default', letterSpacing: '0.04em' }}>+ FILE</span>
+                  <button onClick={() => {}} title="Attach file"
+  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: '#1A1A1A', opacity: 0.3, transition: 'opacity 150ms ease' }}
+  onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.7'}
+  onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '0.3'}>
+  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+  </svg>
+</button>
                   <button onClick={toggleDictation}
                     style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: isListening ? '#E8392A' : '#1A1A1A', opacity: isListening ? 1 : 0.35, transition: 'all 150ms ease' }}
                     onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.8'}
