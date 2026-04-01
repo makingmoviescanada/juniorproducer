@@ -32,6 +32,7 @@ const CATEGORIES = [
   { id: 'projects', title: 'Project Management', description: 'Organise your production from development to delivery.', context: 'I need help organising and managing my production.' },
   { id: 'finance', title: 'Financial Planning', description: 'Budgets, tax credits, cost reports.', context: 'I need help with financial planning — budgets, tax credits, and cost reports.' },
   { id: 'distribution', title: 'Distribution Strategy', description: 'Festival strategy, sales agents, Canadian distribution requirements.', context: 'I need help planning my distribution strategy — festivals, sales agents, and Canadian requirements.' },
+  { id: 'consolidate', title: 'Consolidate Versions', description: 'Upload multiple drafts and let Junior help you choose the best version.', context: '', vote: true },
 ]
 
 const FUNDERS = [
@@ -173,7 +174,11 @@ export default function ChatPage() {
     if (isMobile) setSidebarOpen(false)
   }
 
-  function handleCategorySelect(cat: typeof CATEGORIES[0]) {
+  function handleCategorySelect(cat: typeof CATEGORIES[0] & { vote?: boolean }) {
+    if (cat.vote) {
+      openVoteModal(cat.title, `feature:${cat.id}`)
+      return
+    }
     setSelectedCategory(cat)
     inputRef.current?.focus()
   }
