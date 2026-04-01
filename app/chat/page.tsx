@@ -434,14 +434,12 @@ export default function ChatPage() {
                 </div>
               </div>
 
-              {inputValue.trim() && (
-                <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1.5rem' }}>
-                  <button onClick={handleInputSubmit}
-                    style={{ padding: '0.65rem 1.5rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A', letterSpacing: '0.05em' }}>
-                    {intakeStep < INTAKE_SEQUENCE.length - 1 ? 'NEXT →' : 'START →'}
-                  </button>
-                </div>
-              )}
+              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1.5rem' }}>
+  <button onClick={handleInputSubmit} disabled={!inputValue.trim()}
+    style={{ padding: '0.65rem 1.5rem', backgroundColor: inputValue.trim() ? '#E8392A' : '#CCC', color: '#FFFFFF', border: `2px solid ${inputValue.trim() ? '#1A1A1A' : '#CCC'}`, fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: inputValue.trim() ? 'pointer' : 'not-allowed', boxShadow: inputValue.trim() ? '4px 4px 0px #1A1A1A' : 'none', letterSpacing: '0.05em', transition: 'all 150ms ease' }}>
+    {intakeStep < INTAKE_SEQUENCE.length - 1 ? 'NEXT →' : 'START →'}
+  </button>
+</div>
 
               {intakeStep > 0 && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2rem' }}>
