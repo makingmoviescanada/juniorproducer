@@ -365,11 +365,11 @@ export default function ChatPage() {
   )
 
   return (
-    <main style={{ minHeight: '100vh', backgroundColor: '#F0EBE0', display: 'flex', fontFamily: 'Barlow, sans-serif', fontSize: '16px' }}>
+    <main style={{ height: '100vh', backgroundColor: '#F0EBE0', display: 'flex', fontFamily: 'Barlow, sans-serif', fontSize: '16px', overflow: 'hidden' }}>
       {isMobile && sidebarOpen && <div onClick={() => setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 40 }} />}
       {sidebar}
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: '100vh', minWidth: 0 }}
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100vh', minWidth: 0, overflow: 'hidden' }}
         onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
 
         {isDragging && (
