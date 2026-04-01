@@ -26,18 +26,20 @@ export async function POST(request: NextRequest) {
     }
 
     const validPrices = [
-  'price_1TFrW4RzmBTZm8w5ZRTltdfM', // monthly
-  'price_1TFrW3RzmBTZm8w5FafvtRoL', // annual
-  'price_1TFrW2RzmBTZm8w5R94Bx3w9', // 7-day
-];
-if (!validPrices.includes(priceId)) {
-  return NextResponse.json(
-    { error: 'Invalid price ID' },
-    { status: 400 }
-  );
-}
+      'price_1TFrW4RzmBTZm8w5ZRTltdfM', // monthly
+      'price_1TFrW3RzmBTZm8w5FafvtRoL', // annual
+      'price_1TFrW2RzmBTZm8w5R94Bx3w9', // 7-day
+    ];
+
+    if (!validPrices.includes(priceId)) {
+      return NextResponse.json(
+        { error: 'Invalid price ID' },
+        { status: 400 }
+      );
+    }
 
     let stripeCustomerId: string;
+
     const { data: existingSub } = await supabaseAdmin
       .from('subscriptions')
       .select('stripe_customer_id')
@@ -47,11 +49,11 @@ if (!validPrices.includes(priceId)) {
     if (existingSub?.stripe_customer_id) {
       stripeCustomerId = existingSub.stripe_customer_id;
     } else {
-      // Fetch user email from Supabase Auth
       const customer = await stripe.customers.create({
-  metadata: { userId },
-});
+        metadata: { userId },
+      });
       stripeCustomerId = customer.id;
+
       await supabaseAdmin.from('subscriptions').insert({
         user_id: userId,
         stripe_customer_id: stripeCustomerId,
@@ -70,7 +72,7 @@ if (!validPrices.includes(priceId)) {
       ],
       mode: billingPeriod === 'one_time' ? 'payment' : 'subscription',
       success_url: 'https://www.juniorproducer.ca/chat',
-      cancel_url: 'https://www.juniorproducer.ca/pricing',
+      cancel_url: 'https://www.juniorproducer.ca/chat',
       metadata: {
         userId,
         tier: 'filmmaker',
