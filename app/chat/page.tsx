@@ -352,7 +352,7 @@ export default function ChatPage() {
         const { url } = await res.json()
         if (url) window.location.href = url
       }}
-      style={{ width: '100%', padding: '0.7rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #E8392A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.8rem', cursor: 'pointer', letterSpacing: '0.05em', boxShadow: '4px 4px 0px #E8392A' }}>
+      style={{ width: '100%', padding: '0.7rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #E8392A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.8rem', cursor: 'pointer', letterSpacing: '0.05em' }}>
       UPGRADE →
     </button>
   </div>
