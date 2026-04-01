@@ -496,8 +496,8 @@ export default function ChatPage() {
               </div>
             )}
 
-            <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '1.5rem 1rem' : '2rem 3rem' }}>
-              <div style={{ maxWidth: '680px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '1.5rem 1rem' : '2rem 3rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+  <div style={{ width: '100%', maxWidth: '680px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {messages.map((msg, i) => {
                   if (msg.role === 'user') return null
                   const { text, event, suggestions } = parseTags(msg.content)
@@ -573,8 +573,8 @@ if (url) window.location.href = url
             </div>
 
             {!limitReached && (
-              <div style={{ borderTop: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', padding: isMobile ? '0.75rem 1rem' : '1rem 3rem' }}>
-                <div style={{ maxWidth: '680px', display: 'flex', gap: '0.5rem', alignItems: 'flex-end' }}>
+              <div style={{ borderTop: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', padding: isMobile ? '0.75rem 1rem' : '1rem 3rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+  <div style={{ width: '100%', maxWidth: '680px', display: 'flex', gap: '0.5rem', alignItems: 'flex-end' }}>
   <div style={{ flex: 1, position: 'relative' }}>
     <input
       ref={inputRef}
