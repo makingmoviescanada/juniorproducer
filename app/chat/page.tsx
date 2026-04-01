@@ -400,70 +400,73 @@ export default function ChatPage() {
 
         {/* HOME */}
         {stage === 'home' && (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', padding: isMobile ? '2rem 1.25rem' : '3rem 3rem 2rem', overflowY: 'auto' }}>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: isMobile ? '2rem 1.25rem' : '3rem 3rem 2rem', overflowY: 'auto' }}>
+            <div style={{ width: '100%', maxWidth: '760px' }}>
 
-            {/* Headline — swaps to current intake question after step 0 */}
-            <div style={{ marginBottom: '1.5rem' }}>
-              <h1 style={{ fontSize: isMobile ? '1.3rem' : '1.6rem', fontWeight: 900, color: '#1A1A1A', lineHeight: 1.2, marginBottom: '0.25rem' }}>
-                {intakeStep === 0 ? 'What can Junior take off your plate today?' : INTAKE_SEQUENCE[intakeStep].prompt}
-              </h1>
-              {intakeStep === 0 && (
-                <p style={{ fontSize: '0.85rem', color: '#1A1A1A', opacity: 0.45 }}>
-                  Select a focus below, then tell us about your project.
-                </p>
-              )}
-            </div>
-
-            {/* Input bar */}
-            <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'stretch', marginBottom: '1.75rem' }}>
-              <div style={{ flex: 1, position: 'relative' }}>
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={inputValue}
-                  onChange={e => setInputValue(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder={inputPlaceholder}
-                  style={{ width: '100%', padding: '0.875rem 3rem 0.875rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A', boxSizing: 'border-box' }}
-                />
-                <span title="Drop a file to attach" style={{ position: 'absolute', right: '0.6rem', top: '50%', transform: 'translateY(-50%)', fontSize: '0.9rem', opacity: 0.3, pointerEvents: 'none' }}>📎</span>
+              {/* Headline */}
+              <div style={{ marginBottom: '1.5rem' }}>
+                <h1 style={{ fontSize: isMobile ? '1.3rem' : '1.6rem', fontWeight: 900, color: '#1A1A1A', lineHeight: 1.2, marginBottom: '0.25rem' }}>
+                  {intakeStep === 0 ? 'What can Junior take off your plate today?' : INTAKE_SEQUENCE[intakeStep].prompt}
+                </h1>
+                {intakeStep === 0 && (
+                  <p style={{ fontSize: '0.85rem', color: '#1A1A1A', opacity: 0.45 }}>
+                    Select a focus below, then tell us about your project.
+                  </p>
+                )}
               </div>
-              <button onClick={toggleDictation} title={isListening ? 'Stop dictation' : 'Start dictation'}
-                style={{ padding: '0 0.875rem', backgroundColor: isListening ? '#E8392A' : '#FFFFFF', color: isListening ? '#FFFFFF' : '#1A1A1A', border: '2px solid #1A1A1A', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A', flexShrink: 0, transition: 'all 150ms ease' }}>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                  <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                  <line x1="12" y1="19" x2="12" y2="23"/>
-                  <line x1="8" y1="23" x2="16" y2="23"/>
-                </svg>
-              </button>
-              <button onClick={handleInputSubmit} disabled={!inputValue.trim()}
-                style={{ padding: '0.875rem 1.5rem', backgroundColor: inputValue.trim() ? '#E8392A' : '#999', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: inputValue.trim() ? 'pointer' : 'not-allowed', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
-                {intakeStep < INTAKE_SEQUENCE.length - 1 ? 'NEXT →' : 'START →'}
-              </button>
-            </div>
 
-            {/* Intake progress dots */}
-            <div style={{ display: 'flex', gap: '6px', marginBottom: '1.75rem' }}>
-              {INTAKE_SEQUENCE.map((_, i) => (
-                <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: i < intakeStep ? '#E8392A' : i === intakeStep ? '#1A1A1A' : '#DDD6C8', transition: 'background-color 300ms ease' }} />
-              ))}
-            </div>
+              {/* Input bar */}
+              <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'stretch', marginBottom: '1.75rem' }}>
+                <div style={{ flex: 1, position: 'relative' }}>
+                  <input
+                    ref={inputRef}
+                    type="text"
+                    value={inputValue}
+                    onChange={e => setInputValue(e.target.value)}
+                    onKeyDown={handleKeyDown}
+                    placeholder={inputPlaceholder}
+                    style={{ width: '100%', padding: '0.875rem 3rem 0.875rem 1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A', boxSizing: 'border-box' }}
+                  />
+                  <span title="Drop a file to attach" style={{ position: 'absolute', right: '0.6rem', top: '50%', transform: 'translateY(-50%)', fontSize: '0.9rem', opacity: 0.3, pointerEvents: 'none' }}>📎</span>
+                </div>
+                <button onClick={toggleDictation} title={isListening ? 'Stop dictation' : 'Start dictation'}
+                  style={{ padding: '0 0.875rem', backgroundColor: isListening ? '#E8392A' : '#FFFFFF', color: isListening ? '#FFFFFF' : '#1A1A1A', border: '2px solid #1A1A1A', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A', flexShrink: 0, transition: 'all 150ms ease' }}>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                    <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+                    <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+                    <line x1="12" y1="19" x2="12" y2="23"/>
+                    <line x1="8" y1="23" x2="16" y2="23"/>
+                  </svg>
+                </button>
+                <button onClick={handleInputSubmit} disabled={!inputValue.trim()}
+                  style={{ padding: '0.875rem 1.5rem', backgroundColor: inputValue.trim() ? '#E8392A' : '#999', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: inputValue.trim() ? 'pointer' : 'not-allowed', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
+                  {intakeStep < INTAKE_SEQUENCE.length - 1 ? 'NEXT →' : 'START →'}
+                </button>
+              </div>
 
-            {/* Focus cards */}
-            <div>
-              <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.75rem' }}>Focus</span>
-              <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '0.65rem' }}>
-                {CATEGORIES.map((cat) => (
-                  <button key={cat.id} onClick={() => handleCategorySelect(cat)}
-                    style={{ padding: '0.875rem 1rem', backgroundColor: selectedCategory?.id === cat.id ? '#1A1A1A' : '#FFFFFF', border: '2px solid #1A1A1A', cursor: 'pointer', textAlign: 'left', boxShadow: selectedCategory?.id === cat.id ? '4px 4px 0px #E8392A' : '4px 4px 0px #1A1A1A', transition: 'all 150ms ease' }}
-                    onMouseEnter={e => { if (selectedCategory?.id !== cat.id) { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '6px 6px 0px #1A1A1A' } }}
-                    onMouseLeave={e => { if (selectedCategory?.id !== cat.id) { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' } }}>
-                    <div style={{ fontSize: '0.85rem', fontWeight: 900, color: selectedCategory?.id === cat.id ? '#F0EBE0' : '#1A1A1A', marginBottom: '0.2rem' }}>{cat.title}</div>
-                    <p style={{ fontSize: '0.75rem', color: selectedCategory?.id === cat.id ? '#F0EBE0' : '#1A1A1A', opacity: selectedCategory?.id === cat.id ? 0.65 : 0.5, margin: 0, lineHeight: 1.4 }}>{cat.description}</p>
-                  </button>
+              {/* Progress dots */}
+              <div style={{ display: 'flex', gap: '6px', marginBottom: '1.75rem' }}>
+                {INTAKE_SEQUENCE.map((_, i) => (
+                  <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: i < intakeStep ? '#E8392A' : i === intakeStep ? '#1A1A1A' : '#DDD6C8', transition: 'background-color 300ms ease' }} />
                 ))}
               </div>
+
+              {/* Focus cards */}
+              <div>
+                <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', display: 'block', marginBottom: '0.75rem' }}>Focus</span>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '0.65rem' }}>
+                  {CATEGORIES.map((cat) => (
+                    <button key={cat.id} onClick={() => handleCategorySelect(cat)}
+                      style={{ padding: '0.875rem 1rem', backgroundColor: selectedCategory?.id === cat.id ? '#1A1A1A' : '#FFFFFF', border: '2px solid #1A1A1A', cursor: 'pointer', textAlign: 'left', boxShadow: selectedCategory?.id === cat.id ? '4px 4px 0px #E8392A' : '4px 4px 0px #1A1A1A', transition: 'all 150ms ease' }}
+                      onMouseEnter={e => { if (selectedCategory?.id !== cat.id) { (e.currentTarget as HTMLElement).style.transform = 'translateY(-2px)'; (e.currentTarget as HTMLElement).style.boxShadow = '6px 6px 0px #1A1A1A' } }}
+                      onMouseLeave={e => { if (selectedCategory?.id !== cat.id) { (e.currentTarget as HTMLElement).style.transform = 'none'; (e.currentTarget as HTMLElement).style.boxShadow = '4px 4px 0px #1A1A1A' } }}>
+                      <div style={{ fontSize: '0.85rem', fontWeight: 900, color: selectedCategory?.id === cat.id ? '#F0EBE0' : '#1A1A1A', marginBottom: '0.2rem' }}>{cat.title}</div>
+                      <p style={{ fontSize: '0.75rem', color: selectedCategory?.id === cat.id ? '#F0EBE0' : '#1A1A1A', opacity: selectedCategory?.id === cat.id ? 0.65 : 0.5, margin: 0, lineHeight: 1.4 }}>{cat.description}</p>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
             </div>
           </div>
         )}
