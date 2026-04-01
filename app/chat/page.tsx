@@ -567,29 +567,43 @@ if (url) window.location.href = url
             {!limitReached && (
               <div style={{ borderTop: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', padding: isMobile ? '0.75rem 1rem' : '1rem 3rem' }}>
                 <div style={{ maxWidth: '680px', display: 'flex', gap: '0.5rem', alignItems: 'flex-end' }}>
-                  <input
-                    ref={inputRef}
-                    type="text"
-                    value={inputValue}
-                    onChange={e => setInputValue(e.target.value)}
-                    onKeyDown={handleKeyDown}
-                    placeholder={inputPlaceholder}
-                    style={{ flex: 1, padding: '0.95rem 1.1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1.05rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A' }}
-                  />
-                  <button onClick={toggleDictation}
-                    style={{ padding: '0.95rem 0.95rem', backgroundColor: isListening ? '#E8392A' : '#FFFFFF', color: isListening ? '#FFFFFF' : '#1A1A1A', border: '2px solid #1A1A1A', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A', flexShrink: 0, transition: 'all 150ms ease' }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                      <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                      <line x1="12" y1="19" x2="12" y2="23"/>
-                      <line x1="8" y1="23" x2="16" y2="23"/>
-                    </svg>
-                  </button>
-                  <button onClick={() => sendChatMessage(inputValue)} disabled={loading || !inputValue.trim()}
-                    style={{ padding: '0.95rem 1.6rem', backgroundColor: loading || !inputValue.trim() ? '#999' : '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.95rem', cursor: loading || !inputValue.trim() ? 'not-allowed' : 'pointer', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
-                    SEND
-                  </button>
-                </div>
+  <div style={{ flex: 1, position: 'relative' }}>
+    <input
+      ref={inputRef}
+      type="text"
+      value={inputValue}
+      onChange={e => setInputValue(e.target.value)}
+      onKeyDown={handleKeyDown}
+      placeholder={inputPlaceholder}
+      style={{ width: '100%', padding: '0.95rem 5.5rem 0.95rem 1.1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1.05rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A', boxSizing: 'border-box' }}
+    />
+    <div style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+      <button onClick={() => {}} title="Attach file"
+        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: '#1A1A1A', opacity: 0.3, transition: 'opacity 150ms ease' }}
+        onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.7'}
+        onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '0.3'}>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+        </svg>
+      </button>
+      <button onClick={toggleDictation} title="Dictate"
+        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: isListening ? '#E8392A' : '#1A1A1A', opacity: isListening ? 1 : 0.3, transition: 'all 150ms ease' }}
+        onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.7'}
+        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = isListening ? '1' : '0.3' }}>
+        <svg width="15" height="15" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+          <line x1="12" y1="19" x2="12" y2="23"/>
+          <line x1="8" y1="23" x2="16" y2="23"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+  <button onClick={() => sendChatMessage(inputValue)} disabled={loading || !inputValue.trim()}
+    style={{ padding: '0.95rem 1.6rem', backgroundColor: loading || !inputValue.trim() ? '#999' : '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.95rem', cursor: loading || !inputValue.trim() ? 'not-allowed' : 'pointer', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
+    SEND
+  </button>
+</div>
                 {isListening && (
                   <div style={{ maxWidth: '680px', marginTop: '0.5rem' }}>
                     <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#E8392A', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
