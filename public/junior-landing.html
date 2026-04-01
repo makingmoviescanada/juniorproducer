@@ -655,12 +655,12 @@
   }
   .ui-sidebar-section { margin-bottom: 8px; }
   .ui-sidebar-label { font-size: 10px; font-weight: 900; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(26,18,48,0.3); padding: 0 6px; margin-bottom: 6px; }
-  .ui-project { display: flex; gap: 10px; align-items: flex-start; padding: 7px 8px; cursor: pointer; border: 1px solid transparent; transition: background 120ms; }
+  .ui-project { display: flex; gap: 10px; align-items: center; padding: 8px 8px; cursor: pointer; border: 1px solid transparent; transition: background 120ms; }
   .ui-project:hover { background: rgba(75,59,196,0.05); }
   .ui-project.active { background: rgba(75,59,196,0.08); border-color: rgba(75,59,196,0.18); }
-  .ui-project-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 3px; }
+  .ui-project-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
   .ui-project-name { font-size: 13px; font-weight: 700; color: var(--ink); line-height: 1.2; }
-  .ui-project-meta { font-size: 11px; color: rgba(26,18,48,0.4); margin-top: 3px; line-height: 1.2; }
+  .ui-project-meta { font-size: 11px; color: rgba(26,18,48,0.4); line-height: 1.2; }
   .ui-feature-link { display: flex; align-items: center; gap: 7px; padding: 8px 8px; font-size: 13px; font-weight: 600; color: rgba(26,18,48,0.55); cursor: pointer; border: 1px solid transparent; transition: all 120ms; }
   .ui-feature-link:hover { color: var(--indigo); background: rgba(75,59,196,0.05); }
   .ui-feature-link.active { color: var(--indigo); background: rgba(75,59,196,0.08); border-color: rgba(75,59,196,0.18); font-weight: 700; }
@@ -859,15 +859,15 @@
           <div class="ui-sidebar-label">Projects</div>
           <div class="ui-project active" id="proj1" onclick="switchProject(1)">
             <div class="ui-project-dot" style="background:#6366F1;"></div>
-            <div><div class="ui-project-name">Afterglow</div><div class="ui-project-meta">Feature · Development</div></div>
+            <div><span class="ui-project-name">Afterglow</span> <span class="ui-project-meta">· Feature</span></div>
           </div>
           <div class="ui-project" id="proj2" onclick="switchProject(2)">
             <div class="ui-project-dot" style="background:#10B981;"></div>
-            <div><div class="ui-project-name">Still Water</div><div class="ui-project-meta">Short Doc · Pre-Dev</div></div>
+            <div><span class="ui-project-name">Still Water</span> <span class="ui-project-meta">· Short Doc</span></div>
           </div>
           <div class="ui-project" id="proj3" onclick="switchProject(3)">
             <div class="ui-project-dot" style="background:#F59E0B;"></div>
-            <div><div class="ui-project-name">Paper Saints</div><div class="ui-project-meta">Short · Post</div></div>
+            <div><span class="ui-project-name">Paper Saints</span> <span class="ui-project-meta">· Short</span></div>
           </div>
         </div>
         <div class="ui-sidebar-section" style="margin-top:16px;">
