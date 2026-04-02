@@ -32,9 +32,12 @@ const CATEGORIES = [
 ]
 
 const SIDEBAR_FEATURES = [
-  { id: 'grants', label: 'Funding Research', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> },
-  { id: 'consolidate', label: 'Version Compare', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 10h10M4 14h12M4 18h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg> },
+  { id: 'grants', label: 'Grants & Funding', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> },
   { id: 'deadlines', label: 'Deadline Reminders', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" strokeWidth="2"/><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg> },
+  { id: 'projects', label: 'Project Management', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="2" stroke="currentColor" strokeWidth="2"/><path d="M3 9h18M9 21V9" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg> },
+  { id: 'finance', label: 'Financial Planning', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M2 8h20M2 16h20M12 3v18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg> },
+  { id: 'distribution', label: 'Distribution Strategy', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"/><path d="M2 12h20M12 2a15 15 0 010 20M12 2a15 15 0 000 20" stroke="currentColor" strokeWidth="2"/></svg> },
+  { id: 'consolidate', label: 'Version Compare', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 10h10M4 14h12M4 18h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg> },
 ]
 
 // ── Design tokens ─────────────────────────────────────────────────────────────
@@ -128,9 +131,52 @@ export default function ChatPage() {
   const [isMobile, setIsMobile] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const [isListening, setIsListening] = useState(false)
+  const [animatedPlaceholder, setAnimatedPlaceholder] = useState('')
+  const [placeholderIndex, setPlaceholderIndex] = useState(0)
   const bottomRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
   const recognitionRef = useRef<any>(null)
+
+  const ANIMATED_PROMPTS = [
+    'What Canada Council grants suit my short film?',
+    'Does my feature qualify for Telefilm development?',
+    'When does the SODEC deadline close?',
+    'I got rejected — how do I reapply stronger?',
+    'What\'s the difference between CMF and Telefilm?',
+    'Do I need a production company for CALQ?',
+    'How do I start a Canada Council portal profile?',
+  ]
+
+  useEffect(() => {
+    if (stage !== 'home' || intakeStep !== 0) return
+    let charIndex = 0
+    let currentPrompt = ANIMATED_PROMPTS[placeholderIndex]
+    let typing = true
+    let timeout: ReturnType<typeof setTimeout>
+
+    function tick() {
+      if (typing) {
+        charIndex++
+        setAnimatedPlaceholder(currentPrompt.slice(0, charIndex))
+        if (charIndex < currentPrompt.length) {
+          timeout = setTimeout(tick, 38)
+        } else {
+          timeout = setTimeout(() => { typing = false; tick() }, 2200)
+        }
+      } else {
+        charIndex--
+        setAnimatedPlaceholder(currentPrompt.slice(0, charIndex))
+        if (charIndex > 0) {
+          timeout = setTimeout(tick, 18)
+        } else {
+          setPlaceholderIndex(i => (i + 1) % ANIMATED_PROMPTS.length)
+        }
+      }
+    }
+
+    timeout = setTimeout(tick, 600)
+    return () => clearTimeout(timeout)
+  }, [stage, intakeStep, placeholderIndex])
 
   useEffect(() => { const c = () => setIsMobile(window.innerWidth < 768); c(); window.addEventListener('resize', c); return () => window.removeEventListener('resize', c) }, [])
   useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
@@ -281,7 +327,7 @@ export default function ChatPage() {
 
       {/* Projects */}
       <div style={{ padding: '0.75rem 1.25rem 0.5rem' }}>
-        <span style={{ fontSize: '0.65rem', fontWeight: 700, color: C.sidebarMuted, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Projects</span>
+        <span style={{ fontSize: '0.7rem', fontWeight: 700, color: C.sidebarMuted, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Projects</span>
         <div style={{ padding: '0.5rem 0.625rem', color: intakeAnswers.name ? C.sidebarText : C.sidebarMuted, fontSize: '0.875rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
           {intakeAnswers.name || 'No active project'}
@@ -290,7 +336,7 @@ export default function ChatPage() {
 
       {/* Features */}
       <div style={{ padding: '0.75rem 1.25rem 0.5rem', marginTop: '0.25rem' }}>
-        <span style={{ fontSize: '0.65rem', fontWeight: 700, color: C.sidebarMuted, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Features</span>
+        <span style={{ fontSize: '0.7rem', fontWeight: 700, color: C.sidebarMuted, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Features</span>
         {SIDEBAR_FEATURES.map(f => {
           const active = activeSidebarFeature === f.id
           return (
@@ -356,14 +402,14 @@ export default function ChatPage() {
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: isMobile ? '2rem 1.25rem' : '0 3rem', overflowY: 'auto' }}>
             <div style={{ width: '100%', maxWidth: '680px' }}>
               <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
-                <h1 style={{ fontSize: isMobile ? 'clamp(1.6rem,6vw,2rem)' : 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 900, color: C.ink, lineHeight: 1.1, marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
-                  {intakeStep === 0 ? 'What can Junior help with today?' : INTAKE_SEQUENCE[intakeStep].prompt}
+                <h1 style={{ fontSize: isMobile ? 'clamp(1.6rem,5vw,2rem)' : 'clamp(1.6rem,2.4vw,2.4rem)', fontWeight: 900, color: C.ink, lineHeight: 1.1, marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.03em', whiteSpace: isMobile ? 'normal' : 'nowrap' }}>
+                  {intakeStep === 0 ? 'Hi, I\'m Junior! How can I help today?' : INTAKE_SEQUENCE[intakeStep].prompt}
                 </h1>
                 {intakeStep === 0 && <p style={{ fontSize: '1.05rem', color: C.ink, opacity: 0.5 }}>Pick a focus below, then tell us about your project.</p>}
               </div>
 
               <div style={{ position: 'relative', marginBottom: '1rem' }}>
-                <input ref={inputRef} type="text" value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyDown={handleKeyDown} placeholder={inputPlaceholder}
+                <input ref={inputRef} type="text" value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyDown={handleKeyDown} placeholder={intakeStep === 0 ? (animatedPlaceholder || "What's your project called?") : inputPlaceholder}
                   style={inputStyle({ width: '100%', padding: '1.1rem 6rem 1.1rem 1.25rem' })}
                   onFocus={e => { e.currentTarget.style.borderColor = C.indigo; e.currentTarget.style.boxShadow = `0 0 0 3px rgba(75,59,196,0.12)` }}
                   onBlur={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = `0 2px 12px rgba(75,59,196,0.08)` }} />
@@ -405,8 +451,8 @@ export default function ChatPage() {
                         style={{ padding: '0.875rem 1rem', backgroundColor: sel ? C.indigo : 'rgba(255,255,255,0.72)', border: `1.5px solid ${sel ? C.indigo : C.border}`, cursor: 'pointer', textAlign: 'left', backdropFilter: 'blur(6px)', boxShadow: sel ? `0 8px 24px rgba(75,59,196,0.25)` : `0 2px 8px rgba(75,59,196,0.06)`, transition: 'all 150ms' }}
                         onMouseEnter={e => { if (!sel) { (e.currentTarget as HTMLElement).style.borderColor = C.indigo; (e.currentTarget as HTMLElement).style.boxShadow = `0 4px 16px rgba(75,59,196,0.14)` } }}
                         onMouseLeave={e => { if (!sel) { (e.currentTarget as HTMLElement).style.borderColor = C.border; (e.currentTarget as HTMLElement).style.boxShadow = `0 2px 8px rgba(75,59,196,0.06)` } }}>
-                        <div style={{ fontSize: '0.875rem', fontWeight: 900, color: sel ? C.white : C.ink, marginBottom: '0.25rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{cat.title}</div>
-                        <p style={{ fontSize: '0.78rem', color: sel ? 'rgba(255,255,255,0.72)' : C.muted, margin: 0, lineHeight: 1.45 }}>{cat.description}</p>
+                        <div style={{ fontSize: '0.95rem', fontWeight: 900, color: sel ? C.white : C.ink, marginBottom: '0.25rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{cat.title}</div>
+                        <p style={{ fontSize: '0.85rem', color: sel ? 'rgba(255,255,255,0.72)' : C.muted, margin: 0, lineHeight: 1.45 }}>{cat.description}</p>
                       </button>
                     )
                   })}
