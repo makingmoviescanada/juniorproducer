@@ -3,126 +3,117 @@
 import { useState, useRef, useEffect } from 'react'
 import { useUser, UserButton } from '@clerk/nextjs'
 
-type Message = {
-  role: 'user' | 'assistant'
-  content: string
-}
+// ── Types ────────────────────────────────────────────────────────────────────
 
-type CalendarEvent = {
-  title: string
-  description: string
-  date: string
-  remind_days: number
-}
-
+type Message = { role: 'user' | 'assistant'; content: string }
+type CalendarEvent = { title: string; description: string; date: string; remind_days: number }
 type Stage = 'home' | 'chat'
+type VoteModalState = { open: boolean; label: string; voteKey: string; voted: boolean }
+type IntakeAnswers = { name: string; format: string; stage: string; province: string }
+
+// ── Constants ─────────────────────────────────────────────────────────────────
 
 const MESSAGE_LIMIT = 20
 
 const INTAKE_SEQUENCE = [
-  { key: 'name', prompt: "What's your project called?", placeholder: 'e.g. The Last Frontier' },
-  { key: 'format', prompt: 'What format?', placeholder: 'e.g. Feature Film, Short Film, Documentary...' },
-  { key: 'stage', prompt: 'What stage?', placeholder: 'e.g. Development, Pre-production, Production...' },
-  { key: 'province', prompt: 'What province?', placeholder: 'e.g. Quebec, Ontario, BC...' },
+  { key: 'name',     prompt: "What's your project called?", placeholder: 'e.g. The Last Frontier' },
+  { key: 'format',   prompt: 'What format?',                placeholder: 'e.g. Feature Film, Short Film, Documentary...' },
+  { key: 'stage',    prompt: 'What stage?',                 placeholder: 'e.g. Development, Pre-production, Production...' },
+  { key: 'province', prompt: 'What province?',              placeholder: 'e.g. Quebec, Ontario, BC...' },
 ]
 
 const CATEGORIES = [
-  { id: 'grants', title: 'Grants & Funding', description: 'Find funding, check eligibility, navigate applications.', context: 'I need help finding and applying for grants and funding for my project.' },
-  { id: 'deadlines', title: 'Deadlines & Calendar', description: 'Never miss a grant deadline.', context: 'I need help tracking deadlines and planning my application calendar.' },
-  { id: 'projects', title: 'Project Management', description: 'Organise your production from development to delivery.', context: 'I need help organising and managing my production.' },
-  { id: 'finance', title: 'Financial Planning', description: 'Budgets, tax credits, cost reports.', context: 'I need help with financial planning — budgets, tax credits, and cost reports.' },
-  { id: 'distribution', title: 'Distribution Strategy', description: 'Festival strategy, sales agents, Canadian distribution requirements.', context: 'I need help planning my distribution strategy — festivals, sales agents, and Canadian requirements.' },
-  { id: 'consolidate', title: 'Consolidate Versions', description: 'Upload multiple drafts and let Junior help you choose the best version.', context: '', vote: true },
+  { id: 'grants',        title: 'Grants & Funding',      description: 'Find funding, check eligibility, navigate applications.',                    context: 'I need help finding and applying for grants and funding for my project.' },
+  { id: 'deadlines',     title: 'Deadline Reminders',    description: 'Never miss a grant deadline. Junior tracks and reminds you.',               context: 'I need help tracking deadlines and planning my application calendar.' },
+  { id: 'projects',      title: 'Project Management',    description: 'Organise your production from development to delivery.',                    context: 'I need help organising and managing my production.' },
+  { id: 'finance',       title: 'Financial Planning',    description: 'Budgets, tax credits, cost reports.',                                       context: 'I need help with financial planning — budgets, tax credits, and cost reports.' },
+  { id: 'distribution',  title: 'Distribution Strategy', description: 'Festival strategy, sales agents, Canadian distribution requirements.',      context: 'I need help planning my distribution strategy — festivals, sales agents, and Canadian requirements.' },
+  { id: 'consolidate',   title: 'Version Compare',       description: 'Paste or describe your drafts — Junior helps you decide what to keep for each funder.', context: "I want to compare versions of my supporting materials. I have multiple drafts and need help deciding what to keep, cut, or strengthen for a specific funder's mandate. Please ask me which funder I'm targeting and I'll share the drafts." },
 ]
 
-const FUNDERS = [
-  { label: 'Canada Council for the Arts', live: true, voteKey: null },
-  { label: 'Telefilm Canada', live: true, voteKey: null },
-  { label: 'CMF', live: true, voteKey: null },
-  { label: 'NFB', live: true, voteKey: null },
-  { label: 'SODEC', live: true, voteKey: null },
-  { label: 'CALQ', live: true, voteKey: null },
-  { label: 'Ontario Creates', live: true, voteKey: null },
-  { label: 'Creative BC', live: true, voteKey: null },
-  { label: 'Other Provincial', live: false, voteKey: 'funder:provincial' },
+const SIDEBAR_FEATURES = [
+  { id: 'grants', label: 'Funding Research', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 100 7h5a3.5 3.5 0 110 7H6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg> },
+  { id: 'consolidate', label: 'Version Compare', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><path d="M4 6h16M4 10h10M4 14h12M4 18h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg> },
+  { id: 'deadlines', label: 'Deadline Reminders', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" strokeWidth="2"/><path d="M16 2v4M8 2v4M3 10h18" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/></svg> },
 ]
 
-type VoteModal = { open: boolean; label: string; voteKey: string; voted: boolean }
-type IntakeAnswers = { name: string; format: string; stage: string; province: string }
+// ── Design tokens ─────────────────────────────────────────────────────────────
 
-function stripMarkdown(text: string): string {
-  return text
-    .replace(/\*\*(.+?)\*\*/g, '$1')
-    .replace(/\*(.+?)\*/g, '$1')
-    .replace(/\_\_(.+?)\_\_/g, '$1')
-    .replace(/\_(.+?)\_/g, '$1')
-    .replace(/#{1,6}\s+/g, '')
-    .replace(/`(.+?)`/g, '$1')
+const C = {
+  indigo:        '#4B3BC4',
+  indigoDark:    '#3D2C8D',
+  indigoDeep:    '#2E1F6B',
+  ink:           '#1A1230',
+  base:          '#FAFAFE',
+  white:         '#FFFFFF',
+  muted:         'rgba(26,18,48,0.55)',
+  border:        'rgba(75,59,196,0.18)',
+  borderLight:   'rgba(75,59,196,0.12)',
+  sidebarBg:     '#0F0B24',
+  sidebarText:   'rgba(240,235,255,0.85)',
+  sidebarMuted:  'rgba(240,235,255,0.35)',
+  sidebarBorder: 'rgba(255,255,255,0.08)',
+}
+
+const pageGradient = [
+  'radial-gradient(ellipse 85% 50% at 50% 0%,  rgba(99,82,220,0.20) 0%, transparent 65%)',
+  'radial-gradient(ellipse 55% 40% at 8%  25%, rgba(139,92,246,0.14) 0%, transparent 55%)',
+  'radial-gradient(ellipse 45% 35% at 92% 20%, rgba(79,60,220,0.12)  0%, transparent 52%)',
+  'radial-gradient(ellipse 60% 40% at 70% 60%, rgba(99,82,220,0.10)  0%, transparent 56%)',
+  'radial-gradient(ellipse 50% 35% at 20% 80%, rgba(139,92,246,0.09) 0%, transparent 55%)',
+  '#FAFAFE',
+].join(',')
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+function stripMarkdown(t: string) {
+  return t
+    .replace(/\*\*(.+?)\*\*/g, '$1').replace(/\*(.+?)\*/g, '$1')
+    .replace(/\_\_(.+?)\_\_/g, '$1').replace(/\_(.+?)\_/g, '$1')
+    .replace(/#{1,6}\s+/g, '').replace(/`(.+?)`/g, '$1')
 }
 
 function linkifyUrls(text: string): React.ReactNode[] {
-  const urlRegex = /(https?:\/\/[^\s]+|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?)/g
-  const parts = text.split(urlRegex)
-  return parts.map((part, i) => {
-    if (urlRegex.test(part)) {
-      const href = part.startsWith('http') ? part : `https://${part}`
-      return <a key={i} href={href} target="_blank" rel="noopener noreferrer" style={{ color: '#E8392A', textDecoration: 'underline', wordBreak: 'break-all' }}>{part}</a>
-    }
-    return part
-  })
+  const re = /(https?:\/\/[^\s]+|[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(?:\/[^\s]*)?)/g
+  return text.split(re).map((part, i) =>
+    re.test(part)
+      ? <a key={i} href={part.startsWith('http') ? part : `https://${part}`} target="_blank" rel="noopener noreferrer" style={{ color: C.indigo, textDecoration: 'underline', wordBreak: 'break-all' }}>{part}</a>
+      : part
+  )
 }
 
-function parseTags(content: string): { text: string; event: CalendarEvent | null; suggestions: string[] } {
+function parseTags(content: string) {
   let text = content
   let event: CalendarEvent | null = null
   let suggestions: string[] = []
-  const calRegex = /\[CALENDAR:\s*title="([^"]+)"\s*description="([^"]+)"\s*date="([^"]+)"\s*remind_days=(\d+)\]/
-  const calMatch = text.match(calRegex)
-  if (calMatch) {
-    text = text.replace(calRegex, '').trim()
-    event = { title: calMatch[1], description: calMatch[2], date: calMatch[3], remind_days: parseInt(calMatch[4]) }
-  }
-  const sugRegex = /\[SUGGESTIONS:\s*"([^"]+)"\s*\|\s*"([^"]+)"\]/
-  const sugMatch = text.match(sugRegex)
-  if (sugMatch) {
-    text = text.replace(sugRegex, '').trim()
-    suggestions = [sugMatch[1], sugMatch[2]]
-  }
+  const calRe = /\[CALENDAR:\s*title="([^"]+)"\s*description="([^"]+)"\s*date="([^"]+)"\s*remind_days=(\d+)\]/
+  const cm = text.match(calRe)
+  if (cm) { text = text.replace(calRe, '').trim(); event = { title: cm[1], description: cm[2], date: cm[3], remind_days: +cm[4] } }
+  const sugRe = /\[SUGGESTIONS:\s*"([^"]+)"\s*\|\s*"([^"]+)"\]/
+  const sm = text.match(sugRe)
+  if (sm) { text = text.replace(sugRe, '').trim(); suggestions = [sm[1], sm[2]] }
   return { text: stripMarkdown(text), event, suggestions }
 }
 
-function downloadICS(event: CalendarEvent) {
+function downloadICS(ev: CalendarEvent) {
   const now = new Date()
-  let start: Date
-  if (event.date === 'ask' || !event.date.match(/^\d{4}-\d{2}-\d{2}$/)) {
-    start = new Date(now.getTime() + 30 * 24 * 60 * 60 * 1000)
-  } else {
-    start = new Date(event.date + 'T09:00:00')
-  }
-  const end = new Date(start.getTime() + 60 * 60 * 1000)
+  const start = ev.date === 'ask' || !ev.date.match(/^\d{4}-\d{2}-\d{2}$/)
+    ? new Date(now.getTime() + 30 * 86400000)
+    : new Date(ev.date + 'T09:00:00')
+  const end = new Date(start.getTime() + 3600000)
   const fmt = (d: Date) => d.toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z'
-  const reminderMinutes = event.remind_days * 24 * 60
-  const ics = [
-    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Junior//juniorproducer.ca//EN',
-    'BEGIN:VEVENT', `UID:${Date.now()}@juniorproducer.ca`,
-    `DTSTAMP:${fmt(now)}`, `DTSTART:${fmt(start)}`, `DTEND:${fmt(end)}`,
-    `SUMMARY:${event.title}`, `DESCRIPTION:${event.description}`,
-    'BEGIN:VALARM', 'TRIGGER:-PT' + reminderMinutes + 'M', 'ACTION:DISPLAY',
-    `DESCRIPTION:Reminder: ${event.title}`, 'END:VALARM', 'END:VEVENT', 'END:VCALENDAR',
-  ].join('\r\n')
-  const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' })
-  const url = URL.createObjectURL(blob)
-  const a = document.createElement('a')
-  a.href = url
-  a.download = `${event.title.replace(/\s+/g, '-').toLowerCase()}.ics`
+  const ics = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//Junior//juniorproducer.ca//EN','BEGIN:VEVENT',`UID:${Date.now()}@juniorproducer.ca`,`DTSTAMP:${fmt(now)}`,`DTSTART:${fmt(start)}`,`DTEND:${fmt(end)}`,`SUMMARY:${ev.title}`,`DESCRIPTION:${ev.description}`,'BEGIN:VALARM',`TRIGGER:-PT${ev.remind_days * 1440}M`,'ACTION:DISPLAY',`DESCRIPTION:Reminder: ${ev.title}`,'END:VALARM','END:VEVENT','END:VCALENDAR'].join('\r\n')
+  const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' })), download: `${ev.title.replace(/\s+/g,'-').toLowerCase()}.ics` })
   a.click()
-  URL.revokeObjectURL(url)
 }
+
+// ── Component ─────────────────────────────────────────────────────────────────
 
 export default function ChatPage() {
   const { user } = useUser()
   const [stage, setStage] = useState<Stage>('home')
   const [selectedCategory, setSelectedCategory] = useState<typeof CATEGORIES[0] | null>(null)
+  const [activeSidebarFeature, setActiveSidebarFeature] = useState<string | null>(null)
   const [intakeStep, setIntakeStep] = useState(0)
   const [intakeAnswers, setIntakeAnswers] = useState<IntakeAnswers>({ name: '', format: '', stage: '', province: '' })
   const [inputValue, setInputValue] = useState('')
@@ -132,7 +123,7 @@ export default function ChatPage() {
   const [interactionCount, setInteractionCount] = useState(0)
   const [limitReached, setLimitReached] = useState(false)
   const [votedItems, setVotedItems] = useState<Set<string>>(new Set())
-  const [voteModal, setVoteModal] = useState<VoteModal>({ open: false, label: '', voteKey: '', voted: false })
+  const [voteModal, setVoteModal] = useState<VoteModalState>({ open: false, label: '', voteKey: '', voted: false })
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
@@ -141,389 +132,338 @@ export default function ChatPage() {
   const inputRef = useRef<HTMLInputElement>(null)
   const recognitionRef = useRef<any>(null)
 
-  useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768)
-    check()
-    window.addEventListener('resize', check)
-    return () => window.removeEventListener('resize', check)
-  }, [])
-
-  useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
-
-  useEffect(() => {
-    setTimeout(() => inputRef.current?.focus(), 50)
-  }, [intakeStep])
-
-  useEffect(() => {
-    const count = Math.ceil(messages.length / 2)
-    if (count >= MESSAGE_LIMIT) setLimitReached(true)
-  }, [messages])
+  useEffect(() => { const c = () => setIsMobile(window.innerWidth < 768); c(); window.addEventListener('resize', c); return () => window.removeEventListener('resize', c) }, [])
+  useEffect(() => { bottomRef.current?.scrollIntoView({ behavior: 'smooth' }) }, [messages])
+  useEffect(() => { setTimeout(() => inputRef.current?.focus(), 50) }, [intakeStep])
+  useEffect(() => { if (Math.ceil(messages.length / 2) >= MESSAGE_LIMIT) setLimitReached(true) }, [messages])
 
   function resetToHome() {
-    setStage('home')
-    setSelectedCategory(null)
-    setIntakeStep(0)
-    setIntakeAnswers({ name: '', format: '', stage: '', province: '' })
-    setInputValue('')
-    setInputPlaceholder("What's your project called?")
-    setMessages([])
-    setLimitReached(false)
-    setInteractionCount(0)
+    setStage('home'); setSelectedCategory(null); setActiveSidebarFeature(null)
+    setIntakeStep(0); setIntakeAnswers({ name: '', format: '', stage: '', province: '' })
+    setInputValue(''); setInputPlaceholder("What's your project called?")
+    setMessages([]); setLimitReached(false); setInteractionCount(0)
     if (isMobile) setSidebarOpen(false)
   }
 
-  function handleCategorySelect(cat: typeof CATEGORIES[0] & { vote?: boolean }) {
-    if (cat.vote) {
-      openVoteModal(cat.title, `feature:${cat.id}`)
-      return
-    }
-    setSelectedCategory(cat)
-    inputRef.current?.focus()
+  function handleSidebarFeature(id: string) {
+    const cat = CATEGORIES.find(c => c.id === id)
+    if (!cat) return
+    resetToHome()
+    setTimeout(() => { setSelectedCategory(cat); setActiveSidebarFeature(id); inputRef.current?.focus() }, 50)
+    if (isMobile) setSidebarOpen(false)
+  }
+
+  function handleCategorySelect(cat: typeof CATEGORIES[0]) {
+    setSelectedCategory(cat); setActiveSidebarFeature(cat.id); inputRef.current?.focus()
   }
 
   function handleInputSubmit() {
     if (!inputValue.trim()) return
-    const value = inputValue.trim()
-    setInputValue('')
+    const value = inputValue.trim(); setInputValue('')
     if (stage === 'chat') { sendChatMessage(value); return }
     const key = INTAKE_SEQUENCE[intakeStep].key as keyof IntakeAnswers
     const updated = { ...intakeAnswers, [key]: value }
     setIntakeAnswers(updated)
     if (intakeStep < INTAKE_SEQUENCE.length - 1) {
-      const next = intakeStep + 1
-      setIntakeStep(next)
-      setInputPlaceholder(INTAKE_SEQUENCE[next].placeholder)
-    } else {
-      beginChat(updated)
-    }
+      const next = intakeStep + 1; setIntakeStep(next); setInputPlaceholder(INTAKE_SEQUENCE[next].placeholder)
+    } else { beginChat(updated) }
   }
 
-  function handleKeyDown(e: React.KeyboardEvent) {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleInputSubmit() }
-  }
+  function handleKeyDown(e: React.KeyboardEvent) { if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleInputSubmit() } }
 
   function beginChat(answers: IntakeAnswers) {
     const cat = selectedCategory || CATEGORIES[0]
-    const contextMessage = `My project is called "${answers.name}". ${cat.context} Format: ${answers.format}. Stage: ${answers.stage}. Province: ${answers.province}.`
+    const ctx = `My project is called "${answers.name}". ${cat.context} Format: ${answers.format}. Stage: ${answers.stage}. Province: ${answers.province}.`
     const welcome: Message = { role: 'assistant', content: `Got it — let's work on ${answers.name}.\n\nI have your context. What would you like to tackle first?` }
-    setMessages([welcome])
-    setStage('chat')
-    setInputPlaceholder('Ask Junior...')
-    sendFirstMessage(contextMessage, [welcome])
+    setMessages([welcome]); setStage('chat'); setInputPlaceholder('Ask Junior...')
+    sendFirstMessage(ctx, [welcome])
     if (isMobile) setSidebarOpen(false)
   }
 
-  async function sendFirstMessage(contextMessage: string, currentMessages: Message[]) {
-    const userMessage: Message = { role: 'user', content: contextMessage }
-    const updatedMessages = [...currentMessages, userMessage]
-    setLoading(true)
-    setMessages([...updatedMessages, { role: 'assistant', content: '' }])
-    try {
-      const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: updatedMessages }) })
-      if (response.status === 429) { setLimitReached(true); setMessages(updatedMessages); return }
-      if (response.status === 401) { window.location.href = '/sign-in'; return }
-      if (!response.body) return
-      const reader = response.body.getReader()
-      const decoder = new TextDecoder()
-      let text = ''
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        text += decoder.decode(value, { stream: true })
-        setMessages([...updatedMessages, { role: 'assistant', content: text }])
-      }
-    } catch {
-      setMessages([...updatedMessages, { role: 'assistant', content: 'Something went wrong. Please try again.' }])
-    } finally { setLoading(false) }
+  async function streamChat(msgs: Message[], onChunk: (t: string) => void): Promise<void> {
+    const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: msgs }) })
+    if (response.status === 429) { setLimitReached(true); return }
+    if (response.status === 401) { window.location.href = '/sign-in'; return }
+    if (!response.body) return
+    const reader = response.body.getReader(); const decoder = new TextDecoder(); let text = ''
+    while (true) { const { done, value } = await reader.read(); if (done) break; text += decoder.decode(value, { stream: true }); onChunk(text) }
+  }
+
+  async function sendFirstMessage(ctx: string, current: Message[]) {
+    const msgs = [...current, { role: 'user' as const, content: ctx }]
+    setLoading(true); setMessages([...msgs, { role: 'assistant', content: '' }])
+    try { await streamChat(msgs, t => setMessages([...msgs, { role: 'assistant', content: t }])) }
+    catch { setMessages([...msgs, { role: 'assistant', content: 'Something went wrong. Please try again.' }]) }
+    finally { setLoading(false) }
   }
 
   async function sendChatMessage(text: string) {
     if (!text.trim() || loading || limitReached) return
-    const userMessage: Message = { role: 'user', content: text }
-    const updatedMessages = [...messages, userMessage]
-    setMessages(updatedMessages)
-    setLoading(true)
-    setInteractionCount(c => c + 1)
-    setMessages([...updatedMessages, { role: 'assistant', content: '' }])
-    try {
-      const response = await fetch('/api/chat', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ messages: updatedMessages }) })
-      if (response.status === 429) { setLimitReached(true); setMessages(updatedMessages); return }
-      if (response.status === 401) { window.location.href = '/sign-in'; return }
-      if (!response.body) return
-      const reader = response.body.getReader()
-      const decoder = new TextDecoder()
-      let responseText = ''
-      while (true) {
-        const { done, value } = await reader.read()
-        if (done) break
-        responseText += decoder.decode(value, { stream: true })
-        setMessages([...updatedMessages, { role: 'assistant', content: responseText }])
-      }
-    } catch {
-      setMessages([...updatedMessages, { role: 'assistant', content: 'Something went wrong. Please try again.' }])
-    } finally { setLoading(false) }
+    const msgs = [...messages, { role: 'user' as const, content: text }]
+    setMessages(msgs); setLoading(true); setInteractionCount(c => c + 1)
+    setMessages([...msgs, { role: 'assistant', content: '' }])
+    try { await streamChat(msgs, t => setMessages([...msgs, { role: 'assistant', content: t }])) }
+    catch { setMessages([...msgs, { role: 'assistant', content: 'Something went wrong. Please try again.' }]) }
+    finally { setLoading(false) }
   }
 
   function handleDragOver(e: React.DragEvent) { e.preventDefault(); setIsDragging(true) }
   function handleDragLeave(e: React.DragEvent) { e.preventDefault(); setIsDragging(false) }
   async function handleDrop(e: React.DragEvent) {
     e.preventDefault(); setIsDragging(false)
-    const files = Array.from(e.dataTransfer.files)
-    for (const file of files) {
-      if (file.type === 'text/plain' || file.name.endsWith('.txt') || file.name.endsWith('.md')) {
-        const text = await file.text()
-        setInputValue(prev => prev ? `${prev}\n\n[From ${file.name}]:\n${text}` : `[From ${file.name}]:\n${text}`)
-      } else {
-        setInputValue(prev => prev ? `${prev}\n\n[Attached: ${file.name}]` : `[Attached: ${file.name}]`)
-      }
+    for (const file of Array.from(e.dataTransfer.files)) {
+      const txt = file.type === 'text/plain' || file.name.endsWith('.txt') || file.name.endsWith('.md') ? await file.text() : null
+      setInputValue(p => p ? `${p}\n\n${txt ? `[From ${file.name}]:\n${txt}` : `[Attached: ${file.name}]`}` : txt ? `[From ${file.name}]:\n${txt}` : `[Attached: ${file.name}]`)
     }
   }
 
   function toggleDictation() {
-    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) { alert('Dictation is not supported in this browser. Try Chrome.'); return }
+    if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) { alert('Dictation not supported. Try Chrome.'); return }
     if (isListening) { recognitionRef.current?.stop(); setIsListening(false); return }
     const SR = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition
-    const recognition = new SR()
-    recognition.continuous = false
-    recognition.interimResults = true
-    recognition.lang = 'en-CA'
-    recognition.onresult = (e: any) => {
-      const transcript = Array.from(e.results).map((r: any) => r[0].transcript).join('')
-      setInputValue(transcript)
-    }
-    recognition.onend = () => setIsListening(false)
-    recognition.onerror = () => setIsListening(false)
-    recognitionRef.current = recognition
-    recognition.start()
-    setIsListening(true)
+    const r = new SR(); r.continuous = false; r.interimResults = true; r.lang = 'en-CA'
+    r.onresult = (e: any) => setInputValue(Array.from(e.results).map((x: any) => x[0].transcript).join(''))
+    r.onend = () => setIsListening(false); r.onerror = () => setIsListening(false)
+    recognitionRef.current = r; r.start(); setIsListening(true)
   }
 
   async function castVote(voteKey: string) {
     if (!user || votedItems.has(voteKey)) return
-    try {
-      await fetch('/api/vote', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ item: voteKey }) })
-      setVotedItems(prev => new Set([...prev, voteKey]))
-      setVoteModal(prev => ({ ...prev, voted: true }))
-    } catch (err) { console.error('Vote failed:', err) }
+    try { await fetch('/api/vote', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ item: voteKey }) }); setVotedItems(p => new Set([...p, voteKey])); setVoteModal(p => ({ ...p, voted: true })) }
+    catch (err) { console.error('Vote failed:', err) }
   }
 
-  function openVoteModal(label: string, voteKey: string) {
-    setVoteModal({ open: true, label, voteKey, voted: votedItems.has(voteKey) })
-    if (isMobile) setSidebarOpen(false)
-  }
-
+  function openVoteModal(label: string, voteKey: string) { setVoteModal({ open: true, label, voteKey, voted: votedItems.has(voteKey) }); if (isMobile) setSidebarOpen(false) }
   function closeVoteModal() { setVoteModal({ open: false, label: '', voteKey: '', voted: false }) }
 
+  // ── Input field shared style helper ──────────────────────────────────────
+
+  const inputStyle = (extra: React.CSSProperties = {}): React.CSSProperties => ({
+    fontFamily: 'Barlow, sans-serif', fontSize: '1rem', color: C.ink,
+    border: `1.5px solid ${C.border}`, backgroundColor: 'rgba(255,255,255,0.88)',
+    backdropFilter: 'blur(6px)', outline: 'none',
+    boxShadow: `0 2px 12px rgba(75,59,196,0.08)`,
+    transition: 'border-color 150ms, box-shadow 150ms',
+    boxSizing: 'border-box' as const,
+    ...extra,
+  })
+
+  const btnPrimary = (disabled = false): React.CSSProperties => ({
+    fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem',
+    letterSpacing: '0.04em', color: C.white, border: 'none', cursor: disabled ? 'not-allowed' : 'pointer',
+    backgroundColor: disabled ? 'rgba(75,59,196,0.2)' : C.indigo,
+    boxShadow: disabled ? 'none' : `0 4px 16px rgba(75,59,196,0.28)`,
+    transition: 'all 150ms',
+  })
+
+  const iconBtn: React.CSSProperties = { background: 'none', border: 'none', cursor: 'pointer', padding: 0, display: 'flex', alignItems: 'center', transition: 'opacity 150ms ease' }
+
+  // ── Sidebar ───────────────────────────────────────────────────────────────
+
   const sidebar = (
-    <div style={{ width: isMobile ? '100%' : '240px', minWidth: isMobile ? 'unset' : '240px', backgroundColor: '#1A1A1A', display: 'flex', flexDirection: 'column', padding: '1.5rem 0', borderRight: isMobile ? 'none' : '2px solid #1A1A1A', position: isMobile ? 'fixed' : 'sticky', top: 0, left: 0, height: '100vh', overflowY: 'auto', zIndex: isMobile ? 50 : 'auto' as any, transform: isMobile && !sidebarOpen ? 'translateX(-100%)' : 'translateX(0)', transition: 'transform 250ms ease' }}>
-      <div style={{ padding: '0 1.5rem 1.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-        <span style={{ fontSize: '1.1rem', fontWeight: 900, color: '#F0EBE0', letterSpacing: '0.08em' }}>JUNIOR</span>
-        {isMobile && <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: '#999', fontSize: '1.25rem', cursor: 'pointer' }}>✕</button>}
+    <div style={{ width: isMobile ? '100%' : '220px', minWidth: isMobile ? 'unset' : '220px', backgroundColor: C.sidebarBg, display: 'flex', flexDirection: 'column', padding: '1.25rem 0', borderRight: `1px solid ${C.sidebarBorder}`, position: isMobile ? 'fixed' : 'sticky', top: 0, left: 0, height: '100vh', overflowY: 'auto', zIndex: isMobile ? 50 : 'auto' as any, transform: isMobile && !sidebarOpen ? 'translateX(-100%)' : 'translateX(0)', transition: 'transform 250ms ease' }}>
+
+      {/* Wordmark */}
+      <div style={{ padding: '0 1.25rem 1rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: '1rem', fontWeight: 900, color: C.sidebarText, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Junior</span>
+        {isMobile && <button onClick={() => setSidebarOpen(false)} style={{ background: 'none', border: 'none', color: C.sidebarMuted, fontSize: '1.25rem', cursor: 'pointer' }}>✕</button>}
       </div>
-      <div style={{ padding: '0 1rem 1rem' }}>
-        <button onClick={resetToHome} style={{ width: '100%', padding: '0.7rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #E8392A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer', textAlign: 'left', letterSpacing: '0.05em', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          START HERE
+
+      {/* New Chat */}
+      <div style={{ padding: '0 0.875rem 1rem' }}>
+        <button onClick={resetToHome} style={{ width: '100%', padding: '0.65rem 0.875rem', backgroundColor: C.indigo, color: C.white, border: 'none', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.8rem', cursor: 'pointer', textAlign: 'left', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '0.5rem', transition: 'background 150ms' }}
+          onMouseEnter={e => (e.currentTarget as HTMLElement).style.backgroundColor = C.indigoDark}
+          onMouseLeave={e => (e.currentTarget as HTMLElement).style.backgroundColor = C.indigo}>
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          New Chat
         </button>
       </div>
-      <div style={{ padding: '1rem 1.25rem 0.5rem' }}>
-        <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#666', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>Projects</span>
-        <div style={{ padding: '0.4rem 0.5rem', color: intakeAnswers.name ? '#F0EBE0' : '#555', fontFamily: 'Barlow, sans-serif', fontSize: '0.9rem' }}>
-          🎬 {intakeAnswers.name || 'No active project'}
+
+      {/* Projects */}
+      <div style={{ padding: '0.75rem 1.25rem 0.5rem' }}>
+        <span style={{ fontSize: '0.65rem', fontWeight: 700, color: C.sidebarMuted, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Projects</span>
+        <div style={{ padding: '0.5rem 0.625rem', color: intakeAnswers.name ? C.sidebarText : C.sidebarMuted, fontSize: '0.875rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+          {intakeAnswers.name || 'No active project'}
         </div>
       </div>
-      <div style={{ padding: '1rem 1.25rem 0.5rem' }}>
-        <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#666', letterSpacing: '0.1em', textTransform: 'uppercase', display: 'block', marginBottom: '0.5rem' }}>Funders</span>
-        {FUNDERS.map((f) => (
-          <button key={f.label} onClick={() => { if (f.live) resetToHome(); else if (f.voteKey) openVoteModal(f.label, f.voteKey) }}
-            style={{ width: '100%', padding: '0.45rem 0.5rem', backgroundColor: 'transparent', border: 'none', fontFamily: 'Barlow, sans-serif', fontSize: '0.875rem', cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '0.4rem', color: f.live ? '#F0EBE0' : '#999', opacity: f.live ? 1 : 0.6 }}>
-            🏛 {f.label}
-            {!f.live && <span style={{ fontSize: '0.6rem', padding: '0.1rem 0.4rem', backgroundColor: '#333', color: '#999', fontWeight: 700, letterSpacing: '0.05em', marginLeft: 'auto' }}>SOON</span>}
-          </button>
-        ))}
+
+      {/* Features */}
+      <div style={{ padding: '0.75rem 1.25rem 0.5rem', marginTop: '0.25rem' }}>
+        <span style={{ fontSize: '0.65rem', fontWeight: 700, color: C.sidebarMuted, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Features</span>
+        {SIDEBAR_FEATURES.map(f => {
+          const active = activeSidebarFeature === f.id
+          return (
+            <button key={f.id} onClick={() => handleSidebarFeature(f.id)}
+              style={{ width: '100%', padding: '0.55rem 0.625rem', backgroundColor: active ? 'rgba(75,59,196,0.25)' : 'transparent', border: active ? '1px solid rgba(75,59,196,0.4)' : '1px solid transparent', fontFamily: 'Barlow, sans-serif', fontSize: '0.875rem', fontWeight: active ? 700 : 500, cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', gap: '0.5rem', color: active ? C.white : C.sidebarText, transition: 'all 120ms' }}
+              onMouseEnter={e => { if (!active) (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.05)' }}
+              onMouseLeave={e => { if (!active) (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent' }}>
+              <span style={{ color: active ? C.white : C.sidebarMuted, display: 'flex' }}>{f.icon}</span>
+              {f.label}
+            </button>
+          )
+        })}
       </div>
-      <div style={{ marginTop: 'auto', borderTop: '1px solid #333' }}>
-  <div style={{ padding: '1rem 1.5rem' }}>
-    <button
-      onClick={async () => {
-        const res = await fetch('/api/stripe/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ priceId: 'price_1TFrW4RzmBTZm8w5ZRTltdfM', billingPeriod: 'monthly', userId: user?.id }) })
-        const { url } = await res.json()
-        if (url) window.location.href = url
-      }}
-      style={{ width: '100%', padding: '0.7rem 1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #E8392A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.8rem', cursor: 'pointer', letterSpacing: '0.05em' }}>
-      UPGRADE →
-    </button>
-  </div>
-  <div style={{ padding: '0 1.5rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-    <UserButton afterSignOutUrl="/sign-in" />
-    {user && <span style={{ fontSize: '0.8rem', color: '#555', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.primaryEmailAddress?.emailAddress}</span>}
-  </div>
-</div>
+
+      {/* Upgrade + User */}
+      <div style={{ marginTop: 'auto', borderTop: `1px solid ${C.sidebarBorder}` }}>
+        <div style={{ padding: '1rem 0.875rem 0.75rem' }}>
+          <button onClick={async () => { const res = await fetch('/api/stripe/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ priceId: 'price_1TFrW4RzmBTZm8w5ZRTltdfM', billingPeriod: 'monthly', userId: user?.id }) }); const { url } = await res.json(); if (url) window.location.href = url }}
+            style={{ width: '100%', padding: '0.6rem 0.875rem', backgroundColor: 'rgba(75,59,196,0.3)', color: C.white, border: '1px solid rgba(75,59,196,0.5)', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.75rem', cursor: 'pointer', letterSpacing: '0.06em', transition: 'all 150ms' }}
+            onMouseEnter={e => (e.currentTarget as HTMLElement).style.backgroundColor = C.indigo}
+            onMouseLeave={e => (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(75,59,196,0.3)'}>
+            Upgrade →
+          </button>
+        </div>
+        <div style={{ padding: '0 1.25rem 1rem', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+          <UserButton afterSignOutUrl="/sign-in" />
+          {user && <span style={{ fontSize: '0.75rem', color: C.sidebarMuted, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{user.primaryEmailAddress?.emailAddress}</span>}
+        </div>
+      </div>
     </div>
   )
 
+  // ── Render ────────────────────────────────────────────────────────────────
+
   return (
-    <main style={{ height: '100vh', backgroundColor: '#F0EBE0', display: 'flex', fontFamily: 'Barlow, sans-serif', fontSize: '16px', overflow: 'hidden' }}>
-      {isMobile && sidebarOpen && <div onClick={() => setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', zIndex: 40 }} />}
+    <main style={{ height: '100vh', background: pageGradient, display: 'flex', fontFamily: 'Barlow, sans-serif', fontSize: '16px', overflow: 'hidden', color: C.ink }}>
+
+      {isMobile && sidebarOpen && <div onClick={() => setSidebarOpen(false)} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.6)', zIndex: 40 }} />}
       {sidebar}
 
-      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100vh', minWidth: 0, overflow: 'hidden' }}
-        onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
+      <div style={{ flex: 1, display: 'flex', flexDirection: 'column', height: '100vh', minWidth: 0, overflow: 'hidden' }} onDragOver={handleDragOver} onDragLeave={handleDragLeave} onDrop={handleDrop}>
 
         {isDragging && (
-          <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(232,57,42,0.08)', border: '3px dashed #E8392A', zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
-            <div style={{ backgroundColor: '#F0EBE0', border: '2px solid #E8392A', padding: '1rem 2rem', boxShadow: '4px 4px 0px #1A1A1A' }}>
-              <span style={{ fontWeight: 900, fontSize: '1rem', color: '#E8392A', letterSpacing: '0.04em' }}>DROP FILE TO ATTACH</span>
+          <div style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(75,59,196,0.06)', border: `3px dashed ${C.indigo}`, zIndex: 20, display: 'flex', alignItems: 'center', justifyContent: 'center', pointerEvents: 'none' }}>
+            <div style={{ backgroundColor: C.white, border: `1.5px solid ${C.border}`, padding: '1rem 2rem', boxShadow: `0 8px 32px rgba(75,59,196,0.2)` }}>
+              <span style={{ fontWeight: 900, fontSize: '1rem', color: C.indigo, letterSpacing: '0.04em' }}>Drop file to attach</span>
             </div>
           </div>
         )}
 
         {isMobile && (
-          <div style={{ padding: '0.875rem 1.25rem', borderBottom: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10 }}>
+          <div style={{ padding: '0.875rem 1.25rem', borderBottom: `1px solid ${C.borderLight}`, backgroundColor: 'rgba(250,250,254,0.85)', backdropFilter: 'blur(12px)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', position: 'sticky', top: 0, zIndex: 10 }}>
             <button onClick={() => setSidebarOpen(true)} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0.25rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
-              <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
-              <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
-              <div style={{ width: '20px', height: '2px', backgroundColor: '#1A1A1A' }} />
+              {[0,1,2].map(i => <div key={i} style={{ width: '20px', height: '2px', backgroundColor: C.ink }} />)}
             </button>
-            <span style={{ fontSize: '0.9rem', fontWeight: 900, color: '#1A1A1A', letterSpacing: '0.08em' }}>JUNIOR</span>
-            <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.4 }}>{stage === 'chat' ? `${interactionCount} MSG` : 'BETA'}</span>
+            <span style={{ fontSize: '0.9rem', fontWeight: 900, color: C.indigoDeep, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Junior</span>
+            <span style={{ fontSize: '0.75rem', fontWeight: 700, color: C.ink, opacity: 0.35 }}>{stage === 'chat' ? `${interactionCount} msg` : 'Beta'}</span>
           </div>
         )}
 
-        {/* HOME */}
+        {/* ── HOME ── */}
         {stage === 'home' && (
-          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: isMobile ? '2rem 1.25rem' : '0 3rem', overflowY: 'auto', paddingTop: isMobile ? '2rem' : '0' }}>
+          <div style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: isMobile ? '2rem 1.25rem' : '0 3rem', overflowY: 'auto' }}>
             <div style={{ width: '100%', maxWidth: '680px' }}>
-
               <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
-                <h1 style={{ fontSize: isMobile ? 'clamp(1.6rem, 6vw, 2rem)' : 'clamp(2rem, 4vw, 3rem)', fontWeight: 900, color: '#1A1A1A', lineHeight: 1.1, marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
-                  {intakeStep === 0 ? 'What can Junior take off your plate today?' : INTAKE_SEQUENCE[intakeStep].prompt}
+                <h1 style={{ fontSize: isMobile ? 'clamp(1.6rem,6vw,2rem)' : 'clamp(1.8rem,3vw,2.6rem)', fontWeight: 900, color: C.ink, lineHeight: 1.1, marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.03em' }}>
+                  {intakeStep === 0 ? 'What can Junior help with today?' : INTAKE_SEQUENCE[intakeStep].prompt}
                 </h1>
-                {intakeStep === 0 && (
-                  <p style={{ fontSize: '1rem', color: '#1A1A1A', opacity: 0.5 }}>
-                    Pick a focus below, then tell us about your project.
-                  </p>
-                )}
+                {intakeStep === 0 && <p style={{ fontSize: '1.05rem', color: C.ink, opacity: 0.5 }}>Pick a focus below, then tell us about your project.</p>}
               </div>
 
               <div style={{ position: 'relative', marginBottom: '1rem' }}>
-                <input
-                  ref={inputRef}
-                  type="text"
-                  value={inputValue}
-                  onChange={e => setInputValue(e.target.value)}
-                  onKeyDown={handleKeyDown}
-                  placeholder={inputPlaceholder}
-                  style={{ width: '100%', padding: '1.1rem 6rem 1.1rem 1.25rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1.1rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A', boxSizing: 'border-box' }}
-                />
+                <input ref={inputRef} type="text" value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyDown={handleKeyDown} placeholder={inputPlaceholder}
+                  style={inputStyle({ width: '100%', padding: '1.1rem 6rem 1.1rem 1.25rem' })}
+                  onFocus={e => { e.currentTarget.style.borderColor = C.indigo; e.currentTarget.style.boxShadow = `0 0 0 3px rgba(75,59,196,0.12)` }}
+                  onBlur={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = `0 2px 12px rgba(75,59,196,0.08)` }} />
                 <div style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                  <button onClick={() => {}} title="Attach file"
-  style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: '#1A1A1A', opacity: 0.3, transition: 'opacity 150ms ease' }}
-  onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.7'}
-  onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '0.3'}>
-  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-    <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
-  </svg>
-</button>
-                  <button onClick={toggleDictation}
-                    style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: isListening ? '#E8392A' : '#1A1A1A', opacity: isListening ? 1 : 0.35, transition: 'all 150ms ease' }}
-                    onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.8'}
-                    onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = isListening ? '1' : '0.35' }}>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-                      <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-                      <line x1="12" y1="19" x2="12" y2="23"/>
-                      <line x1="8" y1="23" x2="16" y2="23"/>
-                    </svg>
+                  <button onClick={() => {}} title="Attach file" style={{ ...iconBtn, color: C.ink, opacity: 0.3 }} onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.7'} onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '0.3'}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                  </button>
+                  <button onClick={toggleDictation} style={{ ...iconBtn, color: isListening ? C.indigo : C.ink, opacity: isListening ? 1 : 0.35 }} onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.8'} onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = isListening ? '1' : '0.35' }}>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
                   </button>
                 </div>
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '1.5rem' }}>
-  <button onClick={handleInputSubmit} disabled={!inputValue.trim()}
-    style={{ padding: '0.65rem 1.5rem', backgroundColor: inputValue.trim() ? '#E8392A' : '#CCC', color: '#FFFFFF', border: `2px solid ${inputValue.trim() ? '#1A1A1A' : '#CCC'}`, fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.9rem', cursor: inputValue.trim() ? 'pointer' : 'not-allowed', boxShadow: inputValue.trim() ? '4px 4px 0px #1A1A1A' : 'none', letterSpacing: '0.05em', transition: 'all 150ms ease' }}>
-    {intakeStep < INTAKE_SEQUENCE.length - 1 ? 'NEXT →' : 'START →'}
-  </button>
-</div>
+                <button onClick={handleInputSubmit} disabled={!inputValue.trim()}
+                  style={{ ...btnPrimary(!inputValue.trim()), padding: '0.65rem 1.5rem' }}
+                  onMouseEnter={e => { if (inputValue.trim()) (e.currentTarget as HTMLElement).style.backgroundColor = C.indigoDark }}
+                  onMouseLeave={e => { if (inputValue.trim()) (e.currentTarget as HTMLElement).style.backgroundColor = C.indigo }}>
+                  {intakeStep < INTAKE_SEQUENCE.length - 1 ? 'Next →' : 'Start →'}
+                </button>
+              </div>
 
               {intakeStep > 0 && (
                 <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '2rem' }}>
-                  <span style={{ fontSize: '0.7rem', fontWeight: 700, color: '#888', letterSpacing: '0.1em', textTransform: 'uppercase' }}>Step {intakeStep + 1} of {INTAKE_SEQUENCE.length}</span>
+                  <span style={{ fontSize: '0.7rem', fontWeight: 700, color: C.muted, letterSpacing: '0.1em', textTransform: 'uppercase' }}>Step {intakeStep + 1} of {INTAKE_SEQUENCE.length}</span>
                   <div style={{ display: 'flex', gap: '4px' }}>
-                    {INTAKE_SEQUENCE.map((_, i) => (
-                      <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: i < intakeStep ? '#E8392A' : i === intakeStep ? '#1A1A1A' : '#DDD6C8', transition: 'background-color 300ms ease' }} />
-                    ))}
+                    {INTAKE_SEQUENCE.map((_, i) => <div key={i} style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: i < intakeStep ? C.indigo : i === intakeStep ? C.ink : C.borderLight, transition: 'background-color 300ms' }} />)}
                   </div>
                 </div>
               )}
 
               <div>
-                <span style={{ fontSize: '0.65rem', fontWeight: 700, color: '#AAA', letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.6rem' }}>Focus</span>
+                <span style={{ fontSize: '0.65rem', fontWeight: 700, color: C.muted, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.6rem' }}>Focus</span>
                 <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '0.5rem' }}>
-                  {CATEGORIES.map((cat) => (
-                    <button key={cat.id} onClick={() => handleCategorySelect(cat)}
-                      style={{ padding: '0.75rem 0.9rem', backgroundColor: selectedCategory?.id === cat.id ? '#1A1A1A' : '#FFFFFF', border: `1.5px solid ${selectedCategory?.id === cat.id ? '#1A1A1A' : '#D0C9BE'}`, cursor: 'pointer', textAlign: 'left', boxShadow: selectedCategory?.id === cat.id ? '3px 3px 0px #E8392A' : 'none', transition: 'all 150ms ease' }}
-                      onMouseEnter={e => { if (selectedCategory?.id !== cat.id) { (e.currentTarget as HTMLElement).style.borderColor = '#1A1A1A'; (e.currentTarget as HTMLElement).style.boxShadow = '3px 3px 0px #1A1A1A' } }}
-                      onMouseLeave={e => { if (selectedCategory?.id !== cat.id) { (e.currentTarget as HTMLElement).style.borderColor = '#D0C9BE'; (e.currentTarget as HTMLElement).style.boxShadow = 'none' } }}>
-                      <div style={{ fontSize: '0.875rem', fontWeight: 900, color: selectedCategory?.id === cat.id ? '#F0EBE0' : '#1A1A1A', marginBottom: '0.2rem' }}>{cat.title}</div>
-                      <p style={{ fontSize: '0.78rem', color: selectedCategory?.id === cat.id ? '#F0EBE0' : '#1A1A1A', opacity: selectedCategory?.id === cat.id ? 0.6 : 0.5, margin: 0, lineHeight: 1.4 }}>{cat.description}</p>
-                    </button>
-                  ))}
+                  {CATEGORIES.map(cat => {
+                    const sel = selectedCategory?.id === cat.id
+                    return (
+                      <button key={cat.id} onClick={() => handleCategorySelect(cat)}
+                        style={{ padding: '0.875rem 1rem', backgroundColor: sel ? C.indigo : 'rgba(255,255,255,0.72)', border: `1.5px solid ${sel ? C.indigo : C.border}`, cursor: 'pointer', textAlign: 'left', backdropFilter: 'blur(6px)', boxShadow: sel ? `0 8px 24px rgba(75,59,196,0.25)` : `0 2px 8px rgba(75,59,196,0.06)`, transition: 'all 150ms' }}
+                        onMouseEnter={e => { if (!sel) { (e.currentTarget as HTMLElement).style.borderColor = C.indigo; (e.currentTarget as HTMLElement).style.boxShadow = `0 4px 16px rgba(75,59,196,0.14)` } }}
+                        onMouseLeave={e => { if (!sel) { (e.currentTarget as HTMLElement).style.borderColor = C.border; (e.currentTarget as HTMLElement).style.boxShadow = `0 2px 8px rgba(75,59,196,0.06)` } }}>
+                        <div style={{ fontSize: '0.875rem', fontWeight: 900, color: sel ? C.white : C.ink, marginBottom: '0.25rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{cat.title}</div>
+                        <p style={{ fontSize: '0.78rem', color: sel ? 'rgba(255,255,255,0.72)' : C.muted, margin: 0, lineHeight: 1.45 }}>{cat.description}</p>
+                      </button>
+                    )
+                  })}
                 </div>
               </div>
 
               {isListening && (
                 <div style={{ marginTop: '0.75rem', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#E8392A', display: 'inline-block', animation: 'dot-bounce 1.2s infinite' }} />
-                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#E8392A', letterSpacing: '0.06em' }}>LISTENING...</span>
+                  <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: C.indigo, display: 'inline-block', animation: 'dot-bounce 1.2s infinite' }} />
+                  <span style={{ fontSize: '0.75rem', fontWeight: 700, color: C.indigo, letterSpacing: '0.06em' }}>Listening...</span>
                 </div>
               )}
             </div>
           </div>
         )}
 
-        {/* CHAT */}
+        {/* ── CHAT ── */}
         {stage === 'chat' && (
           <div style={{ flex: 1, display: 'flex', flexDirection: 'column', minHeight: 0, overflow: 'hidden' }}>
             {!isMobile && (
-              <div style={{ padding: '0.5rem 3rem', display: 'flex', justifyContent: 'flex-end' }}>
-                <span style={{ fontSize: '0.8rem', fontWeight: 700, color: '#1A1A1A', opacity: 0.35, letterSpacing: '0.06em' }}>
-                  {interactionCount} {interactionCount === 1 ? 'MESSAGE' : 'MESSAGES'}
+              <div style={{ padding: '0.5rem 3rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: `1px solid ${C.borderLight}` }}>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: C.indigo, opacity: 0.7, letterSpacing: '0.1em', textTransform: 'uppercase' }}>
+                  {intakeAnswers.name || 'Junior'}
+                  {selectedCategory && <span style={{ fontWeight: 400, color: C.muted, marginLeft: '0.5rem' }}>— {selectedCategory.title}</span>}
                 </span>
+                <span style={{ fontSize: '0.75rem', fontWeight: 700, color: C.muted, letterSpacing: '0.06em' }}>{interactionCount} {interactionCount === 1 ? 'message' : 'messages'}</span>
               </div>
             )}
 
             <div style={{ flex: 1, overflowY: 'auto', padding: isMobile ? '1.5rem 1rem' : '2rem 3rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-  <div style={{ width: '100%', maxWidth: '680px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+              <div style={{ width: '100%', maxWidth: '680px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {messages.map((msg, i) => {
                   if (msg.role === 'user') return null
                   const { text, event, suggestions } = parseTags(msg.content)
-                  const isLoadingMsg = loading && i === messages.length - 1 && msg.content === ''
+                  const isLoading = loading && i === messages.length - 1 && msg.content === ''
                   return (
                     <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                      <div style={{ padding: '1.35rem 1.6rem', backgroundColor: '#FFFFFF', color: '#1A1A1A', border: '2px solid #1A1A1A', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'pre-wrap', lineHeight: 1.75, fontSize: '1rem' }}>
-                        {isLoadingMsg ? (
-                          <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center' }}>
-                            <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
-                            <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0.2s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
-                            <span style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: '0.4s', width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#1A1A1A', display: 'inline-block' }} />
-                          </span>
-                        ) : linkifyUrls(text)}
+                      <div style={{ padding: '1.25rem 1.5rem', backgroundColor: 'rgba(255,255,255,0.82)', color: C.ink, border: `1.5px solid ${C.border}`, backdropFilter: 'blur(8px)', boxShadow: `0 4px 20px rgba(75,59,196,0.08)`, whiteSpace: 'pre-wrap', lineHeight: 1.75, fontSize: '1rem' }}>
+                        {isLoading
+                          ? <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center' }}>{[0,0.2,0.4].map((d,di) => <span key={di} style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: `${d}s`, width: '6px', height: '6px', borderRadius: '50%', backgroundColor: C.indigo, display: 'inline-block' }} />)}</span>
+                          : linkifyUrls(text)}
                       </div>
                       {event && !loading && (
-                        <button onClick={() => downloadICS(event)} style={{ alignSelf: 'flex-start', padding: '0.55rem 1.1rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.875rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}>
-                          + ADD DEADLINE TO CALENDAR
+                        <button onClick={() => downloadICS(event)}
+                          style={{ alignSelf: 'flex-start', padding: '0.55rem 1.1rem', backgroundColor: C.indigo, color: C.white, border: 'none', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.875rem', cursor: 'pointer', boxShadow: `0 4px 14px rgba(75,59,196,0.3)`, transition: 'all 150ms' }}
+                          onMouseEnter={e => (e.currentTarget as HTMLElement).style.backgroundColor = C.indigoDark}
+                          onMouseLeave={e => (e.currentTarget as HTMLElement).style.backgroundColor = C.indigo}>
+                          + Add Deadline to Calendar
                         </button>
                       )}
                       {suggestions.length > 0 && !loading && (
                         <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap' }}>
                           {suggestions.map((s, si) => (
                             <button key={si} onClick={() => sendChatMessage(s)}
-                              style={{ padding: '0.5rem 1rem', backgroundColor: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer', transition: 'all 150ms ease' }}
-                              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = '#1A1A1A'; (e.currentTarget as HTMLElement).style.color = '#F0EBE0' }}
-                              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'transparent'; (e.currentTarget as HTMLElement).style.color = '#1A1A1A' }}>
+                              style={{ padding: '0.5rem 1rem', backgroundColor: 'rgba(255,255,255,0.7)', color: C.ink, border: `1.5px solid ${C.border}`, fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.875rem', cursor: 'pointer', backdropFilter: 'blur(4px)', transition: 'all 150ms' }}
+                              onMouseEnter={e => { (e.currentTarget as HTMLElement).style.backgroundColor = C.indigo; (e.currentTarget as HTMLElement).style.color = C.white; (e.currentTarget as HTMLElement).style.borderColor = C.indigo }}
+                              onMouseLeave={e => { (e.currentTarget as HTMLElement).style.backgroundColor = 'rgba(255,255,255,0.7)'; (e.currentTarget as HTMLElement).style.color = C.ink; (e.currentTarget as HTMLElement).style.borderColor = C.border }}>
                               {s} →
                             </button>
                           ))}
@@ -532,90 +472,59 @@ export default function ChatPage() {
                     </div>
                   )
                 })}
+
                 {limitReached && (
-  <div style={{ padding: '2rem', border: '2px solid #1A1A1A', backgroundColor: '#1A1A1A', color: '#FFFFFF', boxShadow: '4px 4px 0px #E8392A' }}>
-    <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem', letterSpacing: '0.03em' }}>YOU'VE USED YOUR 20 FREE MESSAGES.</p>
-    <p style={{ opacity: 0.7, fontSize: '0.9rem', marginBottom: '1.5rem' }}>Upgrade to unlock unlimited access to Junior.</p>
-    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-      <button
-        onClick={async () => {
-          const res = await fetch('/api/stripe/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ priceId: 'price_1TFrW2RzmBTZm8w5R94Bx3w9', billingPeriod: 'one_time', userId: user?.id }) })
-          const { url } = await res.json()
-if (url) window.location.href = url
-        }}
-        style={{ padding: '0.7rem 1.25rem', backgroundColor: 'transparent', color: '#FFFFFF', border: '2px solid #FFFFFF', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', letterSpacing: '0.05em' }}>
-        7 DAYS — $19
-      </button>
-      <button
-        onClick={async () => {
-          const res = await fetch('/api/stripe/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ priceId: 'price_1TFrW4RzmBTZm8w5ZRTltdfM', billingPeriod: 'monthly', userId: user?.id }) })
-          const { url } = await res.json()
-if (url) window.location.href = url
-        }}
-        style={{ padding: '0.7rem 1.25rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #E8392A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', boxShadow: '4px 4px 0px #E8392A', letterSpacing: '0.05em' }}>
-        MONTHLY — $39/MO ★
-      </button>
-      <button
-        onClick={async () => {
-          const res = await fetch('/api/stripe/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ priceId: 'price_1TFrW3RzmBTZm8w5FafvtRoL', billingPeriod: 'annual', userId: user?.id }) })
-          const { url } = await res.json()
-if (url) window.location.href = url
-        }}
-        style={{ padding: '0.7rem 1.25rem', backgroundColor: 'transparent', color: '#FFFFFF', border: '2px solid #FFFFFF', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', letterSpacing: '0.05em' }}>
-        ANNUAL — $390/YR
-      </button>
-    </div>
-  </div>
-)}
+                  <div style={{ padding: '1.75rem', border: `1.5px solid ${C.border}`, backgroundColor: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(8px)', boxShadow: `0 8px 32px rgba(75,59,196,0.12)` }}>
+                    <p style={{ fontWeight: 900, fontSize: '1.05rem', marginBottom: '0.5rem', color: C.ink }}>You've used your 20 free messages.</p>
+                    <p style={{ color: C.muted, fontSize: '0.95rem', marginBottom: '1.5rem' }}>Upgrade to unlock unlimited access to Junior.</p>
+                    <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
+                      {[
+                        { label: '7 Days — CA$19', price: 'price_1TFrW2RzmBTZm8w5R94Bx3w9', period: 'one_time', featured: false },
+                        { label: 'Monthly — CA$39/mo ★', price: 'price_1TFrW4RzmBTZm8w5ZRTltdfM', period: 'monthly', featured: true },
+                        { label: 'Annual — CA$390/yr', price: 'price_1TFrW3RzmBTZm8w5FafvtRoL', period: 'annual', featured: false },
+                      ].map(({ label, price, period, featured }) => (
+                        <button key={price}
+                          onClick={async () => { const res = await fetch('/api/stripe/checkout', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ priceId: price, billingPeriod: period, userId: user?.id }) }); const { url } = await res.json(); if (url) window.location.href = url }}
+                          style={{ padding: '0.7rem 1.25rem', backgroundColor: featured ? C.indigo : 'transparent', color: featured ? C.white : C.ink, border: featured ? 'none' : `1.5px solid ${C.border}`, fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.85rem', cursor: 'pointer', letterSpacing: '0.03em', boxShadow: featured ? `0 4px 16px rgba(75,59,196,0.3)` : 'none' }}>
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                )}
                 <div ref={bottomRef} />
               </div>
             </div>
 
             {!limitReached && (
-              <div style={{ borderTop: '2px solid #1A1A1A', backgroundColor: '#F0EBE0', padding: isMobile ? '0.75rem 1rem' : '1rem 3rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-  <div style={{ width: '100%', maxWidth: '680px', display: 'flex', gap: '0.5rem', alignItems: 'flex-end' }}>
-  <div style={{ flex: 1, position: 'relative' }}>
-    <input
-      ref={inputRef}
-      type="text"
-      value={inputValue}
-      onChange={e => setInputValue(e.target.value)}
-      onKeyDown={handleKeyDown}
-      placeholder={inputPlaceholder}
-      style={{ width: '100%', padding: '0.95rem 5.5rem 0.95rem 1.1rem', border: '2px solid #1A1A1A', backgroundColor: '#FFFFFF', fontFamily: 'Barlow, sans-serif', fontSize: '1.05rem', outline: 'none', boxShadow: '4px 4px 0px #1A1A1A', boxSizing: 'border-box' }}
-    />
-    <div style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-      <button onClick={() => {}} title="Attach file"
-        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: '#1A1A1A', opacity: 0.3, transition: 'opacity 150ms ease' }}
-        onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.7'}
-        onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '0.3'}>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
-        </svg>
-      </button>
-      <button onClick={toggleDictation} title="Dictate"
-        style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '0', display: 'flex', alignItems: 'center', color: isListening ? '#E8392A' : '#1A1A1A', opacity: isListening ? 1 : 0.3, transition: 'all 150ms ease' }}
-        onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.7'}
-        onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = isListening ? '1' : '0.3' }}>
-        <svg width="15" height="15" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
-          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
-          <line x1="12" y1="19" x2="12" y2="23"/>
-          <line x1="8" y1="23" x2="16" y2="23"/>
-        </svg>
-      </button>
-    </div>
-  </div>
-  <button onClick={() => sendChatMessage(inputValue)} disabled={loading || !inputValue.trim()}
-    style={{ padding: '0.95rem 1.6rem', backgroundColor: loading || !inputValue.trim() ? '#999' : '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.95rem', cursor: loading || !inputValue.trim() ? 'not-allowed' : 'pointer', boxShadow: '4px 4px 0px #1A1A1A', whiteSpace: 'nowrap' }}>
-    SEND
-  </button>
-</div>
+              <div style={{ borderTop: `1px solid ${C.borderLight}`, backgroundColor: 'rgba(250,250,254,0.85)', backdropFilter: 'blur(12px)', padding: isMobile ? '0.75rem 1rem' : '1rem 3rem', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <div style={{ width: '100%', maxWidth: '680px', display: 'flex', gap: '0.5rem', alignItems: 'flex-end' }}>
+                  <div style={{ flex: 1, position: 'relative' }}>
+                    <input ref={inputRef} type="text" value={inputValue} onChange={e => setInputValue(e.target.value)} onKeyDown={handleKeyDown} placeholder={inputPlaceholder}
+                      style={inputStyle({ width: '100%', padding: '0.95rem 5.5rem 0.95rem 1.1rem' })}
+                      onFocus={e => { e.currentTarget.style.borderColor = C.indigo; e.currentTarget.style.boxShadow = `0 0 0 3px rgba(75,59,196,0.12)` }}
+                      onBlur={e => { e.currentTarget.style.borderColor = C.border; e.currentTarget.style.boxShadow = `0 2px 12px rgba(75,59,196,0.08)` }} />
+                    <div style={{ position: 'absolute', right: '0.75rem', top: '50%', transform: 'translateY(-50%)', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                      <button onClick={() => {}} title="Attach file" style={{ ...iconBtn, color: C.ink, opacity: 0.3 }} onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.7'} onMouseLeave={e => (e.currentTarget as HTMLElement).style.opacity = '0.3'}>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                      </button>
+                      <button onClick={toggleDictation} style={{ ...iconBtn, color: isListening ? C.indigo : C.ink, opacity: isListening ? 1 : 0.3 }} onMouseEnter={e => (e.currentTarget as HTMLElement).style.opacity = '0.7'} onMouseLeave={e => { (e.currentTarget as HTMLElement).style.opacity = isListening ? '1' : '0.3' }}>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill={isListening ? 'currentColor' : 'none'} stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                      </button>
+                    </div>
+                  </div>
+                  <button onClick={() => sendChatMessage(inputValue)} disabled={loading || !inputValue.trim()}
+                    style={{ ...btnPrimary(loading || !inputValue.trim()), padding: '0.95rem 1.5rem', whiteSpace: 'nowrap' }}
+                    onMouseEnter={e => { if (!loading && inputValue.trim()) (e.currentTarget as HTMLElement).style.backgroundColor = C.indigoDark }}
+                    onMouseLeave={e => { if (!loading && inputValue.trim()) (e.currentTarget as HTMLElement).style.backgroundColor = C.indigo }}>
+                    Send
+                  </button>
+                </div>
                 {isListening && (
-                  <div style={{ maxWidth: '680px', marginTop: '0.5rem' }}>
-                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: '#E8392A', letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
-                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: '#E8392A', display: 'inline-block', animation: 'dot-bounce 1.2s infinite' }} />
-                      LISTENING...
+                  <div style={{ maxWidth: '680px', width: '100%', marginTop: '0.5rem' }}>
+                    <span style={{ fontSize: '0.75rem', fontWeight: 700, color: C.indigo, letterSpacing: '0.06em', display: 'flex', alignItems: 'center', gap: '0.4rem' }}>
+                      <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: C.indigo, display: 'inline-block', animation: 'dot-bounce 1.2s infinite' }} />
+                      Listening...
                     </span>
                   </div>
                 )}
@@ -625,23 +534,24 @@ if (url) window.location.href = url
         )}
       </div>
 
+      {/* Vote modal */}
       {voteModal.open && (
-        <div onClick={closeVoteModal} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem' }}>
-          <div onClick={e => e.stopPropagation()} style={{ backgroundColor: '#F0EBE0', border: '2px solid #1A1A1A', boxShadow: '6px 6px 0px #1A1A1A', padding: '1.75rem', maxWidth: '400px', width: '100%' }}>
+        <div onClick={closeVoteModal} style={{ position: 'fixed', inset: 0, backgroundColor: 'rgba(10,5,30,0.65)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 100, padding: '1rem' }}>
+          <div onClick={e => e.stopPropagation()} style={{ backgroundColor: C.white, border: `1.5px solid ${C.border}`, boxShadow: `0 24px 80px rgba(75,59,196,0.25)`, padding: '1.75rem', maxWidth: '400px', width: '100%' }}>
             {voteModal.voted ? (
               <>
-                <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>✓ VOTE CAST</p>
-                <p style={{ fontSize: '0.9rem', opacity: 0.7, marginBottom: '1.5rem' }}>Your vote helps determine what Junior builds next. We'll let you know when {voteModal.label} is live.</p>
-                <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: '#1A1A1A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}>CLOSE</button>
+                <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem', color: C.ink }}>✓ Vote cast</p>
+                <p style={{ fontSize: '0.9rem', color: C.muted, marginBottom: '1.5rem' }}>Your vote helps determine what Junior builds next. We'll let you know when {voteModal.label} is live.</p>
+                <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: C.indigo, color: C.white, border: 'none', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}>Close</button>
               </>
             ) : (
               <>
-                <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem' }}>VOTE TO UNLOCK</p>
-                <p style={{ fontSize: '1rem', fontWeight: 700, color: '#E8392A', marginBottom: '0.75rem' }}>{voteModal.label}</p>
-                <p style={{ fontSize: '0.9rem', opacity: 0.7, marginBottom: '1.5rem' }}>Junior builds features in order of demand. Cast your vote and we'll prioritize accordingly.</p>
+                <p style={{ fontWeight: 900, fontSize: '1.1rem', marginBottom: '0.5rem', color: C.ink }}>Vote to Unlock</p>
+                <p style={{ fontSize: '1rem', fontWeight: 700, color: C.indigo, marginBottom: '0.75rem' }}>{voteModal.label}</p>
+                <p style={{ fontSize: '0.9rem', color: C.muted, marginBottom: '1.5rem' }}>Junior builds features in order of demand. Cast your vote and we'll prioritize accordingly.</p>
                 <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                  <button onClick={() => castVote(voteModal.voteKey)} style={{ padding: '0.6rem 1.25rem', backgroundColor: '#E8392A', color: '#FFFFFF', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', boxShadow: '4px 4px 0px #1A1A1A' }}>CAST MY VOTE</button>
-                  <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: 'transparent', color: '#1A1A1A', border: '2px solid #1A1A1A', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}>NOT NOW</button>
+                  <button onClick={() => castVote(voteModal.voteKey)} style={{ padding: '0.6rem 1.25rem', backgroundColor: C.indigo, color: C.white, border: 'none', fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer', boxShadow: `0 4px 14px rgba(75,59,196,0.3)` }}>Cast my vote</button>
+                  <button onClick={closeVoteModal} style={{ padding: '0.6rem 1.25rem', backgroundColor: 'transparent', color: C.ink, border: `1.5px solid ${C.border}`, fontFamily: 'Barlow, sans-serif', fontWeight: 700, fontSize: '0.9rem', cursor: 'pointer' }}>Not now</button>
                 </div>
               </>
             )}
