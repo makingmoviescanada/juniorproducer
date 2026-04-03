@@ -148,7 +148,7 @@
   }
   .hero-headline {
     font-weight: 900;
-    font-size: clamp(24px, 2.8vw, 42px);
+    font-size: clamp(22px, 2.8vw, 42px);
     text-transform: uppercase;
     letter-spacing: 0.03em;
     line-height: 1.1;
@@ -724,12 +724,22 @@
     .pain-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 768px) {
-    nav { padding-left: 5vw; padding-right: 5vw; }
+    nav { padding-left: 5vw; padding-right: 5vw; height: 56px; }
     .hero, .section, .closing { padding-left: 5vw; padding-right: 5vw; }
     footer { padding: 24px 5vw; flex-direction: column; align-items: flex-start; gap: 12px; }
     .founder-card { flex-direction: column; align-items: flex-start; }
     .steps-grid { grid-template-columns: 1fr; }
     .sec-divider { margin: 0 5vw; }
+    #signin-btn { display: none; }
+    .btn-primary { font-size: 12px; padding: 10px 16px; letter-spacing: 0.04em; }
+    .closing-headline { font-size: clamp(24px, 7vw, 40px); }
+    .pain-grid { grid-template-columns: 1fr; }
+    .cards-grid { grid-template-columns: 1fr; }
+    .founders-grid { grid-template-columns: 1fr; }
+    /* Mockup — hide sidebar, full-width main panel, shorter height */
+    .ui-sidebar { display: none; }
+    .ui-body { height: 340px; }
+    .hero-ui-mockup { margin-top: 28px; }
   }
 </style>
 </head>
@@ -748,9 +758,9 @@
 <section class="hero">
   <p class="hero-eyebrow">For Canadian Filmmakers &amp; Producers</p>
   <h1 class="hero-headline">
-    Junior is your dream development producer,<br>
-    available 24/7 to <em>save you time</em><br>
-    and help <em>secure funding.</em>
+    Junior is your dream development producer —<br>
+    <em>saving you time</em> on admin,<br>
+    and helping you <em>secure funding</em> faster.
   </h1>
   <p class="hero-sub">Junior knows every Canadian funder and helps you navigate the funding maze, build stronger applications, and survive the reapplication cycle.</p>
   <p class="hero-price-note">Open beta · No credit card required · CA$32/month when you're ready</p>
