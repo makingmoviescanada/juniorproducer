@@ -40,7 +40,7 @@
   /* ── TRUST BAR ── */
   .trust-bar {
     background: rgba(26,18,48,0.04);
-    padding: 14px 7vw;
+    padding: 12px 7vw;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -55,20 +55,8 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
-  .trust-bar-logo-wrap {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .trust-bar-logo {
-    width: auto;
-    opacity: 0.65;
-    filter: brightness(0);
-    transition: opacity 150ms;
-  }
-  .trust-bar-logo:hover { opacity: 1; }
-  .trust-bar-fallback {
-    font-size: 13px;
+  .trust-bar-logo-text {
+    font-size: 15px;
     font-weight: 900;
     color: rgba(26,18,48,0.55);
     letter-spacing: 0.04em;
@@ -248,6 +236,15 @@
   .section.tight-bottom {
     padding-bottom: 32px;
   }
+  .section-hed {
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    line-height: 1.1;
+    color: var(--ink);
+    font-size: clamp(32px, 3.5vw, 48px);
+    margin-bottom: 40px;
+  }
   .section-eyebrow {
     font-weight: 900;
     font-size: 12px;
@@ -256,15 +253,6 @@
     color: var(--indigo);
     margin-bottom: 14px;
     display: block;
-  }
-  .section-hed {
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    line-height: 1.1;
-    color: var(--ink);
-    font-size: clamp(32px, 3.5vw, 48px);
-    margin-bottom: 16px;
   }
   .section-sub {
     font-weight: 400;
@@ -681,16 +669,10 @@
 <!-- TRUST BAR -->
 <div class="trust-bar">
   <span class="trust-bar-label">Built at</span>
-  <div class="trust-bar-logo-wrap">
-    <img src="/logos/zu.png" alt="Zú" class="trust-bar-logo" style="height:40px;width:auto;" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
-    <span class="trust-bar-fallback" style="display:none;">Zú</span>
-  </div>
+  <span class="trust-bar-logo-text">Zú</span>
   <div class="trust-bar-divider"></div>
   <span class="trust-bar-label">Supported by</span>
-  <div class="trust-bar-logo-wrap" style="width:120px;">
-    <img src="/logos/sodec.png" alt="SODEC" class="trust-bar-logo" style="height:40px;width:auto;" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
-    <span class="trust-bar-fallback" style="display:none;">SODEC</span>
-  </div>
+  <span class="trust-bar-logo-text">SODEC</span>
 </div>
 
 <!-- FEATURE CARDS -->
