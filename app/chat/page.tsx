@@ -23,12 +23,12 @@ const INTAKE_SEQUENCE = [
 ]
 
 const CATEGORIES = [
-  { id: 'grants',        title: 'Grants & Funding',      description: 'Find funding, check eligibility, navigate applications.',                    context: 'I need help finding and applying for grants and funding for my project.' },
-  { id: 'deadlines',     title: 'Deadline Reminders',    description: 'Never miss a grant deadline. Junior tracks and reminds you.',               context: 'I need help tracking deadlines and planning my application calendar.' },
-  { id: 'projects',      title: 'Project Management',    description: 'Organise your production from development to delivery.',                    context: 'I need help organising and managing my production.' },
-  { id: 'finance',       title: 'Financial Planning',    description: 'Budgets, tax credits, cost reports.',                                       context: 'I need help with financial planning — budgets, tax credits, and cost reports.' },
-  { id: 'distribution',  title: 'Distribution Strategy', description: 'Festival strategy, sales agents, Canadian distribution requirements.',      context: 'I need help planning my distribution strategy — festivals, sales agents, and Canadian requirements.' },
-  { id: 'consolidate',   title: 'Version Compare',       description: 'Paste or describe your drafts — Junior helps you decide what to keep for each funder.', context: "I want to compare versions of my supporting materials. I have multiple drafts and need help deciding what to keep, cut, or strengthen for a specific funder's mandate. Please ask me which funder I'm targeting and I'll share the drafts." },
+  { id: 'grants',        title: 'Grants & Funding',      description: 'finding the right funders and navigating my application.',                  context: 'I need help finding and applying for grants and funding for my project.' },
+  { id: 'deadlines',     title: 'Deadline Reminders',    description: 'tracking every deadline so I never miss a round.',                          context: 'I need help tracking deadlines and planning my application calendar.' },
+  { id: 'projects',      title: 'Project Management',    description: 'organising my production from development to delivery.',                    context: 'I need help organising and managing my production.' },
+  { id: 'finance',       title: 'Financial Planning',    description: 'my budget, tax credits, and cost reports.',                                 context: 'I need help with financial planning — budgets, tax credits, and cost reports.' },
+  { id: 'distribution',  title: 'Distribution Strategy', description: 'building my festival strategy and distribution plan.',                      context: 'I need help planning my distribution strategy — festivals, sales agents, and Canadian requirements.' },
+  { id: 'consolidate',   title: 'Version Compare',       description: 'comparing my drafts and strengthening them for each funder.',               context: "I want to compare versions of my supporting materials. I have multiple drafts and need help deciding what to keep, cut, or strengthen for a specific funder's mandate. Please ask me which funder I'm targeting and I'll share the drafts." },
 ]
 
 const SIDEBAR_FEATURES = [
@@ -359,7 +359,7 @@ export default function ChatPage() {
 
       {/* Features */}
       <div style={{ padding: '0.75rem 1.25rem 0.5rem', marginTop: '0.25rem' }}>
-        <span style={{ fontSize: '0.7rem', fontWeight: 700, color: C.sidebarMuted, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>Features</span>
+        <span style={{ fontSize: '0.7rem', fontWeight: 700, color: C.sidebarMuted, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.4rem' }}>I need help with...</span>
         {SIDEBAR_FEATURES.map(f => {
           const active = activeSidebarFeature === f.id
           return (
@@ -426,9 +426,9 @@ export default function ChatPage() {
             <div style={{ width: '100%', maxWidth: '680px' }}>
               <div style={{ marginBottom: '2rem', textAlign: 'center' }}>
                 <h1 style={{ fontSize: isMobile ? 'clamp(1.6rem,5vw,2rem)' : 'clamp(1.6rem,2.4vw,2.4rem)', fontWeight: 900, color: C.ink, lineHeight: 1.1, marginBottom: '0.5rem', textTransform: 'uppercase', letterSpacing: '0.03em', whiteSpace: isMobile ? 'normal' : 'nowrap' }}>
-                  {intakeStep === 0 ? 'Hi, I\'m Junior! How can I help today?' : INTAKE_SEQUENCE[intakeStep].prompt}
+                  {intakeStep === 0 ? 'What do you need help with today?' : INTAKE_SEQUENCE[intakeStep].prompt}
                 </h1>
-                {intakeStep === 0 && <p style={{ fontSize: '1.05rem', color: C.ink, opacity: 0.5 }}>Pick a focus below, then tell us about your project.</p>}
+                {intakeStep === 0 && <p style={{ fontSize: '1.05rem', color: C.ink, opacity: 0.5 }}>Type, dictate, add files, or pick a topic card to get started.</p>}
               </div>
 
               <div style={{ position: 'relative', marginBottom: '1rem' }}>
@@ -465,7 +465,7 @@ export default function ChatPage() {
               )}
 
               <div>
-                <span style={{ fontSize: '0.65rem', fontWeight: 700, color: C.muted, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.6rem' }}>Focus</span>
+                <span style={{ fontSize: '0.65rem', fontWeight: 700, color: C.muted, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.6rem' }}>I need help with...</span>
                 <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '0.5rem', alignItems: 'stretch' }}>
                   {CATEGORIES.map(cat => {
                     const sel = selectedCategory?.id === cat.id
