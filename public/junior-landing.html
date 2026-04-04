@@ -39,14 +39,11 @@
 
   /* ── TRUST BAR ── */
   .trust-bar {
-    background: rgba(26,18,48,0.04);
-    padding: 12px 7vw;
+    padding: 16px 7vw;
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 14px;
-    border-top: 1px solid rgba(75,59,196,0.12);
-    border-bottom: 1px solid rgba(75,59,196,0.12);
+    gap: 16px;
   }
   .trust-bar-label {
     font-size: 11px;
@@ -55,11 +52,12 @@
     letter-spacing: 0.06em;
     text-transform: uppercase;
   }
-  .trust-bar-logo-text {
-    font-size: 15px;
-    font-weight: 900;
-    color: rgba(26,18,48,0.55);
-    letter-spacing: 0.04em;
+  .trust-bar-logo {
+    height: 32px;
+    width: auto;
+    display: block;
+    opacity: 0.55;
+    filter: brightness(0);
   }
   .trust-bar-divider {
     width: 1px;
@@ -669,10 +667,10 @@
 <!-- TRUST BAR -->
 <div class="trust-bar">
   <span class="trust-bar-label">Built at</span>
-  <span class="trust-bar-logo-text">Zú</span>
+  <img src="/logos/zu.png" alt="Zú" class="trust-bar-logo">
   <div class="trust-bar-divider"></div>
   <span class="trust-bar-label">Supported by</span>
-  <span class="trust-bar-logo-text">SODEC</span>
+  <img src="/logos/sodec.png" alt="SODEC" class="trust-bar-logo">
 </div>
 
 <!-- FEATURE CARDS -->
@@ -1010,7 +1008,6 @@
     tabIdx = (tabIdx + 1) % tabOrder.length;
     switchTab(tabOrder[tabIdx]);
   }, 4000);
-</script>
 </script>
 </body>
 </html>
