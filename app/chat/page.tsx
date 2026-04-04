@@ -85,17 +85,39 @@ function linkifyUrls(text: string): React.ReactNode[] {
   )
 }
 
+type Source = { funder: string; topic: string; confidence: 'high' | 'medium' | 'low'; last_verified: string }
+type StaleIntel = { funder: string; topic: string }
+
 function parseTags(content: string) {
   let text = content
   let event: CalendarEvent | null = null
   let suggestions: string[] = []
+  let source: Source | null = null
+  let staleIntel: StaleIntel | null = null
+
   const calRe = /\[CALENDAR:\s*title="([^"]+)"\s*description="([^"]+)"\s*date="([^"]+)"\s*remind_days=(\d+)\]/
   const cm = text.match(calRe)
   if (cm) { text = text.replace(calRe, '').trim(); event = { title: cm[1], description: cm[2], date: cm[3], remind_days: +cm[4] } }
+
   const sugRe = /\[SUGGESTIONS:\s*"([^"]+)"\s*\|\s*"([^"]+)"\]/
   const sm = text.match(sugRe)
   if (sm) { text = text.replace(sugRe, '').trim(); suggestions = [sm[1], sm[2]] }
-  return { text: stripMarkdown(text), event, suggestions }
+
+  const srcRe = /\[SOURCE:\s*funder="([^"]+)"\s*topic="([^"]+)"\s*confidence="([^"]+)"\s*last_verified="([^"]+)"\]/
+  const srcM = text.match(srcRe)
+  if (srcM) {
+    text = text.replace(srcRe, '').trim()
+    source = { funder: srcM[1], topic: srcM[2], confidence: srcM[3] as Source['confidence'], last_verified: srcM[4] }
+  }
+
+  const staleRe = /\[STALE_INTEL:\s*funder="([^"]+)"\s*topic="([^"]+)"\]/
+  const staleM = text.match(staleRe)
+  if (staleM) {
+    text = text.replace(staleRe, '').trim()
+    staleIntel = { funder: staleM[1], topic: staleM[2] }
+  }
+
+  return { text: stripMarkdown(text), event, suggestions, source, staleIntel }
 }
 
 function downloadICS(ev: CalendarEvent) {
@@ -131,6 +153,7 @@ export default function ChatPage() {
   const [isMobile, setIsMobile] = useState(false)
   const [isDragging, setIsDragging] = useState(false)
   const [isListening, setIsListening] = useState(false)
+  const [flaggedMessages, setFlaggedMessages] = useState<Set<number>>(new Set())
   const [animatedPlaceholder, setAnimatedPlaceholder] = useState('')
   const [placeholderIndex, setPlaceholderIndex] = useState(0)
   const bottomRef = useRef<HTMLDivElement>(null)
@@ -486,15 +509,64 @@ export default function ChatPage() {
               <div style={{ width: '100%', maxWidth: '680px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
                 {messages.map((msg, i) => {
                   if (msg.role === 'user') return null
-                  const { text, event, suggestions } = parseTags(msg.content)
+                  const { text, event, suggestions, source, staleIntel } = parseTags(msg.content)
                   const isLoading = loading && i === messages.length - 1 && msg.content === ''
+
+                  // Fire flag API silently when stale intel detected
+                  if (staleIntel && !isLoading && !flaggedMessages.has(i)) {
+                    setFlaggedMessages(prev => new Set([...prev, i]))
+                    fetch('/api/flag', {
+                      method: 'POST',
+                      headers: { 'Content-Type': 'application/json' },
+                      body: JSON.stringify({
+                        funder: staleIntel.funder,
+                        topic: staleIntel.topic,
+                        conversationContext: messages.slice(Math.max(0, i - 4), i + 1).map(m => `${m.role}: ${m.content}`).join('\n\n')
+                      })
+                    }).catch(() => {}) // Silent — never surface flag errors to user
+                  }
+
+                  const confidenceColour = source?.confidence === 'high'
+                    ? 'rgba(16,185,129,0.8)'
+                    : source?.confidence === 'medium'
+                    ? 'rgba(245,158,11,0.8)'
+                    : 'rgba(239,68,68,0.8)'
+
                   return (
-                    <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                       <div style={{ padding: '1.25rem 1.5rem', backgroundColor: 'rgba(255,255,255,0.82)', color: C.ink, border: `1.5px solid ${C.border}`, backdropFilter: 'blur(8px)', boxShadow: `0 4px 20px rgba(75,59,196,0.08)`, whiteSpace: 'pre-wrap', lineHeight: 1.75, fontSize: '1rem' }}>
                         {isLoading
                           ? <span style={{ display: 'inline-flex', gap: '4px', alignItems: 'center' }}>{[0,0.2,0.4].map((d,di) => <span key={di} style={{ animation: 'dot-bounce 1.2s infinite', animationDelay: `${d}s`, width: '6px', height: '6px', borderRadius: '50%', backgroundColor: C.indigo, display: 'inline-block' }} />)}</span>
                           : linkifyUrls(text)}
                       </div>
+
+                      {/* Source citation chip */}
+                      {source && !isLoading && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '6px', paddingLeft: '2px' }}>
+                          <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: confidenceColour, flexShrink: 0 }} />
+                          <span style={{ fontSize: '0.72rem', color: C.muted, letterSpacing: '0.02em' }}>
+                            {source.funder}
+                            {source.last_verified !== 'unknown' && ` · verified ${source.last_verified}`}
+                            {source.confidence === 'low' && ' · may be outdated'}
+                          </span>
+                        </div>
+                      )}
+
+                      {/* Stale intel notice */}
+                      {staleIntel && !isLoading && (
+                        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', padding: '10px 12px', backgroundColor: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: '2px' }}>
+                          <span style={{ fontSize: '14px', flexShrink: 0, marginTop: '1px' }}>⚠</span>
+                          <div>
+                            <p style={{ fontSize: '0.78rem', fontWeight: 700, color: 'rgba(180,120,0,0.9)', margin: '0 0 2px' }}>
+                              We're verifying this with {staleIntel.funder}
+                            </p>
+                            <p style={{ fontSize: '0.74rem', color: C.muted, margin: 0, lineHeight: 1.5 }}>
+                              Our team has been notified to confirm the latest information on {staleIntel.topic}. Always verify critical deadlines directly with the funder before submitting.
+                            </p>
+                          </div>
+                        </div>
+                      )}
+
                       {event && !loading && (
                         <button onClick={() => downloadICS(event)}
                           style={{ alignSelf: 'flex-start', padding: '0.55rem 1.1rem', backgroundColor: C.indigo, color: C.white, border: 'none', fontFamily: 'Barlow, sans-serif', fontWeight: 900, fontSize: '0.875rem', cursor: 'pointer', boxShadow: `0 4px 14px rgba(75,59,196,0.3)`, transition: 'all 150ms' }}
