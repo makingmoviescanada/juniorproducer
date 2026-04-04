@@ -694,13 +694,13 @@
 <div class="trust-bar">
   <span class="trust-bar-label">Built at</span>
   <div class="trust-bar-logo-wrap">
-    <img src="/logos/zu.png" alt="Zú" class="trust-bar-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+    <img src="/logos/zu.png" alt="Zú" class="trust-bar-logo" style="height:26px;width:auto;" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
     <span class="trust-bar-fallback" style="display:none;">Zú</span>
   </div>
   <div class="trust-bar-divider"></div>
   <span class="trust-bar-label">Supported by</span>
   <div class="trust-bar-logo-wrap" style="width:120px;">
-    <img src="/logos/sodec.png" alt="SODEC" class="trust-bar-logo" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+    <img src="/logos/sodec.png" alt="SODEC" class="trust-bar-logo" style="height:38px;width:auto;" onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
     <span class="trust-bar-fallback" style="display:none;">SODEC</span>
   </div>
 </div>
@@ -1045,65 +1045,6 @@
     switchTab(tabOrder[tabIdx]);
   }, 4000);
 </script>
-<script>
-// Measure actual filled pixel height of a logo (ignoring transparent padding)
-function getVisualHeight(img) {
-  const canvas = document.createElement('canvas')
-  canvas.width = img.naturalWidth
-  canvas.height = img.naturalHeight
-  const ctx = canvas.getContext('2d')
-  ctx.drawImage(img, 0, 0)
-  const data = ctx.getImageData(0, 0, canvas.width, canvas.height).data
-  let minY = canvas.height, maxY = 0
-  for (let y = 0; y < canvas.height; y++) {
-    for (let x = 0; x < canvas.width; x++) {
-      const alpha = data[(y * canvas.width + x) * 4 + 3]
-      if (alpha > 10) {
-        if (y < minY) minY = y
-        if (y > maxY) maxY = y
-      }
-    }
-  }
-  return maxY > minY ? maxY - minY : canvas.height
-}
-
-function scaleToVisualHeight(img, targetVisualHeight) {
-  const visualH = getVisualHeight(img)
-  const scale = targetVisualHeight / visualH
-  img.style.height = Math.round(img.naturalHeight * scale) + 'px'
-  img.style.maxHeight = 'none'
-  img.style.width = 'auto'
-}
-
-function normalizeTrustBarLogos() {
-  const zu = document.querySelector('img[alt="Zú"]')
-  const sodec = document.querySelector('img[alt="SODEC"]')
-  if (!zu || !sodec) return
-
-  function run() {
-    // Measure Zú's actual visual height, then match SODEC to it
-    const zuVisualHeight = getVisualHeight(zu)
-    scaleToVisualHeight(zu, zuVisualHeight) // locks Zú at its natural visual height
-    scaleToVisualHeight(sodec, zuVisualHeight) // SODEC scales to same visual height, wider width
-  }
-
-  const zuReady = zu.complete && zu.naturalHeight > 0
-  const sodecReady = sodec.complete && sodec.naturalHeight > 0
-
-  if (zuReady && sodecReady) {
-    run()
-  } else {
-    let loaded = 0
-    const onLoad = () => { if (++loaded === 2) run() }
-    if (!zuReady) zu.addEventListener('load', onLoad)
-    else loaded++
-    if (!sodecReady) sodec.addEventListener('load', onLoad)
-    else loaded++
-    if (loaded === 2) run()
-  }
-}
-
-document.addEventListener('DOMContentLoaded', normalizeTrustBarLogos)
 </script>
 </body>
 </html>
