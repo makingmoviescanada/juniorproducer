@@ -127,7 +127,7 @@
 
   /* ── HERO ── */
   .hero {
-    padding: 90px 7vw 100px;
+    padding: 80px 7vw 60px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -237,41 +237,6 @@
     margin-bottom: 40px;
   }
 
-  /* ── PAIN CARDS ── */
-  .pain-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    text-align: left;
-  }
-  .pain-card {
-    background: rgba(255,255,255,0.65);
-    border: 1.5px solid rgba(75,59,196,0.16);
-    padding: 26px 26px;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-    transition: box-shadow 150ms, transform 150ms;
-  }
-  .pain-card:hover {
-    box-shadow: 0 8px 28px rgba(75,59,196,0.12);
-    transform: translateY(-2px);
-  }
-  .pain-q {
-    font-weight: 900;
-    font-size: 18px;
-    color: var(--ink);
-    line-height: 1.4;
-    margin-bottom: 10px;
-  }
-  .pain-q::before { content: '"'; color: var(--indigo); opacity: 0.5; }
-  .pain-q::after  { content: '"'; color: var(--indigo); opacity: 0.5; }
-  .pain-a {
-    font-weight: 400;
-    font-size: 16px;
-    color: rgba(26,18,48,0.58);
-    line-height: 1.7;
-  }
-
   /* ── FEATURE CARDS ── */
   .cards-grid {
     display: grid;
@@ -374,44 +339,6 @@
   .funder-name-pill:hover {
     color: var(--indigo);
     border-color: rgba(75,59,196,0.45);
-  }
-
-  /* ── STEPS ── */
-  .steps-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    text-align: left;
-  }
-  .step-card {
-    background: rgba(255,255,255,0.65);
-    border: 1.5px solid rgba(75,59,196,0.16);
-    padding: 28px 24px;
-    backdrop-filter: blur(6px);
-    -webkit-backdrop-filter: blur(6px);
-  }
-  .step-num {
-    font-weight: 900;
-    font-size: 36px;
-    color: var(--indigo);
-    opacity: 0.3;
-    line-height: 1;
-    margin-bottom: 16px;
-    letter-spacing: -0.02em;
-  }
-  .step-title {
-    font-weight: 900;
-    font-size: 17px;
-    text-transform: uppercase;
-    letter-spacing: 0.06em;
-    color: var(--ink);
-    margin-bottom: 8px;
-  }
-  .step-body {
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 1.7;
-    color: rgba(26,18,48,0.52);
   }
 
   /* ── FOUNDERS ── */
@@ -713,20 +640,16 @@
   @media (max-width: 1024px) {
     .cards-grid { grid-template-columns: 1fr; }
     .founders-grid { grid-template-columns: 1fr; }
-    .steps-grid { grid-template-columns: 1fr 1fr; }
-    .pain-grid { grid-template-columns: 1fr; }
   }
   @media (max-width: 768px) {
     nav { padding-left: 5vw; padding-right: 5vw; height: 56px; }
     .hero, .section, .closing { padding-left: 5vw; padding-right: 5vw; }
     footer { padding: 24px 5vw; flex-wrap: wrap; gap: 8px; }
     .founder-card { flex-direction: column; align-items: flex-start; }
-    .steps-grid { grid-template-columns: 1fr; }
     .sec-divider { margin: 0 5vw; }
     #signin-btn { display: none; }
     .btn-primary { font-size: 12px; padding: 10px 16px; letter-spacing: 0.04em; }
     .closing-headline { font-size: clamp(24px, 7vw, 40px); }
-    .pain-grid { grid-template-columns: 1fr; }
     .cards-grid { grid-template-columns: 1fr; }
     .founders-grid { grid-template-columns: 1fr; }
     /* Mockup — hide sidebar, full-width main panel, shorter height */
@@ -753,38 +676,10 @@
   <h1 class="hero-headline">
     Get funding faster<br>with Junior.
   </h1>
-  <p class="hero-sub">Junior guides you through the funding maze, tracks deadlines and sends reminders, helps design pitch decks, manages your slate, and makes revisions effortless.</p>
+  <p class="hero-sub">Junior knows every Canadian funder and helps you navigate the funding maze, build stronger applications, and survive the reapplication cycle.</p>
   <p class="hero-price-note">Open beta · No credit card required · CA$32/month when you're ready</p>
   <a href="#demo" class="hero-join-btn" style="text-decoration:none;">See Junior in Action</a>
 </section>
-<div class="sec-divider"></div>
-
-<!-- PAIN SECTION -->
-<section class="section">
-  <span class="section-eyebrow">The Problem</span>
-  <h2 class="section-hed">The maze is real.<br>Junior knows the way out.</h2>
-  <p class="section-sub">These are the questions that cost Canadian filmmakers weeks of their lives every funding cycle.</p>
-  <div class="pain-grid">
-    <div class="pain-card">
-      <p class="pain-q">Which funder is right for my project — and do I even qualify?</p>
-      <p class="pain-a">Junior checks your eligibility against every program before you spend a week on an application you can't win.</p>
-    </div>
-    <div class="pain-card">
-      <p class="pain-q">I got rejected last round. Now I have to revise everything and reapply.</p>
-      <p class="pain-a">Junior helps you understand what changed, what to update, and how to strengthen the application for the next round — without starting from scratch.</p>
-    </div>
-    <div class="pain-card">
-      <p class="pain-q">I've rewritten this supporting document four times and I'm not sure it's right.</p>
-      <p class="pain-a">Junior explains what each funder is actually looking for — so you stop writing for the wrong criteria and stop second-guessing every draft.</p>
-    </div>
-    <div class="pain-card">
-      <p class="pain-q">It's midnight. My deadline is tomorrow. I have no one to call.</p>
-      <p class="pain-a">Junior is available at midnight. It knows your project context and gives you answers in plain language, not government-speak.</p>
-    </div>
-  </div>
-</section>
-
-<div class="sec-divider"></div>
 
 <!-- FEATURE CARDS -->
 <section class="section tight-bottom">
@@ -982,44 +877,11 @@
   </div>
 </section>
 
-<div class="sec-divider"></div>
-
-<!-- HOW IT WORKS -->
-<section class="section">
-  <span class="section-eyebrow">How It Works</span>
-  <h2 class="section-hed">Three questions.<br>Then Junior gets to work.</h2>
-  <p class="section-sub">Junior asks you three things. Everything it tells you after that is built around your specific project and situation.</p>
-  <div class="steps-grid">
-    <div class="step-card">
-      <div class="step-num">01</div>
-      <div class="step-title">Your format</div>
-      <p class="step-body">Short film, feature, documentary, animated series — each has a completely different funding landscape. Junior knows all of them.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">02</div>
-      <div class="step-title">Your stage</div>
-      <p class="step-body">Development, pre-development, production — the right funders depend entirely on where you are right now.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">03</div>
-      <div class="step-title">Your province</div>
-      <p class="step-body">Where you're incorporated determines which provincial funders you can access and what tax credits you qualify for.</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">→</div>
-      <div class="step-title">Ask anything</div>
-      <p class="step-body">Now just ask. Junior gives you a direct answer — not a link to a 40-page PDF. No jargon. No government-speak.</p>
-    </div>
-  </div>
-</section>
-
-<div class="sec-divider"></div>
-
 <!-- FOUNDERS -->
 <section class="section">
   <span class="section-eyebrow">The Founders</span>
   <h2 class="section-hed">Built by Canadian filmmakers,<br>for Canadian filmmakers.</h2>
-  <p class="section-sub">Junior started as an in-house tool — built to keep the lights on with no staff and no budgets between productions. We needed it ourselves. So we built it.</p>
+  <p class="section-sub">Junior started as an in-house tool and now we're making it available to everyone.</p>
   <div class="founders-grid">
     <div class="founder-card">
       <div class="founder-photo">
