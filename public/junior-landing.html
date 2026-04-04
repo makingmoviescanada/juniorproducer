@@ -197,14 +197,15 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 20px;
-    padding: 20px 7vw;
+    gap: clamp(10px, 2vw, 24px);
+    padding: clamp(14px, 2vw, 22px) 7vw;
     border-top: 1px solid rgba(75,59,196,0.12);
     border-bottom: 1px solid rgba(75,59,196,0.12);
+    flex-wrap: wrap;
   }
   .trust-bar-label {
     font-family: 'Barlow', sans-serif;
-    font-size: 11px;
+    font-size: clamp(9px, 1.2vw, 13px);
     font-weight: 600;
     color: rgba(26,18,48,0.35);
     letter-spacing: 0.1em;
@@ -614,8 +615,6 @@
     .ui-sidebar { display: none; }
     .ui-body { height: 340px; }
     .hero-ui-mockup { margin-top: 28px; }
-    .trust-bar { gap: 12px; padding: 16px 5vw; flex-wrap: wrap; }
-    .trust-bar-logo { height: 32px !important; width: auto !important; }
   }
 </style>
 </head>
@@ -644,10 +643,14 @@
 <!-- TRUST BAR -->
 <div class="trust-bar">
   <span class="trust-bar-label">Built at</span>
-  <img src="/logos/zu.png" alt="Zú" class="trust-bar-logo">
+  <div style="height:clamp(32px,5vw,64px);display:flex;align-items:center;">
+    <img src="/logos/zu.png" alt="Zú" style="height:100%;width:auto;min-width:clamp(60px,8vw,120px);display:block;filter:brightness(0);opacity:0.5;object-fit:contain;object-position:left center;">
+  </div>
   <div class="trust-bar-divider"></div>
   <span class="trust-bar-label">Supported by</span>
-  <img src="/logos/sodec.png" alt="SODEC" class="trust-bar-logo">
+  <div style="height:clamp(32px,5vw,64px);display:flex;align-items:center;">
+    <img src="/logos/sodec.png" alt="SODEC" style="height:100%;width:auto;min-width:clamp(60px,8vw,120px);display:block;filter:brightness(0);opacity:0.5;object-fit:contain;object-position:left center;">
+  </div>
 </div>
 
 <!-- FEATURE CARDS -->
