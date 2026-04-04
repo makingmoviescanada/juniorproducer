@@ -37,33 +37,6 @@
     background-attachment: fixed;
   }
 
-  /* ── TRUST BAR ── */
-  .trust-bar {
-    padding: 16px 7vw;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 16px;
-  }
-  .trust-bar-label {
-    font-size: 11px;
-    font-weight: 600;
-    color: rgba(26,18,48,0.38);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-  }
-  .trust-bar-logo {
-    height: 32px;
-    width: auto;
-    display: block;
-    opacity: 0.55;
-    filter: brightness(0);
-  }
-  .trust-bar-divider {
-    width: 1px;
-    height: 16px;
-    background: rgba(26,18,48,0.12);
-  }
   nav {
     background: rgba(250,250,254,0.82);
     backdrop-filter: blur(14px);
@@ -219,6 +192,38 @@
     transform: translateY(-2px);
   }
 
+  /* ── TRUST BAR ── */
+  .trust-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px 7vw;
+    border-top: 1px solid rgba(75,59,196,0.12);
+    border-bottom: 1px solid rgba(75,59,196,0.12);
+  }
+  .trust-bar-label {
+    font-family: 'Barlow', sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    color: rgba(26,18,48,0.35);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .trust-bar-divider {
+    width: 1px;
+    height: 18px;
+    background: rgba(75,59,196,0.15);
+    flex-shrink: 0;
+  }
+  .trust-bar-logo {
+    height: 40px;
+    width: auto;
+    display: block;
+    filter: brightness(0);
+    opacity: 0.5;
+  }
+
   /* ── SECTION DIVIDER ── */
   .sec-divider {
     height: 1px;
@@ -231,9 +236,7 @@
     padding: 56px 7vw;
     text-align: center;
   }
-  .section.tight-bottom {
-    padding-bottom: 32px;
-  }
+  .section.tight-bottom { padding-bottom: 32px; }
   .section-hed {
     font-weight: 900;
     text-transform: uppercase;
@@ -417,33 +420,6 @@
     line-height: 1.7;
     max-width: 500px;
     margin: 0 auto 44px;
-  }
-  .email-form {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    align-items: stretch;
-    flex-wrap: wrap;
-    max-width: 520px;
-    margin: 0 auto;
-  }
-  .email-input {
-    font-family: 'Barlow', sans-serif;
-    font-weight: 400;
-    font-size: 16px;
-    flex: 1;
-    min-width: 220px;
-    padding: 16px 20px;
-    border: 2px solid rgba(75,59,196,0.3);
-    background: rgba(255,255,255,0.85);
-    color: var(--ink);
-    outline: none;
-    transition: border-color 150ms, box-shadow 150ms;
-  }
-  .email-input::placeholder { color: rgba(26,18,48,0.32); }
-  .email-input:focus {
-    border-color: var(--indigo);
-    box-shadow: 0 0 0 3px rgba(75,59,196,0.12);
   }
   .closing-footnote {
     margin-top: 20px;
@@ -635,10 +611,11 @@
     .closing-headline { font-size: clamp(24px, 7vw, 40px); }
     .cards-grid { grid-template-columns: 1fr; }
     .founders-grid { grid-template-columns: 1fr; }
-    /* Mockup — hide sidebar, full-width main panel, shorter height */
     .ui-sidebar { display: none; }
     .ui-body { height: 340px; }
     .hero-ui-mockup { margin-top: 28px; }
+    .trust-bar { gap: 12px; padding: 16px 5vw; flex-wrap: wrap; }
+    .trust-bar-logo { height: 32px !important; width: auto !important; }
   }
 </style>
 </head>
@@ -667,10 +644,10 @@
 <!-- TRUST BAR -->
 <div class="trust-bar">
   <span class="trust-bar-label">Built at</span>
-  <img src="/logos/zu.png" alt="Zú" class="trust-bar-logo" height="32" width="auto" style="height:32px;width:auto;opacity:0.55;filter:brightness(0);">
+  <img src="/logos/zu.png" alt="Zú" class="trust-bar-logo">
   <div class="trust-bar-divider"></div>
   <span class="trust-bar-label">Supported by</span>
-  <img src="/logos/sodec.png" alt="SODEC" class="trust-bar-logo" height="32" width="auto" style="height:32px;width:auto;opacity:0.55;filter:brightness(0);">
+  <img src="/logos/sodec.png" alt="SODEC" class="trust-bar-logo">
 </div>
 
 <!-- FEATURE CARDS -->
@@ -706,7 +683,6 @@
     </div>
 
   </div>
-
 </section>
 
 <div class="sec-divider"></div>
@@ -714,7 +690,7 @@
 <!-- PRODUCT UI MOCKUP -->
 <section class="section tight-bottom" id="demo">
   <h2 class="section-hed">Your entire slate<br>in one place</h2>
-  <p class="section-sub">Switch between projects, research funders, compare draft versions and track every deadline — all without leaving Junior</p>
+  <p class="section-sub">Switch between projects, research funders, compare draft versions and track every deadline.</p>
 
   <div class="hero-ui-mockup" id="uiMockup" style="margin-top:36px;max-width:100%;">
     <div class="ui-titlebar">
@@ -915,16 +891,13 @@
     document.getElementById('modal-overlay').classList.add('active');
     document.body.style.overflow = 'hidden';
   }
-
   function closeModal() {
     document.getElementById('modal-overlay').classList.remove('active');
     document.body.style.overflow = '';
   }
-
   function handleOverlayClick(e) {
     if (e.target === document.getElementById('modal-overlay')) closeModal();
   }
-
   document.addEventListener('keydown', function(e) {
     if (e.key === 'Escape') closeModal();
   });
@@ -943,12 +916,9 @@
     });
   }
 
-  // ── UI MOCKUP INTERACTIONS ──
-
   function switchProject(n) {
     document.querySelectorAll('.ui-project').forEach((p,i) => p.classList.toggle('active', i+1===n));
   }
-
   function switchTab(tab) {
     document.querySelectorAll('.ui-tab').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-trigger').forEach(t => t.classList.remove('active'));
@@ -957,8 +927,6 @@
     if (tab === 'funding' && !window._fundingDone) startFundingAnimation();
     if (tab === 'versions' && !window._versionsDone) startVersionsAnimation();
   }
-
-  // Funding tab — typing then Junior response
   function startFundingAnimation() {
     window._fundingDone = true;
     const bubble = document.getElementById('fundingBubble');
@@ -970,8 +938,6 @@
       bubble.innerHTML = '<strong>Canada Council — Creation program</strong>, recently revised. Offers up to $75K for development. Your project looks eligible based on format and stage. Would you like me to help guide you through starting an application?';
     }, 1800);
   }
-
-  // Versions tab — animate drop zone then show files + comparison
   function startVersionsAnimation() {
     window._versionsDone = true;
     const drop = document.getElementById('dropZone');
@@ -984,24 +950,16 @@
       setTimeout(() => { resp.style.opacity = '1'; }, 800);
     }, 1200);
   }
-
-  // Calendar add button
   function triggerCalAdd(btn) {
     btn.textContent = '✓ Added';
     btn.classList.add('added');
     btn.disabled = true;
   }
-
-  // CMF reminder confirm
   function confirmReminder(btn) {
     const nudge = btn.closest('.ui-junior-nudge');
     nudge.innerHTML = '<div class="ui-avatar ui-avatar-junior" style="width:22px;height:22px;font-size:8px;flex-shrink:0;">JR</div><div style="font-size:13px;line-height:1.55;color:rgba(26,18,48,0.75);">Done — I\'ll remind you when CMF reopens and add it to your calendar automatically.</div>';
   }
-
-  // Auto-start funding animation on load
   setTimeout(() => { startFundingAnimation(); }, 1000);
-
-  // Auto-cycle tabs every 6s
   const tabOrder = ['funding','versions','deadlines'];
   let tabIdx = 0;
   setInterval(() => {
