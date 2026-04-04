@@ -466,12 +466,12 @@ export default function ChatPage() {
 
               <div>
                 <span style={{ fontSize: '0.65rem', fontWeight: 700, color: C.muted, letterSpacing: '0.14em', textTransform: 'uppercase', display: 'block', marginBottom: '0.6rem' }}>Focus</span>
-                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '0.5rem' }}>
+                <div style={{ display: 'grid', gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)', gap: '0.5rem', alignItems: 'stretch' }}>
                   {CATEGORIES.map(cat => {
                     const sel = selectedCategory?.id === cat.id
                     return (
                       <button key={cat.id} onClick={() => handleCategorySelect(cat)}
-                        style={{ padding: '0.875rem 1rem', backgroundColor: sel ? C.indigo : 'rgba(255,255,255,0.72)', border: `1.5px solid ${sel ? C.indigo : C.border}`, cursor: 'pointer', textAlign: 'left', backdropFilter: 'blur(6px)', boxShadow: sel ? `0 8px 24px rgba(75,59,196,0.25)` : `0 2px 8px rgba(75,59,196,0.06)`, transition: 'all 150ms' }}
+                        style={{ padding: '0.875rem 1rem', height: '100%', backgroundColor: sel ? C.indigo : 'rgba(255,255,255,0.72)', border: `1.5px solid ${sel ? C.indigo : C.border}`, cursor: 'pointer', textAlign: 'left', backdropFilter: 'blur(6px)', boxShadow: sel ? `0 8px 24px rgba(75,59,196,0.25)` : `0 2px 8px rgba(75,59,196,0.06)`, transition: 'all 150ms', display: 'flex', flexDirection: 'column', justifyContent: 'flex-start' }}
                         onMouseEnter={e => { if (!sel) { (e.currentTarget as HTMLElement).style.borderColor = C.indigo; (e.currentTarget as HTMLElement).style.boxShadow = `0 4px 16px rgba(75,59,196,0.14)` } }}
                         onMouseLeave={e => { if (!sel) { (e.currentTarget as HTMLElement).style.borderColor = C.border; (e.currentTarget as HTMLElement).style.boxShadow = `0 2px 8px rgba(75,59,196,0.06)` } }}>
                         <div style={{ fontSize: '0.95rem', fontWeight: 900, color: sel ? C.white : C.ink, marginBottom: '0.25rem', textTransform: 'uppercase', letterSpacing: '0.04em' }}>{cat.title}</div>
@@ -512,7 +512,6 @@ export default function ChatPage() {
                   const { text, event, suggestions, source, staleIntel } = parseTags(msg.content)
                   const isLoading = loading && i === messages.length - 1 && msg.content === ''
 
-                  // Fire flag API silently when stale intel detected
                   if (staleIntel && !isLoading && !flaggedMessages.has(i)) {
                     setFlaggedMessages(prev => new Set([...prev, i]))
                     fetch('/api/flag', {
@@ -523,7 +522,7 @@ export default function ChatPage() {
                         topic: staleIntel.topic,
                         conversationContext: messages.slice(Math.max(0, i - 4), i + 1).map(m => `${m.role}: ${m.content}`).join('\n\n')
                       })
-                    }).catch(() => {}) // Silent — never surface flag errors to user
+                    }).catch(() => {})
                   }
 
                   const confidenceColour = source?.confidence === 'high'
@@ -540,7 +539,6 @@ export default function ChatPage() {
                           : linkifyUrls(text)}
                       </div>
 
-                      {/* Source citation chip */}
                       {source && !isLoading && (
                         <div style={{ display: 'flex', alignItems: 'center', gap: '6px', paddingLeft: '2px' }}>
                           <span style={{ width: '6px', height: '6px', borderRadius: '50%', backgroundColor: confidenceColour, flexShrink: 0 }} />
@@ -552,7 +550,6 @@ export default function ChatPage() {
                         </div>
                       )}
 
-                      {/* Stale intel notice */}
                       {staleIntel && !isLoading && (
                         <div style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', padding: '10px 12px', backgroundColor: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.25)', borderRadius: '2px' }}>
                           <span style={{ fontSize: '14px', flexShrink: 0, marginTop: '1px' }}>⚠</span>
