@@ -7,6 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;600;900&display=block" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 <style>
+  html { scroll-behavior: smooth; }
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
@@ -134,7 +135,7 @@
   }
   .hero-eyebrow {
     font-weight: 900;
-    font-size: 11px;
+    font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 0.2em;
     color: var(--indigo);
@@ -148,29 +149,21 @@
   }
   .hero-headline {
     font-weight: 900;
-    font-size: clamp(22px, 2.8vw, 42px);
+    font-size: clamp(42px, 6vw, 72px);
     text-transform: uppercase;
-    letter-spacing: 0.03em;
-    line-height: 1.1;
+    letter-spacing: 0.02em;
+    line-height: 1.05;
     color: var(--ink);
-    margin-bottom: 22px;
-    max-width: 760px;
-  }
-  .hero-headline em {
-    color: var(--ink);
-    font-style: normal;
-    text-decoration: underline;
-    text-decoration-color: var(--indigo);
-    text-decoration-thickness: 3px;
-    text-underline-offset: 5px;
+    margin-bottom: 24px;
+    max-width: 860px;
   }
   .hero-sub {
     font-weight: 400;
-    font-size: 18px;
+    font-size: 20px;
     line-height: 1.7;
     color: rgba(26,18,48,0.62);
     margin-bottom: 16px;
-    max-width: 580px;
+    max-width: 560px;
   }
   .hero-price-note {
     font-weight: 600;
@@ -235,10 +228,10 @@
   }
   .section-sub {
     font-weight: 400;
-    font-size: 19px;
+    font-size: 18px;
     line-height: 1.7;
     color: rgba(26,18,48,0.58);
-    max-width: 580px;
+    max-width: 520px;
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 40px;
@@ -264,10 +257,10 @@
     transform: translateY(-2px);
   }
   .pain-q {
-    font-weight: 700;
-    font-size: 17px;
+    font-weight: 900;
+    font-size: 18px;
     color: var(--ink);
-    line-height: 1.45;
+    line-height: 1.4;
     margin-bottom: 10px;
   }
   .pain-q::before { content: '"'; color: var(--indigo); opacity: 0.5; }
@@ -499,20 +492,20 @@
   .closing > * { position: relative; z-index: 1; }
   .closing-headline {
     font-weight: 900;
-    font-size: clamp(28px, 3.8vw, 56px);
+    font-size: clamp(36px, 5vw, 64px);
     text-transform: uppercase;
-    letter-spacing: 0.03em;
-    line-height: 1.08;
+    letter-spacing: 0.02em;
+    line-height: 1.05;
     color: var(--ink);
-    margin-bottom: 16px;
+    margin-bottom: 20px;
   }
   .closing-headline em { color: var(--indigo); font-style: normal; }
   .closing-sub {
     font-weight: 400;
-    font-size: 19px;
+    font-size: 18px;
     color: rgba(26,18,48,0.6);
     line-height: 1.7;
-    max-width: 560px;
+    max-width: 500px;
     margin: 0 auto 44px;
   }
   .email-form {
@@ -726,7 +719,7 @@
   @media (max-width: 768px) {
     nav { padding-left: 5vw; padding-right: 5vw; height: 56px; }
     .hero, .section, .closing { padding-left: 5vw; padding-right: 5vw; }
-    footer { padding: 24px 5vw; flex-direction: column; align-items: flex-start; gap: 12px; }
+    footer { padding: 24px 5vw; flex-wrap: wrap; gap: 8px; }
     .founder-card { flex-direction: column; align-items: flex-start; }
     .steps-grid { grid-template-columns: 1fr; }
     .sec-divider { margin: 0 5vw; }
@@ -758,13 +751,11 @@
 <section class="hero">
   <p class="hero-eyebrow">For Canadian Filmmakers &amp; Producers</p>
   <h1 class="hero-headline">
-    Junior is your dream development producer —<br>
-    <em>saving you time</em> on admin,<br>
-    and helping you <em>secure funding</em> faster.
+    Get film funding faster<br>with Junior.
   </h1>
   <p class="hero-sub">Junior knows every Canadian funder and helps you navigate the funding maze, build stronger applications, and survive the reapplication cycle.</p>
   <p class="hero-price-note">Open beta · No credit card required · CA$32/month when you're ready</p>
-  <a href="https://www.juniorproducer.ca/sign-up" class="hero-join-btn">Try the Beta Free</a>
+  <a href="#demo" class="hero-join-btn" style="text-decoration:none;">See Junior in Action</a>
 </section>
 <div class="sec-divider"></div>
 
@@ -847,8 +838,7 @@
 <div class="sec-divider"></div>
 
 <!-- PRODUCT UI MOCKUP -->
-<section class="section tight-bottom">
-  <span class="section-eyebrow">See It In Action</span>
+<section class="section tight-bottom" id="demo">
   <h2 class="section-hed">Your entire slate.<br>One place.</h2>
   <p class="section-sub">Switch between projects, research funders, compare draft versions, and track every deadline — all without leaving Junior.</p>
 
@@ -1057,7 +1047,7 @@
 <!-- CLOSING CTA -->
 <section class="closing" id="early-access">
   <h2 class="closing-headline">The cavalry's not coming.<br>But <em>Junior</em> is.</h2>
-  <p class="closing-sub">The Canadian film funding system wasn't built to be easy. Junior makes it effortless. Try the beta free — no credit card.</p>
+  <p class="closing-sub">The Canadian film funding system wasn't built to be easy. Junior makes it effortless.</p>
   <a href="https://www.juniorproducer.ca/sign-up" class="hero-join-btn" style="text-decoration:none;display:inline-block;margin-bottom:28px;">Try the Beta Free</a>
   <p class="closing-footnote">Open beta · No credit card required · CA$32/month when you're ready</p>
 </section>
