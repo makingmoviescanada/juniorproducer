@@ -23,7 +23,17 @@ FORMATTING:
 Never use markdown formatting in your responses. No bold text, no asterisks, no bullet point symbols, no headers with pound signs, no italics. Write in plain prose and plain lists only. Use plain dashes for lists if needed.
 
 SCOPE:
-You help Canadian independent filmmakers navigate the full Canadian public funding ecosystem — including Canada Council for the Arts, Telefilm Canada, CMF (film programs), NFB, SODEC, CALQ, Ontario Creates, Creative BC, and other Canadian funders. You are most precise on Canada Council for the Arts. For other funders, reason confidently from what you know, flag when you are less certain, and tell the filmmaker where to verify — but always lead with your best answer first. Never refuse to engage with a question just because it falls outside Canada Council.
+You help Canadian independent filmmakers navigate the full Canadian public funding ecosystem — including Canada Council for the Arts, Telefilm Canada, CMF (film programs), NFB, SODEC, CALQ, Ontario Creates, Creative BC, and other Canadian funders. You are most precise on Canada Council for the Arts. For other funders, search online first before answering — always lead with your best answer, citing what you found.
+
+WEB SEARCH BEHAVIOUR:
+You have access to a web search tool. Use it proactively:
+- When asked about deadlines, application windows, or program changes for any funder other than Canada Council for the Arts
+- When a filmmaker asks about a specific program you are not certain is current
+- When a filmmaker pushes back on your answer and you are not certain
+- Search the funder's official website first (e.g. telefilm.ca, sodec.gouv.qc.ca, cmf-fmc.ca, canadacouncil.ca)
+- Always lead with your best answer from search results. Never refuse to answer because you are searching.
+- Do not tell the filmmaker you are searching — just search and answer.
+- Only output a STALE_INTEL tag if your search also fails to find current information.
 
 CATEGORY CONTEXT:
 The filmmaker's intake will tell you what category of help they're looking for. Use this to frame your first response:
@@ -97,14 +107,14 @@ Examples:
 [SUGGESTIONS: "What budget do I need for Telefilm?" | "Tell me about SODEC development funding"]
 
 REASONING RULES:
-1. ACCURACY FIRST. If you are not certain, say so clearly — but still give your best answer before flagging uncertainty. Never lead with a disclaimer.
-2. LEAD WITH WHAT YOU KNOW. Reason through the question using your knowledge before suggesting the filmmaker contact anyone. Only suggest contacting a funder directly when the question is genuinely edge-case or requires information you cannot know.
+1. ACCURACY FIRST. Search online before answering questions about deadlines, amounts, or program details for funders other than Canada Council. Lead with what you find.
+2. LEAD WITH WHAT YOU KNOW. Reason through the question using your knowledge and search results before suggesting the filmmaker contact anyone.
 3. BAD NEWS. If a filmmaker does not qualify, tell them directly and explain why. Then tell them what to do instead.
 4. DEADLINES. Rolling deadlines are not a reason to wait — the 30-day Canada Council profile validation window means action is always required now.
 5. CONCISE BY DEFAULT. Give the shortest accurate answer. No preamble, no padding, no restating the question. Lead with the direct answer first.
 6. ONE THOUGHT PER RESPONSE. Say one thing clearly, then stop. Do not pile multiple points into a single response. If there are several things to cover, cover the most important one and let the conversation develop naturally from there.
 7. SOURCE LINKS. When referencing a specific program, portal, or resource, include the URL as plain text immediately after the reference. Example: "Create your profile at portal.canadacouncil.ca" or "Full guidelines at canadacouncil.ca/funding". Never describe a link — include it inline.
-8. NEVER INVENT. If a program, deadline, amount, or rule is not in your knowledge, say so and tell the user where to verify.
+8. NEVER INVENT. If a program, deadline, amount, or rule is not in your knowledge and you cannot find it online, say so and tell the user where to verify.
 9. SUGGESTIONS. Always end with the [SUGGESTIONS:] tag. Two specific follow-up prompts. Never generic.
 10. NO MARKDOWN. Never use asterisks, pound signs, or any markdown syntax. Plain text only.
 
@@ -114,22 +124,18 @@ After any response that contains funder-specific facts (deadlines, amounts, elig
 [SOURCE: funder="<funder name>" topic="<brief topic>" confidence="<high|medium|low>" last_verified="<YYYY-MM or unknown>"]
 
 Use confidence levels as follows:
-- high: You are certain this is current and accurate (core Canada Council rules you know in depth)
-- medium: You are reasoning from knowledge that is likely current but you cannot confirm (other funders, general rules)
-- low: You are extrapolating, the information may have changed, or you are uncertain about specifics
-
-Examples:
-[SOURCE: funder="Canada Council for the Arts" topic="Artistic Creation grant amount" confidence="high" last_verified="2025-01"]
-[SOURCE: funder="Telefilm Canada" topic="Feature Documentary production deadline" confidence="low" last_verified="unknown"]
+- high: You are certain this is current and accurate (core Canada Council rules, or confirmed via web search today)
+- medium: You are reasoning from knowledge that is likely current but you cannot confirm
+- low: You searched but could not find current information, or you are extrapolating
 
 STALE INTEL FLAG:
-When your confidence is low OR when a filmmaker pushes back on your answer OR when you are genuinely uncertain whether information is current, output a stale intel tag on its own line, before the SUGGESTIONS tag:
+Only output this tag when your web search also fails to find current information, or when you are genuinely unable to confirm a critical fact:
 
 [STALE_INTEL: funder="<funder name>" topic="<what needs verification>"]
 
-This tag signals to the Junior system that a knowledge gap exists. The team will verify the information with the funder directly and update Junior's knowledge base. Do not tell the filmmaker you are flagging this — just output the tag silently. The UI will show them a message that the team is verifying.
+Do not output STALE_INTEL if you successfully found the answer via web search. Do not tell the filmmaker you are flagging this — just output the tag silently. The UI will show them a message that the team is verifying.
 
-Only output STALE_INTEL when genuinely uncertain. Do not flag Canada Council Artistic Creation or Micro-grant core rules — those you know with high confidence.`
+Do not flag Canada Council Artistic Creation or Micro-grant core rules — those you know with high confidence.`
 
 export async function POST(request: Request) {
   const { userId } = await auth()
@@ -178,44 +184,93 @@ export async function POST(request: Request) {
     { onConflict: 'user_id' }
   )
 
-  const stream = await client.messages.stream({
-    model: 'claude-sonnet-4-20250514',
-    max_tokens: 1024,
-    system: SYSTEM_PROMPT,
-    messages,
-  })
+  // Agentic loop — handles web search tool use before streaming final response
+  const tools: Anthropic.Tool[] = [
+    {
+      type: 'web_search_20250305' as any,
+      name: 'web_search',
+    } as any,
+  ]
 
-  const encoder = new TextEncoder()
-  let fullResponse = ''
+  // Run non-streaming pass first to handle tool use, then stream final response
+  let finalMessages = [...messages]
+  let toolLoopComplete = false
 
-  const readable = new ReadableStream({
-    async start(controller) {
-      for await (const chunk of stream) {
-        if (
-          chunk.type === 'content_block_delta' &&
-          chunk.delta.type === 'text_delta'
-        ) {
-          fullResponse += chunk.delta.text
-          controller.enqueue(encoder.encode(chunk.delta.text))
+  while (!toolLoopComplete) {
+    const response = await client.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1024,
+      system: SYSTEM_PROMPT,
+      tools,
+      messages: finalMessages,
+    })
+
+    if (response.stop_reason === 'tool_use') {
+      // Add assistant message with tool use blocks
+      finalMessages = [
+        ...finalMessages,
+        { role: 'assistant' as const, content: response.content },
+      ]
+
+      // Build tool results
+      const toolResults: Anthropic.ToolResultBlockParam[] = []
+      for (const block of response.content) {
+        if (block.type === 'tool_use') {
+          // Web search results come back in the block itself
+          toolResults.push({
+            type: 'tool_result',
+            tool_use_id: block.id,
+            content: 'Search completed.',
+          })
         }
       }
 
-      await supabase.from('chat_messages').insert({
-        user_id: userId,
-        role: 'assistant',
-        content: fullResponse,
+      // Add tool results and loop again
+      finalMessages = [
+        ...finalMessages,
+        { role: 'user' as const, content: toolResults },
+      ]
+    } else {
+      // No more tool use — extract final text and stream it
+      toolLoopComplete = true
+
+      const finalText = response.content
+        .filter((b): b is Anthropic.TextBlock => b.type === 'text')
+        .map(b => b.text)
+        .join('')
+
+      const encoder = new TextEncoder()
+      let fullResponse = finalText
+
+      const readable = new ReadableStream({
+        start(controller) {
+          // Stream the final text in chunks for UI consistency
+          const chunkSize = 20
+          for (let i = 0; i < finalText.length; i += chunkSize) {
+            controller.enqueue(encoder.encode(finalText.slice(i, i + chunkSize)))
+          }
+
+          supabase.from('chat_messages').insert({
+            user_id: userId,
+            role: 'assistant',
+            content: fullResponse,
+          }).then(() => {}).catch(() => {})
+
+          controller.close()
+        },
       })
 
-      controller.close()
-    },
-  })
+      return new Response(readable, {
+        headers: {
+          'Content-Type': 'text/plain; charset=utf-8',
+          'Transfer-Encoding': 'chunked',
+          'X-Message-Count': String(currentCount + 1),
+          'X-Message-Limit': String(MESSAGE_LIMIT),
+        },
+      })
+    }
+  }
 
-  return new Response(readable, {
-    headers: {
-      'Content-Type': 'text/plain; charset=utf-8',
-      'Transfer-Encoding': 'chunked',
-      'X-Message-Count': String(currentCount + 1),
-      'X-Message-Limit': String(MESSAGE_LIMIT),
-    },
-  })
+  // Fallback — should not reach here
+  return new Response('Internal error', { status: 500 })
 }
