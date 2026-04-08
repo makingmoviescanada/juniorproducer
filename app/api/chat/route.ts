@@ -192,6 +192,18 @@ export async function POST(request: Request) {
     } as any,
   ]
 
+  // System prompt as a cacheable content block
+  // cache_control: ephemeral caches for 5 minutes (refreshed on each hit)
+  // The system prompt is large, stable, and sent with every request — ideal for caching
+  // Cache hits cost ~10% of normal input token price on the cached portion
+  const systemWithCaching: Anthropic.TextBlockParam[] = [
+    {
+      type: 'text',
+      text: SYSTEM_PROMPT,
+      cache_control: { type: 'ephemeral' },
+    } as Anthropic.TextBlockParam & { cache_control: { type: 'ephemeral' } },
+  ]
+
   // Run non-streaming pass first to handle tool use, then stream final response
   let finalMessages = [...messages]
   let toolLoopComplete = false
@@ -200,7 +212,7 @@ export async function POST(request: Request) {
     const response = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
       max_tokens: 1024,
-      system: SYSTEM_PROMPT,
+      system: systemWithCaching as any,
       tools,
       messages: finalMessages,
     })
@@ -216,7 +228,6 @@ export async function POST(request: Request) {
       const toolResults: Anthropic.ToolResultBlockParam[] = []
       for (const block of response.content) {
         if (block.type === 'tool_use') {
-          // Web search results come back in the block itself
           toolResults.push({
             type: 'tool_result',
             tool_use_id: block.id,
